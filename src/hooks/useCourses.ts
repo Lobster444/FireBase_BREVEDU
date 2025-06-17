@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { Course, UserRole, canUserAccessCourse } from '../types';
 
@@ -20,7 +20,7 @@ export const useCourses = (
 
         let coursesQuery;
 
-        // Build query based on filters to avoid composite index requirements
+        // Build query based on filters - avoid composite indexes by removing orderBy
         if (category && category !== 'All' && isPremiumOnly) {
           // Filter by both category and premium status
           coursesQuery = query(
@@ -44,11 +44,10 @@ export const useCourses = (
             where('published', '==', true)
           );
         } else {
-          // No filters, just published courses
+          // No filters, just published courses - remove orderBy to avoid composite index
           coursesQuery = query(
             collection(db, 'courses'),
-            where('published', '==', true),
-            orderBy('createdAt', 'desc')
+            where('published', '==', true)
           );
         }
 
@@ -65,14 +64,12 @@ export const useCourses = (
           }
         });
 
-        // Sort client-side when we can't use orderBy due to composite index requirements
-        if (category && category !== 'All' || isPremiumOnly) {
-          coursesData.sort((a, b) => {
-            const aDate = a.createdAt?.toDate?.() || new Date(a.createdAt);
-            const bDate = b.createdAt?.toDate?.() || new Date(b.createdAt);
-            return bDate.getTime() - aDate.getTime();
-          });
-        }
+        // Always sort client-side to ensure consistent ordering
+        coursesData.sort((a, b) => {
+          const aDate = a.createdAt?.toDate?.() || new Date(a.createdAt);
+          const bDate = b.createdAt?.toDate?.() || new Date(b.createdAt);
+          return bDate.getTime() - aDate.getTime();
+        });
 
         setCourses(coursesData);
       } catch (err) {
