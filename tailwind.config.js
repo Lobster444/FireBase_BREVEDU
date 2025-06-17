@@ -6,7 +6,9 @@ export default {
       colors: {
         primary: '#1a1a1a',
         'accent-yellow': '#f5f387',
+        'accent-yellow-dark': '#e0de69',
         'accent-purple': '#ddbffb',
+        'accent-purple-dark': '#ab90db',
         'accent-deep-purple': '#ab90db',
         'accent-green': '#e0de69',
         'neutral-gray': '#5e5e5e',

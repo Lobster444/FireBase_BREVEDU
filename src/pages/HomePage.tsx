@@ -3,6 +3,7 @@ import { Sparkles, ArrowRight } from 'lucide-react';
 import Layout from '../components/Layout';
 import CourseCard from '../components/CourseCard';
 import CourseDetailModal from '../components/CourseDetailModal';
+import { PrimaryButton, AccentButton, OutlineButton, SecondaryButton } from '../components/UIButtons';
 import { categories } from '../data/mockCourses';
 import { Course } from '../types';
 import { useCourses } from '../hooks/useCourses';
@@ -93,27 +94,23 @@ const HomePage: React.FC = () => {
           {currentUser?.role === 'premium' && (
             <div className="flex justify-center mb-8">
               <div className="bg-neutral-gray/20 rounded-lg p-1 flex">
-                <button
+                <OutlineButton
+                  variant="yellow"
+                  active={activeTab === 'all'}
                   onClick={() => setActiveTab('all')}
-                  className={`px-6 py-3 rounded-lg text-body font-medium transition-all ${
-                    activeTab === 'all'
-                      ? 'bg-accent-yellow text-text-dark shadow-button'
-                      : 'text-text-light hover:text-accent-yellow'
-                  }`}
+                  className="px-6 py-3 rounded-lg"
                 >
                   All Courses
-                </button>
-                <button
+                </OutlineButton>
+                <OutlineButton
+                  variant="purple"
+                  active={activeTab === 'premium'}
                   onClick={() => setActiveTab('premium')}
-                  className={`px-6 py-3 rounded-lg text-body font-medium transition-all flex items-center space-x-2 ${
-                    activeTab === 'premium'
-                      ? 'bg-accent-purple text-text-dark shadow-button'
-                      : 'text-text-light hover:text-accent-purple'
-                  }`}
+                  className="px-6 py-3 rounded-lg flex items-center space-x-2"
                 >
                   <Sparkles className="h-4 w-4" />
                   <span>Premium Only</span>
-                </button>
+                </OutlineButton>
               </div>
             </div>
           )}
@@ -122,36 +119,33 @@ const HomePage: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             {!currentUser ? (
               <>
-                <button className="bg-accent-yellow text-text-dark px-8 py-4 rounded-lg text-link font-medium hover:bg-accent-green transition-all shadow-button">
+                <AccentButton className="px-8 py-4">
                   {userMessage.ctaText}
-                </button>
-                <button className="bg-accent-purple text-text-dark px-8 py-4 rounded-lg text-link font-medium hover:bg-accent-deep-purple transition-all shadow-button flex items-center justify-center space-x-2">
+                </AccentButton>
+                <PrimaryButton className="px-8 py-4 flex items-center justify-center space-x-2">
                   <Sparkles className="h-5 w-5" />
                   <span>Upgrade to Premium</span>
-                </button>
+                </PrimaryButton>
               </>
             ) : currentUser.role === 'free' ? (
               <>
-                <a
-                  href="/courses"
-                  className="bg-accent-yellow text-text-dark px-8 py-4 rounded-lg text-link font-medium hover:bg-accent-green transition-all shadow-button inline-block"
-                >
-                  {userMessage.ctaText}
+                <a href="/courses">
+                  <AccentButton className="px-8 py-4">
+                    {userMessage.ctaText}
+                  </AccentButton>
                 </a>
-                <a
-                  href="/brevedu-plus"
-                  className="bg-accent-purple text-text-dark px-8 py-4 rounded-lg text-link font-medium hover:bg-accent-deep-purple transition-all shadow-button flex items-center justify-center space-x-2"
-                >
-                  <Sparkles className="h-5 w-5" />
-                  <span>Upgrade to Premium</span>
+                <a href="/brevedu-plus">
+                  <PrimaryButton className="px-8 py-4 flex items-center justify-center space-x-2">
+                    <Sparkles className="h-5 w-5" />
+                    <span>Upgrade to Premium</span>
+                  </PrimaryButton>
                 </a>
               </>
             ) : (
-              <a
-                href="/courses"
-                className="bg-accent-purple text-text-dark px-8 py-4 rounded-lg text-link font-medium hover:bg-accent-deep-purple transition-all shadow-button inline-block"
-              >
-                {userMessage.ctaText}
+              <a href="/courses">
+                <PrimaryButton className="px-8 py-4">
+                  {userMessage.ctaText}
+                </PrimaryButton>
               </a>
             )}
           </div>
@@ -181,17 +175,14 @@ const HomePage: React.FC = () => {
             {/* Category Filter */}
             <div className="flex flex-wrap gap-2">
               {categories.map((category) => (
-                <button
+                <OutlineButton
                   key={category}
+                  variant="yellow"
+                  active={selectedCategory === category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-lg text-small font-medium transition-all ${
-                    selectedCategory === category
-                      ? 'bg-accent-yellow text-text-dark'
-                      : 'bg-neutral-gray/20 text-text-light hover:bg-neutral-gray/30'
-                  }`}
                 >
                   {category}
-                </button>
+                </OutlineButton>
               ))}
             </div>
           </div>
@@ -208,12 +199,9 @@ const HomePage: React.FC = () => {
           {error && (
             <div className="text-center py-12">
               <p className="text-body text-red-400 mb-4">{error}</p>
-              <button 
-                onClick={() => window.location.reload()}
-                className="text-accent-yellow hover:text-accent-green transition-colors underline"
-              >
+              <AccentButton onClick={() => window.location.reload()}>
                 Try again
-              </button>
+              </AccentButton>
             </div>
           )}
 
@@ -227,20 +215,19 @@ const HomePage: React.FC = () => {
                       <p className="text-body text-text-secondary mb-4">
                         Sign up for free to access our course library!
                       </p>
-                      <button className="bg-accent-yellow text-text-dark px-6 py-3 rounded-lg text-body font-medium hover:bg-accent-green transition-all shadow-button">
+                      <AccentButton>
                         Create Free Account
-                      </button>
+                      </AccentButton>
                     </div>
                   ) : activeTab === 'premium' && currentUser.role !== 'premium' ? (
                     <div>
                       <p className="text-body text-text-secondary mb-4">
                         Upgrade to BrevEdu+ to access premium courses!
                       </p>
-                      <a
-                        href="/brevedu-plus"
-                        className="bg-accent-purple text-text-dark px-6 py-3 rounded-lg text-body font-medium hover:bg-accent-deep-purple transition-all shadow-button inline-block"
-                      >
-                        Upgrade Now
+                      <a href="/brevedu-plus">
+                        <PrimaryButton>
+                          Upgrade Now
+                        </PrimaryButton>
                       </a>
                     </div>
                   ) : (
@@ -248,12 +235,12 @@ const HomePage: React.FC = () => {
                       <p className="text-body text-text-secondary mb-4">
                         No courses found for this category.
                       </p>
-                      <button
+                      <OutlineButton
+                        variant="yellow"
                         onClick={() => setSelectedCategory('All')}
-                        className="text-accent-yellow hover:text-accent-green transition-colors underline"
                       >
                         View all courses
-                      </button>
+                      </OutlineButton>
                     </div>
                   )}
                 </div>
@@ -268,12 +255,11 @@ const HomePage: React.FC = () => {
               {/* More Courses Button */}
               {featuredCourses.length > 0 && (
                 <div className="text-center">
-                  <a
-                    href="/courses"
-                    className="inline-flex items-center space-x-2 bg-neutral-gray/20 text-text-light px-6 py-3 rounded-lg text-link font-medium hover:bg-neutral-gray/30 transition-all"
-                  >
-                    <span>More Courses</span>
-                    <ArrowRight className="h-5 w-5" />
+                  <a href="/courses">
+                    <SecondaryButton className="inline-flex items-center space-x-2">
+                      <span>More Courses</span>
+                      <ArrowRight className="h-5 w-5" />
+                    </SecondaryButton>
                   </a>
                 </div>
               )}

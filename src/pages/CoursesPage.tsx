@@ -3,6 +3,7 @@ import { Search, Filter, Lock, Crown } from 'lucide-react';
 import Layout from '../components/Layout';
 import CourseCard from '../components/CourseCard';
 import CourseDetailModal from '../components/CourseDetailModal';
+import { AccentButton, PrimaryButton, OutlineButton, LinkButton } from '../components/UIButtons';
 import { categories } from '../data/mockCourses';
 import { Course, getAccessLevelRequirement } from '../types';
 import { useCourses } from '../hooks/useCourses';
@@ -46,6 +47,12 @@ const CoursesPage: React.FC = () => {
   const handleCloseAccessModal = () => {
     setShowAccessModal(false);
     setRestrictedCourse(null);
+  };
+
+  const clearAllFilters = () => {
+    setSelectedCategory('All');
+    setSearchQuery('');
+    setSelectedDifficulty('All');
   };
 
   // Get user access level display
@@ -114,9 +121,9 @@ const CoursesPage: React.FC = () => {
                   </a>
                 )}
                 {!currentUser && (
-                  <button className="inline-block text-accent-yellow hover:text-accent-green transition-colors text-small mt-2">
+                  <LinkButton className="text-small mt-2">
                     Sign Up Free
-                  </button>
+                  </LinkButton>
                 )}
               </div>
             </div>
@@ -139,17 +146,14 @@ const CoursesPage: React.FC = () => {
             {/* Category Filter */}
             <div className="flex flex-wrap gap-2">
               {categories.map((category) => (
-                <button
+                <OutlineButton
                   key={category}
+                  variant="yellow"
+                  active={selectedCategory === category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-lg text-small font-medium transition-all ${
-                    selectedCategory === category
-                      ? 'bg-accent-yellow text-text-dark'
-                      : 'bg-neutral-gray/20 text-text-light hover:bg-neutral-gray/30'
-                  }`}
                 >
                   {category}
-                </button>
+                </OutlineButton>
               ))}
             </div>
 
@@ -186,12 +190,9 @@ const CoursesPage: React.FC = () => {
           {error && (
             <div className="text-center py-12">
               <p className="text-body text-red-400 mb-4">{error}</p>
-              <button 
-                onClick={() => window.location.reload()}
-                className="text-accent-yellow hover:text-accent-green transition-colors underline"
-              >
+              <AccentButton onClick={() => window.location.reload()}>
                 Try again
-              </button>
+              </AccentButton>
             </div>
           )}
 
@@ -208,9 +209,9 @@ const CoursesPage: React.FC = () => {
                           <p className="text-body text-text-secondary mb-4">
                             Sign up for free to access our course library!
                           </p>
-                          <button className="bg-accent-yellow text-text-dark px-6 py-3 rounded-lg text-body font-medium hover:bg-accent-green transition-all shadow-button">
+                          <AccentButton>
                             Create Free Account
-                          </button>
+                          </AccentButton>
                         </>
                       ) : currentUser.role === 'free' ? (
                         <>
@@ -219,18 +220,19 @@ const CoursesPage: React.FC = () => {
                             No courses available for your current access level in this category.
                           </p>
                           <div className="space-y-3">
-                            <button
+                            <OutlineButton
+                              variant="yellow"
                               onClick={() => setSelectedCategory('All')}
-                              className="block mx-auto text-accent-yellow hover:text-accent-green transition-colors underline"
                             >
                               View all available courses
-                            </button>
-                            <a
-                              href="/brevedu-plus"
-                              className="block bg-accent-purple text-text-dark px-6 py-3 rounded-lg text-body font-medium hover:bg-accent-deep-purple transition-all shadow-button"
-                            >
-                              Upgrade for Premium Courses
-                            </a>
+                            </OutlineButton>
+                            <div>
+                              <a href="/brevedu-plus">
+                                <PrimaryButton>
+                                  Upgrade for Premium Courses
+                                </PrimaryButton>
+                              </a>
+                            </div>
                           </div>
                         </>
                       ) : (
@@ -238,12 +240,12 @@ const CoursesPage: React.FC = () => {
                           <p className="text-body text-text-secondary mb-4">
                             No courses found for this category.
                           </p>
-                          <button
+                          <OutlineButton
+                            variant="yellow"
                             onClick={() => setSelectedCategory('All')}
-                            className="text-accent-yellow hover:text-accent-green transition-colors underline"
                           >
                             View all courses
-                          </button>
+                          </OutlineButton>
                         </>
                       )}
                     </div>
@@ -252,16 +254,12 @@ const CoursesPage: React.FC = () => {
                       <p className="text-body text-text-secondary mb-4">
                         No courses found matching your search criteria.
                       </p>
-                      <button
-                        onClick={() => {
-                          setSelectedCategory('All');
-                          setSearchQuery('');
-                          setSelectedDifficulty('All');
-                        }}
-                        className="text-accent-yellow hover:text-accent-green transition-colors underline"
+                      <OutlineButton
+                        variant="yellow"
+                        onClick={clearAllFilters}
                       >
                         Clear all filters
-                      </button>
+                      </OutlineButton>
                     </div>
                   )}
                 </div>
@@ -314,15 +312,14 @@ const CoursesPage: React.FC = () => {
               
               <div className="space-y-3">
                 {!currentUser ? (
-                  <button className="w-full bg-accent-yellow text-text-dark px-6 py-3 rounded-lg text-body font-medium hover:bg-accent-green transition-all shadow-button">
+                  <AccentButton className="w-full">
                     Sign Up Free
-                  </button>
+                  </AccentButton>
                 ) : currentUser.role === 'free' && restrictedCourse.accessLevel === 'premium' ? (
-                  <a
-                    href="/brevedu-plus"
-                    className="block w-full bg-accent-purple text-text-dark px-6 py-3 rounded-lg text-body font-medium hover:bg-accent-deep-purple transition-all shadow-button"
-                  >
-                    Upgrade to BrevEdu+
+                  <a href="/brevedu-plus" className="block">
+                    <PrimaryButton className="w-full">
+                      Upgrade to BrevEdu+
+                    </PrimaryButton>
                   </a>
                 ) : null}
                 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sparkles, Check, Zap, MessageCircle, Star, Crown } from 'lucide-react';
 import Layout from '../components/Layout';
+import { PrimaryButton, AccentButton, OutlineButton } from '../components/UIButtons';
 
 const BrevEduPlusPage: React.FC = () => {
   const features = [
@@ -61,9 +62,9 @@ const BrevEduPlusPage: React.FC = () => {
               <div className="text-small text-neutral-gray mt-2">Cancel anytime</div>
             </div>
             
-            <button className="w-full bg-accent-purple text-text-dark px-8 py-4 rounded-lg text-link font-medium hover:bg-accent-deep-purple transition-all shadow-button mb-4">
+            <PrimaryButton className="w-full px-8 py-4 mb-4">
               Start Free Trial
-            </button>
+            </PrimaryButton>
             
             <p className="text-x-small text-neutral-gray text-center">
               7-day free trial, then $3.99/month. Cancel anytime.
@@ -147,9 +148,9 @@ const BrevEduPlusPage: React.FC = () => {
             </div>
             
             <div className="mt-6 text-center">
-              <button className="bg-accent-yellow text-text-dark px-6 py-3 rounded-lg text-body font-medium hover:bg-accent-green transition-all">
+              <AccentButton>
                 Try AI Chat Practice
-              </button>
+              </AccentButton>
             </div>
           </div>
         </div>
@@ -164,13 +165,16 @@ const BrevEduPlusPage: React.FC = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-accent-purple text-text-dark px-8 py-4 rounded-lg text-link font-medium hover:bg-accent-deep-purple transition-all shadow-button flex items-center justify-center space-x-2">
+            <PrimaryButton className="px-8 py-4 flex items-center justify-center space-x-2">
               <Sparkles className="h-5 w-5" />
               <span>Start Free Trial</span>
-            </button>
-            <button className="border border-accent-yellow text-accent-yellow px-8 py-4 rounded-lg text-link font-medium hover:bg-accent-yellow hover:text-text-dark transition-all">
+            </PrimaryButton>
+            <OutlineButton
+              variant="yellow"
+              className="px-8 py-4"
+            >
               View Free Courses
-            </button>
+            </OutlineButton>
           </div>
         </div>
       </section>
