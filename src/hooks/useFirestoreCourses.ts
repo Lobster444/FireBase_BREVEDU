@@ -34,7 +34,7 @@ export const useFirestoreCourses = (options: UseCoursesOptions = {}): UseCourses
     setLoading(true);
     setError(null);
 
-    let unsubscribe: () => void;
+    let unsubscribe: (() => void) | undefined;
 
     const handleCoursesUpdate = (updatedCourses: Course[]) => {
       setCourses(updatedCourses);
@@ -66,10 +66,9 @@ export const useFirestoreCourses = (options: UseCoursesOptions = {}): UseCourses
       }
     } catch (err) {
       handleError(err);
-      unsubscribe = () => {}; // Empty function to prevent errors
     }
 
-    // Cleanup subscription on unmount
+    // Cleanup subscription on unmount or dependency change
     return () => {
       if (unsubscribe) {
         unsubscribe();

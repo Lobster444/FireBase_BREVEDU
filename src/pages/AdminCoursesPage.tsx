@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit, Trash2, Eye, EyeOff, Search, Filter, AlertCircle } from 'lucide-react';
 import AdminRoute from '../components/AdminRoute';
+import OfflineBanner from '../components/OfflineBanner';
 import { useFirestoreCourses } from '../hooks/useFirestoreCourses';
+import { useNetworkStatusWithUtils } from '../hooks/useNetworkStatus';
 import { deleteCourse } from '../lib/courseService';
+import { notifySuccess, notifyError, notifyLoading, updateToast } from '../lib/toast';
 import { Course } from '../types';
 
 const AdminCoursesPage: React.FC = () => {
@@ -12,6 +15,9 @@ const AdminCoursesPage: React.FC = () => {
   const [showPublishedOnly, setShowPublishedOnly] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  // Network status with toast notifications
+  const { isOnline, executeIfOnline } = useNetworkStatusWithUtils(true);
 
   // Fetch all courses (including unpublished) for admin
   const { courses, loading, error } = useFirestoreCourses({ 
@@ -35,17 +41,36 @@ const AdminCoursesPage: React.FC = () => {
   const handleDeleteCourse = async (courseId: string) => {
     if (!courseId) return;
     
-    setIsDeleting(true);
-    try {
-      await deleteCourse(courseId);
-      setDeleteConfirm(null);
-      // Success feedback could be added here (toast notification)
-    } catch (error) {
-      console.error('Error deleting course:', error);
-      // Error feedback could be added here (toast notification)
-    } finally {
-      setIsDeleting(false);
-    }
+    executeIfOnline(async () => {
+      setIsDeleting(true);
+      const toastId = notifyLoading('Deleting course...');
+      
+      try {
+        await deleteCourse(courseId);
+        updateToast(toastId, '✅ Course deleted successfully!', 'success');
+        setDeleteConfirm(null);
+      } catch (error: any) {
+        console.error('Error deleting course:', error);
+        const errorMessage = error.message || 'Failed to delete course. Please try again.';
+        updateToast(toastId, `❌ ${errorMessage}`, 'error');
+      } finally {
+        setIsDeleting(false);
+      }
+    }, 'Cannot delete course while offline. Please check your connection.');
+  };
+
+  const handleNewCourse = () => {
+    executeIfOnline(() => {
+      // TODO: Open Add Course Modal
+      console.log('Open new course modal');
+    }, 'Cannot create new course while offline.');
+  };
+
+  const handleEditCourse = (courseId: string) => {
+    executeIfOnline(() => {
+      // TODO: Open Edit Course Modal
+      console.log('Edit course:', courseId);
+    }, 'Cannot edit course while offline.');
   };
 
   const formatDate = (timestamp: any) => {
@@ -70,8 +95,11 @@ const AdminCoursesPage: React.FC = () => {
   return (
     <AdminRoute>
       <div className="min-h-screen bg-primary">
+        {/* Offline Banner */}
+        <OfflineBanner isVisible={!isOnline} />
+        
         {/* Header */}
-        <div className="border-b border-neutral-gray/20">
+        <div className={`border-b border-neutral-gray/20 ${!isOnline ? 'mt-16' : ''}`}>
           <div className="max-w-7xl mx-auto px-6 py-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
@@ -81,7 +109,15 @@ const AdminCoursesPage: React.FC = () => {
                 </p>
               </div>
               
-              <button className="bg-accent-purple text-text-dark px-6 py-3 rounded-lg text-link font-medium hover:bg-accent-deep-purple transition-all shadow-button flex items-center space-x-2">
+              <button 
+                onClick={handleNewCourse}
+                disabled={!isOnline}
+                className={`px-6 py-3 rounded-lg text-link font-medium transition-all shadow-button flex items-center space-x-2 ${
+                  isOnline 
+                    ? 'bg-accent-purple text-text-dark hover:bg-accent-deep-purple' 
+                    : 'bg-neutral-gray/50 text-neutral-gray cursor-not-allowed opacity-50'
+                }`}
+              >
                 <Plus className="h-5 w-5" />
                 <span>New Course</span>
               </button>
@@ -281,12 +317,25 @@ const AdminCoursesPage: React.FC = () => {
                             </td>
                             <td className="p-4">
                               <div className="flex items-center justify-end space-x-2">
-                                <button className="p-2 text-accent-yellow hover:bg-accent-yellow/20 rounded-lg transition-colors">
+                                <button 
+                                  onClick={() => handleEditCourse(course.id!)}
+                                  disabled={!isOnline}
+                                  className={`p-2 rounded-lg transition-colors ${
+                                    isOnline 
+                                      ? 'text-accent-yellow hover:bg-accent-yellow/20' 
+                                      : 'text-neutral-gray cursor-not-allowed opacity-50'
+                                  }`}
+                                >
                                   <Edit className="h-4 w-4" />
                                 </button>
                                 <button 
                                   onClick={() => setDeleteConfirm(course.id!)}
-                                  className="p-2 text-red-400 hover:bg-red-400/20 rounded-lg transition-colors"
+                                  disabled={!isOnline}
+                                  className={`p-2 rounded-lg transition-colors ${
+                                    isOnline 
+                                      ? 'text-red-400 hover:bg-red-400/20' 
+                                      : 'text-neutral-gray cursor-not-allowed opacity-50'
+                                  }`}
                                 >
                                   <Trash2 className="h-4 w-4" />
                                 </button>
@@ -338,12 +387,25 @@ const AdminCoursesPage: React.FC = () => {
                           </div>
                           
                           <div className="flex items-center space-x-2">
-                            <button className="p-2 text-accent-yellow hover:bg-accent-yellow/20 rounded-lg transition-colors">
+                            <button 
+                              onClick={() => handleEditCourse(course.id!)}
+                              disabled={!isOnline}
+                              className={`p-2 rounded-lg transition-colors ${
+                                isOnline 
+                                  ? 'text-accent-yellow hover:bg-accent-yellow/20' 
+                                  : 'text-neutral-gray cursor-not-allowed opacity-50'
+                              }`}
+                            >
                               <Edit className="h-4 w-4" />
                             </button>
                             <button 
                               onClick={() => setDeleteConfirm(course.id!)}
-                              className="p-2 text-red-400 hover:bg-red-400/20 rounded-lg transition-colors"
+                              disabled={!isOnline}
+                              className={`p-2 rounded-lg transition-colors ${
+                                isOnline 
+                                  ? 'text-red-400 hover:bg-red-400/20' 
+                                  : 'text-neutral-gray cursor-not-allowed opacity-50'
+                              }`}
                             >
                               <Trash2 className="h-4 w-4" />
                             </button>
@@ -382,8 +444,12 @@ const AdminCoursesPage: React.FC = () => {
                 </button>
                 <button
                   onClick={() => handleDeleteCourse(deleteConfirm)}
-                  disabled={isDeleting}
-                  className="flex-1 bg-red-400 text-white px-4 py-3 rounded-lg text-body font-medium hover:bg-red-500 transition-all disabled:opacity-50 flex items-center justify-center space-x-2"
+                  disabled={isDeleting || !isOnline}
+                  className={`flex-1 px-4 py-3 rounded-lg text-body font-medium transition-all disabled:opacity-50 flex items-center justify-center space-x-2 ${
+                    isOnline 
+                      ? 'bg-red-400 text-white hover:bg-red-500' 
+                      : 'bg-neutral-gray/50 text-neutral-gray cursor-not-allowed'
+                  }`}
                 >
                   {isDeleting ? (
                     <>

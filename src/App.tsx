@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from './contexts/AuthContext';
 import HomePage from './pages/HomePage';
 import CoursesPage from './pages/CoursesPage';
@@ -16,6 +18,22 @@ function App() {
           <Route path="/brevedu-plus" element={<BrevEduPlusPage />} />
           <Route path="/admin/courses" element={<AdminCoursesPage />} />
         </Routes>
+        
+        {/* Toast Container */}
+        <ToastContainer
+          position="top-center"
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+          toastClassName="bg-primary border border-neutral-gray/30 text-text-light"
+          progressClassName="bg-accent-yellow"
+        />
       </Router>
     </AuthProvider>
   );
