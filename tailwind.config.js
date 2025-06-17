@@ -10,93 +10,113 @@ export default {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        // Headspace-inspired color palette
-        primary: '#1a1a1a',
-        'headspace-orange': '#FF7A59',
-        'headspace-orange-hover': '#FF8A6B',
-        'headspace-orange-active': '#E6694F',
-        'headspace-orange-light': '#FFF4F1',
-        'headspace-yellow': '#F5C842',
-        'headspace-yellow-hover': '#F2C94C',
-        'headspace-blue': '#4A90E2',
-        'headspace-green': '#7ED321',
-        'headspace-purple': '#9013FE',
+        // Headspace-inspired color palette using CSS variables
+        primary: 'var(--color-primary)',
+        'headspace-orange': 'var(--color-primary)',
+        'headspace-orange-hover': 'var(--color-primary-hover)',
+        'headspace-orange-active': 'var(--color-primary-active)',
+        'headspace-orange-light': 'var(--color-primary-light)',
+        'headspace-yellow': 'var(--color-accent-yellow)',
+        'headspace-yellow-hover': 'var(--color-accent-yellow-hover)',
+        'headspace-blue': 'var(--color-accent-blue)',
+        'headspace-green': 'var(--color-accent-green)',
+        'headspace-purple': 'var(--color-accent-purple)',
         'headspace-gray': {
-          50: '#FAFAFA',
-          100: '#F5F5F5',
-          200: '#EEEEEE',
-          300: '#E0E0E0',
-          400: '#BDBDBD',
-          500: '#9E9E9E',
-          600: '#757575',
-          700: '#616161',
-          800: '#424242',
-          900: '#212121',
+          50: 'var(--color-neutral-50)',
+          100: 'var(--color-neutral-100)',
+          200: 'var(--color-neutral-200)',
+          300: 'var(--color-neutral-300)',
+          400: 'var(--color-neutral-400)',
+          500: 'var(--color-neutral-500)',
+          600: 'var(--color-neutral-600)',
+          700: 'var(--color-neutral-700)',
+          800: 'var(--color-neutral-800)',
+          900: 'var(--color-neutral-900)',
         },
         
         // Legacy colors for backward compatibility
-        'accent-yellow': '#F5C842',
-        'accent-yellow-dark': '#F2C94C',
-        'accent-purple': '#9013FE',
+        'accent-yellow': 'var(--color-accent-yellow)',
+        'accent-yellow-dark': 'var(--color-accent-yellow-hover)',
+        'accent-purple': 'var(--color-accent-purple)',
         'accent-purple-dark': '#7B1FA2',
         'accent-deep-purple': '#7B1FA2',
-        'accent-green': '#7ED321',
-        'neutral-gray': '#9E9E9E',
+        'accent-green': 'var(--color-accent-green)',
+        'neutral-gray': 'var(--color-neutral-500)',
         'text-light': '#ffffff',
-        'text-primary': '#F5C842',
-        'text-secondary': '#9013FE',
-        'text-dark': '#212121',
+        'text-primary': 'var(--color-accent-yellow)',
+        'text-secondary': 'var(--color-accent-purple)',
+        'text-dark': 'var(--color-neutral-900)',
       },
       fontSize: {
-        // Headspace typography scale with improved line heights
-        'h1': ['32px', { lineHeight: '1.25', fontWeight: '700', letterSpacing: '-0.02em' }],
-        'h2': ['24px', { lineHeight: '1.3', fontWeight: '700', letterSpacing: '-0.01em' }],
-        'h3': ['20px', { lineHeight: '1.4', fontWeight: '600' }],
+        // Headspace typography scale mapped to CSS variables
+        'h1': ['var(--font-size-h1)', { 
+          lineHeight: 'var(--line-height-h1)', 
+          fontWeight: 'var(--font-weight-h1)', 
+          letterSpacing: 'var(--letter-spacing-h1)' 
+        }],
+        'h2': ['var(--font-size-h2)', { 
+          lineHeight: 'var(--line-height-h2)', 
+          fontWeight: 'var(--font-weight-h2)', 
+          letterSpacing: 'var(--letter-spacing-h2)' 
+        }],
+        'h3': ['var(--font-size-h3)', { 
+          lineHeight: 'var(--line-height-h3)', 
+          fontWeight: 'var(--font-weight-h3)' 
+        }],
         'link': ['16px', { lineHeight: '1.5', fontWeight: '500' }],
-        'body': ['16px', { lineHeight: '1.6', fontWeight: '400' }],
-        'small': ['14px', { lineHeight: '1.5', fontWeight: '400' }],
-        'x-small': ['12px', { lineHeight: '1.4', fontWeight: '500' }],
+        'body': ['var(--font-size-body)', { 
+          lineHeight: 'var(--line-height-body)', 
+          fontWeight: 'var(--font-weight-body)' 
+        }],
+        'small': ['var(--font-size-small)', { 
+          lineHeight: 'var(--line-height-small)', 
+          fontWeight: 'var(--font-weight-small)' 
+        }],
+        'x-small': ['var(--font-size-xs)', { 
+          lineHeight: 'var(--line-height-xs)', 
+          fontWeight: 'var(--font-weight-xs)' 
+        }],
       },
       borderRadius: {
-        // Headspace border radius scale
-        'headspace-sm': '6px',
-        'headspace-md': '8px',
-        'headspace-lg': '10px',
-        'headspace-xl': '12px',
-        'headspace-2xl': '16px',
-        'headspace-3xl': '20px',
+        // Headspace border radius scale mapped to CSS variables
+        'headspace-sm': 'var(--radius-sm)',
+        'headspace-md': 'var(--radius-md)',
+        'headspace-lg': 'var(--radius-lg)',
+        'headspace-xl': 'var(--radius-xl)',
+        'headspace-2xl': 'var(--radius-2xl)',
+        'headspace-3xl': 'var(--radius-3xl)',
       },
       boxShadow: {
-        // Headspace shadow system
-        'headspace-xs': '0 1px 3px rgba(0, 0, 0, 0.08)',
-        'headspace-sm': '0 2px 8px rgba(0, 0, 0, 0.1)',
-        'headspace-md': '0 4px 12px rgba(0, 0, 0, 0.15)',
-        'headspace-lg': '0 8px 32px rgba(0, 0, 0, 0.12)',
-        'headspace-xl': '0 12px 48px rgba(0, 0, 0, 0.18)',
-        'headspace-focus': '0 0 0 4px rgba(255, 122, 89, 0.4)',
-        'headspace-focus-ring': '0 0 0 2px rgba(255, 122, 89, 0.3)',
+        // Headspace shadow system mapped to CSS variables
+        'headspace-xs': 'var(--shadow-xs)',
+        'headspace-sm': 'var(--shadow-sm)',
+        'headspace-md': 'var(--shadow-md)',
+        'headspace-lg': 'var(--shadow-lg)',
+        'headspace-xl': 'var(--shadow-xl)',
+        'headspace-focus': 'var(--shadow-focus)',
+        'headspace-focus-ring': 'var(--shadow-focus-ring)',
         
         // Legacy shadows for backward compatibility
-        'card': '0 4px 12px rgba(0, 0, 0, 0.15)',
-        'button': '0 2px 8px rgba(0, 0, 0, 0.1)',
+        'card': 'var(--shadow-md)',
+        'button': 'var(--shadow-sm)',
       },
       spacing: {
-        // Headspace spacing scale (8px base)
-        'headspace-xs': '4px',   // 4px
-        'headspace-sm': '8px',   // 8px
-        'headspace-md': '16px',  // 16px
-        'headspace-lg': '24px',  // 24px
-        'headspace-xl': '32px',  // 32px
-        'headspace-2xl': '48px', // 48px
-        'headspace-3xl': '64px', // 64px
-        'headspace-4xl': '96px', // 96px
+        // Headspace spacing scale mapped to CSS variables
+        'headspace-xs': 'var(--space-xs)',
+        'headspace-sm': 'var(--space-sm)',
+        'headspace-md': 'var(--space-md)',
+        'headspace-lg': 'var(--space-lg)',
+        'headspace-xl': 'var(--space-xl)',
+        'headspace-2xl': 'var(--space-2xl)',
+        'headspace-3xl': 'var(--space-3xl)',
+        'headspace-4xl': 'var(--space-4xl)',
       },
       backdropBlur: {
         'ios': '20px',
         'headspace': '12px',
       },
       animation: {
-        // Headspace-style animations
+        // Headspace-style animations - hover/focus only for accessibility
         'breathe': 'breathe 2s ease-in-out infinite',
         'card-breathe': 'card-breathe 3s ease-in-out infinite',
         'gentle-bounce': 'gentle-bounce 0.6s ease-out',
@@ -132,9 +152,24 @@ export default {
         },
       },
       transitionTimingFunction: {
-        'headspace': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-        'headspace-bounce': 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+        'headspace': 'var(--transition-headspace)',
+        'headspace-bounce': 'var(--transition-bounce)',
         'ease-out-cubic': 'cubic-bezier(0.33, 1, 0.68, 1)',
+      },
+      transitionDuration: {
+        'fast': 'var(--transition-fast)',
+        'normal': 'var(--transition-normal)',
+        'slow': 'var(--transition-slow)',
+      },
+      zIndex: {
+        'dropdown': 'var(--z-dropdown)',
+        'sticky': 'var(--z-sticky)',
+        'fixed': 'var(--z-fixed)',
+        'modal-backdrop': 'var(--z-modal-backdrop)',
+        'modal': 'var(--z-modal)',
+        'popover': 'var(--z-popover)',
+        'tooltip': 'var(--z-tooltip)',
+        'toast': 'var(--z-toast)',
       },
       // Inter font feature configurations
       interFontFeatures: {

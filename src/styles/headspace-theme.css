@@ -100,6 +100,16 @@
   --z-toast: 1080;
 }
 
+/* === ACCESSIBILITY: RESPECT USER PREFERENCES === */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* === HEADSPACE COMPONENT CLASSES === */
 
 /* Button Base Styles */
@@ -117,13 +127,14 @@
   padding: var(--space-md) var(--space-lg);
   font-size: var(--font-size-body);
   line-height: var(--line-height-body);
+  touch-action: manipulation; /* Enhance touch responsiveness */
 }
 
 .btn-headspace-base:hover {
   animation: breathe 2s ease-in-out infinite;
 }
 
-.btn-headspace-base:focus {
+.btn-headspace-base:focus-visible {
   outline: none;
   box-shadow: var(--shadow-focus);
   animation: breathe 2s ease-in-out infinite;
@@ -191,7 +202,7 @@
   animation: card-breathe 3s ease-in-out infinite;
 }
 
-.card-headspace:focus {
+.card-headspace:focus-visible {
   outline: none;
   box-shadow: var(--shadow-focus);
 }
@@ -207,6 +218,7 @@
   line-height: var(--line-height-body);
   transition: all var(--transition-normal);
   min-height: 44px; /* Touch target size */
+  touch-action: manipulation; /* Enhance touch responsiveness */
 }
 
 .input-headspace::placeholder {
@@ -218,7 +230,7 @@
   animation: breathe 2s ease-in-out infinite;
 }
 
-.input-headspace:focus {
+.input-headspace:focus-visible {
   outline: none;
   border-color: var(--color-primary);
   box-shadow: var(--shadow-focus-ring);
@@ -229,7 +241,7 @@
   border-color: #EF4444;
 }
 
-.input-headspace:invalid:focus {
+.input-headspace:invalid:focus-visible {
   box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
 }
 
@@ -298,7 +310,7 @@
   color: var(--color-neutral-600);
 }
 
-/* Animation Classes */
+/* Animation Classes - Only trigger on hover/focus for accessibility */
 .animate-breathe {
   animation: breathe 2s ease-in-out infinite;
 }
@@ -323,21 +335,13 @@
   animation: scale-in 0.2s ease-out;
 }
 
-/* Focus Ring Utilities */
+/* Focus Ring Utilities - Using focus-visible for better UX */
 .focus-ring-headspace {
   transition: box-shadow var(--transition-normal);
 }
 
-.focus-ring-headspace:focus {
-  outline: none;
-  box-shadow: var(--shadow-focus);
-}
-
-.focus-ring-headspace:focus:not(:focus-visible) {
-  box-shadow: none;
-}
-
 .focus-ring-headspace:focus-visible {
+  outline: none;
   box-shadow: var(--shadow-focus);
 }
 
@@ -422,4 +426,10 @@
 .state-success {
   border-color: #10B981;
   color: #10B981;
+}
+
+/* Enhanced Media Rendering */
+img, video {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimize-contrast;
 }
