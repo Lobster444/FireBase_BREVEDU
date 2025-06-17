@@ -9,7 +9,7 @@ interface BaseButtonProps {
   'aria-label'?: string;
 }
 
-// Primary Button (Purple Filled)
+// Primary Button (Headspace Orange)
 export const PrimaryButton: React.FC<BaseButtonProps> = ({
   onClick,
   disabled = false,
@@ -26,12 +26,12 @@ export const PrimaryButton: React.FC<BaseButtonProps> = ({
       disabled={disabled}
       aria-label={ariaLabel}
       className={`
-        bg-accent-purple text-text-dark px-6 py-3 rounded-full text-body font-medium
-        transition-all duration-200 shadow-button
-        hover:bg-accent-purple-dark hover:shadow-lg
-        active:bg-accent-purple-dark/80 active:scale-95
-        disabled:bg-neutral-gray disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-neutral-gray disabled:hover:shadow-button disabled:active:scale-100
-        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-purple focus:ring-offset-primary
+        bg-[#FF7A59] text-white px-6 py-3 rounded-[10px] font-medium
+        transition-all duration-200
+        hover:bg-[#FF8A6B] hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)]
+        active:bg-[#E6694F] active:scale-95
+        disabled:bg-[#e0e0e0] disabled:text-[#888] disabled:cursor-not-allowed disabled:hover:bg-[#e0e0e0] disabled:hover:shadow-none disabled:active:scale-100
+        focus:outline-none focus:ring-2 focus:ring-[rgba(255,122,89,0.5)] focus:ring-offset-2 focus:ring-offset-primary
         ${className}
       `}
       {...props}
@@ -58,12 +58,12 @@ export const AccentButton: React.FC<BaseButtonProps> = ({
       disabled={disabled}
       aria-label={ariaLabel}
       className={`
-        bg-accent-yellow text-text-dark px-6 py-3 rounded-full text-body font-medium
-        transition-all duration-200 shadow-button
-        hover:bg-accent-yellow-dark hover:shadow-lg
+        bg-accent-yellow text-text-dark px-6 py-3 rounded-[10px] font-medium
+        transition-all duration-200
+        hover:bg-accent-yellow-dark hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)]
         active:bg-accent-yellow-dark/80 active:scale-95
-        disabled:bg-neutral-gray disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-neutral-gray disabled:hover:shadow-button disabled:active:scale-100
-        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-yellow focus:ring-offset-primary
+        disabled:bg-[#e0e0e0] disabled:text-[#888] disabled:cursor-not-allowed disabled:hover:bg-[#e0e0e0] disabled:hover:shadow-none disabled:active:scale-100
+        focus:outline-none focus:ring-2 focus:ring-accent-yellow/50 focus:ring-offset-2 focus:ring-offset-primary
         ${className}
       `}
       {...props}
@@ -98,7 +98,7 @@ export const OutlineButton: React.FC<OutlineButtonProps> = ({
         hoverText: 'hover:text-text-dark',
         activeBg: 'bg-accent-purple',
         activeText: 'text-text-dark',
-        focusRing: 'focus:ring-accent-purple'
+        focusRing: 'focus:ring-accent-purple/50'
       }
     : {
         border: 'border-accent-yellow',
@@ -107,7 +107,7 @@ export const OutlineButton: React.FC<OutlineButtonProps> = ({
         hoverText: 'hover:text-text-dark',
         activeBg: 'bg-accent-yellow',
         activeText: 'text-text-dark',
-        focusRing: 'focus:ring-accent-yellow'
+        focusRing: 'focus:ring-accent-yellow/50'
       };
 
   return (
@@ -117,13 +117,14 @@ export const OutlineButton: React.FC<OutlineButtonProps> = ({
       disabled={disabled}
       aria-label={ariaLabel}
       className={`
-        px-4 py-2 rounded-lg text-small font-medium border-2
+        px-6 py-3 rounded-[10px] font-medium border-2
         transition-all duration-200
+        hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)]
         ${active 
           ? `${variantClasses.activeBg} ${variantClasses.activeText} ${variantClasses.border}` 
           : `bg-transparent ${variantClasses.text} ${variantClasses.border} ${variantClasses.hoverBg} ${variantClasses.hoverText}`
         }
-        disabled:border-neutral-gray disabled:text-neutral-gray disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-neutral-gray
+        disabled:border-[#e0e0e0] disabled:text-[#888] disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#888] disabled:hover:shadow-none
         focus:outline-none focus:ring-2 focus:ring-offset-2 ${variantClasses.focusRing} focus:ring-offset-primary
         ${className}
       `}
@@ -151,13 +152,13 @@ export const SecondaryButton: React.FC<BaseButtonProps> = ({
       disabled={disabled}
       aria-label={ariaLabel}
       className={`
-        bg-neutral-gray/20 text-text-light px-6 py-3 rounded-full text-body font-medium
+        bg-neutral-gray/20 text-text-light px-6 py-3 rounded-[10px] font-medium
         border border-neutral-gray/30
         transition-all duration-200
-        hover:bg-neutral-gray/30 hover:border-neutral-gray/50
+        hover:bg-neutral-gray/30 hover:border-neutral-gray/50 hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)]
         active:bg-neutral-gray/40 active:scale-95
-        disabled:bg-neutral-gray/10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-neutral-gray/10 disabled:active:scale-100
-        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-gray focus:ring-offset-primary
+        disabled:bg-[#e0e0e0] disabled:text-[#888] disabled:cursor-not-allowed disabled:hover:bg-[#e0e0e0] disabled:hover:shadow-none disabled:active:scale-100
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-gray/50 focus:ring-offset-primary
         ${className}
       `}
       {...props}
@@ -185,9 +186,9 @@ export const LinkButton: React.FC<BaseButtonProps> = ({
       aria-label={ariaLabel}
       className={`
         text-accent-yellow hover:text-accent-yellow-dark transition-colors
-        underline underline-offset-4 text-body font-medium
-        disabled:text-neutral-gray disabled:cursor-not-allowed disabled:hover:text-neutral-gray
-        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-yellow focus:ring-offset-primary rounded
+        underline underline-offset-4 font-medium px-2 py-1 rounded-[10px]
+        disabled:text-[#888] disabled:cursor-not-allowed disabled:hover:text-[#888]
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-yellow/50 focus:ring-offset-primary
         ${className}
       `}
       {...props}
