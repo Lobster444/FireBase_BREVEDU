@@ -415,30 +415,34 @@ const HomePage: React.FC = () => {
               <div 
                 key={testimonial.id} 
                 className="bg-neutral-gray/10 rounded-lg p-6 shadow-card text-text-light border border-neutral-gray/20 hover:border-accent-yellow/30 transition-all duration-200"
+                role="article"
+                aria-labelledby={`testimonial-${testimonial.id}-name`}
               >
                 {/* Quote Icon */}
                 <div className="flex items-center justify-between mb-4">
-                  <Quote className="h-6 w-6 text-accent-yellow opacity-60" />
-                  <div className="flex items-center space-x-1">
+                  <Quote className="h-6 w-6 text-accent-yellow opacity-60" aria-hidden="true" />
+                  <div className="flex items-center space-x-1" role="img" aria-label={`${testimonial.rating} out of 5 stars`}>
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 text-accent-yellow fill-current" />
+                      <Star key={i} className="h-4 w-4 text-accent-yellow fill-current" aria-hidden="true" />
                     ))}
                   </div>
                 </div>
                 
                 {/* Quote Text */}
-                <p className="text-body italic mb-4 text-text-secondary leading-relaxed">
+                <blockquote className="text-body italic mb-4 text-text-secondary leading-relaxed">
                   "{testimonial.quote}"
-                </p>
+                </blockquote>
                 
                 {/* Author Info */}
                 <div className="border-t border-neutral-gray/20 pt-4">
-                  <p className="text-body font-semibold text-text-light mb-1">
-                    {testimonial.name}
-                  </p>
-                  <p className="text-small text-accent-yellow">
-                    {testimonial.role}
-                  </p>
+                  <cite className="not-italic">
+                    <p id={`testimonial-${testimonial.id}-name`} className="text-body font-semibold text-text-light mb-1">
+                      {testimonial.name}
+                    </p>
+                    <p className="text-small text-accent-yellow">
+                      {testimonial.role}
+                    </p>
+                  </cite>
                 </div>
               </div>
             ))}
