@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyChSy_0MFnUJiUHDeFxGZjszTji3CMRc0I",
@@ -19,5 +19,11 @@ export const auth = getAuth(app);
 
 // Initialize Cloud Firestore and get a reference to the service
 export const db = getFirestore(app);
+
+// Connect to Firestore emulator in development (optional)
+// Uncomment the lines below if you want to use the Firestore emulator for local development
+// if (process.env.NODE_ENV === 'development' && !db._delegate._databaseId.projectId.includes('demo-')) {
+//   connectFirestoreEmulator(db, 'localhost', 8080);
+// }
 
 export default app;

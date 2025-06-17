@@ -20,7 +20,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
       {/* Thumbnail */}
       <div className="relative w-full h-[180px] bg-neutral-gray/20">
         <img 
-          src={course.thumbnail} 
+          src={course.thumbnailUrl} 
           alt={course.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
@@ -29,13 +29,10 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
           <Clock className="h-3 w-3" />
           <span>{course.duration}</span>
         </div>
-        {/* Premium badge */}
-        {course.isPremium && (
-          <div className="absolute top-2 right-2 bg-accent-yellow text-text-dark px-2 py-1 rounded text-x-small font-medium flex items-center space-x-1">
-            <Star className="h-3 w-3" />
-            <span>Premium</span>
-          </div>
-        )}
+        {/* Category badge */}
+        <div className="absolute top-2 left-2 bg-accent-yellow text-text-dark px-2 py-1 rounded text-x-small font-medium">
+          {course.category}
+        </div>
       </div>
 
       {/* Content */}
@@ -48,11 +45,13 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
         </p>
         <div className="flex items-center justify-between">
           <span className="text-x-small text-neutral-gray bg-neutral-gray/20 px-2 py-1 rounded">
-            {course.category}
-          </span>
-          <span className="text-x-small text-neutral-gray">
             {course.difficulty}
           </span>
+          {!course.published && (
+            <span className="text-x-small text-accent-purple bg-accent-purple/20 px-2 py-1 rounded">
+              Draft
+            </span>
+          )}
         </div>
       </div>
     </div>

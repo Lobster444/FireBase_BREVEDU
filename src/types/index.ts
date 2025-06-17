@@ -1,13 +1,15 @@
 export interface Course {
-  id: string;
+  id?: string;
   title: string;
-  description: string;
-  thumbnail: string;
-  duration: string;
-  category: string;
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
-  isPremium: boolean;
-  videoUrl: string;
+  description: string;         // ≤ 500 chars
+  videoUrl: string;           // YouTube nocookie embed URL
+  thumbnailUrl: string;
+  duration: string;           // e.g. "5m", "12m"
+  category: "Business" | "Tech" | "Health" | "Personal" | "Creative";
+  difficulty: "Beginner" | "Intermediate" | "Advanced";
+  published: boolean;
+  createdAt?: any;  // Firestore Timestamp
+  updatedAt?: any;  // Firestore Timestamp
 }
 
 export interface User {
