@@ -34,3 +34,40 @@ export interface AIChat {
   conversationUrl?: string;
   timestamp: string;
 }
+
+// Helper function to check if user can access a course
+export const canUserAccessCourse = (
+  userRole: UserRole | null, 
+  courseAccessLevel: AccessLevel
+): boolean => {
+  // If no user (anonymous), only allow anonymous courses
+  if (!userRole || userRole === 'anonymous') {
+    return courseAccessLevel === 'anonymous';
+  }
+  
+  // Free users can access anonymous and free courses
+  if (userRole === 'free') {
+    return courseAccessLevel === 'anonymous' || courseAccessLevel === 'free';
+  }
+  
+  // Premium users can access all courses
+  if (userRole === 'premium') {
+    return true;
+  }
+  
+  return false;
+};
+
+// Helper function to get access level requirements
+export const getAccessLevelRequirement = (accessLevel: AccessLevel): string => {
+  switch (accessLevel) {
+    case 'anonymous':
+      return 'No account required';
+    case 'free':
+      return 'Free account required';
+    case 'premium':
+      return 'BrevEdu+ subscription required';
+    default:
+      return 'Account required';
+  }
+};

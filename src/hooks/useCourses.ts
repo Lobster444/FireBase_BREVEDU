@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
 import { db } from '../lib/firebase';
-import { Course } from '../types';
+import { Course, UserRole, canUserAccessCourse } from '../types';
 
-export const useCourses = (category?: string, isPremiumOnly?: boolean) => {
+export const useCourses = (
+  category?: string, 
+  isPremiumOnly?: boolean,
+  userRole?: UserRole | null
+) => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -22,24 +26,28 @@ export const useCourses = (category?: string, isPremiumOnly?: boolean) => {
           coursesQuery = query(
             collection(db, 'courses'),
             where('category', '==', category),
-            where('isPremium', '==', true)
+            where('accessLevel', '==', 'premium'),
+            where('published', '==', true)
           );
         } else if (category && category !== 'All') {
           // Filter by category only
           coursesQuery = query(
             collection(db, 'courses'),
-            where('category', '==', category)
+            where('category', '==', category),
+            where('published', '==', true)
           );
         } else if (isPremiumOnly) {
           // Filter by premium status only
           coursesQuery = query(
             collection(db, 'courses'),
-            where('isPremium', '==', true)
+            where('accessLevel', '==', 'premium'),
+            where('published', '==', true)
           );
         } else {
-          // No filters, just order by createdAt
+          // No filters, just published courses
           coursesQuery = query(
             collection(db, 'courses'),
+            where('published', '==', true),
             orderBy('createdAt', 'desc')
           );
         }
@@ -48,7 +56,13 @@ export const useCourses = (category?: string, isPremiumOnly?: boolean) => {
         const coursesData: Course[] = [];
 
         querySnapshot.forEach((doc) => {
-          coursesData.push({ id: doc.id, ...doc.data() } as Course);
+          const courseData = { id: doc.id, ...doc.data() } as Course;
+          
+          // Apply access level filtering based on user role
+          const courseAccessLevel = courseData.accessLevel || 'free';
+          if (canUserAccessCourse(userRole, courseAccessLevel)) {
+            coursesData.push(courseData);
+          }
         });
 
         // Sort client-side when we can't use orderBy due to composite index requirements
@@ -64,16 +78,20 @@ export const useCourses = (category?: string, isPremiumOnly?: boolean) => {
       } catch (err) {
         console.error('Error fetching courses:', err);
         setError('Failed to load courses. Please try again.');
-        // Fallback to mock data if Firestore fails
+        // Fallback to mock data if Firestore fails, but still apply access filtering
         const { mockCourses } = await import('../data/mockCourses');
-        setCourses(mockCourses);
+        const filteredMockCourses = mockCourses.filter(course => {
+          const courseAccessLevel = course.accessLevel || 'free';
+          return canUserAccessCourse(userRole, courseAccessLevel);
+        });
+        setCourses(filteredMockCourses);
       } finally {
         setLoading(false);
       }
     };
 
     fetchCourses();
-  }, [category, isPremiumOnly]);
+  }, [category, isPremiumOnly, userRole]);
 
   return { courses, loading, error };
 };

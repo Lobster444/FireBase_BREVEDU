@@ -26,9 +26,10 @@ const AdminCoursesPage: React.FC = () => {
   // Network status with toast notifications
   const { isOnline, executeIfOnline } = useNetworkStatusWithUtils(true);
 
-  // Fetch all courses (including unpublished) for admin
+  // Fetch all courses (including unpublished) for admin - no access level filtering
   const { courses, loading, error } = useFirestoreCourses({ 
-    publishedOnly: false 
+    publishedOnly: false,
+    includeRestricted: true // Admin sees all courses regardless of access level
   });
 
   const categories = ['All', 'Tech', 'Business', 'Health', 'Personal', 'Creative'];

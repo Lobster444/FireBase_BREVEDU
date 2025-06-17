@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { getCourses, getCoursesByCategory } from '../lib/courseService';
-import { Course } from '../types';
+import { Course, UserRole, canUserAccessCourse } from '../types';
 
 interface UseCoursesOptions {
   category?: string;
   publishedOnly?: boolean;
+  userRole?: UserRole | null;
+  includeRestricted?: boolean; // For admin views
 }
 
 interface UseCoursesReturn {
@@ -15,12 +17,12 @@ interface UseCoursesReturn {
 }
 
 /**
- * Custom hook to fetch courses from Firestore with real-time updates
+ * Custom hook to fetch courses from Firestore with real-time updates and access level filtering
  * @param options - Configuration options
  * @returns Object containing courses, loading state, error, and refetch function
  */
 export const useFirestoreCourses = (options: UseCoursesOptions = {}): UseCoursesReturn => {
-  const { category, publishedOnly = true } = options;
+  const { category, publishedOnly = true, userRole, includeRestricted = false } = options;
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +39,17 @@ export const useFirestoreCourses = (options: UseCoursesOptions = {}): UseCourses
     let unsubscribe: (() => void) | undefined;
 
     const handleCoursesUpdate = (updatedCourses: Course[]) => {
-      setCourses(updatedCourses);
+      let filteredCourses = updatedCourses;
+      
+      // Apply access level filtering unless it's an admin view
+      if (!includeRestricted) {
+        filteredCourses = updatedCourses.filter(course => {
+          const courseAccessLevel = course.accessLevel || 'free';
+          return canUserAccessCourse(userRole, courseAccessLevel);
+        });
+      }
+      
+      setCourses(filteredCourses);
       setLoading(false);
       setError(null);
     };
@@ -74,7 +86,7 @@ export const useFirestoreCourses = (options: UseCoursesOptions = {}): UseCourses
         unsubscribe();
       }
     };
-  }, [category, publishedOnly]);
+  }, [category, publishedOnly, userRole, includeRestricted]);
 
   return {
     courses,
@@ -85,13 +97,22 @@ export const useFirestoreCourses = (options: UseCoursesOptions = {}): UseCourses
 };
 
 /**
- * Hook to get a specific number of featured courses
+ * Hook to get a specific number of featured courses with access level filtering
  * @param limit - Number of courses to return
  * @param category - Optional category filter
+ * @param userRole - User role for access filtering
  * @returns Object containing featured courses and loading state
  */
-export const useFeaturedCourses = (limit: number = 3, category?: string) => {
-  const { courses, loading, error } = useFirestoreCourses({ category });
+export const useFeaturedCourses = (
+  limit: number = 3, 
+  category?: string, 
+  userRole?: UserRole | null
+) => {
+  const { courses, loading, error } = useFirestoreCourses({ 
+    category, 
+    userRole,
+    includeRestricted: false 
+  });
   
   const featuredCourses = courses.slice(0, limit);
   
