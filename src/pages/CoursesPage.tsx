@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Search, Filter } from 'lucide-react';
 import Layout from '../components/Layout';
 import CourseCard from '../components/CourseCard';
+import CourseDetailModal from '../components/CourseDetailModal';
 import { categories } from '../data/mockCourses';
 import { Course } from '../types';
 import { useCourses } from '../hooks/useCourses';
@@ -11,6 +12,8 @@ const CoursesPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('All');
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [showCourseModal, setShowCourseModal] = useState(false);
   const { currentUser } = useAuth();
 
   const { courses, loading, error } = useCourses(selectedCategory);
@@ -24,8 +27,13 @@ const CoursesPage: React.FC = () => {
   });
 
   const handleCourseClick = (course: Course) => {
-    // TODO: Open Course Detail Modal
-    console.log('Open course:', course.title);
+    setSelectedCourse(course);
+    setShowCourseModal(true);
+  };
+
+  const handleCloseCourseModal = () => {
+    setShowCourseModal(false);
+    setSelectedCourse(null);
   };
 
   return (
@@ -147,6 +155,13 @@ const CoursesPage: React.FC = () => {
           )}
         </div>
       </section>
+
+      {/* Course Detail Modal */}
+      <CourseDetailModal
+        isOpen={showCourseModal}
+        course={selectedCourse}
+        onClose={handleCloseCourseModal}
+      />
     </Layout>
   );
 };

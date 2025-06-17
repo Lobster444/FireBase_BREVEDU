@@ -12,10 +12,21 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
     onClick(course);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onClick(course);
+    }
+  };
+
   return (
     <div 
-      className="bg-neutral-gray/10 rounded-lg overflow-hidden shadow-card hover:shadow-lg transition-all cursor-pointer group"
+      className="bg-neutral-gray/10 rounded-lg overflow-hidden shadow-card hover:shadow-lg transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2 focus:ring-offset-primary"
       onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      role="button"
+      aria-label={`View details for ${course.title}`}
     >
       {/* Thumbnail */}
       <div className="relative w-full h-[180px] bg-neutral-gray/20">
