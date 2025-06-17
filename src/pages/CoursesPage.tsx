@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, Lock, Crown } from 'lucide-react';
+import { Filter, Lock, Crown } from 'lucide-react';
 import Layout from '../components/Layout';
 import CourseCard from '../components/CourseCard';
 import CourseDetailModal from '../components/CourseDetailModal';
@@ -11,7 +11,6 @@ import { useAuth } from '../contexts/AuthContext';
 
 const CoursesPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [searchQuery, setSearchQuery] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('All');
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [showCourseModal, setShowCourseModal] = useState(false);
@@ -27,11 +26,8 @@ const CoursesPage: React.FC = () => {
   );
 
   const filteredCourses = courses.filter(course => {
-    const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         course.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesDifficulty = selectedDifficulty === 'All' || course.difficulty === selectedDifficulty;
-    
-    return matchesSearch && matchesDifficulty;
+    return matchesDifficulty;
   });
 
   const handleCourseClick = (course: Course) => {
@@ -51,7 +47,6 @@ const CoursesPage: React.FC = () => {
 
   const clearAllFilters = () => {
     setSelectedCategory('All');
-    setSearchQuery('');
     setSelectedDifficulty('All');
   };
 
@@ -127,18 +122,6 @@ const CoursesPage: React.FC = () => {
                 )}
               </div>
             </div>
-          </div>
-
-          {/* Search Bar */}
-          <div className="relative mb-6">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-neutral-gray" />
-            <input
-              type="text"
-              placeholder="Search courses..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-neutral-gray/20 border border-neutral-gray/30 rounded-lg text-text-light placeholder-neutral-gray focus:outline-none focus:border-accent-yellow focus:ring-2 focus:ring-accent-yellow/20"
-            />
           </div>
 
           {/* Filters */}
@@ -252,7 +235,7 @@ const CoursesPage: React.FC = () => {
                   ) : (
                     <div>
                       <p className="text-body text-text-secondary mb-4">
-                        No courses found matching your search criteria.
+                        No courses found matching your filter criteria.
                       </p>
                       <OutlineButton
                         variant="yellow"
