@@ -61,3 +61,26 @@
     font-feature-settings: 'liga' 1, 'calt' 1, 'cv11' 1;
   }
 }
+
+/* Headspace-inspired breathing animation */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* Gentle card breathing animation */
+@keyframes card-breathe {
+  0%, 100% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.01) translateY(-1px); }
+}
+
+/* Custom easing curves for Headspace-style motion */
+@layer utilities {
+  .ease-out-cubic {
+    transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+  }
+  
+  .ease-headspace {
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
