@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Edit, Trash2, Eye, EyeOff, Search, Filter, AlertCircle } from 'lucide-react';
 import AdminRoute from '../components/AdminRoute';
 import OfflineBanner from '../components/OfflineBanner';
+import CourseModal from '../components/CourseModal';
 import { useFirestoreCourses } from '../hooks/useFirestoreCourses';
 import { useNetworkStatusWithUtils } from '../hooks/useNetworkStatus';
 import { deleteCourse } from '../lib/courseService';
@@ -15,6 +16,11 @@ const AdminCoursesPage: React.FC = () => {
   const [showPublishedOnly, setShowPublishedOnly] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  
+  // Course Modal State
+  const [showCourseModal, setShowCourseModal] = useState(false);
+  const [modalMode, setModalMode] = useState<'add' | 'edit'>('add');
+  const [selectedCourse, setSelectedCourse] = useState<Course | undefined>(undefined);
 
   // Network status with toast notifications
   const { isOnline, executeIfOnline } = useNetworkStatusWithUtils(true);
@@ -61,16 +67,29 @@ const AdminCoursesPage: React.FC = () => {
 
   const handleNewCourse = () => {
     executeIfOnline(() => {
-      // TODO: Open Add Course Modal
-      console.log('Open new course modal');
+      setModalMode('add');
+      setSelectedCourse(undefined);
+      setShowCourseModal(true);
     }, 'Cannot create new course while offline.');
   };
 
-  const handleEditCourse = (courseId: string) => {
+  const handleEditCourse = (course: Course) => {
     executeIfOnline(() => {
-      // TODO: Open Edit Course Modal
-      console.log('Edit course:', courseId);
+      setModalMode('edit');
+      setSelectedCourse(course);
+      setShowCourseModal(true);
     }, 'Cannot edit course while offline.');
+  };
+
+  const handleCloseCourseModal = () => {
+    setShowCourseModal(false);
+    setSelectedCourse(undefined);
+  };
+
+  const handleSaveCourse = (course: Course) => {
+    // The modal handles the actual save operation and shows toasts
+    // The real-time listener will automatically update the courses list
+    console.log('Course saved:', course.title);
   };
 
   const formatDate = (timestamp: any) => {
@@ -318,7 +337,7 @@ const AdminCoursesPage: React.FC = () => {
                             <td className="p-4">
                               <div className="flex items-center justify-end space-x-2">
                                 <button 
-                                  onClick={() => handleEditCourse(course.id!)}
+                                  onClick={() => handleEditCourse(course)}
                                   disabled={!isOnline}
                                   className={`p-2 rounded-lg transition-colors ${
                                     isOnline 
@@ -388,7 +407,7 @@ const AdminCoursesPage: React.FC = () => {
                           
                           <div className="flex items-center space-x-2">
                             <button 
-                              onClick={() => handleEditCourse(course.id!)}
+                              onClick={() => handleEditCourse(course)}
                               disabled={!isOnline}
                               className={`p-2 rounded-lg transition-colors ${
                                 isOnline 
@@ -464,6 +483,15 @@ const AdminCoursesPage: React.FC = () => {
             </div>
           </div>
         )}
+
+        {/* Course Modal */}
+        <CourseModal
+          isOpen={showCourseModal}
+          mode={modalMode}
+          course={selectedCourse}
+          onClose={handleCloseCourseModal}
+          onSave={handleSaveCourse}
+        />
       </div>
     </AdminRoute>
   );
