@@ -1,8 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { BookOpen } from 'lucide-react';
 import Header from './Header';
-import MobileNavigation from './MobileNavigation';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -10,37 +7,29 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
-  // Handle mobile logo click with blur to prevent sticky focus
-  const handleMobileLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.currentTarget.blur();
-  };
-
   return (
-    <div className="min-h-screen bg-primary text-text-light">
+    <div className="min-h-screen bg-gray-50">
       <Header currentPage={currentPage} />
       
-      {/* Mobile Logo Header */}
-      <div className="md:hidden flex items-center justify-center p-4 border-b border-neutral-gray/20">
-        <Link 
-          to="/" 
-          className="flex items-center space-x-2 group focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-lg p-1 -m-1 transition-all active:outline-none"
-          aria-label="Go to homepage"
-          onClick={handleMobileLogoClick}
-        >
-          <div className="h-8 w-8 bg-accent-yellow rounded flex items-center justify-center group-hover:bg-accent-green transition-colors">
-            <BookOpen className="h-5 w-5 text-text-dark" />
+      {/* Main Content Container */}
+      <main className="relative">
+        {/* Centered Container with Headspace-style spacing */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Optional Page Title Section */}
+          {currentPage && currentPage !== 'home' && (
+            <div className="py-6 border-b border-gray-100 mb-8">
+              <h1 className="text-2xl font-bold text-gray-900 capitalize">
+                {currentPage === 'brevedu-plus' ? 'BrevEdu+' : currentPage}
+              </h1>
+            </div>
+          )}
+          
+          {/* Page Content with vertical spacing */}
+          <div className="space-y-8 pb-8">
+            {children}
           </div>
-          <h1 className="text-h3 text-text-light font-semibold group-hover:text-accent-yellow transition-colors">
-            BrevEdu
-          </h1>
-        </Link>
-      </div>
-
-      <main className="pb-20 md:pb-0">
-        {children}
+        </div>
       </main>
-
-      <MobileNavigation currentPage={currentPage} />
     </div>
   );
 };

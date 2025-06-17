@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BookOpen, User, LogOut } from 'lucide-react';
+import { BookOpen, User, LogOut, Menu, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import AuthModal from './AuthModal';
 
@@ -14,6 +14,29 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close menus when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setShowUserMenu(false);
+      }
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
+        setShowMobileMenu(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setShowMobileMenu(false);
+  }, [location.pathname]);
 
   const handleLogout = async () => {
     try {
@@ -27,6 +50,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
   const openAuthModal = (mode: 'login' | 'register') => {
     setAuthMode(mode);
     setShowAuthModal(true);
+    setShowMobileMenu(false);
   };
 
   // Check if current path is active
@@ -47,106 +71,252 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
     e.currentTarget.blur();
   };
 
+  const navLinks = [
+    { path: '/', label: 'Home', id: 'home' },
+    { path: '/courses', label: 'Courses', id: 'courses' },
+    { path: '/brevedu-plus', label: 'BrevEdu+', id: 'brevedu-plus' },
+  ];
+
   return (
     <>
-      <header className="hidden md:flex items-center justify-between p-6 bg-primary border-b border-neutral-gray/20">
-        {/* Logo - Clickable */}
-        <Link 
-          to="/" 
-          className="flex items-center space-x-2 group focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-lg p-1 -m-1 transition-all active:outline-none"
-          aria-label="Go to homepage"
-          onClick={handleLogoClick}
-        >
-          <BookOpen className="h-8 w-8 text-accent-yellow group-hover:text-accent-green transition-colors" />
-          <h1 className="text-h3 text-text-light font-semibold group-hover:text-accent-yellow transition-colors">
-            BrevEdu
-          </h1>
-        </Link>
+      {/* Desktop Header */}
+      <header className="hidden sm:block sticky top-0 bg-white z-50 shadow-sm border-b border-gray-100">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <Link 
+              to="/" 
+              className="flex items-center space-x-3 group focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF7A59] focus-visible:ring-opacity-40 focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded-[12px] p-2 -m-2 transition-all hover:animate-[breathe_2s_infinite]"
+              aria-label="Go to homepage"
+              onClick={handleLogoClick}
+            >
+              <div className="h-10 w-10 bg-[#FF7A59] rounded-full flex items-center justify-center group-hover:bg-[#FF8A6B] transition-colors duration-300 ease-out shadow-[0_2px_8px_rgba(255,122,89,0.3)]">
+                <BookOpen className="h-6 w-6 text-white" />
+              </div>
+              <h1 className="text-2xl font-bold text-gray-900 group-hover:text-[#FF7A59] transition-colors duration-300 ease-out">
+                BrevEdu
+              </h1>
+            </Link>
 
-        {/* Navigation */}
-        <nav className="flex items-center space-x-8" aria-label="Main navigation">
-          <Link 
-            to="/" 
-            className={`text-link font-medium transition-colors underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded px-1 active:outline-none ${
-              isActive('/') 
-                ? 'text-accent-yellow underline' 
-                : 'text-text-light hover:text-accent-yellow'
-            }`}
-            aria-label="Go to homepage"
-            onClick={handleNavClick}
-          >
-            Home
-          </Link>
-          <Link 
-            to="/courses" 
-            className={`text-link font-medium transition-colors underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded px-1 active:outline-none ${
-              isActive('/courses') 
-                ? 'text-accent-yellow underline' 
-                : 'text-text-light hover:text-accent-yellow'
-            }`}
-            onClick={handleNavClick}
-          >
-            Courses
-          </Link>
-          <Link 
-            to="/brevedu-plus" 
-            className={`text-link font-medium transition-colors underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded px-1 active:outline-none ${
-              isActive('/brevedu-plus') 
-                ? 'text-accent-yellow underline' 
-                : 'text-text-light hover:text-accent-yellow'
-            }`}
-            onClick={handleNavClick}
-          >
-            BrevEdu+
-          </Link>
-          
-          {currentUser ? (
-            <div className="relative">
-              <button
-                onClick={() => setShowUserMenu(!showUserMenu)}
-                className="flex items-center space-x-2 bg-accent-purple text-text-dark px-4 py-2 rounded-lg text-body font-medium hover:bg-accent-deep-purple transition-all shadow-button focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-purple focus-visible:ring-offset-2 focus-visible:ring-offset-primary active:outline-none"
-                aria-expanded={showUserMenu}
-                aria-haspopup="true"
-              >
-                <User className="h-4 w-4" />
-                <span className="max-w-[120px] truncate">{currentUser.name}</span>
-              </button>
-              
-              {showUserMenu && (
-                <div className="absolute right-0 top-full mt-2 bg-primary border border-neutral-gray/30 rounded-lg shadow-lg py-2 min-w-[200px] z-50">
-                  <div className="px-4 py-2 border-b border-neutral-gray/20">
-                    <p className="text-small text-text-light font-medium">{currentUser.name}</p>
-                    <p className="text-x-small text-neutral-gray">{currentUser.email}</p>
-                    <p className="text-x-small text-accent-yellow capitalize mt-1">{currentUser.role} Plan</p>
-                  </div>
+            {/* Navigation Links */}
+            <nav className="flex items-center space-x-2" aria-label="Main navigation">
+              {navLinks.map((link) => (
+                <Link 
+                  key={link.id}
+                  to={link.path} 
+                  className={`
+                    text-gray-700 font-medium px-4 py-2 rounded-[10px] transition-all duration-200 ease-out
+                    hover:bg-[#FF7A59]/10 hover:text-[#FF7A59] hover:animate-[breathe_2s_infinite]
+                    focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF7A59] focus-visible:ring-opacity-40 focus-visible:ring-offset-2 focus-visible:ring-offset-white
+                    ${isActive(link.path) 
+                      ? 'bg-[#FF7A59]/15 text-[#FF7A59] font-semibold' 
+                      : ''
+                    }
+                  `}
+                  onClick={handleNavClick}
+                  style={{
+                    minHeight: '44px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    animationTimingFunction: 'ease-in-out'
+                  }}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+
+            {/* User Actions */}
+            <div className="flex items-center space-x-3">
+              {currentUser ? (
+                <div className="relative" ref={userMenuRef}>
                   <button
-                    onClick={handleLogout}
-                    className="w-full text-left px-4 py-2 text-body text-text-light hover:bg-neutral-gray/20 transition-colors flex items-center space-x-2 focus:outline-none focus-visible:bg-neutral-gray/20 active:outline-none"
+                    onClick={() => setShowUserMenu(!showUserMenu)}
+                    className="flex items-center space-x-3 bg-[#FF7A59] text-white px-5 py-3 rounded-[10px] font-medium hover:bg-[#FF8A6B] transition-all duration-200 ease-out shadow-[0_2px_8px_rgba(255,122,89,0.3)] hover:shadow-[0_4px_12px_rgba(255,122,89,0.4)] hover:animate-[breathe_2s_infinite] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF7A59] focus-visible:ring-opacity-40 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                    aria-expanded={showUserMenu}
+                    aria-haspopup="true"
+                    style={{
+                      minHeight: '44px',
+                      animationTimingFunction: 'ease-in-out'
+                    }}
                   >
-                    <LogOut className="h-4 w-4" />
-                    <span>Sign Out</span>
+                    <User className="h-5 w-5" />
+                    <span className="max-w-[120px] truncate">{currentUser.name}</span>
+                  </button>
+                  
+                  {showUserMenu && (
+                    <div className="absolute right-0 top-full mt-2 bg-white border border-gray-200 rounded-[12px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] py-3 min-w-[220px] z-50">
+                      <div className="px-4 py-3 border-b border-gray-100">
+                        <p className="text-base font-semibold text-gray-900">{currentUser.name}</p>
+                        <p className="text-sm text-gray-600">{currentUser.email}</p>
+                        <p className="text-sm text-[#FF7A59] capitalize mt-1 font-medium">{currentUser.role} Plan</p>
+                      </div>
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left px-4 py-3 text-base text-gray-700 hover:bg-gray-50 hover:text-[#FF7A59] transition-colors duration-200 ease-out flex items-center space-x-3 focus:outline-none focus-visible:bg-gray-50 rounded-[8px] mx-2 mt-1"
+                        style={{ minHeight: '44px' }}
+                      >
+                        <LogOut className="h-5 w-5" />
+                        <span>Sign Out</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center space-x-3">
+                  <button 
+                    onClick={() => openAuthModal('login')}
+                    className="text-gray-700 hover:text-[#FF7A59] transition-colors duration-200 ease-out font-medium underline underline-offset-4 px-3 py-2 rounded-[8px] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF7A59] focus-visible:ring-opacity-40 focus-visible:ring-offset-2 focus-visible:ring-offset-white hover:animate-[breathe_2s_infinite]"
+                    style={{
+                      minHeight: '44px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      animationTimingFunction: 'ease-in-out'
+                    }}
+                  >
+                    Sign In
+                  </button>
+                  <button 
+                    onClick={() => openAuthModal('register')}
+                    className="bg-[#FF7A59] text-white px-5 py-3 rounded-[10px] font-medium hover:bg-[#FF8A6B] transition-all duration-200 ease-out shadow-[0_2px_8px_rgba(255,122,89,0.3)] hover:shadow-[0_4px_12px_rgba(255,122,89,0.4)] hover:animate-[breathe_2s_infinite] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF7A59] focus-visible:ring-opacity-40 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                    style={{
+                      minHeight: '44px',
+                      animationTimingFunction: 'ease-in-out'
+                    }}
+                  >
+                    Sign Up
                   </button>
                 </div>
               )}
             </div>
-          ) : (
-            <div className="flex items-center space-x-3">
-              <button 
-                onClick={() => openAuthModal('login')}
-                className="text-text-light hover:text-accent-yellow transition-colors text-link underline underline-offset-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded px-1 active:outline-none"
-              >
-                Sign In
-              </button>
-              <button 
-                onClick={() => openAuthModal('register')}
-                className="bg-accent-purple text-text-dark px-6 py-3 rounded-lg text-body font-medium hover:bg-accent-deep-purple transition-all shadow-button focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-purple focus-visible:ring-offset-2 focus-visible:ring-offset-primary active:outline-none"
-              >
-                Sign Up
-              </button>
-            </div>
-          )}
-        </nav>
+          </div>
+        </div>
       </header>
+
+      {/* Mobile Header */}
+      <div className="sm:hidden bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
+        <div className="flex items-center justify-between p-4">
+          {/* Mobile Logo */}
+          <Link 
+            to="/" 
+            className="flex items-center space-x-2 group focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF7A59] focus-visible:ring-opacity-40 focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded-[10px] p-1 -m-1 transition-all"
+            aria-label="Go to homepage"
+            onClick={handleLogoClick}
+          >
+            <div className="h-8 w-8 bg-[#FF7A59] rounded-full flex items-center justify-center group-hover:bg-[#FF8A6B] transition-colors duration-300 ease-out">
+              <BookOpen className="h-5 w-5 text-white" />
+            </div>
+            <h1 className="text-xl font-bold text-gray-900 group-hover:text-[#FF7A59] transition-colors duration-300 ease-out">
+              BrevEdu
+            </h1>
+          </Link>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setShowMobileMenu(!showMobileMenu)}
+            className="p-2 text-gray-700 hover:text-[#FF7A59] hover:bg-gray-50 rounded-[8px] transition-colors duration-200 ease-out focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF7A59] focus-visible:ring-opacity-40 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            aria-expanded={showMobileMenu}
+            aria-controls="mobile-menu"
+            aria-label="Toggle mobile menu"
+            style={{ minHeight: '44px', minWidth: '44px' }}
+          >
+            {showMobileMenu ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        {showMobileMenu && (
+          <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40" onClick={() => setShowMobileMenu(false)} />
+        )}
+
+        {/* Mobile Menu Drawer */}
+        {showMobileMenu && (
+          <div 
+            ref={mobileMenuRef}
+            id="mobile-menu"
+            className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-[0_8px_32px_rgba(0,0,0,0.12)] z-50 transform transition-transform duration-300 ease-out"
+          >
+            <div className="p-6">
+              {/* Mobile Menu Header */}
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-xl font-bold text-gray-900">Menu</h2>
+                <button
+                  onClick={() => setShowMobileMenu(false)}
+                  className="p-2 text-gray-500 hover:text-gray-700 rounded-[8px] transition-colors"
+                  aria-label="Close menu"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+
+              {/* Mobile Navigation Links */}
+              <nav className="space-y-4 mb-8" aria-label="Mobile navigation">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.id}
+                    to={link.path}
+                    className={`
+                      block text-gray-700 font-medium py-3 px-4 rounded-[10px] transition-all duration-200 ease-out
+                      hover:bg-[#FF7A59]/10 hover:text-[#FF7A59]
+                      focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF7A59] focus-visible:ring-opacity-40 focus-visible:ring-offset-2 focus-visible:ring-offset-white
+                      ${isActive(link.path) 
+                        ? 'bg-[#FF7A59]/15 text-[#FF7A59] font-semibold' 
+                        : ''
+                      }
+                    `}
+                    onClick={() => setShowMobileMenu(false)}
+                    style={{ minHeight: '44px', display: 'flex', alignItems: 'center' }}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+
+              {/* Mobile User Actions */}
+              <div className="border-t border-gray-100 pt-6">
+                {currentUser ? (
+                  <div className="space-y-4">
+                    <div className="bg-gray-50 rounded-[12px] p-4">
+                      <p className="text-base font-semibold text-gray-900">{currentUser.name}</p>
+                      <p className="text-sm text-gray-600">{currentUser.email}</p>
+                      <p className="text-sm text-[#FF7A59] capitalize mt-1 font-medium">{currentUser.role} Plan</p>
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left text-gray-700 font-medium py-3 px-4 rounded-[10px] hover:bg-gray-50 hover:text-[#FF7A59] transition-colors duration-200 ease-out flex items-center space-x-3 focus:outline-none focus-visible:bg-gray-50"
+                      style={{ minHeight: '44px' }}
+                    >
+                      <LogOut className="h-5 w-5" />
+                      <span>Sign Out</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <button 
+                      onClick={() => openAuthModal('login')}
+                      className="w-full text-gray-700 hover:text-[#FF7A59] transition-colors duration-200 ease-out font-medium underline underline-offset-4 py-3 px-4 rounded-[8px] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF7A59] focus-visible:ring-opacity-40 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                      style={{ minHeight: '44px' }}
+                    >
+                      Sign In
+                    </button>
+                    <button 
+                      onClick={() => openAuthModal('register')}
+                      className="w-full bg-[#FF7A59] text-white py-3 px-4 rounded-[10px] font-medium hover:bg-[#FF8A6B] transition-all duration-200 ease-out shadow-[0_2px_8px_rgba(255,122,89,0.3)] hover:shadow-[0_4px_12px_rgba(255,122,89,0.4)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF7A59] focus-visible:ring-opacity-40 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                      style={{ minHeight: '44px' }}
+                    >
+                      Sign Up
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
 
       <AuthModal 
         isOpen={showAuthModal} 
