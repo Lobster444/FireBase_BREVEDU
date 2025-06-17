@@ -2,8 +2,11 @@ import React from 'react';
 import { Sparkles, Check, Zap, MessageCircle, Star, Crown } from 'lucide-react';
 import Layout from '../components/Layout';
 import { PrimaryButton, AccentButton, OutlineButton } from '../components/UIButtons';
+import { useAuth } from '../contexts/AuthContext';
 
 const BrevEduPlusPage: React.FC = () => {
+  const { currentUser } = useAuth();
+
   const features = [
     {
       icon: MessageCircle,
@@ -54,22 +57,42 @@ const BrevEduPlusPage: React.FC = () => {
             to accelerate your skill development journey.
           </p>
 
-          {/* Pricing */}
-          <div className="bg-neutral-gray/10 rounded-2xl p-8 mb-8 max-w-md mx-auto">
-            <div className="text-center mb-6">
-              <div className="text-h1 text-accent-yellow mb-2">$3.99</div>
-              <div className="text-body text-text-secondary">/month</div>
-              <div className="text-small text-neutral-gray mt-2">Cancel anytime</div>
+          {/* Pricing - Hide for premium users */}
+          {currentUser?.role !== 'premium' && (
+            <div className="bg-neutral-gray/10 rounded-2xl p-8 mb-8 max-w-md mx-auto">
+              <div className="text-center mb-6">
+                <div className="text-h1 text-accent-yellow mb-2">$3.99</div>
+                <div className="text-body text-text-secondary">/month</div>
+                <div className="text-small text-neutral-gray mt-2">Cancel anytime</div>
+              </div>
+              
+              <PrimaryButton className="w-full px-8 py-4 mb-4">
+                Start Free Trial
+              </PrimaryButton>
+              
+              <p className="text-x-small text-neutral-gray text-center">
+                7-day free trial, then $3.99/month. Cancel anytime.
+              </p>
             </div>
-            
-            <PrimaryButton className="w-full px-8 py-4 mb-4">
-              Start Free Trial
-            </PrimaryButton>
-            
-            <p className="text-x-small text-neutral-gray text-center">
-              7-day free trial, then $3.99/month. Cancel anytime.
-            </p>
-          </div>
+          )}
+
+          {/* Thank you message for premium users */}
+          {currentUser?.role === 'premium' && (
+            <div className="bg-accent-purple/10 rounded-2xl p-8 mb-8 max-w-md mx-auto border border-accent-purple/20">
+              <div className="text-center">
+                <Crown className="h-12 w-12 text-accent-purple mx-auto mb-4" />
+                <h3 className="text-h3 text-accent-purple mb-2">You're already a BrevEdu+ member!</h3>
+                <p className="text-body text-text-secondary mb-4">
+                  Thank you for being a premium subscriber. Enjoy unlimited access to all features.
+                </p>
+                <a href="/courses">
+                  <AccentButton>
+                    Explore Premium Courses
+                  </AccentButton>
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -148,36 +171,46 @@ const BrevEduPlusPage: React.FC = () => {
             </div>
             
             <div className="mt-6 text-center">
-              <AccentButton>
-                Try AI Chat Practice
-              </AccentButton>
+              {currentUser?.role === 'premium' ? (
+                <a href="/courses">
+                  <AccentButton>
+                    Start AI Practice Session
+                  </AccentButton>
+                </a>
+              ) : (
+                <AccentButton>
+                  Try AI Chat Practice
+                </AccentButton>
+              )}
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="px-6 py-12 text-center">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-h2 text-text-light mb-4">Ready to Level Up?</h2>
-          <p className="text-body text-text-secondary mb-8">
-            Join thousands of learners who are accelerating their skills with BrevEdu+
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <PrimaryButton className="px-8 py-4 flex items-center justify-center space-x-2">
-              <Sparkles className="h-5 w-5" />
-              <span>Start Free Trial</span>
-            </PrimaryButton>
-            <OutlineButton
-              variant="yellow"
-              className="px-8 py-4"
-            >
-              View Free Courses
-            </OutlineButton>
+      {/* CTA Section - Hide for premium users */}
+      {currentUser?.role !== 'premium' && (
+        <section className="px-6 py-12 text-center">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-h2 text-text-light mb-4">Ready to Level Up?</h2>
+            <p className="text-body text-text-secondary mb-8">
+              Join thousands of learners who are accelerating their skills with BrevEdu+
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <PrimaryButton className="px-8 py-4 flex items-center justify-center space-x-2">
+                <Sparkles className="h-5 w-5" />
+                <span>Start Free Trial</span>
+              </PrimaryButton>
+              <OutlineButton
+                variant="yellow"
+                className="px-8 py-4"
+              >
+                View Free Courses
+              </OutlineButton>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </Layout>
   );
 };
