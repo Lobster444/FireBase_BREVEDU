@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import Headspace theme */
+@import './styles/headspace-theme.css';
+
 @layer base {
   /* Apply Inter font with optimized features globally */
   html {
@@ -11,6 +14,8 @@
   body {
     /* Enable Inter's single-story 'a' and improved readability features */
     font-feature-settings: 'cv11' 1, 'liga' 1, 'calt' 1;
+    background-color: #FAFAFA; /* Headspace light background */
+    color: #212121; /* Headspace dark text */
   }
   
   /* Optimize font rendering across browsers */
@@ -74,6 +79,31 @@
   50% { transform: scale(1.01) translateY(-1px); }
 }
 
+/* Gentle bounce for interactions */
+@keyframes gentle-bounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Fade in animation */
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Slide up animation */
+@keyframes slide-up {
+  0% { transform: translateY(10px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Scale in animation */
+@keyframes scale-in {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
 /* Custom easing curves for Headspace-style motion */
 @layer utilities {
   .ease-out-cubic {
@@ -82,5 +112,197 @@
   
   .ease-headspace {
     transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .ease-headspace-bounce {
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+}
+
+/* Headspace-specific component styles */
+@layer components {
+  /* Button variants */
+  .btn-headspace {
+    @apply inline-flex items-center justify-center font-medium rounded-headspace-lg transition-all duration-300 ease-headspace cursor-pointer border-0 no-underline;
+    min-height: 44px;
+    padding: 12px 24px;
+  }
+  
+  .btn-headspace:hover {
+    @apply animate-breathe;
+  }
+  
+  .btn-headspace:focus {
+    @apply outline-none;
+    box-shadow: 0 0 0 4px rgba(255, 122, 89, 0.4);
+    @apply animate-breathe;
+  }
+  
+  .btn-headspace:active {
+    @apply scale-95;
+  }
+  
+  .btn-headspace:disabled {
+    @apply opacity-60 cursor-not-allowed bg-headspace-gray-300 text-headspace-gray-600;
+  }
+  
+  .btn-headspace:disabled:hover {
+    @apply animate-none transform-none;
+  }
+  
+  /* Card styles */
+  .card-headspace {
+    @apply bg-white rounded-headspace-xl shadow-headspace-sm p-headspace-lg transition-all duration-300 ease-headspace cursor-pointer;
+  }
+  
+  .card-headspace:hover {
+    @apply shadow-headspace-md -translate-y-1 animate-card-breathe;
+  }
+  
+  .card-headspace:focus {
+    @apply outline-none;
+    box-shadow: 0 0 0 4px rgba(255, 122, 89, 0.4);
+  }
+  
+  /* Input styles */
+  .input-headspace {
+    @apply w-full bg-white border-2 border-headspace-gray-300 rounded-headspace-lg p-headspace-md text-headspace-gray-900 placeholder-headspace-gray-500 transition-all duration-200 ease-out;
+    min-height: 44px;
+  }
+  
+  .input-headspace:hover {
+    @apply border-headspace-gray-400 animate-breathe;
+  }
+  
+  .input-headspace:focus {
+    @apply outline-none border-headspace-orange;
+    box-shadow: 0 0 0 2px rgba(255, 122, 89, 0.3);
+    @apply animate-breathe;
+  }
+  
+  /* Container styles */
+  .container-headspace {
+    @apply max-w-5xl mx-auto px-4;
+  }
+  
+  @screen sm {
+    .container-headspace {
+      @apply px-6;
+    }
+  }
+  
+  @screen lg {
+    .container-headspace {
+      @apply px-8;
+    }
+  }
+  
+  /* Typography styles */
+  .text-headspace-h1 {
+    @apply text-headspace-gray-900;
+    font-size: 32px;
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  
+  .text-headspace-h2 {
+    @apply text-headspace-gray-900;
+    font-size: 24px;
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  
+  .text-headspace-h3 {
+    @apply text-headspace-gray-900;
+    font-size: 20px;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+  
+  .text-headspace-body {
+    @apply text-headspace-gray-700;
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  
+  .text-headspace-small {
+    @apply text-headspace-gray-600;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+}
+
+/* Accessibility improvements */
+@layer utilities {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .focus-ring-headspace {
+    @apply transition-shadow duration-200;
+  }
+  
+  .focus-ring-headspace:focus {
+    @apply outline-none;
+    box-shadow: 0 0 0 4px rgba(255, 122, 89, 0.4);
+  }
+  
+  .focus-ring-headspace:focus:not(:focus-visible) {
+    box-shadow: none;
+  }
+  
+  .focus-ring-headspace:focus-visible {
+    box-shadow: 0 0 0 4px rgba(255, 122, 89, 0.4);
+  }
+}
+
+/* Responsive grid system */
+@layer utilities {
+  .grid-headspace {
+    @apply grid gap-headspace-lg grid-cols-1;
+  }
+  
+  @screen sm {
+    .grid-headspace {
+      @apply grid-cols-2;
+    }
+  }
+  
+  @screen lg {
+    .grid-headspace {
+      @apply grid-cols-4;
+    }
+  }
+}
+
+/* Animation utilities */
+@layer utilities {
+  .animate-breathe {
+    animation: breathe 2s ease-in-out infinite;
+  }
+  
+  .animate-card-breathe {
+    animation: card-breathe 3s ease-in-out infinite;
+  }
+  
+  .animate-gentle-bounce {
+    animation: gentle-bounce 0.6s ease-out;
+  }
+  
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 0.4s ease-out;
+  }
+  
+  .animate-scale-in {
+    animation: scale-in 0.2s ease-out;
   }
 }
