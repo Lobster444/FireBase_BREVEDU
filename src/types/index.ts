@@ -17,6 +17,7 @@ export interface User {
   email: string;
   name: string;
   role: 'anonymous' | 'free' | 'premium';
+  isAdmin?: boolean;  // Added admin flag
   aiChatsUsed?: number;
   lastChatReset?: string;
   createdAt?: string;

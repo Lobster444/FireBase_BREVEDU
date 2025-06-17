@@ -4,6 +4,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import HomePage from './pages/HomePage';
 import CoursesPage from './pages/CoursesPage';
 import BrevEduPlusPage from './pages/BrevEduPlusPage';
+import AdminCoursesPage from './pages/AdminCoursesPage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/brevedu-plus" element={<BrevEduPlusPage />} />
+          <Route path="/admin/courses" element={<AdminCoursesPage />} />
         </Routes>
       </Router>
     </AuthProvider>

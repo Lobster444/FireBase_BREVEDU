@@ -49,6 +49,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         email: firebaseUser.email!,
         name: name || firebaseUser.displayName || 'User',
         role,
+        isAdmin: false, // Default to false, can be updated manually in Firestore
         aiChatsUsed: 0,
         lastChatReset: new Date().toISOString().split('T')[0], // Today's date
         createdAt: new Date().toISOString()
