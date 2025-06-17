@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { Sparkles, ArrowRight, Star, Quote } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import CourseCard from '../components/CourseCard';
@@ -76,6 +76,38 @@ const HomePage: React.FC = () => {
   };
 
   const userMessage = getUserMessage();
+
+  // Hard-coded testimonials data
+  const testimonials = [
+    {
+      id: 1,
+      quote: "BrevEdu transformed how I learn! The 5-minute lessons fit perfectly into my busy schedule, and the AI practice sessions really help reinforce what I've learned.",
+      name: "Sarah Chen",
+      role: "Software Developer",
+      rating: 5
+    },
+    {
+      id: 2,
+      quote: "I've tried many learning platforms, but BrevEdu's bite-sized approach is genius. I can learn during my commute and actually retain the information.",
+      name: "Marcus Rodriguez",
+      role: "Product Manager",
+      rating: 5
+    },
+    {
+      id: 3,
+      quote: "The AI chat practice is incredible! It's like having a personal tutor available 24/7. I've learned more in 3 months than I did in a year elsewhere.",
+      name: "Emily Johnson",
+      role: "UX Designer",
+      rating: 5
+    },
+    {
+      id: 4,
+      quote: "As a busy parent, finding time to learn new skills was impossible. BrevEdu's micro-learning approach changed everything for me.",
+      name: "David Park",
+      role: "Marketing Specialist",
+      rating: 5
+    }
+  ];
 
   return (
     <Layout currentPage="home">
@@ -321,6 +353,88 @@ const HomePage: React.FC = () => {
           </div>
         </section>
       )}
+
+      {/* Customer Testimonials Section */}
+      <section className="px-6 py-12 bg-neutral-gray/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-h2 text-text-light mb-4">What Our Learners Say</h2>
+            <p className="text-body text-text-secondary max-w-2xl mx-auto">
+              Join thousands of learners who are transforming their skills with BrevEdu's 
+              bite-sized learning approach and AI-powered practice sessions.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {testimonials.map((testimonial) => (
+              <div 
+                key={testimonial.id} 
+                className="bg-neutral-gray/10 rounded-lg p-6 shadow-card text-text-light border border-neutral-gray/20 hover:border-accent-yellow/30 transition-all duration-200"
+              >
+                {/* Quote Icon */}
+                <div className="flex items-center justify-between mb-4">
+                  <Quote className="h-6 w-6 text-accent-yellow opacity-60" />
+                  <div className="flex items-center space-x-1">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="h-4 w-4 text-accent-yellow fill-current" />
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Quote Text */}
+                <p className="text-body italic mb-4 text-text-secondary leading-relaxed">
+                  "{testimonial.quote}"
+                </p>
+                
+                {/* Author Info */}
+                <div className="border-t border-neutral-gray/20 pt-4">
+                  <p className="text-body font-semibold text-text-light mb-1">
+                    {testimonial.name}
+                  </p>
+                  <p className="text-small text-accent-yellow">
+                    {testimonial.role}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          {/* Call to Action */}
+          <div className="text-center mt-12">
+            <p className="text-body text-text-secondary mb-6">
+              Ready to join our community of successful learners?
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              {!currentUser ? (
+                <>
+                  <AccentButton className="px-8 py-4">
+                    Start Learning Free
+                  </AccentButton>
+                  <a href="/brevedu-plus">
+                    <PrimaryButton className="px-8 py-4 flex items-center justify-center space-x-2">
+                      <Sparkles className="h-5 w-5" />
+                      <span>Try BrevEdu+ Free</span>
+                    </PrimaryButton>
+                  </a>
+                </>
+              ) : currentUser.role === 'free' ? (
+                <a href="/brevedu-plus">
+                  <PrimaryButton className="px-8 py-4 flex items-center justify-center space-x-2">
+                    <Sparkles className="h-5 w-5" />
+                    <span>Upgrade to Premium</span>
+                  </PrimaryButton>
+                </a>
+              ) : (
+                <a href="/courses">
+                  <AccentButton className="px-8 py-4">
+                    Explore More Courses
+                  </AccentButton>
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Course Detail Modal */}
       <CourseDetailModal
