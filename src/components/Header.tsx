@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { BookOpen, User, LogOut } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import AuthModal from './AuthModal';
@@ -9,6 +10,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ currentPage }) => {
   const { currentUser, logout } = useAuth();
+  const location = useLocation();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -27,35 +29,70 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
     setShowAuthModal(true);
   };
 
+  // Check if current path is active
+  const isActive = (path: string) => {
+    if (path === '/') {
+      return location.pathname === '/' || currentPage === 'home';
+    }
+    return location.pathname === path || currentPage === path.slice(1);
+  };
+
   return (
     <>
       <header className="hidden md:flex items-center justify-between p-6 bg-primary border-b border-neutral-gray/20">
-        {/* Logo */}
-        <div className="flex items-center space-x-2">
-          <BookOpen className="h-8 w-8 text-accent-yellow" />
-          <h1 className="text-h3 text-text-light font-semibold">BrevEdu</h1>
-        </div>
+        {/* Logo - Clickable */}
+        <Link 
+          to="/" 
+          className="flex items-center space-x-2 group focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2 focus:ring-offset-primary rounded-lg p-1 -m-1 transition-all"
+          aria-label="Go to homepage"
+        >
+          <BookOpen className="h-8 w-8 text-accent-yellow group-hover:text-accent-green transition-colors" />
+          <h1 className="text-h3 text-text-light font-semibold group-hover:text-accent-yellow transition-colors">
+            BrevEdu
+          </h1>
+        </Link>
 
         {/* Navigation */}
-        <nav className="flex items-center space-x-8">
-          <a 
-            href="/courses" 
-            className={`text-link ${currentPage === 'courses' ? 'text-accent-yellow' : 'text-text-light hover:text-accent-yellow'} transition-colors underline`}
+        <nav className="flex items-center space-x-8" aria-label="Main navigation">
+          <Link 
+            to="/" 
+            className={`text-link font-medium transition-colors underline-offset-4 hover:underline focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2 focus:ring-offset-primary rounded px-1 ${
+              isActive('/') 
+                ? 'text-accent-yellow underline' 
+                : 'text-text-light hover:text-accent-yellow'
+            }`}
+            aria-label="Go to homepage"
+          >
+            Home
+          </Link>
+          <Link 
+            to="/courses" 
+            className={`text-link font-medium transition-colors underline-offset-4 hover:underline focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2 focus:ring-offset-primary rounded px-1 ${
+              isActive('/courses') 
+                ? 'text-accent-yellow underline' 
+                : 'text-text-light hover:text-accent-yellow'
+            }`}
           >
             Courses
-          </a>
-          <a 
-            href="/brevedu-plus" 
-            className={`text-link ${currentPage === 'brevedu-plus' ? 'text-accent-yellow' : 'text-text-light hover:text-accent-yellow'} transition-colors underline`}
+          </Link>
+          <Link 
+            to="/brevedu-plus" 
+            className={`text-link font-medium transition-colors underline-offset-4 hover:underline focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2 focus:ring-offset-primary rounded px-1 ${
+              isActive('/brevedu-plus') 
+                ? 'text-accent-yellow underline' 
+                : 'text-text-light hover:text-accent-yellow'
+            }`}
           >
             BrevEdu+
-          </a>
+          </Link>
           
           {currentUser ? (
             <div className="relative">
               <button
                 onClick={() => setShowUserMenu(!showUserMenu)}
-                className="flex items-center space-x-2 bg-accent-purple text-text-dark px-4 py-2 rounded-lg text-body font-medium hover:bg-accent-deep-purple transition-all shadow-button"
+                className="flex items-center space-x-2 bg-accent-purple text-text-dark px-4 py-2 rounded-lg text-body font-medium hover:bg-accent-deep-purple transition-all shadow-button focus:outline-none focus:ring-2 focus:ring-accent-purple focus:ring-offset-2 focus:ring-offset-primary"
+                aria-expanded={showUserMenu}
+                aria-haspopup="true"
               >
                 <User className="h-4 w-4" />
                 <span className="max-w-[120px] truncate">{currentUser.name}</span>
@@ -70,7 +107,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="w-full text-left px-4 py-2 text-body text-text-light hover:bg-neutral-gray/20 transition-colors flex items-center space-x-2"
+                    className="w-full text-left px-4 py-2 text-body text-text-light hover:bg-neutral-gray/20 transition-colors flex items-center space-x-2 focus:outline-none focus:bg-neutral-gray/20"
                   >
                     <LogOut className="h-4 w-4" />
                     <span>Sign Out</span>
@@ -82,13 +119,13 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             <div className="flex items-center space-x-3">
               <button 
                 onClick={() => openAuthModal('login')}
-                className="text-text-light hover:text-accent-yellow transition-colors text-link underline"
+                className="text-text-light hover:text-accent-yellow transition-colors text-link underline underline-offset-4 focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2 focus:ring-offset-primary rounded px-1"
               >
                 Sign In
               </button>
               <button 
                 onClick={() => openAuthModal('register')}
-                className="bg-accent-purple text-text-dark px-6 py-3 rounded-lg text-body font-medium hover:bg-accent-deep-purple transition-all shadow-button"
+                className="bg-accent-purple text-text-dark px-6 py-3 rounded-lg text-body font-medium hover:bg-accent-deep-purple transition-all shadow-button focus:outline-none focus:ring-2 focus:ring-accent-purple focus:ring-offset-2 focus:ring-offset-primary"
               >
                 Sign Up
               </button>
