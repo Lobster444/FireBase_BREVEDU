@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Eye, EyeOff, Search, Filter, AlertCircle } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, EyeOff, Search, Filter, AlertCircle, Shield } from 'lucide-react';
 import AdminRoute from '../components/AdminRoute';
 import OfflineBanner from '../components/OfflineBanner';
 import CourseModal from '../components/CourseModal';
@@ -7,12 +7,13 @@ import { useFirestoreCourses } from '../hooks/useFirestoreCourses';
 import { useNetworkStatusWithUtils } from '../hooks/useNetworkStatus';
 import { deleteCourse } from '../lib/courseService';
 import { notifySuccess, notifyError, notifyLoading, updateToast } from '../lib/toast';
-import { Course } from '../types';
+import { Course, AccessLevel } from '../types';
 
 const AdminCoursesPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedDifficulty, setSelectedDifficulty] = useState('All');
+  const [selectedAccessLevel, setSelectedAccessLevel] = useState('All');
   const [showPublishedOnly, setShowPublishedOnly] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -32,6 +33,7 @@ const AdminCoursesPage: React.FC = () => {
 
   const categories = ['All', 'Tech', 'Business', 'Health', 'Personal', 'Creative'];
   const difficulties = ['All', 'Beginner', 'Intermediate', 'Advanced'];
+  const accessLevels = ['All', 'anonymous', 'free', 'premium'];
 
   // Filter courses based on search and filters
   const filteredCourses = courses.filter(course => {
@@ -39,9 +41,10 @@ const AdminCoursesPage: React.FC = () => {
                          course.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || course.category === selectedCategory;
     const matchesDifficulty = selectedDifficulty === 'All' || course.difficulty === selectedDifficulty;
+    const matchesAccessLevel = selectedAccessLevel === 'All' || (course.accessLevel || 'free') === selectedAccessLevel;
     const matchesPublished = !showPublishedOnly || course.published;
     
-    return matchesSearch && matchesCategory && matchesDifficulty && matchesPublished;
+    return matchesSearch && matchesCategory && matchesDifficulty && matchesAccessLevel && matchesPublished;
   });
 
   const handleDeleteCourse = async (courseId: string) => {
@@ -111,6 +114,41 @@ const AdminCoursesPage: React.FC = () => {
     }
   };
 
+  // Get access level display info
+  const getAccessLevelInfo = (level: AccessLevel | undefined) => {
+    const accessLevel = level || 'free';
+    switch (accessLevel) {
+      case 'anonymous':
+        return {
+          label: 'Anonymous',
+          color: 'text-neutral-gray',
+          bgColor: 'bg-neutral-gray/20',
+          icon: '🌐'
+        };
+      case 'free':
+        return {
+          label: 'Free',
+          color: 'text-accent-yellow',
+          bgColor: 'bg-accent-yellow/20',
+          icon: '👤'
+        };
+      case 'premium':
+        return {
+          label: 'Premium',
+          color: 'text-accent-purple',
+          bgColor: 'bg-accent-purple/20',
+          icon: '💎'
+        };
+      default:
+        return {
+          label: 'Free',
+          color: 'text-accent-yellow',
+          bgColor: 'bg-accent-yellow/20',
+          icon: '👤'
+        };
+    }
+  };
+
   return (
     <AdminRoute>
       <div className="min-h-screen bg-primary">
@@ -124,7 +162,7 @@ const AdminCoursesPage: React.FC = () => {
               <div>
                 <h1 className="text-h1 text-text-light mb-2">Course Management</h1>
                 <p className="text-body text-text-secondary">
-                  Manage all courses, create new content, and monitor published status
+                  Manage all courses, create new content, and control access levels
                 </p>
               </div>
               
@@ -160,7 +198,7 @@ const AdminCoursesPage: React.FC = () => {
             </div>
 
             {/* Filter Controls */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col gap-4">
               {/* Category Filter */}
               <div className="flex flex-wrap gap-2">
                 {categories.map((category) => (
@@ -179,7 +217,7 @@ const AdminCoursesPage: React.FC = () => {
               </div>
 
               {/* Additional Filters */}
-              <div className="flex items-center space-x-4">
+              <div className="flex flex-wrap items-center gap-4">
                 <div className="flex items-center space-x-2">
                   <Filter className="h-4 w-4 text-neutral-gray" />
                   <select
@@ -190,6 +228,20 @@ const AdminCoursesPage: React.FC = () => {
                     {difficulties.map(difficulty => (
                       <option key={difficulty} value={difficulty}>{difficulty}</option>
                     ))}
+                  </select>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Shield className="h-4 w-4 text-neutral-gray" />
+                  <select
+                    value={selectedAccessLevel}
+                    onChange={(e) => setSelectedAccessLevel(e.target.value)}
+                    className="bg-neutral-gray/20 border border-neutral-gray/30 rounded-lg px-3 py-2 text-small text-text-light focus:outline-none focus:border-accent-yellow"
+                  >
+                    <option value="All">All Access Levels</option>
+                    <option value="anonymous">Anonymous</option>
+                    <option value="free">Free</option>
+                    <option value="premium">Premium</option>
                   </select>
                 </div>
 
@@ -207,7 +259,7 @@ const AdminCoursesPage: React.FC = () => {
           </div>
 
           {/* Course Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
             <div className="bg-neutral-gray/10 rounded-lg p-4">
               <div className="text-h3 text-accent-yellow">{courses.length}</div>
               <div className="text-small text-text-secondary">Total Courses</div>
@@ -219,6 +271,10 @@ const AdminCoursesPage: React.FC = () => {
             <div className="bg-neutral-gray/10 rounded-lg p-4">
               <div className="text-h3 text-accent-purple">{courses.filter(c => !c.published).length}</div>
               <div className="text-small text-text-secondary">Drafts</div>
+            </div>
+            <div className="bg-neutral-gray/10 rounded-lg p-4">
+              <div className="text-h3 text-neutral-gray">{courses.filter(c => (c.accessLevel || 'free') === 'premium').length}</div>
+              <div className="text-small text-text-secondary">Premium Only</div>
             </div>
           </div>
 
@@ -253,6 +309,7 @@ const AdminCoursesPage: React.FC = () => {
                       onClick={() => {
                         setSelectedCategory('All');
                         setSelectedDifficulty('All');
+                        setSelectedAccessLevel('All');
                         setSearchQuery('');
                         setShowPublishedOnly(false);
                       }}
@@ -279,133 +336,147 @@ const AdminCoursesPage: React.FC = () => {
                           <th className="text-left p-4 text-small font-medium text-text-light">Course</th>
                           <th className="text-left p-4 text-small font-medium text-text-light">Category</th>
                           <th className="text-left p-4 text-small font-medium text-text-light">Difficulty</th>
+                          <th className="text-left p-4 text-small font-medium text-text-light">Access Level</th>
                           <th className="text-left p-4 text-small font-medium text-text-light">Status</th>
                           <th className="text-left p-4 text-small font-medium text-text-light">Created</th>
                           <th className="text-right p-4 text-small font-medium text-text-light">Actions</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {filteredCourses.map((course) => (
-                          <tr key={course.id} className="border-t border-neutral-gray/20 hover:bg-neutral-gray/5">
-                            <td className="p-4">
-                              <div className="flex items-center space-x-3">
-                                <img
-                                  src={course.thumbnailUrl}
-                                  alt={course.title}
-                                  className="w-16 h-10 object-cover rounded"
-                                />
-                                <div>
-                                  <div className="text-body font-medium text-text-light line-clamp-1">
-                                    {course.title}
-                                  </div>
-                                  <div className="text-small text-text-secondary">
-                                    {course.duration}
+                        {filteredCourses.map((course) => {
+                          const accessInfo = getAccessLevelInfo(course.accessLevel);
+                          return (
+                            <tr key={course.id} className="border-t border-neutral-gray/20 hover:bg-neutral-gray/5">
+                              <td className="p-4">
+                                <div className="flex items-center space-x-3">
+                                  <img
+                                    src={course.thumbnailUrl}
+                                    alt={course.title}
+                                    className="w-16 h-10 object-cover rounded"
+                                  />
+                                  <div>
+                                    <div className="text-body font-medium text-text-light line-clamp-1">
+                                      {course.title}
+                                    </div>
+                                    <div className="text-small text-text-secondary">
+                                      {course.duration}
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </td>
-                            <td className="p-4">
-                              <span className="text-small text-neutral-gray bg-neutral-gray/20 px-2 py-1 rounded">
-                                {course.category}
-                              </span>
-                            </td>
-                            <td className="p-4">
-                              <span className="text-small text-text-light">
-                                {course.difficulty}
-                              </span>
-                            </td>
-                            <td className="p-4">
-                              <div className="flex items-center space-x-2">
-                                {course.published ? (
-                                  <>
-                                    <Eye className="h-4 w-4 text-accent-green" />
-                                    <span className="text-small text-accent-green">Published</span>
-                                  </>
-                                ) : (
-                                  <>
-                                    <EyeOff className="h-4 w-4 text-accent-purple" />
-                                    <span className="text-small text-accent-purple">Draft</span>
-                                  </>
-                                )}
-                              </div>
-                            </td>
-                            <td className="p-4">
-                              <span className="text-small text-text-secondary">
-                                {formatDate(course.createdAt)}
-                              </span>
-                            </td>
-                            <td className="p-4">
-                              <div className="flex items-center justify-end space-x-2">
-                                <button 
-                                  onClick={() => handleEditCourse(course)}
-                                  disabled={!isOnline}
-                                  className={`p-2 rounded-lg transition-colors ${
-                                    isOnline 
-                                      ? 'text-accent-yellow hover:bg-accent-yellow/20' 
-                                      : 'text-neutral-gray cursor-not-allowed opacity-50'
-                                  }`}
-                                >
-                                  <Edit className="h-4 w-4" />
-                                </button>
-                                <button 
-                                  onClick={() => setDeleteConfirm(course.id!)}
-                                  disabled={!isOnline}
-                                  className={`p-2 rounded-lg transition-colors ${
-                                    isOnline 
-                                      ? 'text-red-400 hover:bg-red-400/20' 
-                                      : 'text-neutral-gray cursor-not-allowed opacity-50'
-                                  }`}
-                                >
-                                  <Trash2 className="h-4 w-4" />
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
+                              </td>
+                              <td className="p-4">
+                                <span className="text-small text-neutral-gray bg-neutral-gray/20 px-2 py-1 rounded">
+                                  {course.category}
+                                </span>
+                              </td>
+                              <td className="p-4">
+                                <span className="text-small text-text-light">
+                                  {course.difficulty}
+                                </span>
+                              </td>
+                              <td className="p-4">
+                                <span className={`text-small px-2 py-1 rounded flex items-center space-x-1 w-fit ${accessInfo.color} ${accessInfo.bgColor}`}>
+                                  <span>{accessInfo.icon}</span>
+                                  <span>{accessInfo.label}</span>
+                                </span>
+                              </td>
+                              <td className="p-4">
+                                <div className="flex items-center space-x-2">
+                                  {course.published ? (
+                                    <>
+                                      <Eye className="h-4 w-4 text-accent-green" />
+                                      <span className="text-small text-accent-green">Published</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <EyeOff className="h-4 w-4 text-accent-purple" />
+                                      <span className="text-small text-accent-purple">Draft</span>
+                                    </>
+                                  )}
+                                </div>
+                              </td>
+                              <td className="p-4">
+                                <span className="text-small text-text-secondary">
+                                  {formatDate(course.createdAt)}
+                                </span>
+                              </td>
+                              <td className="p-4">
+                                <div className="flex items-center justify-end space-x-2">
+                                  <button 
+                                    onClick={() => handleEditCourse(course)}
+                                    disabled={!isOnline}
+                                    className={`p-2 rounded-lg transition-colors ${
+                                      isOnline 
+                                        ? 'text-accent-yellow hover:bg-accent-yellow/20' 
+                                        : 'text-neutral-gray cursor-not-allowed opacity-50'
+                                    }`}
+                                  >
+                                    <Edit className="h-4 w-4" />
+                                  </button>
+                                  <button 
+                                    onClick={() => setDeleteConfirm(course.id!)}
+                                    disabled={!isOnline}
+                                    className={`p-2 rounded-lg transition-colors ${
+                                      isOnline 
+                                        ? 'text-red-400 hover:bg-red-400/20' 
+                                        : 'text-neutral-gray cursor-not-allowed opacity-50'
+                                    }`}
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>
 
                   {/* Mobile Card View */}
                   <div className="lg:hidden space-y-4">
-                    {filteredCourses.map((course) => (
-                      <div key={course.id} className="bg-neutral-gray/10 rounded-lg p-4">
-                        <div className="flex items-start space-x-3 mb-3">
-                          <img
-                            src={course.thumbnailUrl}
-                            alt={course.title}
-                            className="w-20 h-12 object-cover rounded flex-shrink-0"
-                          />
-                          <div className="flex-1 min-w-0">
-                            <h3 className="text-body font-medium text-text-light line-clamp-2 mb-1">
-                              {course.title}
-                            </h3>
-                            <div className="flex items-center space-x-2 text-small text-text-secondary">
-                              <span>{course.duration}</span>
-                              <span>•</span>
-                              <span>{course.category}</span>
-                              <span>•</span>
-                              <span>{course.difficulty}</span>
+                    {filteredCourses.map((course) => {
+                      const accessInfo = getAccessLevelInfo(course.accessLevel);
+                      return (
+                        <div key={course.id} className="bg-neutral-gray/10 rounded-lg p-4">
+                          <div className="flex items-start space-x-3 mb-3">
+                            <img
+                              src={course.thumbnailUrl}
+                              alt={course.title}
+                              className="w-20 h-12 object-cover rounded flex-shrink-0"
+                            />
+                            <div className="flex-1 min-w-0">
+                              <h3 className="text-body font-medium text-text-light line-clamp-2 mb-1">
+                                {course.title}
+                              </h3>
+                              <div className="flex items-center space-x-2 text-small text-text-secondary mb-2">
+                                <span>{course.duration}</span>
+                                <span>•</span>
+                                <span>{course.category}</span>
+                                <span>•</span>
+                                <span>{course.difficulty}</span>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <span className={`text-x-small px-2 py-1 rounded flex items-center space-x-1 ${accessInfo.color} ${accessInfo.bgColor}`}>
+                                  <span>{accessInfo.icon}</span>
+                                  <span>{accessInfo.label}</span>
+                                </span>
+                                {course.published ? (
+                                  <span className="text-x-small text-accent-green bg-accent-green/20 px-2 py-1 rounded flex items-center space-x-1">
+                                    <Eye className="h-3 w-3" />
+                                    <span>Published</span>
+                                  </span>
+                                ) : (
+                                  <span className="text-x-small text-accent-purple bg-accent-purple/20 px-2 py-1 rounded flex items-center space-x-1">
+                                    <EyeOff className="h-3 w-3" />
+                                    <span>Draft</span>
+                                  </span>
+                                )}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-2">
-                            {course.published ? (
-                              <>
-                                <Eye className="h-4 w-4 text-accent-green" />
-                                <span className="text-small text-accent-green">Published</span>
-                              </>
-                            ) : (
-                              <>
-                                <EyeOff className="h-4 w-4 text-accent-purple" />
-                                <span className="text-small text-accent-purple">Draft</span>
-                              </>
-                            )}
-                          </div>
                           
-                          <div className="flex items-center space-x-2">
+                          <div className="flex items-center justify-end space-x-2">
                             <button 
                               onClick={() => handleEditCourse(course)}
                               disabled={!isOnline}
@@ -430,8 +501,8 @@ const AdminCoursesPage: React.FC = () => {
                             </button>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </>
               )}

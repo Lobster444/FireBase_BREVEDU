@@ -7,6 +7,7 @@ export interface Course {
   duration: string;           // e.g. "5m", "12m"
   category: "Business" | "Tech" | "Health" | "Personal" | "Creative";
   difficulty: "Beginner" | "Intermediate" | "Advanced";
+  accessLevel: "anonymous" | "free" | "premium";  // New field for access control
   published: boolean;
   createdAt?: any;  // Firestore Timestamp
   updatedAt?: any;  // Firestore Timestamp
@@ -24,6 +25,7 @@ export interface User {
 }
 
 export type UserRole = 'anonymous' | 'free' | 'premium';
+export type AccessLevel = 'anonymous' | 'free' | 'premium';
 
 export interface AIChat {
   topic: string;

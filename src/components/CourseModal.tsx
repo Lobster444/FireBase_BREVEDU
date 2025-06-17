@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Save, Eye, AlertCircle, Loader2, Play } from 'lucide-react';
-import { Course } from '../types';
+import { X, Save, Eye, AlertCircle, Loader2, Play, Shield } from 'lucide-react';
+import { Course, AccessLevel } from '../types';
 import { addCourse, updateCourse } from '../lib/courseService';
 import { notifyLoading, updateToast } from '../lib/toast';
 import { useNetworkStatusWithUtils } from '../hooks/useNetworkStatus';
@@ -21,6 +21,7 @@ interface FormData {
   duration: string;
   category: Course['category'];
   difficulty: Course['difficulty'];
+  accessLevel: AccessLevel;
   published: boolean;
 }
 
@@ -30,6 +31,7 @@ interface FormErrors {
   videoUrl?: string;
   thumbnailUrl?: string;
   duration?: string;
+  accessLevel?: string;
 }
 
 const CourseModal: React.FC<CourseModalProps> = ({
@@ -55,6 +57,7 @@ const CourseModal: React.FC<CourseModalProps> = ({
     duration: '',
     category: 'Tech',
     difficulty: 'Beginner',
+    accessLevel: 'free',
     published: false
   });
 
@@ -70,6 +73,7 @@ const CourseModal: React.FC<CourseModalProps> = ({
           duration: course.duration,
           category: course.category,
           difficulty: course.difficulty,
+          accessLevel: course.accessLevel || 'free',
           published: course.published
         });
       } else {
@@ -82,6 +86,7 @@ const CourseModal: React.FC<CourseModalProps> = ({
           duration: '',
           category: 'Tech',
           difficulty: 'Beginner',
+          accessLevel: 'free',
           published: false
         });
       }
@@ -184,6 +189,12 @@ const CourseModal: React.FC<CourseModalProps> = ({
       newErrors.duration = 'Duration must be in format "5m", "12m", etc.';
     }
 
+    // Access level validation
+    const validAccessLevels = ['anonymous', 'free', 'premium'];
+    if (!validAccessLevels.includes(formData.accessLevel)) {
+      newErrors.accessLevel = 'Please select a valid access level';
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -224,6 +235,7 @@ const CourseModal: React.FC<CourseModalProps> = ({
           duration: formData.duration.trim(),
           category: formData.category,
           difficulty: formData.difficulty,
+          accessLevel: formData.accessLevel,
           published: formData.published
         };
 
@@ -261,7 +273,43 @@ const CourseModal: React.FC<CourseModalProps> = ({
     return match ? match[1] : null;
   };
 
+  // Get access level display info
+  const getAccessLevelInfo = (level: AccessLevel) => {
+    switch (level) {
+      case 'anonymous':
+        return {
+          label: 'Anonymous',
+          description: 'Available to all visitors (no account required)',
+          color: 'text-neutral-gray',
+          bgColor: 'bg-neutral-gray/20'
+        };
+      case 'free':
+        return {
+          label: 'Free',
+          description: 'Available to users with free accounts',
+          color: 'text-accent-yellow',
+          bgColor: 'bg-accent-yellow/20'
+        };
+      case 'premium':
+        return {
+          label: 'Premium',
+          description: 'Available only to BrevEdu+ subscribers',
+          color: 'text-accent-purple',
+          bgColor: 'bg-accent-purple/20'
+        };
+      default:
+        return {
+          label: 'Free',
+          description: 'Available to users with free accounts',
+          color: 'text-accent-yellow',
+          bgColor: 'bg-accent-yellow/20'
+        };
+    }
+  };
+
   if (!isOpen) return null;
+
+  const accessLevelInfo = getAccessLevelInfo(formData.accessLevel);
 
   return (
     <div 
@@ -284,8 +332,8 @@ const CourseModal: React.FC<CourseModalProps> = ({
             </h2>
             <p id="modal-description" className="text-body text-text-secondary mt-1">
               {mode === 'add' 
-                ? 'Create a new course with video content and details'
-                : 'Update course information and settings'
+                ? 'Create a new course with video content and access controls'
+                : 'Update course information, settings, and access level'
               }
             </p>
           </div>
@@ -450,8 +498,8 @@ const CourseModal: React.FC<CourseModalProps> = ({
                 )}
               </div>
 
-              {/* Category and Difficulty */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Category, Difficulty, and Access Level */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                   <label htmlFor="category" className="block text-small font-medium text-text-light mb-2">
                     Category
@@ -485,6 +533,38 @@ const CourseModal: React.FC<CourseModalProps> = ({
                     <option value="Advanced">Advanced</option>
                   </select>
                 </div>
+
+                <div>
+                  <label htmlFor="accessLevel" className="block text-small font-medium text-text-light mb-2">
+                    Access Level *
+                  </label>
+                  <select
+                    id="accessLevel"
+                    value={formData.accessLevel}
+                    onChange={(e) => handleInputChange('accessLevel', e.target.value as AccessLevel)}
+                    className={`w-full px-4 py-3 bg-neutral-gray/20 border rounded-lg text-text-light focus:outline-none focus:ring-2 transition-colors ${
+                      errors.accessLevel 
+                        ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
+                        : 'border-neutral-gray/30 focus:border-accent-yellow focus:ring-accent-yellow/20'
+                    }`}
+                    required
+                    aria-describedby={errors.accessLevel ? 'accessLevel-error' : 'accessLevel-help'}
+                  >
+                    <option value="anonymous">Anonymous (No account required)</option>
+                    <option value="free">Free (Account required)</option>
+                    <option value="premium">Premium (BrevEdu+ subscription)</option>
+                  </select>
+                  {errors.accessLevel ? (
+                    <p id="accessLevel-error" className="mt-1 text-small text-red-400 flex items-center space-x-1">
+                      <AlertCircle className="h-4 w-4" />
+                      <span>{errors.accessLevel}</span>
+                    </p>
+                  ) : (
+                    <p id="accessLevel-help" className="mt-1 text-x-small text-neutral-gray">
+                      {accessLevelInfo.description}
+                    </p>
+                  )}
+                </div>
               </div>
 
               {/* Published Checkbox */}
@@ -499,7 +579,7 @@ const CourseModal: React.FC<CourseModalProps> = ({
                   <div>
                     <span className="text-body text-text-light font-medium">Publish Course</span>
                     <p className="text-small text-text-secondary">
-                      Published courses are visible to all users
+                      Published courses are visible to users based on their access level
                     </p>
                   </div>
                 </label>
@@ -591,14 +671,41 @@ const CourseModal: React.FC<CourseModalProps> = ({
                         {formData.duration || '0m'}
                       </span>
                     </div>
-                    {!formData.published && (
-                      <div className="pt-1">
-                        <span className="text-x-small text-accent-purple bg-accent-purple/20 px-2 py-1 rounded">
-                          Draft
+                    <div className="flex items-center justify-between pt-1">
+                      <div className="flex items-center space-x-2">
+                        {!formData.published && (
+                          <span className="text-x-small text-accent-purple bg-accent-purple/20 px-2 py-1 rounded">
+                            Draft
+                          </span>
+                        )}
+                        <span className={`text-x-small px-2 py-1 rounded flex items-center space-x-1 ${accessLevelInfo.color} ${accessLevelInfo.bgColor}`}>
+                          <Shield className="h-3 w-3" />
+                          <span>{accessLevelInfo.label}</span>
                         </span>
                       </div>
-                    )}
+                    </div>
                   </div>
+                </div>
+
+                {/* Access Level Info */}
+                <div className={`rounded-lg p-4 border ${accessLevelInfo.bgColor} border-opacity-30`}>
+                  <h4 className="text-body font-medium text-text-light mb-2 flex items-center space-x-2">
+                    <Shield className="h-5 w-5" />
+                    <span>Access Level: {accessLevelInfo.label}</span>
+                  </h4>
+                  <p className="text-small text-text-secondary">
+                    {accessLevelInfo.description}
+                  </p>
+                  {formData.accessLevel === 'premium' && (
+                    <p className="text-x-small text-accent-purple mt-2">
+                      💎 This course will only be visible to BrevEdu+ subscribers
+                    </p>
+                  )}
+                  {formData.accessLevel === 'anonymous' && (
+                    <p className="text-x-small text-neutral-gray mt-2">
+                      🌐 This course will be visible to all visitors, even without an account
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

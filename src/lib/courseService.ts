@@ -51,6 +51,8 @@ export const getCourses = (
         courses.push({
           id: doc.id,
           ...data,
+          // Ensure accessLevel defaults to 'free' if not set
+          accessLevel: data.accessLevel || 'free',
           // Convert Firestore Timestamps to readable format if needed
           createdAt: data.createdAt,
           updatedAt: data.updatedAt
@@ -104,6 +106,8 @@ export const getCoursesByCategory = (
         courses.push({
           id: doc.id,
           ...data,
+          // Ensure accessLevel defaults to 'free' if not set
+          accessLevel: data.accessLevel || 'free',
           createdAt: data.createdAt,
           updatedAt: data.updatedAt
         } as Course);
@@ -136,6 +140,8 @@ export const getCourse = async (id: string): Promise<Course | null> => {
       return {
         id: docSnap.id,
         ...data,
+        // Ensure accessLevel defaults to 'free' if not set
+        accessLevel: data.accessLevel || 'free',
         createdAt: data.createdAt,
         updatedAt: data.updatedAt
       } as Course;
@@ -179,10 +185,18 @@ export const addCourse = async (
       throw new Error('Thumbnail URL is required');
     }
 
+    // Validate accessLevel
+    const validAccessLevels = ['anonymous', 'free', 'premium'];
+    if (!validAccessLevels.includes(course.accessLevel)) {
+      throw new Error('Access level must be anonymous, free, or premium');
+    }
+
     const courseData = {
       ...course,
       title: course.title.trim(),
       description: course.description.trim(),
+      // Ensure accessLevel is set, default to 'free' if not provided
+      accessLevel: course.accessLevel || 'free',
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
     };
@@ -218,6 +232,14 @@ export const updateCourse = async (
     
     if (data.videoUrl && !data.videoUrl.includes('youtube-nocookie.com')) {
       throw new Error('Valid YouTube nocookie embed URL is required');
+    }
+
+    // Validate accessLevel if provided
+    if (data.accessLevel) {
+      const validAccessLevels = ['anonymous', 'free', 'premium'];
+      if (!validAccessLevels.includes(data.accessLevel)) {
+        throw new Error('Access level must be anonymous, free, or premium');
+      }
     }
 
     const updateData = {
@@ -293,6 +315,8 @@ export const getCoursesPaginated = async (
       courses.push({
         id: doc.id,
         ...data,
+        // Ensure accessLevel defaults to 'free' if not set
+        accessLevel: data.accessLevel || 'free',
         createdAt: data.createdAt,
         updatedAt: data.updatedAt
       } as Course);
@@ -345,6 +369,8 @@ export const searchCourses = async (
       const course = {
         id: doc.id,
         ...data,
+        // Ensure accessLevel defaults to 'free' if not set
+        accessLevel: data.accessLevel || 'free',
         createdAt: data.createdAt,
         updatedAt: data.updatedAt
       } as Course;
