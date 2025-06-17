@@ -29,16 +29,17 @@ export const PrimaryButton: React.FC<BaseButtonProps> = ({
       aria-label={ariaLabel}
       aria-disabled={disabled}
       className={`
-        bg-[#FF7A59] text-white px-6 py-4 sm:py-3 rounded-[10px] font-medium
+        bg-[#FF7A59] text-white px-6 py-4 sm:py-3 rounded-[10px] font-medium text-base
         transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out]
-        hover:bg-[#FF8A6B] hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)] hover:animate-[breathe_2s_infinite]
+        hover:bg-[#FF8A6B] hover:shadow-[0_4px_12px_rgba(255,122,89,0.4)] hover:animate-[breathe_2s_infinite]
         active:bg-[#E6694F] active:scale-95
         disabled:bg-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed disabled:hover:bg-gray-300 disabled:hover:shadow-none disabled:active:scale-100 disabled:hover:animate-none
-        focus:outline-none focus:ring-2 focus:ring-[rgba(255,122,89,0.5)] focus:ring-offset-2 focus:ring-offset-white focus:animate-[breathe_2s_infinite]
+        focus:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(255,122,89,0.4)] focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:animate-[breathe_2s_infinite]
         flex items-center justify-center
         ${className}
       `}
       style={{
+        minHeight: '44px',
         animationTimingFunction: 'ease-in-out'
       }}
       {...props}
@@ -68,16 +69,17 @@ export const AccentButton: React.FC<BaseButtonProps> = ({
       aria-label={ariaLabel}
       aria-disabled={disabled}
       className={`
-        bg-[#F5C842] text-gray-900 px-6 py-4 sm:py-3 rounded-[10px] font-medium
+        bg-[#F5C842] text-gray-900 px-6 py-4 sm:py-3 rounded-[10px] font-medium text-base
         transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out]
-        hover:bg-[#F2C94C] hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)] hover:animate-[breathe_2s_infinite]
+        hover:bg-[#F2C94C] hover:shadow-[0_4px_12px_rgba(245,200,66,0.4)] hover:animate-[breathe_2s_infinite]
         active:bg-[#E6B800] active:scale-95
         disabled:bg-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed disabled:hover:bg-gray-300 disabled:hover:shadow-none disabled:active:scale-100 disabled:hover:animate-none
-        focus:outline-none focus:ring-2 focus:ring-[rgba(245,200,66,0.5)] focus:ring-offset-2 focus:ring-offset-white focus:animate-[breathe_2s_infinite]
+        focus:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(245,200,66,0.4)] focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:animate-[breathe_2s_infinite]
         flex items-center justify-center
         ${className}
       `}
       style={{
+        minHeight: '44px',
         animationTimingFunction: 'ease-in-out'
       }}
       {...props}
@@ -114,7 +116,8 @@ export const OutlineButton: React.FC<OutlineButtonProps> = ({
         hoverText: 'hover:text-white',
         activeBg: 'bg-[#FF7A59]',
         activeText: 'text-white',
-        focusRing: 'focus:ring-[rgba(255,122,89,0.5)]'
+        focusRing: 'focus-visible:ring-[rgba(255,122,89,0.4)]',
+        hoverShadow: 'hover:shadow-[0_4px_12px_rgba(255,122,89,0.3)]'
       }
     : {
         border: 'border-[#F5C842]',
@@ -123,7 +126,8 @@ export const OutlineButton: React.FC<OutlineButtonProps> = ({
         hoverText: 'hover:text-gray-900',
         activeBg: 'bg-[#F5C842]',
         activeText: 'text-gray-900',
-        focusRing: 'focus:ring-[rgba(245,200,66,0.5)]'
+        focusRing: 'focus-visible:ring-[rgba(245,200,66,0.4)]',
+        hoverShadow: 'hover:shadow-[0_4px_12px_rgba(245,200,66,0.3)]'
       };
 
   return (
@@ -135,20 +139,20 @@ export const OutlineButton: React.FC<OutlineButtonProps> = ({
       aria-disabled={disabled}
       aria-pressed={active}
       className={`
-        px-4 py-4 sm:py-3 rounded-[10px] font-medium border-2
-        transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out]
-        hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)] hover:animate-[breathe_2s_infinite]
-        active:scale-95
+        px-4 py-4 sm:py-3 rounded-[10px] font-medium text-base border-2
+        transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out,border-color_0.3s_ease-out]
+        hover:animate-[breathe_2s_infinite] active:scale-95
         ${active 
-          ? `${variantClasses.activeBg} ${variantClasses.activeText} ${variantClasses.border}` 
-          : `bg-white ${variantClasses.text} ${variantClasses.border} ${variantClasses.hoverBg} ${variantClasses.hoverText}`
+          ? `${variantClasses.activeBg} ${variantClasses.activeText} ${variantClasses.border} shadow-[0_2px_8px_rgba(0,0,0,0.1)]` 
+          : `bg-white ${variantClasses.text} ${variantClasses.border} ${variantClasses.hoverBg} ${variantClasses.hoverText} ${variantClasses.hoverShadow}`
         }
         disabled:border-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-500 disabled:hover:shadow-none disabled:hover:animate-none
-        focus:outline-none focus:ring-2 focus:ring-offset-2 ${variantClasses.focusRing} focus:ring-offset-white focus:animate-[breathe_2s_infinite]
+        focus:outline-none focus-visible:ring-4 focus-visible:ring-offset-2 ${variantClasses.focusRing} focus-visible:ring-offset-white focus-visible:animate-[breathe_2s_infinite]
         flex items-center justify-center
         ${className}
       `}
       style={{
+        minHeight: '44px',
         animationTimingFunction: 'ease-in-out'
       }}
       {...props}
@@ -178,17 +182,18 @@ export const SecondaryButton: React.FC<BaseButtonProps> = ({
       aria-label={ariaLabel}
       aria-disabled={disabled}
       className={`
-        bg-gray-100 text-gray-800 px-6 py-4 sm:py-3 rounded-[10px] font-medium
+        bg-gray-100 text-gray-800 px-6 py-4 sm:py-3 rounded-[10px] font-medium text-base
         border border-gray-200
         transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out]
-        hover:bg-gray-200 hover:border-gray-300 hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)] hover:animate-[breathe_2s_infinite]
+        hover:bg-gray-200 hover:border-gray-300 hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] hover:animate-[breathe_2s_infinite]
         active:bg-gray-300 active:scale-95
         disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-100 disabled:hover:shadow-none disabled:active:scale-100 disabled:hover:animate-none
-        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 focus:ring-offset-white focus:animate-[breathe_2s_infinite]
+        focus:outline-none focus-visible:ring-4 focus-visible:ring-offset-2 focus-visible:ring-gray-400 focus-visible:ring-offset-white focus-visible:animate-[breathe_2s_infinite]
         flex items-center justify-center
         ${className}
       `}
       style={{
+        minHeight: '44px',
         animationTimingFunction: 'ease-in-out'
       }}
       {...props}
@@ -220,14 +225,15 @@ export const LinkButton: React.FC<BaseButtonProps> = ({
       className={`
         text-[#FF7A59] hover:text-[#FF8A6B] 
         transition-[color_0.3s_ease-out,transform_0.2s_ease-out]
-        underline underline-offset-4 font-medium px-2 py-4 sm:py-3 rounded-[10px]
+        underline underline-offset-4 font-medium px-2 py-4 sm:py-3 rounded-[10px] text-base
         hover:animate-[breathe_2s_infinite]
         disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:text-gray-500 disabled:hover:animate-none
-        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[rgba(255,122,89,0.5)] focus:ring-offset-white focus:animate-[breathe_2s_infinite]
+        focus:outline-none focus-visible:ring-4 focus-visible:ring-offset-2 focus-visible:ring-[rgba(255,122,89,0.4)] focus-visible:ring-offset-white focus-visible:animate-[breathe_2s_infinite]
         flex items-center justify-center
         ${className}
       `}
       style={{
+        minHeight: '44px',
         animationTimingFunction: 'ease-in-out'
       }}
       {...props}
@@ -238,7 +244,7 @@ export const LinkButton: React.FC<BaseButtonProps> = ({
   );
 };
 
-// Pill Toggle Button (Headspace-style)
+// Pill Toggle Button (Headspace-style) - Perfect implementation already exists
 interface PillToggleButtonProps {
   label: string;
   active: boolean;
@@ -265,16 +271,15 @@ export const PillToggleButton: React.FC<PillToggleButtonProps> = ({
       aria-label={ariaLabel || label}
       aria-disabled={disabled}
       className={`
-        inline-flex items-center justify-center px-6 py-3 rounded-full font-medium
+        inline-flex items-center justify-center px-4 py-2 rounded-[8px] font-medium text-base
         transition-[background-color_0.3s_ease-out,color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out]
-        hover:animate-[breathe_2s_infinite] focus:animate-[breathe_2s_infinite]
         active:scale-95
-        focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF7A59] focus-visible:ring-opacity-50 focus-visible:ring-offset-2 focus-visible:ring-offset-white
-        disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:animate-none disabled:active:scale-100
+        focus:outline-none focus-visible:ring-4 focus-visible:ring-offset-2 focus-visible:ring-[#FF7A59]/50
         ${active 
-          ? 'bg-gray-900 text-white shadow-[0_2px_8px_rgba(0,0,0,0.2)]' 
-          : 'bg-gray-100 text-gray-900 hover:bg-gray-200 shadow-[0_1px_3px_rgba(0,0,0,0.1)]'
+          ? 'bg-[#2D2C2B] text-white shadow-[0_2px_8px_rgba(45,44,43,0.3)]' 
+          : 'bg-[#F5F0EC] text-[#2D2C2B] hover:bg-[#ECE5DC] hover:animate-[breathe_2s_infinite] focus-visible:animate-[breathe_2s_infinite] shadow-[0_1px_3px_rgba(0,0,0,0.1)]'
         }
+        ${disabled ? 'pointer-events-none opacity-60 cursor-not-allowed' : ''}
         ${className}
       `}
       style={{
@@ -282,16 +287,16 @@ export const PillToggleButton: React.FC<PillToggleButtonProps> = ({
         animationTimingFunction: 'ease-in-out'
       }}
     >
-      {/* Active dot indicator */}
+      {/* Active dot indicator - only shown when active */}
       {active && (
         <span 
-          className="h-2 w-2 bg-white rounded-full mr-3 flex-shrink-0"
+          className="h-2 w-2 bg-white rounded-full mr-2 flex-shrink-0"
           aria-hidden="true"
         />
       )}
       
       {/* Label text */}
-      <span className="font-medium text-base leading-none">
+      <span className="font-medium leading-none">
         {label}
       </span>
     </button>
