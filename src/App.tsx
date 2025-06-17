@@ -10,32 +10,34 @@ import AdminCoursesPage from './pages/AdminCoursesPage';
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/brevedu-plus" element={<BrevEduPlusPage />} />
-          <Route path="/admin/courses" element={<AdminCoursesPage />} />
-        </Routes>
-        
-        {/* Toast Container */}
-        <ToastContainer
-          position="top-center"
-          autoClose={4000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-          toastClassName="bg-primary border border-neutral-gray/30 text-text-light"
-          progressClassName="bg-accent-yellow"
-        />
-      </Router>
-    </AuthProvider>
+    <div className="font-inter antialiased font-feature-default">
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/courses" element={<CoursesPage />} />
+            <Route path="/brevedu-plus" element={<BrevEduPlusPage />} />
+            <Route path="/admin/courses" element={<AdminCoursesPage />} />
+          </Routes>
+          
+          {/* Toast Container */}
+          <ToastContainer
+            position="top-center"
+            autoClose={4000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+            toastClassName="bg-primary border border-neutral-gray/30 text-text-light font-inter"
+            progressClassName="bg-accent-yellow"
+          />
+        </Router>
+      </AuthProvider>
+    </div>
   );
 }
 

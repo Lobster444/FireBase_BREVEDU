@@ -1,25 +1,23 @@
-@import url('https://rsms.me/inter/inter.css');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  /* Set Inter as the default font with OpenType features */
+  /* Apply Inter font with optimized features globally */
   html {
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-feature-settings: 'liga' 1, 'calt' 1; /* Enable ligatures and contextual alternates */
   }
   
   body {
-    font-feature-settings: 'liga' 1, 'calt' 1;
-    /* Enable Inter's single-story 'a' and other stylistic alternates */
-    font-feature-settings: 'liga' 1, 'calt' 1, 'cv11' 1;
+    /* Enable Inter's single-story 'a' and improved readability features */
+    font-feature-settings: 'cv11' 1, 'liga' 1, 'calt' 1;
   }
   
-  /* Optimize font rendering */
+  /* Optimize font rendering across browsers */
   * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 }
 
@@ -49,11 +47,17 @@
   }
 }
 
-/* Inter font weight optimization for better performance */
-@layer base {
-  .font-light { font-weight: 300; }
-  .font-normal { font-weight: 400; }
-  .font-medium { font-weight: 500; }
-  .font-semibold { font-weight: 600; }
-  .font-bold { font-weight: 700; }
+/* Enhanced typography utilities with Inter features */
+@layer utilities {
+  .font-feature-numeric {
+    font-feature-settings: 'tnum' 1, 'salt' 1, 'ss02' 1;
+  }
+  
+  .font-feature-display {
+    font-feature-settings: 'cv11' 1, 'ss01' 1, 'liga' 1, 'calt' 1;
+  }
+  
+  .font-feature-default {
+    font-feature-settings: 'liga' 1, 'calt' 1, 'cv11' 1;
+  }
 }

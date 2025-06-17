@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme');
+import fontInter from 'tailwindcss-font-inter';
 
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -38,7 +39,17 @@ export default {
         'card': '0 4px 12px rgba(0, 0, 0, 0.15)',
         'button': '0 2px 8px rgba(0, 0, 0, 0.1)',
       },
+      // Inter font feature configurations
+      interFontFeatures: {
+        numeric: ['tnum', 'salt', 'ss02'], // Tabular numbers, stylistic alternates
+        display: ['cv11', 'ss01'], // Single-story 'a', stylistic set 1
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    fontInter({ 
+      importFontFace: false, // We're using CDN, so don't import font face
+      disableFeatures: false, // Enable all OpenType features
+    }),
+  ],
 };
