@@ -97,31 +97,33 @@ const CoursesPage: React.FC = () => {
               </p>
             </div>
             
-            {/* User Access Level Info */}
-            <div className="mt-4 lg:mt-0">
-              <div className="bg-neutral-gray/10 rounded-lg p-4 text-center lg:text-right">
-                <div className={`text-body font-medium ${userAccessInfo.color}`}>
-                  {userAccessInfo.level}
+            {/* User Access Level Info - Hide upgrade prompts for premium users */}
+            {currentUser?.role !== 'premium' && (
+              <div className="mt-4 lg:mt-0">
+                <div className="bg-neutral-gray/10 rounded-lg p-4 text-center lg:text-right">
+                  <div className={`text-body font-medium ${userAccessInfo.color}`}>
+                    {userAccessInfo.level}
+                  </div>
+                  <div className="text-small text-text-secondary">
+                    {userAccessInfo.description}
+                  </div>
+                  {currentUser?.role === 'free' && (
+                    <a
+                      href="/brevedu-plus"
+                      className="inline-flex items-center space-x-1 text-accent-purple hover:text-accent-deep-purple transition-colors text-small mt-2"
+                    >
+                      <Crown className="h-4 w-4" />
+                      <span>Upgrade Now</span>
+                    </a>
+                  )}
+                  {!currentUser && (
+                    <LinkButton className="text-small mt-2">
+                      Sign Up Free
+                    </LinkButton>
+                  )}
                 </div>
-                <div className="text-small text-text-secondary">
-                  {userAccessInfo.description}
-                </div>
-                {currentUser?.role === 'free' && (
-                  <a
-                    href="/brevedu-plus"
-                    className="inline-flex items-center space-x-1 text-accent-purple hover:text-accent-deep-purple transition-colors text-small mt-2"
-                  >
-                    <Crown className="h-4 w-4" />
-                    <span>Upgrade Now</span>
-                  </a>
-                )}
-                {!currentUser && (
-                  <LinkButton className="text-small mt-2">
-                    Sign Up Free
-                  </LinkButton>
-                )}
               </div>
-            </div>
+            )}
           </div>
 
           {/* Filters */}
@@ -250,8 +252,10 @@ const CoursesPage: React.FC = () => {
                 <>
                   <div className="flex items-center justify-between mb-6">
                     <p className="text-body text-text-secondary">
-                      Showing {filteredCourses.length} of {courses.length} courses available to you
+                      Showing {filteredCourses.length} of {courses.length} courses
+                      {currentUser?.role === 'premium' ? ' (full access)' : ' available to you'}
                     </p>
+                    {/* Hide "Unlock All Courses" link for premium users */}
                     {currentUser?.role !== 'premium' && (
                       <a
                         href="/brevedu-plus"
