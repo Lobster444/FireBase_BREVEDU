@@ -14,23 +14,32 @@ export const useCourses = (category?: string, isPremiumOnly?: boolean) => {
         setLoading(true);
         setError(null);
 
-        let coursesQuery = query(
-          collection(db, 'courses'),
-          orderBy('createdAt', 'desc')
-        );
+        let coursesQuery;
 
-        if (category && category !== 'All') {
+        // Build query based on filters to avoid composite index requirements
+        if (category && category !== 'All' && isPremiumOnly) {
+          // Filter by both category and premium status
           coursesQuery = query(
             collection(db, 'courses'),
             where('category', '==', category),
-            orderBy('createdAt', 'desc')
+            where('isPremium', '==', true)
           );
-        }
-
-        if (isPremiumOnly) {
+        } else if (category && category !== 'All') {
+          // Filter by category only
           coursesQuery = query(
             collection(db, 'courses'),
-            where('isPremium', '==', true),
+            where('category', '==', category)
+          );
+        } else if (isPremiumOnly) {
+          // Filter by premium status only
+          coursesQuery = query(
+            collection(db, 'courses'),
+            where('isPremium', '==', true)
+          );
+        } else {
+          // No filters, just order by createdAt
+          coursesQuery = query(
+            collection(db, 'courses'),
             orderBy('createdAt', 'desc')
           );
         }
@@ -41,6 +50,15 @@ export const useCourses = (category?: string, isPremiumOnly?: boolean) => {
         querySnapshot.forEach((doc) => {
           coursesData.push({ id: doc.id, ...doc.data() } as Course);
         });
+
+        // Sort client-side when we can't use orderBy due to composite index requirements
+        if (category && category !== 'All' || isPremiumOnly) {
+          coursesData.sort((a, b) => {
+            const aDate = a.createdAt?.toDate?.() || new Date(a.createdAt);
+            const bDate = b.createdAt?.toDate?.() || new Date(b.createdAt);
+            return bDate.getTime() - aDate.getTime();
+          });
+        }
 
         setCourses(coursesData);
       } catch (err) {
