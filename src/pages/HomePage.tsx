@@ -5,7 +5,7 @@ import Layout from '../components/Layout';
 import CourseCard from '../components/CourseCard';
 import CourseDetailModal from '../components/CourseDetailModal';
 import AuthModal from '../components/AuthModal';
-import { PrimaryButton, AccentButton, OutlineButton, SecondaryButton } from '../components/UIButtons';
+import { PrimaryButton, AccentButton, SecondaryButton, PillToggleButton } from '../components/UIButtons';
 import { categories } from '../data/mockCourses';
 import { Course } from '../types';
 import { useCourses } from '../hooks/useCourses';
@@ -156,23 +156,16 @@ const HomePage: React.FC = () => {
           {currentUser?.role === 'premium' && (
             <div className="flex justify-center mb-8">
               <div className="bg-gray-100 rounded-[12px] p-1 flex">
-                <OutlineButton
-                  variant="yellow"
+                <PillToggleButton
+                  label="All Courses"
                   active={activeTab === 'all'}
                   onClick={() => setActiveTab('all')}
-                  className="px-6 py-3 rounded-[10px]"
-                >
-                  All Courses
-                </OutlineButton>
-                <OutlineButton
-                  variant="purple"
+                />
+                <PillToggleButton
+                  label="Premium Only"
                   active={activeTab === 'premium'}
                   onClick={() => setActiveTab('premium')}
-                  className="px-6 py-3 rounded-[10px] flex items-center space-x-2"
-                >
-                  <Sparkles className="h-4 w-4" />
-                  <span>Premium Only</span>
-                </OutlineButton>
+                />
               </div>
             </div>
           )}
@@ -251,14 +244,12 @@ const HomePage: React.FC = () => {
             {/* Category Filter */}
             <div className="flex flex-wrap gap-2 mt-4 sm:mt-0">
               {categories.map((category) => (
-                <OutlineButton
+                <PillToggleButton
                   key={category}
-                  variant="yellow"
+                  label={category}
                   active={selectedCategory === category}
                   onClick={() => setSelectedCategory(category)}
-                >
-                  {category}
-                </OutlineButton>
+                />
               ))}
             </div>
           </div>
@@ -315,12 +306,11 @@ const HomePage: React.FC = () => {
                       <p className="text-lg text-gray-700 mb-4">
                         No courses found for this category.
                       </p>
-                      <OutlineButton
-                        variant="yellow"
+                      <PillToggleButton
+                        label="View all courses"
+                        active={false}
                         onClick={() => setSelectedCategory('All')}
-                      >
-                        View all courses
-                      </OutlineButton>
+                      />
                     </div>
                   )}
                 </div>

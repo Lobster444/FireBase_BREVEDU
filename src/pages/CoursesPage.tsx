@@ -3,7 +3,7 @@ import { Filter, Lock, Crown } from 'lucide-react';
 import Layout from '../components/Layout';
 import CourseCard from '../components/CourseCard';
 import CourseDetailModal from '../components/CourseDetailModal';
-import { AccentButton, PrimaryButton, OutlineButton, LinkButton } from '../components/UIButtons';
+import { AccentButton, PrimaryButton, PillToggleButton, LinkButton } from '../components/UIButtons';
 import { categories } from '../data/mockCourses';
 import { Course, getAccessLevelRequirement } from '../types';
 import { useCourses } from '../hooks/useCourses';
@@ -131,14 +131,12 @@ const CoursesPage: React.FC = () => {
             {/* Category Filter */}
             <div className="flex flex-wrap gap-2">
               {categories.map((category) => (
-                <OutlineButton
+                <PillToggleButton
                   key={category}
-                  variant="yellow"
+                  label={category}
                   active={selectedCategory === category}
                   onClick={() => setSelectedCategory(category)}
-                >
-                  {category}
-                </OutlineButton>
+                />
               ))}
             </div>
 
@@ -205,12 +203,11 @@ const CoursesPage: React.FC = () => {
                             No courses available for your current access level in this category.
                           </p>
                           <div className="space-y-3">
-                            <OutlineButton
-                              variant="yellow"
+                            <PillToggleButton
+                              label="View all available courses"
+                              active={false}
                               onClick={() => setSelectedCategory('All')}
-                            >
-                              View all available courses
-                            </OutlineButton>
+                            />
                             <div>
                               <a href="/brevedu-plus">
                                 <PrimaryButton>
@@ -225,12 +222,11 @@ const CoursesPage: React.FC = () => {
                           <p className="text-lg text-gray-700 mb-4">
                             No courses found for this category.
                           </p>
-                          <OutlineButton
-                            variant="yellow"
+                          <PillToggleButton
+                            label="View all courses"
+                            active={false}
                             onClick={() => setSelectedCategory('All')}
-                          >
-                            View all courses
-                          </OutlineButton>
+                          />
                         </>
                       )}
                     </div>
@@ -239,12 +235,11 @@ const CoursesPage: React.FC = () => {
                       <p className="text-lg text-gray-700 mb-4">
                         No courses found matching your filter criteria.
                       </p>
-                      <OutlineButton
-                        variant="yellow"
+                      <PillToggleButton
+                        label="Clear all filters"
+                        active={false}
                         onClick={clearAllFilters}
-                      >
-                        Clear all filters
-                      </OutlineButton>
+                      />
                     </div>
                   )}
                 </div>
