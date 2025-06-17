@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Star } from 'lucide-react';
+import { Clock } from 'lucide-react';
 import { Course } from '../types';
 
 interface CourseCardProps {
@@ -39,7 +39,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
       case 'premium':
         return {
           label: 'Pro',
-          bgColor: 'bg-slate-700',
+          bgColor: 'bg-blue-600',
           textColor: 'text-white'
         };
       default:
@@ -70,20 +70,10 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
         
-        {/* Access Level Badge - Top Right */}
-        <div className={`absolute top-2 right-2 ${accessBadge.bgColor} ${accessBadge.textColor} px-2 py-1 rounded text-xs font-bold shadow-lg backdrop-blur-sm bg-opacity-90`}>
-          {accessBadge.label}
-        </div>
-        
         {/* Duration badge - Bottom Right */}
         <div className="absolute bottom-2 right-2 bg-primary/80 backdrop-blur-sm px-2 py-1 rounded text-x-small text-text-light flex items-center space-x-1">
           <Clock className="h-3 w-3" />
           <span>{course.duration}</span>
-        </div>
-        
-        {/* Category badge - Top Left */}
-        <div className="absolute top-2 left-2 bg-accent-yellow text-text-dark px-2 py-1 rounded text-x-small font-medium">
-          {course.category}
         </div>
       </div>
 
@@ -95,15 +85,33 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
         <p className="text-small text-text-secondary mb-3 line-clamp-3">
           {course.description}
         </p>
+        
+        {/* Bottom badges row */}
         <div className="flex items-center justify-between">
-          <span className="text-x-small text-neutral-gray bg-neutral-gray/20 px-2 py-1 rounded">
-            {course.difficulty}
-          </span>
-          {!course.published && (
-            <span className="text-x-small text-accent-purple bg-accent-purple/20 px-2 py-1 rounded">
-              Draft
+          {/* Left side - Topic and Access Level badges */}
+          <div className="flex items-center space-x-1">
+            {/* Topic badge */}
+            <span className="bg-neutral-gray/30 text-text-light px-2 py-1 rounded-lg text-x-small font-medium">
+              {course.category}
             </span>
-          )}
+            
+            {/* Access level badge */}
+            <span className={`${accessBadge.bgColor} ${accessBadge.textColor} px-2 py-1 rounded-lg text-x-small font-bold`}>
+              {accessBadge.label}
+            </span>
+          </div>
+          
+          {/* Right side - Difficulty and Draft status */}
+          <div className="flex items-center space-x-1">
+            <span className="text-x-small text-text-light bg-neutral-gray/20 px-2 py-1 rounded">
+              {course.difficulty}
+            </span>
+            {!course.published && (
+              <span className="text-x-small text-accent-purple bg-accent-purple/20 px-2 py-1 rounded">
+                Draft
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </div>
