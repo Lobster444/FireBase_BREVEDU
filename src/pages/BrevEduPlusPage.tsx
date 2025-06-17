@@ -1,0 +1,181 @@
+import React from 'react';
+import { Sparkles, Check, Zap, MessageCircle, Star, Crown } from 'lucide-react';
+import Layout from '../components/Layout';
+
+const BrevEduPlusPage: React.FC = () => {
+  const features = [
+    {
+      icon: MessageCircle,
+      title: 'AI Chat Practice',
+      description: '3 daily AI-powered conversation sessions to practice what you learn'
+    },
+    {
+      icon: Crown,
+      title: 'Premium Content',
+      description: 'Access to exclusive advanced courses and expert-level content'
+    },
+    {
+      icon: Zap,
+      title: 'Priority Support',
+      description: 'Get help faster with priority customer support and feedback'
+    },
+    {
+      icon: Star,
+      title: 'Progress Tracking',
+      description: 'Detailed analytics and progress reports to track your learning journey'
+    }
+  ];
+
+  const benefits = [
+    'Unlimited access to all premium courses',
+    '3 AI chat practice sessions daily',
+    'Priority customer support',
+    'Advanced progress tracking',
+    'Exclusive expert-level content',
+    'Early access to new features',
+    'Downloadable resources',
+    'Certificate of completion'
+  ];
+
+  return (
+    <Layout currentPage="brevedu-plus">
+      {/* Hero Section */}
+      <section className="px-6 py-12 text-center">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center justify-center mb-6">
+            <Sparkles className="h-12 w-12 text-accent-purple mr-3" />
+            <h1 className="text-h1 text-text-light">BrevEdu+</h1>
+          </div>
+          
+          <p className="text-h3 text-accent-purple mb-4">Supercharge Your Learning</p>
+          <p className="text-body text-text-secondary mb-8 max-w-2xl mx-auto">
+            Unlock premium features, AI-powered practice sessions, and exclusive content 
+            to accelerate your skill development journey.
+          </p>
+
+          {/* Pricing */}
+          <div className="bg-neutral-gray/10 rounded-2xl p-8 mb-8 max-w-md mx-auto">
+            <div className="text-center mb-6">
+              <div className="text-h1 text-accent-yellow mb-2">$3.99</div>
+              <div className="text-body text-text-secondary">/month</div>
+              <div className="text-small text-neutral-gray mt-2">Cancel anytime</div>
+            </div>
+            
+            <button className="w-full bg-accent-purple text-text-dark px-8 py-4 rounded-lg text-link font-medium hover:bg-accent-deep-purple transition-all shadow-button mb-4">
+              Start Free Trial
+            </button>
+            
+            <p className="text-x-small text-neutral-gray text-center">
+              7-day free trial, then $3.99/month. Cancel anytime.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="px-6 py-12 bg-neutral-gray/5">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-h2 text-text-light text-center mb-12">Premium Features</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => {
+              const Icon = feature.icon;
+              return (
+                <div key={index} className="text-center">
+                  <div className="bg-accent-purple/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Icon className="h-8 w-8 text-accent-purple" />
+                  </div>
+                  <h3 className="text-h3 text-text-light mb-3">{feature.title}</h3>
+                  <p className="text-body text-text-secondary">{feature.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="px-6 py-12">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-h2 text-text-light text-center mb-12">Everything You Get</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {benefits.map((benefit, index) => (
+              <div key={index} className="flex items-center space-x-3">
+                <Check className="h-5 w-5 text-accent-yellow flex-shrink-0" />
+                <span className="text-body text-text-light">{benefit}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AI Chat Preview Section */}
+      <section className="px-6 py-12 bg-neutral-gray/5">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-h2 text-text-light text-center mb-8">AI Chat Practice</h2>
+          <p className="text-body text-text-secondary text-center mb-12 max-w-2xl mx-auto">
+            Practice your skills with AI-powered conversations. Get personalized feedback 
+            and improve your understanding through interactive dialogue.
+          </p>
+          
+          {/* Mock Chat Interface Preview */}
+          <div className="bg-primary rounded-2xl p-6 max-w-2xl mx-auto border border-neutral-gray/20">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="w-10 h-10 bg-accent-purple rounded-full flex items-center justify-center">
+                <MessageCircle className="h-5 w-5 text-text-dark" />
+              </div>
+              <div>
+                <div className="text-body font-medium text-text-light">AI Learning Assistant</div>
+                <div className="text-small text-accent-yellow">●  Online</div>
+              </div>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="bg-accent-purple/20 rounded-lg p-4">
+                <p className="text-body text-text-light">
+                  Hi! I'm your AI learning assistant. Let's practice what you learned in the JavaScript fundamentals course. 
+                  Can you explain what a variable is?
+                </p>
+              </div>
+              
+              <div className="bg-accent-yellow/20 rounded-lg p-4">
+                <p className="text-body text-text-light">
+                  A variable is like a container that stores data values...
+                </p>
+              </div>
+            </div>
+            
+            <div className="mt-6 text-center">
+              <button className="bg-accent-yellow text-text-dark px-6 py-3 rounded-lg text-body font-medium hover:bg-accent-green transition-all">
+                Try AI Chat Practice
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="px-6 py-12 text-center">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-h2 text-text-light mb-4">Ready to Level Up?</h2>
+          <p className="text-body text-text-secondary mb-8">
+            Join thousands of learners who are accelerating their skills with BrevEdu+
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="bg-accent-purple text-text-dark px-8 py-4 rounded-lg text-link font-medium hover:bg-accent-deep-purple transition-all shadow-button flex items-center justify-center space-x-2">
+              <Sparkles className="h-5 w-5" />
+              <span>Start Free Trial</span>
+            </button>
+            <button className="border border-accent-yellow text-accent-yellow px-8 py-4 rounded-lg text-link font-medium hover:bg-accent-yellow hover:text-text-dark transition-all">
+              View Free Courses
+            </button>
+          </div>
+        </div>
+      </section>
+    </Layout>
+  );
+};
+
+export default BrevEduPlusPage;
