@@ -37,14 +37,25 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
     return location.pathname === path || currentPage === path.slice(1);
   };
 
+  // Handle logo click with blur to prevent sticky focus
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.currentTarget.blur();
+  };
+
+  // Handle navigation link click with blur
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.currentTarget.blur();
+  };
+
   return (
     <>
       <header className="hidden md:flex items-center justify-between p-6 bg-primary border-b border-neutral-gray/20">
         {/* Logo - Clickable */}
         <Link 
           to="/" 
-          className="flex items-center space-x-2 group focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2 focus:ring-offset-primary rounded-lg p-1 -m-1 transition-all"
+          className="flex items-center space-x-2 group focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-lg p-1 -m-1 transition-all active:outline-none"
           aria-label="Go to homepage"
+          onClick={handleLogoClick}
         >
           <BookOpen className="h-8 w-8 text-accent-yellow group-hover:text-accent-green transition-colors" />
           <h1 className="text-h3 text-text-light font-semibold group-hover:text-accent-yellow transition-colors">
@@ -56,32 +67,35 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
         <nav className="flex items-center space-x-8" aria-label="Main navigation">
           <Link 
             to="/" 
-            className={`text-link font-medium transition-colors underline-offset-4 hover:underline focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2 focus:ring-offset-primary rounded px-1 ${
+            className={`text-link font-medium transition-colors underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded px-1 active:outline-none ${
               isActive('/') 
                 ? 'text-accent-yellow underline' 
                 : 'text-text-light hover:text-accent-yellow'
             }`}
             aria-label="Go to homepage"
+            onClick={handleNavClick}
           >
             Home
           </Link>
           <Link 
             to="/courses" 
-            className={`text-link font-medium transition-colors underline-offset-4 hover:underline focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2 focus:ring-offset-primary rounded px-1 ${
+            className={`text-link font-medium transition-colors underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded px-1 active:outline-none ${
               isActive('/courses') 
                 ? 'text-accent-yellow underline' 
                 : 'text-text-light hover:text-accent-yellow'
             }`}
+            onClick={handleNavClick}
           >
             Courses
           </Link>
           <Link 
             to="/brevedu-plus" 
-            className={`text-link font-medium transition-colors underline-offset-4 hover:underline focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2 focus:ring-offset-primary rounded px-1 ${
+            className={`text-link font-medium transition-colors underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded px-1 active:outline-none ${
               isActive('/brevedu-plus') 
                 ? 'text-accent-yellow underline' 
                 : 'text-text-light hover:text-accent-yellow'
             }`}
+            onClick={handleNavClick}
           >
             BrevEdu+
           </Link>
@@ -90,7 +104,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             <div className="relative">
               <button
                 onClick={() => setShowUserMenu(!showUserMenu)}
-                className="flex items-center space-x-2 bg-accent-purple text-text-dark px-4 py-2 rounded-lg text-body font-medium hover:bg-accent-deep-purple transition-all shadow-button focus:outline-none focus:ring-2 focus:ring-accent-purple focus:ring-offset-2 focus:ring-offset-primary"
+                className="flex items-center space-x-2 bg-accent-purple text-text-dark px-4 py-2 rounded-lg text-body font-medium hover:bg-accent-deep-purple transition-all shadow-button focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-purple focus-visible:ring-offset-2 focus-visible:ring-offset-primary active:outline-none"
                 aria-expanded={showUserMenu}
                 aria-haspopup="true"
               >
@@ -107,7 +121,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="w-full text-left px-4 py-2 text-body text-text-light hover:bg-neutral-gray/20 transition-colors flex items-center space-x-2 focus:outline-none focus:bg-neutral-gray/20"
+                    className="w-full text-left px-4 py-2 text-body text-text-light hover:bg-neutral-gray/20 transition-colors flex items-center space-x-2 focus:outline-none focus-visible:bg-neutral-gray/20 active:outline-none"
                   >
                     <LogOut className="h-4 w-4" />
                     <span>Sign Out</span>
@@ -119,13 +133,13 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             <div className="flex items-center space-x-3">
               <button 
                 onClick={() => openAuthModal('login')}
-                className="text-text-light hover:text-accent-yellow transition-colors text-link underline underline-offset-4 focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2 focus:ring-offset-primary rounded px-1"
+                className="text-text-light hover:text-accent-yellow transition-colors text-link underline underline-offset-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded px-1 active:outline-none"
               >
                 Sign In
               </button>
               <button 
                 onClick={() => openAuthModal('register')}
-                className="bg-accent-purple text-text-dark px-6 py-3 rounded-lg text-body font-medium hover:bg-accent-deep-purple transition-all shadow-button focus:outline-none focus:ring-2 focus:ring-accent-purple focus:ring-offset-2 focus:ring-offset-primary"
+                className="bg-accent-purple text-text-dark px-6 py-3 rounded-lg text-body font-medium hover:bg-accent-deep-purple transition-all shadow-button focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-purple focus-visible:ring-offset-2 focus-visible:ring-offset-primary active:outline-none"
               >
                 Sign Up
               </button>

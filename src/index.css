@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Fix for persistent focus/active states on links */
+@layer base {
+  a:focus:not(:focus-visible) {
+    outline: none;
+  }
+  
+  a:active {
+    outline: none;
+  }
+  
+  button:focus:not(:focus-visible) {
+    outline: none;
+  }
+  
+  button:active {
+    outline: none;
+  }
+}
+
+/* Custom focus styles for better accessibility */
+@layer utilities {
+  .focus-reset {
+    @apply focus:outline-none focus-visible:outline-none active:outline-none;
+  }
+}
