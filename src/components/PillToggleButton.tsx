@@ -33,8 +33,8 @@ const PillToggleButton: React.FC<PillToggleButtonProps> = ({
         focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF7A59] focus-visible:ring-opacity-50 focus-visible:ring-offset-2 focus-visible:ring-offset-white
         disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:animate-none disabled:active:scale-100
         ${active 
-          ? 'bg-[#1a1a1a] text-white shadow-[0_2px_8px_rgba(26,26,26,0.2)]' 
-          : 'bg-[#F5F0EC] text-[#1a1a1a] hover:bg-[#F0E9E4] shadow-[0_1px_3px_rgba(0,0,0,0.1)]'
+          ? 'bg-gray-900 text-white shadow-[0_2px_8px_rgba(0,0,0,0.2)]' 
+          : 'bg-gray-100 text-gray-900 hover:bg-gray-200 shadow-[0_1px_3px_rgba(0,0,0,0.1)]'
         }
         ${className}
       `}
