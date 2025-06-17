@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Sparkles, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import CourseCard from '../components/CourseCard';
 import CourseDetailModal from '../components/CourseDetailModal';
@@ -15,6 +16,7 @@ const HomePage: React.FC = () => {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [showCourseModal, setShowCourseModal] = useState(false);
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
   
   // Pass user role to filter courses based on access level
   const { courses, loading, error } = useCourses(
@@ -34,6 +36,10 @@ const HomePage: React.FC = () => {
   const handleCloseCourseModal = () => {
     setShowCourseModal(false);
     setSelectedCourse(null);
+  };
+
+  const handleUpgradeClick = () => {
+    navigate('/brevedu-plus');
   };
 
   // Get user-specific messaging
@@ -267,6 +273,54 @@ const HomePage: React.FC = () => {
           )}
         </div>
       </section>
+
+      {/* Upgrade Promotional Section - Only for non-premium users */}
+      {currentUser?.role !== 'premium' && (
+        <section className="px-6 pb-12">
+          <div className="max-w-7xl mx-auto">
+            <div className="bg-gradient-to-r from-accent-purple/20 to-accent-yellow/20 rounded-2xl p-8 text-center border border-accent-purple/30">
+              <div className="max-w-3xl mx-auto">
+                <div className="flex items-center justify-center mb-4">
+                  <Sparkles className="h-8 w-8 text-accent-purple mr-3" />
+                  <h2 className="text-h2 text-text-light">Upgrade to BrevEdu+</h2>
+                </div>
+                
+                <p className="text-body text-text-secondary mb-6">
+                  Get full access to all courses, AI-powered practice sessions, and exclusive content. 
+                  Accelerate your learning with premium features designed for serious learners.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
+                  <div className="flex items-center space-x-2 text-accent-green">
+                    <span className="text-small">✓</span>
+                    <span className="text-small">Unlimited course access</span>
+                  </div>
+                  <div className="flex items-center space-x-2 text-accent-green">
+                    <span className="text-small">✓</span>
+                    <span className="text-small">3 daily AI practice sessions</span>
+                  </div>
+                  <div className="flex items-center space-x-2 text-accent-green">
+                    <span className="text-small">✓</span>
+                    <span className="text-small">Premium-only content</span>
+                  </div>
+                </div>
+                
+                <PrimaryButton 
+                  onClick={handleUpgradeClick}
+                  className="px-8 py-4 flex items-center justify-center space-x-2 mx-auto"
+                >
+                  <Sparkles className="h-5 w-5" />
+                  <span>Start BrevEdu+ Today</span>
+                </PrimaryButton>
+                
+                <p className="text-x-small text-neutral-gray mt-4">
+                  7-day free trial • Cancel anytime • $3.99/month
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Course Detail Modal */}
       <CourseDetailModal
