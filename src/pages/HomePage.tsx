@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import CourseCard from '../components/CourseCard';
 import CourseDetailModal from '../components/CourseDetailModal';
+import AuthModal from '../components/AuthModal';
 import { PrimaryButton, AccentButton, OutlineButton, SecondaryButton } from '../components/UIButtons';
 import { categories } from '../data/mockCourses';
 import { Course } from '../types';
@@ -15,6 +16,8 @@ const HomePage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [showCourseModal, setShowCourseModal] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('register');
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   
@@ -38,8 +41,29 @@ const HomePage: React.FC = () => {
     setSelectedCourse(null);
   };
 
+  const handleCloseAuthModal = () => {
+    setShowAuthModal(false);
+  };
+
+  // Navigation handlers
+  const handleStartLearningFree = () => {
+    if (!currentUser) {
+      // Anonymous user - open signup modal
+      setAuthMode('register');
+      setShowAuthModal(true);
+    } else if (currentUser.role === 'free') {
+      // Free user - navigate to courses
+      navigate('/courses');
+    }
+    // Premium users don't see this button
+  };
+
   const handleUpgradeClick = () => {
     navigate('/brevedu-plus');
+  };
+
+  const handleExploreCourses = () => {
+    navigate('/courses');
   };
 
   // Get user-specific messaging
@@ -157,34 +181,48 @@ const HomePage: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             {!currentUser ? (
               <>
-                <AccentButton className="px-8 py-4">
+                <AccentButton 
+                  className="px-8 py-4"
+                  onClick={handleStartLearningFree}
+                  aria-label="Sign up for free account to start learning"
+                >
                   {userMessage.ctaText}
                 </AccentButton>
-                <PrimaryButton className="px-8 py-4 flex items-center justify-center space-x-2">
+                <PrimaryButton 
+                  className="px-8 py-4 flex items-center justify-center space-x-2"
+                  onClick={handleUpgradeClick}
+                  aria-label="Navigate to BrevEdu+ premium subscription page"
+                >
                   <Sparkles className="h-5 w-5" />
                   <span>Upgrade to Premium</span>
                 </PrimaryButton>
               </>
             ) : currentUser.role === 'free' ? (
               <>
-                <a href="/courses">
-                  <AccentButton className="px-8 py-4">
-                    {userMessage.ctaText}
-                  </AccentButton>
-                </a>
-                <a href="/brevedu-plus">
-                  <PrimaryButton className="px-8 py-4 flex items-center justify-center space-x-2">
-                    <Sparkles className="h-5 w-5" />
-                    <span>Upgrade to Premium</span>
-                  </PrimaryButton>
-                </a>
+                <AccentButton 
+                  className="px-8 py-4"
+                  onClick={handleStartLearningFree}
+                  aria-label="Continue to courses page"
+                >
+                  {userMessage.ctaText}
+                </AccentButton>
+                <PrimaryButton 
+                  className="px-8 py-4 flex items-center justify-center space-x-2"
+                  onClick={handleUpgradeClick}
+                  aria-label="Upgrade to BrevEdu+ premium subscription"
+                >
+                  <Sparkles className="h-5 w-5" />
+                  <span>Upgrade to Premium</span>
+                </PrimaryButton>
               </>
             ) : (
-              <a href="/courses">
-                <PrimaryButton className="px-8 py-4">
-                  {userMessage.ctaText}
-                </PrimaryButton>
-              </a>
+              <PrimaryButton 
+                className="px-8 py-4"
+                onClick={handleExploreCourses}
+                aria-label="Explore premium courses"
+              >
+                {userMessage.ctaText}
+              </PrimaryButton>
             )}
           </div>
         </div>
@@ -253,7 +291,10 @@ const HomePage: React.FC = () => {
                       <p className="text-body text-text-secondary mb-4">
                         Sign up for free to access our course library!
                       </p>
-                      <AccentButton>
+                      <AccentButton 
+                        onClick={handleStartLearningFree}
+                        aria-label="Sign up for free account"
+                      >
                         Create Free Account
                       </AccentButton>
                     </div>
@@ -262,11 +303,12 @@ const HomePage: React.FC = () => {
                       <p className="text-body text-text-secondary mb-4">
                         Upgrade to BrevEdu+ to access premium courses!
                       </p>
-                      <a href="/brevedu-plus">
-                        <PrimaryButton>
-                          Upgrade Now
-                        </PrimaryButton>
-                      </a>
+                      <PrimaryButton 
+                        onClick={handleUpgradeClick}
+                        aria-label="Upgrade to BrevEdu+ premium subscription"
+                      >
+                        Upgrade Now
+                      </PrimaryButton>
                     </div>
                   ) : (
                     <div>
@@ -293,12 +335,14 @@ const HomePage: React.FC = () => {
               {/* More Courses Button */}
               {featuredCourses.length > 0 && (
                 <div className="text-center">
-                  <a href="/courses">
-                    <SecondaryButton className="inline-flex items-center space-x-2">
-                      <span>More Courses</span>
-                      <ArrowRight className="h-5 w-5" />
-                    </SecondaryButton>
-                  </a>
+                  <SecondaryButton 
+                    className="inline-flex items-center space-x-2"
+                    onClick={handleExploreCourses}
+                    aria-label="View all courses"
+                  >
+                    <span>More Courses</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </SecondaryButton>
                 </div>
               )}
             </>
@@ -340,6 +384,7 @@ const HomePage: React.FC = () => {
                 <PrimaryButton 
                   onClick={handleUpgradeClick}
                   className="px-8 py-4 flex items-center justify-center space-x-2 mx-auto"
+                  aria-label="Start BrevEdu+ premium subscription"
                 >
                   <Sparkles className="h-5 w-5" />
                   <span>Start BrevEdu+ Today</span>
@@ -407,29 +452,39 @@ const HomePage: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               {!currentUser ? (
                 <>
-                  <AccentButton className="px-8 py-4">
+                  <AccentButton 
+                    className="px-8 py-4"
+                    onClick={handleStartLearningFree}
+                    aria-label="Sign up for free account to start learning"
+                  >
                     Start Learning Free
                   </AccentButton>
-                  <a href="/brevedu-plus">
-                    <PrimaryButton className="px-8 py-4 flex items-center justify-center space-x-2">
-                      <Sparkles className="h-5 w-5" />
-                      <span>Try BrevEdu+ Free</span>
-                    </PrimaryButton>
-                  </a>
+                  <PrimaryButton 
+                    className="px-8 py-4 flex items-center justify-center space-x-2"
+                    onClick={handleUpgradeClick}
+                    aria-label="Try BrevEdu+ premium subscription with free trial"
+                  >
+                    <Sparkles className="h-5 w-5" />
+                    <span>Try BrevEdu+ Free</span>
+                  </PrimaryButton>
                 </>
               ) : currentUser.role === 'free' ? (
-                <a href="/brevedu-plus">
-                  <PrimaryButton className="px-8 py-4 flex items-center justify-center space-x-2">
-                    <Sparkles className="h-5 w-5" />
-                    <span>Upgrade to Premium</span>
-                  </PrimaryButton>
-                </a>
+                <PrimaryButton 
+                  className="px-8 py-4 flex items-center justify-center space-x-2"
+                  onClick={handleUpgradeClick}
+                  aria-label="Upgrade to BrevEdu+ premium subscription"
+                >
+                  <Sparkles className="h-5 w-5" />
+                  <span>Upgrade to Premium</span>
+                </PrimaryButton>
               ) : (
-                <a href="/courses">
-                  <AccentButton className="px-8 py-4">
-                    Explore More Courses
-                  </AccentButton>
-                </a>
+                <AccentButton 
+                  className="px-8 py-4"
+                  onClick={handleExploreCourses}
+                  aria-label="Explore more premium courses"
+                >
+                  Explore More Courses
+                </AccentButton>
               )}
             </div>
           </div>
@@ -441,6 +496,13 @@ const HomePage: React.FC = () => {
         isOpen={showCourseModal}
         course={selectedCourse}
         onClose={handleCloseCourseModal}
+      />
+
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={handleCloseAuthModal}
+        initialMode={authMode}
       />
     </Layout>
   );
