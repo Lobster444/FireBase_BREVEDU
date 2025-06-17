@@ -19,6 +19,40 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
     }
   };
 
+  // Get access level badge info
+  const getAccessBadge = () => {
+    const accessLevel = course.accessLevel || 'free';
+    
+    switch (accessLevel) {
+      case 'anonymous':
+        return {
+          label: 'Free',
+          bgColor: 'bg-accent-green',
+          textColor: 'text-text-dark'
+        };
+      case 'free':
+        return {
+          label: 'Free',
+          bgColor: 'bg-accent-green',
+          textColor: 'text-text-dark'
+        };
+      case 'premium':
+        return {
+          label: 'Pro',
+          bgColor: 'bg-slate-700',
+          textColor: 'text-white'
+        };
+      default:
+        return {
+          label: 'Free',
+          bgColor: 'bg-accent-green',
+          textColor: 'text-text-dark'
+        };
+    }
+  };
+
+  const accessBadge = getAccessBadge();
+
   return (
     <div 
       className="bg-neutral-gray/10 rounded-lg overflow-hidden shadow-card hover:shadow-lg transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2 focus:ring-offset-primary"
@@ -35,12 +69,19 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
           alt={course.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
-        {/* Duration badge */}
+        
+        {/* Access Level Badge - Top Right */}
+        <div className={`absolute top-2 right-2 ${accessBadge.bgColor} ${accessBadge.textColor} px-2 py-1 rounded text-xs font-bold shadow-lg backdrop-blur-sm bg-opacity-90`}>
+          {accessBadge.label}
+        </div>
+        
+        {/* Duration badge - Bottom Right */}
         <div className="absolute bottom-2 right-2 bg-primary/80 backdrop-blur-sm px-2 py-1 rounded text-x-small text-text-light flex items-center space-x-1">
           <Clock className="h-3 w-3" />
           <span>{course.duration}</span>
         </div>
-        {/* Category badge */}
+        
+        {/* Category badge - Top Left */}
         <div className="absolute top-2 left-2 bg-accent-yellow text-text-dark px-2 py-1 rounded text-x-small font-medium">
           {course.category}
         </div>
