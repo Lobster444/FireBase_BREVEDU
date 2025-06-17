@@ -56,7 +56,7 @@ const CoursesPage: React.FC = () => {
       return {
         level: 'Anonymous',
         description: 'Sign up for free to access more courses',
-        color: 'text-neutral-gray'
+        color: 'text-gray-600'
       };
     }
     
@@ -65,19 +65,19 @@ const CoursesPage: React.FC = () => {
         return {
           level: 'Free Account',
           description: 'Upgrade to BrevEdu+ for premium courses',
-          color: 'text-accent-yellow'
+          color: 'text-[#F5C842]'
         };
       case 'premium':
         return {
           level: 'BrevEdu+ Member',
           description: 'You have access to all courses',
-          color: 'text-accent-purple'
+          color: 'text-[#FF7A59]'
         };
       default:
         return {
           level: 'Anonymous',
           description: 'Sign up for free to access more courses',
-          color: 'text-neutral-gray'
+          color: 'text-gray-600'
         };
     }
   };
@@ -87,12 +87,12 @@ const CoursesPage: React.FC = () => {
   return (
     <Layout currentPage="courses">
       {/* Header */}
-      <section className="px-6 py-8 border-b border-neutral-gray/20">
+      <section className="px-6 py-8 border-b border-gray-200 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
             <div>
-              <h1 className="text-h1 text-text-light mb-2">All Courses</h1>
-              <p className="text-body text-text-secondary">
+              <h1 className="text-4xl font-bold text-gray-900 mb-2">All Courses</h1>
+              <p className="text-lg text-gray-700">
                 Explore our complete library of bite-sized video lessons
               </p>
             </div>
@@ -100,24 +100,24 @@ const CoursesPage: React.FC = () => {
             {/* User Access Level Info - Hide upgrade prompts for premium users */}
             {currentUser?.role !== 'premium' && (
               <div className="mt-4 lg:mt-0">
-                <div className="bg-neutral-gray/10 rounded-lg p-4 text-center lg:text-right">
-                  <div className={`text-body font-medium ${userAccessInfo.color}`}>
+                <div className="bg-gray-50 rounded-[12px] p-4 text-center lg:text-right border border-gray-200">
+                  <div className={`text-lg font-semibold ${userAccessInfo.color}`}>
                     {userAccessInfo.level}
                   </div>
-                  <div className="text-small text-text-secondary">
+                  <div className="text-base text-gray-600">
                     {userAccessInfo.description}
                   </div>
                   {currentUser?.role === 'free' && (
                     <a
                       href="/brevedu-plus"
-                      className="inline-flex items-center space-x-1 text-accent-purple hover:text-accent-deep-purple transition-colors text-small mt-2"
+                      className="inline-flex items-center space-x-1 text-[#FF7A59] hover:text-[#FF8A6B] transition-colors text-base mt-2 font-medium"
                     >
                       <Crown className="h-4 w-4" />
                       <span>Upgrade Now</span>
                     </a>
                   )}
                   {!currentUser && (
-                    <LinkButton className="text-small mt-2">
+                    <LinkButton className="text-base mt-2 text-[#FF7A59]">
                       Sign Up Free
                     </LinkButton>
                   )}
@@ -144,11 +144,11 @@ const CoursesPage: React.FC = () => {
 
             {/* Difficulty Filter */}
             <div className="flex items-center space-x-2">
-              <Filter className="h-4 w-4 text-neutral-gray" />
+              <Filter className="h-4 w-4 text-gray-500" />
               <select
                 value={selectedDifficulty}
                 onChange={(e) => setSelectedDifficulty(e.target.value)}
-                className="bg-neutral-gray/20 border border-neutral-gray/30 rounded-lg px-3 py-2 text-small text-text-light focus:outline-none focus:border-accent-yellow"
+                className="bg-white border border-gray-300 rounded-[10px] px-3 py-2 text-base text-gray-900 focus:outline-none focus:border-[#FF7A59] focus:ring-2 focus:ring-[#FF7A59]/20"
               >
                 <option value="All">All Levels</option>
                 <option value="Beginner">Beginner</option>
@@ -161,20 +161,20 @@ const CoursesPage: React.FC = () => {
       </section>
 
       {/* Course Grid */}
-      <section className="px-6 py-8">
+      <section className="px-6 py-8 bg-white">
         <div className="max-w-7xl mx-auto">
           {/* Loading State */}
           {loading && (
             <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-accent-yellow"></div>
-              <p className="text-body text-text-secondary mt-4">Loading courses...</p>
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A59]"></div>
+              <p className="text-lg text-gray-700 mt-4">Loading courses...</p>
             </div>
           )}
 
           {/* Error State */}
           {error && (
             <div className="text-center py-12">
-              <p className="text-body text-red-400 mb-4">{error}</p>
+              <p className="text-lg text-red-600 mb-4">{error}</p>
               <AccentButton onClick={() => window.location.reload()}>
                 Try again
               </AccentButton>
@@ -190,8 +190,8 @@ const CoursesPage: React.FC = () => {
                     <div>
                       {!currentUser ? (
                         <>
-                          <Lock className="h-12 w-12 text-neutral-gray mx-auto mb-4" />
-                          <p className="text-body text-text-secondary mb-4">
+                          <Lock className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                          <p className="text-lg text-gray-700 mb-4">
                             Sign up for free to access our course library!
                           </p>
                           <AccentButton>
@@ -200,8 +200,8 @@ const CoursesPage: React.FC = () => {
                         </>
                       ) : currentUser.role === 'free' ? (
                         <>
-                          <Crown className="h-12 w-12 text-accent-purple mx-auto mb-4" />
-                          <p className="text-body text-text-secondary mb-4">
+                          <Crown className="h-12 w-12 text-[#FF7A59] mx-auto mb-4" />
+                          <p className="text-lg text-gray-700 mb-4">
                             No courses available for your current access level in this category.
                           </p>
                           <div className="space-y-3">
@@ -222,7 +222,7 @@ const CoursesPage: React.FC = () => {
                         </>
                       ) : (
                         <>
-                          <p className="text-body text-text-secondary mb-4">
+                          <p className="text-lg text-gray-700 mb-4">
                             No courses found for this category.
                           </p>
                           <OutlineButton
@@ -236,7 +236,7 @@ const CoursesPage: React.FC = () => {
                     </div>
                   ) : (
                     <div>
-                      <p className="text-body text-text-secondary mb-4">
+                      <p className="text-lg text-gray-700 mb-4">
                         No courses found matching your filter criteria.
                       </p>
                       <OutlineButton
@@ -251,7 +251,7 @@ const CoursesPage: React.FC = () => {
               ) : (
                 <>
                   <div className="flex items-center justify-between mb-6">
-                    <p className="text-body text-text-secondary">
+                    <p className="text-lg text-gray-700">
                       Showing {filteredCourses.length} of {courses.length} courses
                       {currentUser?.role === 'premium' ? ' (full access)' : ' available to you'}
                     </p>
@@ -259,7 +259,7 @@ const CoursesPage: React.FC = () => {
                     {currentUser?.role !== 'premium' && (
                       <a
                         href="/brevedu-plus"
-                        className="text-accent-purple hover:text-accent-deep-purple transition-colors text-small flex items-center space-x-1"
+                        className="text-[#FF7A59] hover:text-[#FF8A6B] transition-colors text-base flex items-center space-x-1 font-medium"
                       >
                         <Crown className="h-4 w-4" />
                         <span>Unlock All Courses</span>
@@ -288,12 +288,12 @@ const CoursesPage: React.FC = () => {
 
       {/* Access Restricted Modal */}
       {showAccessModal && restrictedCourse && (
-        <div className="fixed inset-0 bg-primary/80 backdrop-blur-ios flex items-center justify-center z-50 p-4">
-          <div className="bg-primary border border-neutral-gray/30 rounded-2xl w-full max-w-md p-6">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white border border-gray-200 rounded-[16px] w-full max-w-md p-6">
             <div className="text-center">
-              <Lock className="h-12 w-12 text-accent-purple mx-auto mb-4" />
-              <h3 className="text-h3 text-text-light mb-2">Access Restricted</h3>
-              <p className="text-body text-text-secondary mb-4">
+              <Lock className="h-12 w-12 text-[#FF7A59] mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Access Restricted</h3>
+              <p className="text-lg text-gray-700 mb-4">
                 This course requires: {getAccessLevelRequirement(restrictedCourse.accessLevel)}
               </p>
               
@@ -312,7 +312,7 @@ const CoursesPage: React.FC = () => {
                 
                 <button
                   onClick={handleCloseAccessModal}
-                  className="w-full border border-neutral-gray/30 text-text-light px-6 py-3 rounded-lg text-body font-medium hover:bg-neutral-gray/20 transition-all"
+                  className="w-full border border-gray-300 text-gray-700 px-6 py-3 rounded-[10px] text-lg font-medium hover:bg-gray-50 transition-all"
                 >
                   Close
                 </button>

@@ -136,31 +136,31 @@ const HomePage: React.FC = () => {
   return (
     <Layout currentPage="home">
       {/* Hero Section */}
-      <section className="px-6 py-12 text-center">
+      <section className="px-6 py-12 text-center bg-white">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-h1 text-text-light mb-6">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 leading-tight">
             {userMessage.title.includes('Just 5 Minutes') ? (
               <>
                 Master New Skills in
-                <span className="block text-accent-yellow">Just 5 Minutes</span>
+                <span className="block text-[#FF7A59] mt-2">Just 5 Minutes</span>
               </>
             ) : (
               userMessage.title
             )}
           </h1>
-          <p className="text-body text-text-secondary mb-8 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto leading-relaxed">
             {userMessage.subtitle}
           </p>
           
           {/* Course Type Toggle - Only show if user can access premium */}
           {currentUser?.role === 'premium' && (
             <div className="flex justify-center mb-8">
-              <div className="bg-neutral-gray/20 rounded-lg p-1 flex">
+              <div className="bg-gray-100 rounded-[12px] p-1 flex">
                 <OutlineButton
                   variant="yellow"
                   active={activeTab === 'all'}
                   onClick={() => setActiveTab('all')}
-                  className="px-6 py-3 rounded-lg"
+                  className="px-6 py-3 rounded-[10px]"
                 >
                   All Courses
                 </OutlineButton>
@@ -168,7 +168,7 @@ const HomePage: React.FC = () => {
                   variant="purple"
                   active={activeTab === 'premium'}
                   onClick={() => setActiveTab('premium')}
-                  className="px-6 py-3 rounded-lg flex items-center space-x-2"
+                  className="px-6 py-3 rounded-[10px] flex items-center space-x-2"
                 >
                   <Sparkles className="h-4 w-4" />
                   <span>Premium Only</span>
@@ -229,27 +229,27 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Featured Courses Section */}
-      <section className="px-6 pb-12">
+      <section className="px-6 pb-12 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
             <div>
-              <h2 className="text-h2 text-text-light mb-2">
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">
                 {activeTab === 'premium' ? 'Premium Courses' : 'Featured Courses'}
               </h2>
               {!currentUser && (
-                <p className="text-small text-text-secondary">
+                <p className="text-base text-gray-600">
                   Sign up for free to access more courses and AI practice sessions
                 </p>
               )}
               {currentUser?.role === 'free' && activeTab === 'all' && (
-                <p className="text-small text-text-secondary">
+                <p className="text-base text-gray-600">
                   Upgrade to BrevEdu+ to unlock premium courses and more AI practice sessions
                 </p>
               )}
             </div>
             
             {/* Category Filter */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 mt-4 sm:mt-0">
               {categories.map((category) => (
                 <OutlineButton
                   key={category}
@@ -266,15 +266,15 @@ const HomePage: React.FC = () => {
           {/* Loading State */}
           {loading && (
             <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-accent-yellow"></div>
-              <p className="text-body text-text-secondary mt-4">Loading courses...</p>
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A59]"></div>
+              <p className="text-lg text-gray-700 mt-4">Loading courses...</p>
             </div>
           )}
 
           {/* Error State */}
           {error && (
             <div className="text-center py-12">
-              <p className="text-body text-red-400 mb-4">{error}</p>
+              <p className="text-lg text-red-600 mb-4">{error}</p>
               <AccentButton onClick={() => window.location.reload()}>
                 Try again
               </AccentButton>
@@ -288,7 +288,7 @@ const HomePage: React.FC = () => {
                 <div className="text-center py-12">
                   {!currentUser ? (
                     <div>
-                      <p className="text-body text-text-secondary mb-4">
+                      <p className="text-lg text-gray-700 mb-4">
                         Sign up for free to access our course library!
                       </p>
                       <AccentButton 
@@ -300,7 +300,7 @@ const HomePage: React.FC = () => {
                     </div>
                   ) : activeTab === 'premium' && currentUser.role !== 'premium' ? (
                     <div>
-                      <p className="text-body text-text-secondary mb-4">
+                      <p className="text-lg text-gray-700 mb-4">
                         Upgrade to BrevEdu+ to access premium courses!
                       </p>
                       <PrimaryButton 
@@ -312,7 +312,7 @@ const HomePage: React.FC = () => {
                     </div>
                   ) : (
                     <div>
-                      <p className="text-body text-text-secondary mb-4">
+                      <p className="text-lg text-gray-700 mb-4">
                         No courses found for this category.
                       </p>
                       <OutlineButton
@@ -336,7 +336,7 @@ const HomePage: React.FC = () => {
               {featuredCourses.length > 0 && (
                 <div className="text-center">
                   <SecondaryButton 
-                    className="inline-flex items-center space-x-2"
+                    className="inline-flex items-center space-x-2 bg-gray-100 text-gray-800 hover:bg-gray-200"
                     onClick={handleExploreCourses}
                     aria-label="View all courses"
                   >
@@ -352,32 +352,32 @@ const HomePage: React.FC = () => {
 
       {/* Upgrade Promotional Section - Only for non-premium users */}
       {currentUser?.role !== 'premium' && (
-        <section className="px-6 pb-12">
+        <section className="px-6 pb-12 bg-white">
           <div className="max-w-7xl mx-auto">
-            <div className="bg-gradient-to-r from-accent-purple/20 to-accent-yellow/20 rounded-2xl p-8 text-center border border-accent-purple/30">
+            <div className="bg-gradient-to-r from-[#FF7A59]/10 to-[#F5C842]/10 rounded-[16px] p-8 text-center border border-[#FF7A59]/20">
               <div className="max-w-3xl mx-auto">
                 <div className="flex items-center justify-center mb-4">
-                  <Sparkles className="h-8 w-8 text-accent-purple mr-3" />
-                  <h2 className="text-h2 text-text-light">Upgrade to BrevEdu+</h2>
+                  <Sparkles className="h-8 w-8 text-[#FF7A59] mr-3" />
+                  <h2 className="text-3xl font-bold text-gray-900">Upgrade to BrevEdu+</h2>
                 </div>
                 
-                <p className="text-body text-text-secondary mb-6">
+                <p className="text-lg text-gray-700 mb-6 leading-relaxed">
                   Get full access to all courses, AI-powered practice sessions, and exclusive content. 
                   Accelerate your learning with premium features designed for serious learners.
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
-                  <div className="flex items-center space-x-2 text-accent-green">
-                    <span className="text-small">✓</span>
-                    <span className="text-small">Unlimited course access</span>
+                  <div className="flex items-center space-x-2 text-emerald-700">
+                    <span className="text-base">✓</span>
+                    <span className="text-base font-medium">Unlimited course access</span>
                   </div>
-                  <div className="flex items-center space-x-2 text-accent-green">
-                    <span className="text-small">✓</span>
-                    <span className="text-small">3 daily AI practice sessions</span>
+                  <div className="flex items-center space-x-2 text-emerald-700">
+                    <span className="text-base">✓</span>
+                    <span className="text-base font-medium">3 daily AI practice sessions</span>
                   </div>
-                  <div className="flex items-center space-x-2 text-accent-green">
-                    <span className="text-small">✓</span>
-                    <span className="text-small">Premium-only content</span>
+                  <div className="flex items-center space-x-2 text-emerald-700">
+                    <span className="text-base">✓</span>
+                    <span className="text-base font-medium">Premium-only content</span>
                   </div>
                 </div>
                 
@@ -390,7 +390,7 @@ const HomePage: React.FC = () => {
                   <span>Start BrevEdu+ Today</span>
                 </PrimaryButton>
                 
-                <p className="text-x-small text-neutral-gray mt-4">
+                <p className="text-sm text-gray-600 mt-4">
                   7-day free trial • Cancel anytime • $3.99/month
                 </p>
               </div>
@@ -400,11 +400,11 @@ const HomePage: React.FC = () => {
       )}
 
       {/* Customer Testimonials Section */}
-      <section className="px-6 py-12 bg-neutral-gray/5">
+      <section className="px-6 py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-h2 text-text-light mb-4">What Our Learners Say</h2>
-            <p className="text-body text-text-secondary max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">What Our Learners Say</h2>
+            <p className="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
               Join thousands of learners who are transforming their skills with BrevEdu's 
               bite-sized learning approach and AI-powered practice sessions.
             </p>
@@ -414,32 +414,32 @@ const HomePage: React.FC = () => {
             {testimonials.map((testimonial) => (
               <div 
                 key={testimonial.id} 
-                className="bg-neutral-gray/10 rounded-lg p-6 shadow-card text-text-light border border-neutral-gray/20 hover:border-accent-yellow/30 transition-all duration-200"
+                className="bg-white rounded-[12px] p-6 shadow-[0_2px_8px_rgba(0,0,0,0.1)] border border-gray-100 hover:border-[#FF7A59]/30 transition-all duration-200"
                 role="article"
                 aria-labelledby={`testimonial-${testimonial.id}-name`}
               >
                 {/* Quote Icon */}
                 <div className="flex items-center justify-between mb-4">
-                  <Quote className="h-6 w-6 text-accent-yellow opacity-60" aria-hidden="true" />
+                  <Quote className="h-6 w-6 text-[#FF7A59] opacity-60" aria-hidden="true" />
                   <div className="flex items-center space-x-1" role="img" aria-label={`${testimonial.rating} out of 5 stars`}>
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 text-accent-yellow fill-current" aria-hidden="true" />
+                      <Star key={i} className="h-4 w-4 text-[#F5C842] fill-current" aria-hidden="true" />
                     ))}
                   </div>
                 </div>
                 
                 {/* Quote Text */}
-                <blockquote className="text-body italic mb-4 text-text-secondary leading-relaxed">
+                <blockquote className="text-base italic mb-4 text-gray-700 leading-relaxed">
                   "{testimonial.quote}"
                 </blockquote>
                 
                 {/* Author Info */}
-                <div className="border-t border-neutral-gray/20 pt-4">
+                <div className="border-t border-gray-100 pt-4">
                   <cite className="not-italic">
-                    <p id={`testimonial-${testimonial.id}-name`} className="text-body font-semibold text-text-light mb-1">
+                    <p id={`testimonial-${testimonial.id}-name`} className="text-base font-semibold text-gray-900 mb-1">
                       {testimonial.name}
                     </p>
-                    <p className="text-small text-accent-yellow">
+                    <p className="text-sm text-[#FF7A59] font-medium">
                       {testimonial.role}
                     </p>
                   </cite>
@@ -450,7 +450,7 @@ const HomePage: React.FC = () => {
           
           {/* Call to Action */}
           <div className="text-center mt-12">
-            <p className="text-body text-text-secondary mb-6">
+            <p className="text-lg text-gray-700 mb-6">
               Ready to join our community of successful learners?
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
