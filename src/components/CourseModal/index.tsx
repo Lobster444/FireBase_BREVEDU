@@ -203,10 +203,10 @@ const CourseModal: React.FC<CourseModalProps> = ({
       newErrors.accessLevel = 'Please select a valid access level';
     }
 
-    // Tavus conversation URL validation (optional field)
+    // Tavus conversation URL validation (optional field) - Updated error message
     if (formData.tavusConversationUrl.trim()) {
       if (!isValidTavusUrl(formData.tavusConversationUrl.trim())) {
-        newErrors.tavusConversationUrl = 'Must be a valid Tavus conversation URL (https://tavus.io/...)';
+        newErrors.tavusConversationUrl = 'Must be a valid Tavus conversation URL (https://tavus.daily.co/... or https://tavus.io/...)';
       }
     }
 

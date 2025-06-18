@@ -432,13 +432,15 @@ export const isValidTavusUrl = (url: string): boolean => {
   try {
     const urlObj = new URL(url);
     
-    // Check if it's a valid Tavus domain
+    // Check if it's a valid Tavus domain - Updated to include daily.co domains
     const validDomains = [
-      'tavus.io',
-      'app.tavus.io',
-      'api.tavus.io',
-      'embed.tavus.io',
-      'conversation.tavus.io'
+      'tavus.daily.co',        // Primary Tavus conversation domain
+      'daily.co',              // Daily.co parent domain
+      'tavus.io',              // Legacy Tavus domain (kept for compatibility)
+      'app.tavus.io',          // Tavus app domain
+      'api.tavus.io',          // Tavus API domain
+      'embed.tavus.io',        // Tavus embed domain
+      'conversation.tavus.io'  // Tavus conversation domain
     ];
     
     const isValidDomain = validDomains.some(domain => 

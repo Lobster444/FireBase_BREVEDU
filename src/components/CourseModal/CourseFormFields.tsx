@@ -133,7 +133,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
         )}
       </div>
 
-      {/* Tavus AI Conversation URL */}
+      {/* Tavus AI Conversation URL - Updated placeholder and help text */}
       <div>
         <label htmlFor="tavusConversationUrl" className="block text-base font-semibold text-gray-900 mb-2 flex items-center space-x-2">
           <MessageCircle className="h-5 w-5 text-[#FF7A59]" />
@@ -149,7 +149,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
               ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
               : 'border-gray-300 focus:border-[#FF7A59] focus:ring-[#FF7A59]/20'
           }`}
-          placeholder="https://tavus.io/conversation/..."
+          placeholder="https://tavus.daily.co/your_conversation_id"
           aria-describedby={errors.tavusConversationUrl ? 'tavusUrl-error' : 'tavusUrl-help'}
         />
         {errors.tavusConversationUrl ? (
@@ -159,7 +159,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
           </p>
         ) : (
           <p id="tavusUrl-help" className="mt-1 text-sm text-gray-600">
-            Add a Tavus AI conversation URL to enable interactive practice sessions
+            Add a Tavus AI conversation URL to enable interactive practice sessions. Supports both tavus.daily.co and tavus.io domains.
           </p>
         )}
       </div>
