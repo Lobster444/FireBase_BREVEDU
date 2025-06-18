@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Clock, Star, MessageCircle, ArrowRight, AlertCircle, RefreshCw } from 'lucide-react';
 import Plyr from 'plyr-react';
+import 'plyr-react/dist/plyr.css'; // Import Plyr CSS directly in component
 import { Course } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -92,10 +93,28 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
     setImageError(false);
   };
 
-  // Get YouTube video ID from URL
+  // Get YouTube video ID from URL - Enhanced with debugging
   const getYouTubeVideoId = (url: string): string | null => {
-    const match = url.match(/\/embed\/([^?&]+)/);
-    return match ? match[1] : null;
+    console.log('🎥 Extracting video ID from URL:', url);
+    
+    // Handle youtube-nocookie.com embed URLs
+    const embedMatch = url.match(/\/embed\/([^?&]+)/);
+    if (embedMatch) {
+      const videoId = embedMatch[1];
+      console.log('✅ Extracted video ID:', videoId);
+      return videoId;
+    }
+    
+    // Handle regular YouTube URLs as fallback
+    const regularMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/);
+    if (regularMatch) {
+      const videoId = regularMatch[1];
+      console.log('✅ Extracted video ID from regular URL:', videoId);
+      return videoId;
+    }
+    
+    console.warn('❌ Could not extract video ID from URL:', url);
+    return null;
   };
 
   // Get AI practice availability based on user type
@@ -216,11 +235,14 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
     }
   };
 
-  // Create proper Plyr source for YouTube
+  // Create proper Plyr source for YouTube - Enhanced with debugging
   const createPlyrSource = () => {
-    if (!videoId) return null;
+    if (!videoId) {
+      console.warn('❌ No video ID available for Plyr source');
+      return null;
+    }
     
-    return {
+    const source = {
       type: 'video' as const,
       sources: [
         {
@@ -230,6 +252,9 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
       ],
       poster: course.thumbnailUrl
     };
+    
+    console.log('🎬 Created Plyr source:', source);
+    return source;
   };
 
   const plyrSource = createPlyrSource();
@@ -310,21 +335,33 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                         source={plyrSource}
                         options={plyrOptions}
                         onReady={() => {
-                          console.log('Plyr ready with video ID:', videoId);
+                          console.log('🎉 Plyr ready with video ID:', videoId);
+                          console.log('📺 Video URL:', course.videoUrl);
                           setIsVideoLoading(false);
                         }}
                         onError={(error) => {
-                          console.error('Plyr error:', error);
+                          console.error('❌ Plyr error:', error);
+                          console.log('🔍 Debug info:', {
+                            videoId,
+                            videoUrl: course.videoUrl,
+                            plyrSource
+                          });
                           setVideoError(true);
                           setIsVideoLoading(false);
                         }}
                         onLoadStart={() => {
-                          console.log('Video load started');
+                          console.log('⏳ Video load started');
                           setIsVideoLoading(true);
                         }}
                         onCanPlay={() => {
-                          console.log('Video can play');
+                          console.log('✅ Video can play');
                           setIsVideoLoading(false);
+                        }}
+                        onPlay={() => {
+                          console.log('▶️ Video started playing');
+                        }}
+                        onPause={() => {
+                          console.log('⏸️ Video paused');
                         }}
                         aria-label="Course video preview"
                       />
