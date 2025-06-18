@@ -46,6 +46,12 @@ const HomePage: React.FC = () => {
     setShowAuthModal(false);
   };
 
+  // Handle auth prompt for anonymous users
+  const handleAuthPrompt = () => {
+    setAuthMode('register');
+    setShowAuthModal(true);
+  };
+
   // Navigation handlers
   const handleStartLearningFree = () => {
     if (!currentUser) {
@@ -64,6 +70,12 @@ const HomePage: React.FC = () => {
   };
 
   const handleExploreCourses = () => {
+    if (!currentUser) {
+      // Anonymous user trying to explore courses - show auth prompt
+      handleAuthPrompt();
+      return;
+    }
+    // Authenticated user - navigate to courses
     navigate('/courses');
   };
 
@@ -126,6 +138,7 @@ const HomePage: React.FC = () => {
         setSelectedCategory={setSelectedCategory}
         onCourseClick={handleCourseClick}
         onExploreCourses={handleExploreCourses}
+        onAuthPrompt={handleAuthPrompt}
       />
 
       {/* Upgrade Promotional Section - Only for non-premium users */}

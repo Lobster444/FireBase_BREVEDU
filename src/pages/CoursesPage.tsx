@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Filter, Lock, Crown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import CourseCard from '../components/CourseCard';
 import CourseDetailModal from '../components/CourseDetailModal';
+import AuthModal from '../components/AuthModal';
 import { AccentButton, PrimaryButton, PillToggleButton, LinkButton } from '../components/UIButtons';
 import { categories } from '../data/mockCourses';
 import { Course, getAccessLevelRequirement } from '../types';
@@ -15,8 +17,20 @@ const CoursesPage: React.FC = () => {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [showCourseModal, setShowCourseModal] = useState(false);
   const [showAccessModal, setShowAccessModal] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('register');
   const [restrictedCourse, setRestrictedCourse] = useState<Course | null>(null);
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
+
+  // Redirect anonymous users to home page with auth prompt
+  useEffect(() => {
+    if (!currentUser) {
+      // Anonymous user trying to access courses page - redirect to home and show auth modal
+      navigate('/', { replace: true });
+      // Note: The auth modal will be triggered by the header navigation handler
+    }
+  }, [currentUser, navigate]);
 
   // Pass user role to filter courses based on access level
   const { courses, loading, error } = useCourses(
@@ -43,6 +57,15 @@ const CoursesPage: React.FC = () => {
   const handleCloseAccessModal = () => {
     setShowAccessModal(false);
     setRestrictedCourse(null);
+  };
+
+  const handleCloseAuthModal = () => {
+    setShowAuthModal(false);
+  };
+
+  const handleAuthPrompt = (mode: 'login' | 'register' = 'register') => {
+    setAuthMode(mode);
+    setShowAuthModal(true);
   };
 
   const clearAllFilters = () => {
@@ -84,6 +107,18 @@ const CoursesPage: React.FC = () => {
 
   const userAccessInfo = getUserAccessInfo();
 
+  // Don't render the page content for anonymous users (they'll be redirected)
+  if (!currentUser) {
+    return (
+      <Layout currentPage="courses">
+        <div className="text-center py-12">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A59]"></div>
+          <p className="text-lg text-gray-700 mt-4">Redirecting...</p>
+        </div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout currentPage="courses">
       {/* Header */}
@@ -115,11 +150,6 @@ const CoursesPage: React.FC = () => {
                       <Crown className="h-4 w-4" />
                       <span>Upgrade Now</span>
                     </a>
-                  )}
-                  {!currentUser && (
-                    <LinkButton className="text-base mt-2 text-[#FF7A59]">
-                      Sign Up Free
-                    </LinkButton>
                   )}
                 </div>
               </div>
@@ -186,17 +216,7 @@ const CoursesPage: React.FC = () => {
                 <div className="text-center py-12">
                   {courses.length === 0 ? (
                     <div>
-                      {!currentUser ? (
-                        <>
-                          <Lock className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                          <p className="text-lg text-gray-700 mb-4">
-                            Sign up for free to access our course library!
-                          </p>
-                          <AccentButton>
-                            Create Free Account
-                          </AccentButton>
-                        </>
-                      ) : currentUser.role === 'free' ? (
+                      {currentUser.role === 'free' ? (
                         <>
                           <Crown className="h-12 w-12 text-[#FF7A59] mx-auto mb-4" />
                           <p className="text-lg text-gray-700 mb-4">
@@ -293,11 +313,7 @@ const CoursesPage: React.FC = () => {
               </p>
               
               <div className="space-y-3">
-                {!currentUser ? (
-                  <AccentButton className="w-full">
-                    Sign Up Free
-                  </AccentButton>
-                ) : currentUser.role === 'free' && restrictedCourse.accessLevel === 'premium' ? (
+                {currentUser.role === 'free' && restrictedCourse.accessLevel === 'premium' ? (
                   <a href="/brevedu-plus" className="block">
                     <PrimaryButton className="w-full">
                       Upgrade to BrevEdu+
@@ -316,6 +332,13 @@ const CoursesPage: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={handleCloseAuthModal}
+        initialMode={authMode}
+      />
     </Layout>
   );
 };

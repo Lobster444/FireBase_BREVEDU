@@ -15,6 +15,7 @@ interface FeaturedCoursesSectionProps {
   setSelectedCategory: (category: string) => void;
   onCourseClick: (course: Course) => void;
   onExploreCourses: () => void;
+  onAuthPrompt?: () => void; // New prop for auth prompt
 }
 
 const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
@@ -26,10 +27,33 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
   selectedCategory,
   setSelectedCategory,
   onCourseClick,
-  onExploreCourses
+  onExploreCourses,
+  onAuthPrompt
 }) => {
   // Show only first 3 courses for featured section
   const featuredCourses = courses.slice(0, 3);
+
+  // Handle course card click with access control
+  const handleCourseCardClick = (course: Course) => {
+    if (!currentUser && onAuthPrompt) {
+      // Anonymous user clicking on course card - show auth prompt
+      onAuthPrompt();
+      return;
+    }
+    // Authenticated user - proceed with normal course click
+    onCourseClick(course);
+  };
+
+  // Handle "More Courses" button with access control
+  const handleMoreCoursesClick = () => {
+    if (!currentUser && onAuthPrompt) {
+      // Anonymous user clicking "More Courses" - show auth prompt
+      onAuthPrompt();
+      return;
+    }
+    // Authenticated user - proceed to courses page
+    onExploreCourses();
+  };
 
   return (
     <section className="px-6 pb-12 bg-white">
@@ -93,7 +117,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
                       Sign up for free to access our course library!
                     </p>
                     <AccentButton 
-                      onClick={onExploreCourses}
+                      onClick={onAuthPrompt || onExploreCourses}
                       aria-label="Sign up for free account"
                     >
                       Create Free Account
@@ -127,7 +151,11 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 {featuredCourses.map((course) => (
-                  <CourseCard key={course.id} course={course} onClick={onCourseClick} />
+                  <CourseCard 
+                    key={course.id} 
+                    course={course} 
+                    onClick={handleCourseCardClick}
+                  />
                 ))}
               </div>
             )}
@@ -137,7 +165,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
               <div className="text-center">
                 <SecondaryButton 
                   className="inline-flex items-center space-x-2 bg-gray-100 text-gray-800 hover:bg-gray-200"
-                  onClick={onExploreCourses}
+                  onClick={handleMoreCoursesClick}
                   aria-label="View all courses"
                 >
                   <span>More Courses</span>

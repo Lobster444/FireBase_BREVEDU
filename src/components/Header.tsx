@@ -53,6 +53,18 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
     setShowMobileMenu(false);
   };
 
+  // Handle navigation with access control
+  const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
+    // If trying to access courses page and user is anonymous, prevent navigation and show auth modal
+    if (path === '/courses' && !currentUser) {
+      e.preventDefault();
+      setAuthMode('register');
+      setShowAuthModal(true);
+      return;
+    }
+    // Allow normal navigation for authenticated users or non-restricted pages
+  };
+
   // Check if current path is active
   const isActive = (path: string) => {
     if (path === '/') {
@@ -113,7 +125,10 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                       : ''
                     }
                   `}
-                  onClick={handleNavClick}
+                  onClick={(e) => {
+                    handleNavClick(e);
+                    handleNavigation(e, link.path);
+                  }}
                   style={{
                     minHeight: '44px',
                     display: 'flex',
@@ -268,7 +283,12 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                         : ''
                       }
                     `}
-                    onClick={() => setShowMobileMenu(false)}
+                    onClick={(e) => {
+                      handleNavigation(e, link.path);
+                      if (!e.defaultPrevented) {
+                        setShowMobileMenu(false);
+                      }
+                    }}
                     style={{ minHeight: '44px', display: 'flex', alignItems: 'center' }}
                   >
                     {link.label}
