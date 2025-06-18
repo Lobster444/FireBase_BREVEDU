@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Clock, Star, MessageCircle, ArrowRight, AlertCircle, RefreshCw } from 'lucide-react';
 import Plyr from 'plyr-react';
-import 'plyr-react/dist/plyr.css'; // Import Plyr CSS directly in component
+import 'plyr-react/plyr.css'; // Fixed CSS import path
 import { Course } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 

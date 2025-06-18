@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* Import Plyr CSS */
-@import 'plyr-react/dist/plyr.css';
+@import 'plyr-react/plyr.css';
 
 /* Import Headspace theme */
 @import './styles/headspace-theme.css';
