@@ -1,6 +1,7 @@
 import React from 'react';
-import { Clock } from 'lucide-react';
-import { Course } from '../types';
+import { Clock, MessageCircle, CheckCircle } from 'lucide-react';
+import { Course, hasTavusCompletion } from '../types';
+import { useAuth } from '../contexts/AuthContext';
 
 interface CourseCardProps {
   course: Course;
@@ -8,6 +9,8 @@ interface CourseCardProps {
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
+  const { currentUser } = useAuth();
+  
   const handleClick = () => {
     onClick(course);
   };
@@ -52,6 +55,9 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
   };
 
   const accessBadge = getAccessBadge();
+  
+  // Check if user has completed Tavus practice for this course
+  const tavusCompleted = currentUser && course.id ? hasTavusCompletion(currentUser, course.id) : false;
 
   return (
     <div 
@@ -75,6 +81,22 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
           <Clock className="h-3.5 w-3.5" />
           <span>{course.duration}</span>
         </div>
+
+        {/* AI Practice badge - Top Right */}
+        {course.tavusConversationUrl && (
+          <div className="absolute top-2 right-2 bg-[#FF7A59]/90 backdrop-blur-sm px-2 py-1 rounded-[6px] text-xs font-semibold text-white flex items-center space-x-1">
+            <MessageCircle className="h-3 w-3" />
+            <span>AI</span>
+          </div>
+        )}
+
+        {/* Completion badge - Top Left */}
+        {tavusCompleted && (
+          <div className="absolute top-2 left-2 bg-emerald-500/90 backdrop-blur-sm px-2 py-1 rounded-[6px] text-xs font-semibold text-white flex items-center space-x-1">
+            <CheckCircle className="h-3 w-3" />
+            <span>Done</span>
+          </div>
+        )}
       </div>
 
       {/* Content */}

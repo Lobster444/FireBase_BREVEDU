@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Clock, Star, MessageCircle, ArrowRight, AlertCircle, RefreshCw } from 'lucide-react';
+import { X, Clock, Star, MessageCircle, ArrowRight, AlertCircle, RefreshCw, CheckCircle, RotateCcw } from 'lucide-react';
 import Plyr from 'plyr-react';
 import 'plyr-react/plyr.css'; // Fixed CSS import path
-import { Course } from '../types';
+import { Course, hasTavusCompletion, getTavusCompletion } from '../types';
 import { useAuth } from '../contexts/AuthContext';
+import TavusModal from './TavusModal';
 
 interface CourseDetailModalProps {
   isOpen: boolean;
@@ -21,6 +22,9 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
   const [videoError, setVideoError] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [isVideoLoading, setIsVideoLoading] = useState(true);
+  const [showTavusModal, setShowTavusModal] = useState(false);
+  const [tavusCompleted, setTavusCompleted] = useState(false);
+  const [tavusAccuracy, setTavusAccuracy] = useState<number | undefined>(undefined);
 
   // Reset states when modal opens/closes or course changes
   useEffect(() => {
@@ -28,6 +32,18 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
       setVideoError(false);
       setImageError(false);
       setIsVideoLoading(true);
+      setShowTavusModal(false);
+      
+      // Check Tavus completion status
+      if (currentUser && course.id) {
+        const completion = getTavusCompletion(currentUser, course.id);
+        setTavusCompleted(completion?.completed || false);
+        setTavusAccuracy(completion?.accuracyScore);
+      } else {
+        setTavusCompleted(false);
+        setTavusAccuracy(undefined);
+      }
+      
       // Prevent body scroll when modal is open
       document.body.style.overflow = 'hidden';
     } else {
@@ -38,7 +54,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen, course]);
+  }, [isOpen, course, currentUser]);
 
   // Keyboard event handling
   useEffect(() => {
@@ -117,10 +133,14 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
     return null;
   };
 
-  // Get AI practice availability based on user type
+  // Get AI practice availability based on user type and Tavus URL
   const getAIPracticeStatus = () => {
     if (!currentUser) {
       return { available: false, reason: 'Sign in required' };
+    }
+
+    if (!course?.tavusConversationUrl) {
+      return { available: false, reason: 'AI practice not available for this course' };
     }
 
     if (currentUser.role === 'anonymous') {
@@ -166,12 +186,24 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
 
   const handleAIPractice = () => {
     const status = getAIPracticeStatus();
-    if (status.available) {
-      // TODO: Implement AI practice functionality
-      console.log('Starting AI practice for course:', course?.title);
+    if (status.available && course?.tavusConversationUrl) {
+      console.log('🚀 Starting Tavus AI practice for course:', course.title);
+      setShowTavusModal(true);
     } else {
-      console.log('AI practice not available:', status.reason);
+      console.log('❌ AI practice not available:', status.reason);
     }
+  };
+
+  const handleTavusCompletion = (completion: any) => {
+    console.log('🎉 Tavus practice completed:', completion);
+    setTavusCompleted(true);
+    setTavusAccuracy(completion.accuracyScore);
+    setShowTavusModal(false);
+  };
+
+  const handleRetakePractice = () => {
+    console.log('🔄 Retaking Tavus practice for course:', course?.title);
+    setShowTavusModal(true);
   };
 
   const handleMoreCourses = () => {
@@ -260,288 +292,333 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
   const plyrSource = createPlyrSource();
 
   return (
-    <div 
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-      onClick={handleBackdropClick}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="course-modal-title"
-      aria-describedby="course-modal-description"
-    >
+    <>
       <div 
-        ref={modalRef}
-        className="bg-white rounded-[16px] w-full max-w-4xl max-h-[90vh] overflow-y-auto md:max-h-[85vh] shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        onClick={handleBackdropClick}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="course-modal-title"
+        aria-describedby="course-modal-description"
       >
-        {/* Header */}
-        <div className="flex items-start justify-between p-6 border-b border-gray-100">
-          <div className="flex-1 pr-4">
-            <div className="flex items-center space-x-2 mb-2">
-              <span className="text-sm text-[#FF7A59] bg-[#FF7A59]/10 px-3 py-1 rounded-[8px] font-semibold">
-                {course.category}
-              </span>
-              <span className="text-sm text-gray-700 bg-gray-100 px-3 py-1 rounded-[8px] font-medium">
-                {course.difficulty}
-              </span>
-              <div className="flex items-center space-x-1 text-sm text-gray-600">
-                <Clock className="h-4 w-4" />
-                <span>{course.duration}</span>
-              </div>
-              {!course.published && (
-                <span className="text-sm text-purple-800 bg-purple-100 px-3 py-1 rounded-[8px] font-semibold">
-                  Draft
+        <div 
+          ref={modalRef}
+          className="bg-white rounded-[16px] w-full max-w-4xl max-h-[90vh] overflow-y-auto md:max-h-[85vh] shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
+        >
+          {/* Header */}
+          <div className="flex items-start justify-between p-6 border-b border-gray-100">
+            <div className="flex-1 pr-4">
+              <div className="flex items-center space-x-2 mb-2">
+                <span className="text-sm text-[#FF7A59] bg-[#FF7A59]/10 px-3 py-1 rounded-[8px] font-semibold">
+                  {course.category}
                 </span>
-              )}
+                <span className="text-sm text-gray-700 bg-gray-100 px-3 py-1 rounded-[8px] font-medium">
+                  {course.difficulty}
+                </span>
+                <div className="flex items-center space-x-1 text-sm text-gray-600">
+                  <Clock className="h-4 w-4" />
+                  <span>{course.duration}</span>
+                </div>
+                {!course.published && (
+                  <span className="text-sm text-purple-800 bg-purple-100 px-3 py-1 rounded-[8px] font-semibold">
+                    Draft
+                  </span>
+                )}
+                {course.tavusConversationUrl && (
+                  <span className="text-sm text-[#FF7A59] bg-[#FF7A59]/10 px-3 py-1 rounded-[8px] font-semibold flex items-center space-x-1">
+                    <MessageCircle className="h-3 w-3" />
+                    <span>AI Practice</span>
+                  </span>
+                )}
+                {tavusCompleted && (
+                  <span className="text-sm text-emerald-700 bg-emerald-100 px-3 py-1 rounded-[8px] font-semibold flex items-center space-x-1">
+                    <CheckCircle className="h-3 w-3" />
+                    <span>Completed</span>
+                  </span>
+                )}
+              </div>
+              <h1 id="course-modal-title" className="text-2xl font-bold text-gray-900 mb-2 leading-tight">
+                {course.title}
+              </h1>
             </div>
-            <h1 id="course-modal-title" className="text-2xl font-bold text-gray-900 mb-2 leading-tight">
-              {course.title}
-            </h1>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-[8px] hover:bg-gray-50 flex-shrink-0"
+              aria-label="Close course details"
+            >
+              <X className="h-6 w-6" />
+            </button>
           </div>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-[8px] hover:bg-gray-50 flex-shrink-0"
-            aria-label="Close course details"
-          >
-            <X className="h-6 w-6" />
-          </button>
-        </div>
 
-        <div className="p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Column - Video and Description */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Video Player */}
-              <div className="relative">
-                <div className="w-full aspect-video bg-gray-100 rounded-[12px] overflow-hidden border border-gray-200 max-w-[640px] mx-auto lg:mx-0">
-                  {videoError ? (
-                    <div className="w-full h-full flex items-center justify-center text-center p-6">
-                      <div>
-                        <AlertCircle className="h-12 w-12 text-red-400 mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">Video failed to load</h3>
-                        <p className="text-base text-gray-600 mb-4">
-                          There was a problem loading the video. Please check your connection and try again.
-                        </p>
-                        <button
-                          onClick={handleVideoRetry}
-                          className="bg-[#FF7A59] text-white px-4 py-2 rounded-[8px] text-base font-medium hover:bg-[#FF8A6B] transition-all flex items-center space-x-2 mx-auto"
-                        >
-                          <RefreshCw className="h-4 w-4" />
-                          <span>Retry</span>
-                        </button>
-                      </div>
-                    </div>
-                  ) : videoId && plyrSource ? (
-                    <div className="plyr__video-embed w-full h-full">
-                      <Plyr
-                        source={plyrSource}
-                        options={plyrOptions}
-                        onReady={() => {
-                          console.log('🎉 Plyr ready with video ID:', videoId);
-                          console.log('📺 Video URL:', course.videoUrl);
-                          setIsVideoLoading(false);
-                        }}
-                        onError={(error) => {
-                          console.error('❌ Plyr error:', error);
-                          console.log('🔍 Debug info:', {
-                            videoId,
-                            videoUrl: course.videoUrl,
-                            plyrSource
-                          });
-                          setVideoError(true);
-                          setIsVideoLoading(false);
-                        }}
-                        onLoadStart={() => {
-                          console.log('⏳ Video load started');
-                          setIsVideoLoading(true);
-                        }}
-                        onCanPlay={() => {
-                          console.log('✅ Video can play');
-                          setIsVideoLoading(false);
-                        }}
-                        onPlay={() => {
-                          console.log('▶️ Video started playing');
-                        }}
-                        onPause={() => {
-                          console.log('⏸️ Video paused');
-                        }}
-                        aria-label="Course video preview"
-                      />
-                      {isVideoLoading && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-[12px]">
-                          <div className="text-center">
-                            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A59] mb-4"></div>
-                            <p className="text-base text-gray-600">Loading video...</p>
-                          </div>
+          <div className="p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Left Column - Video and Description */}
+              <div className="lg:col-span-2 space-y-6">
+                {/* Video Player */}
+                <div className="relative">
+                  <div className="w-full aspect-video bg-gray-100 rounded-[12px] overflow-hidden border border-gray-200 max-w-[640px] mx-auto lg:mx-0">
+                    {videoError ? (
+                      <div className="w-full h-full flex items-center justify-center text-center p-6">
+                        <div>
+                          <AlertCircle className="h-12 w-12 text-red-400 mx-auto mb-4" />
+                          <h3 className="text-lg font-semibold text-gray-900 mb-2">Video failed to load</h3>
+                          <p className="text-base text-gray-600 mb-4">
+                            There was a problem loading the video. Please check your connection and try again.
+                          </p>
+                          <button
+                            onClick={handleVideoRetry}
+                            className="bg-[#FF7A59] text-white px-4 py-2 rounded-[8px] text-base font-medium hover:bg-[#FF8A6B] transition-all flex items-center space-x-2 mx-auto"
+                          >
+                            <RefreshCw className="h-4 w-4" />
+                            <span>Retry</span>
+                          </button>
                         </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-center p-6">
-                      <div>
-                        <AlertCircle className="h-12 w-12 text-red-400 mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">Invalid video URL</h3>
-                        <p className="text-base text-gray-600">
-                          The video URL is not valid or supported. Video ID: {videoId || 'Not found'}
-                        </p>
-                        <p className="text-sm text-gray-500 mt-2">
-                          URL: {course.videoUrl}
-                        </p>
                       </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Course Description */}
-              <div>
-                <h2 className="text-xl font-bold text-gray-900 mb-3">About This Course</h2>
-                <p id="course-modal-description" className="text-base text-gray-700 leading-relaxed">
-                  {course.description}
-                </p>
-              </div>
-
-              {/* Course Details */}
-              <div className="bg-gray-50 rounded-[12px] p-4">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Course Details</h3>
-                <div className="grid grid-cols-2 gap-4 text-base">
-                  <div>
-                    <span className="text-gray-600">Duration:</span>
-                    <span className="text-gray-900 ml-2 font-medium">{course.duration}</span>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">Level:</span>
-                    <span className="text-gray-900 ml-2 font-medium">{course.difficulty}</span>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">Category:</span>
-                    <span className="text-gray-900 ml-2 font-medium">{course.category}</span>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">Format:</span>
-                    <span className="text-gray-900 ml-2 font-medium">Video Lesson</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column - Thumbnail and Actions */}
-            <div className="space-y-6">
-              {/* Course Thumbnail */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Course Preview</h3>
-                <div className="w-full aspect-video bg-gray-100 rounded-[12px] overflow-hidden border border-gray-200">
-                  {imageError ? (
-                    <div className="w-full h-full flex items-center justify-center text-center p-4">
-                      <div>
-                        <AlertCircle className="h-8 w-8 text-red-400 mx-auto mb-2" />
-                        <p className="text-base text-gray-600 mb-2">Image failed to load</p>
-                        <button
-                          onClick={handleImageRetry}
-                          className="text-[#FF7A59] hover:text-[#FF8A6B] transition-colors text-base underline"
-                        >
-                          Retry
-                        </button>
+                    ) : videoId && plyrSource ? (
+                      <div className="plyr__video-embed w-full h-full">
+                        <Plyr
+                          source={plyrSource}
+                          options={plyrOptions}
+                          onReady={() => {
+                            console.log('🎉 Plyr ready with video ID:', videoId);
+                            console.log('📺 Video URL:', course.videoUrl);
+                            setIsVideoLoading(false);
+                          }}
+                          onError={(error) => {
+                            console.error('❌ Plyr error:', error);
+                            console.log('🔍 Debug info:', {
+                              videoId,
+                              videoUrl: course.videoUrl,
+                              plyrSource
+                            });
+                            setVideoError(true);
+                            setIsVideoLoading(false);
+                          }}
+                          onLoadStart={() => {
+                            console.log('⏳ Video load started');
+                            setIsVideoLoading(true);
+                          }}
+                          onCanPlay={() => {
+                            console.log('✅ Video can play');
+                            setIsVideoLoading(false);
+                          }}
+                          onPlay={() => {
+                            console.log('▶️ Video started playing');
+                          }}
+                          onPause={() => {
+                            console.log('⏸️ Video paused');
+                          }}
+                          aria-label="Course video preview"
+                        />
+                        {isVideoLoading && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-[12px]">
+                            <div className="text-center">
+                              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A59] mb-4"></div>
+                              <p className="text-base text-gray-600">Loading video...</p>
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  ) : (
-                    <img
-                      src={course.thumbnailUrl}
-                      alt={`${course.title} thumbnail`}
-                      className="w-full h-full object-cover"
-                      onError={() => setImageError(true)}
-                    />
-                  )}
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-center p-6">
+                        <div>
+                          <AlertCircle className="h-12 w-12 text-red-400 mx-auto mb-4" />
+                          <h3 className="text-lg font-semibold text-gray-900 mb-2">Invalid video URL</h3>
+                          <p className="text-base text-gray-600">
+                            The video URL is not valid or supported. Video ID: {videoId || 'Not found'}
+                          </p>
+                          <p className="text-sm text-gray-500 mt-2">
+                            URL: {course.videoUrl}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
 
-              {/* Action Buttons */}
-              <div className="space-y-4">
-                {/* AI Practice Button */}
+                {/* Course Description */}
                 <div>
-                  <button
-                    onClick={handleAIPractice}
-                    disabled={!aiPracticeStatus.available}
-                    className={`w-full px-6 py-4 rounded-[10px] text-lg font-medium transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex items-center justify-center space-x-3 ${
-                      aiPracticeStatus.available
-                        ? 'bg-[#FF7A59] text-white hover:bg-[#FF8A6B]'
-                        : 'bg-gray-200 text-gray-500 cursor-not-allowed opacity-60'
-                    }`}
-                  >
-                    <MessageCircle className="h-5 w-5" />
-                    <span>Practice with AI</span>
-                  </button>
-                  <p className="text-sm text-gray-600 mt-2 text-center">
-                    {aiPracticeStatus.reason}
+                  <h2 className="text-xl font-bold text-gray-900 mb-3">About This Course</h2>
+                  <p id="course-modal-description" className="text-base text-gray-700 leading-relaxed">
+                    {course.description}
                   </p>
                 </div>
 
-                {/* More Courses Button */}
-                <button
-                  onClick={handleMoreCourses}
-                  className="w-full bg-[#F5C842] text-gray-900 px-6 py-3 rounded-[10px] text-lg font-medium hover:bg-[#F2C94C] transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex items-center justify-center space-x-2"
-                >
-                  <span>More Courses</span>
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-
-                {/* Upgrade Prompt for Free Users */}
-                {currentUser?.role === 'free' && (
-                  <div className="bg-[#FF7A59]/10 border border-[#FF7A59]/30 rounded-[12px] p-4 text-center">
-                    <Star className="h-6 w-6 text-[#FF7A59] mx-auto mb-2" />
-                    <h4 className="text-base font-semibold text-gray-900 mb-1">Want More Practice?</h4>
-                    <p className="text-sm text-gray-600 mb-3">
-                      Upgrade to BrevEdu+ for 3 daily AI practice sessions and premium content.
-                    </p>
-                    <a
-                      href="/brevedu-plus"
-                      className="inline-block bg-[#FF7A59] text-white px-4 py-2 rounded-[8px] text-base font-medium hover:bg-[#FF8A6B] transition-all"
-                      onClick={onClose}
-                    >
-                      Upgrade Now
-                    </a>
+                {/* Course Details */}
+                <div className="bg-gray-50 rounded-[12px] p-4">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Course Details</h3>
+                  <div className="grid grid-cols-2 gap-4 text-base">
+                    <div>
+                      <span className="text-gray-600">Duration:</span>
+                      <span className="text-gray-900 ml-2 font-medium">{course.duration}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-600">Level:</span>
+                      <span className="text-gray-900 ml-2 font-medium">{course.difficulty}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-600">Category:</span>
+                      <span className="text-gray-900 ml-2 font-medium">{course.category}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-600">Format:</span>
+                      <span className="text-gray-900 ml-2 font-medium">Video Lesson</span>
+                    </div>
                   </div>
-                )}
-
-                {/* Sign In Prompt for Anonymous Users */}
-                {!currentUser && (
-                  <div className="bg-[#F5C842]/10 border border-[#F5C842]/30 rounded-[12px] p-4 text-center">
-                    <MessageCircle className="h-6 w-6 text-[#F5C842] mx-auto mb-2" />
-                    <h4 className="text-base font-semibold text-gray-900 mb-1">Ready to Practice?</h4>
-                    <p className="text-sm text-gray-600 mb-3">
-                      Sign in to start practicing with AI and track your progress.
-                    </p>
-                    <button
-                      className="inline-block bg-[#F5C842] text-gray-900 px-4 py-2 rounded-[8px] text-base font-medium hover:bg-[#F2C94C] transition-all"
-                      onClick={() => {
-                        onClose();
-                        // TODO: Open auth modal
-                        console.log('Open auth modal');
-                      }}
-                    >
-                      Sign In
-                    </button>
-                  </div>
-                )}
+                </div>
               </div>
 
-              {/* Course Stats (if available) */}
-              <div className="bg-gray-50 rounded-[12px] p-4">
-                <h4 className="text-base font-semibold text-gray-900 mb-3">Quick Facts</h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Bite-sized learning</span>
-                    <span className="text-emerald-600">✓</span>
+              {/* Right Column - Thumbnail and Actions */}
+              <div className="space-y-6">
+                {/* Course Thumbnail */}
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Course Preview</h3>
+                  <div className="w-full aspect-video bg-gray-100 rounded-[12px] overflow-hidden border border-gray-200">
+                    {imageError ? (
+                      <div className="w-full h-full flex items-center justify-center text-center p-4">
+                        <div>
+                          <AlertCircle className="h-8 w-8 text-red-400 mx-auto mb-2" />
+                          <p className="text-base text-gray-600 mb-2">Image failed to load</p>
+                          <button
+                            onClick={handleImageRetry}
+                            className="text-[#FF7A59] hover:text-[#FF8A6B] transition-colors text-base underline"
+                          >
+                            Retry
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <img
+                        src={course.thumbnailUrl}
+                        alt={`${course.title} thumbnail`}
+                        className="w-full h-full object-cover"
+                        onError={() => setImageError(true)}
+                      />
+                    )}
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Mobile friendly</span>
-                    <span className="text-emerald-600">✓</span>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="space-y-4">
+                  {/* AI Practice Button */}
+                  <div>
+                    {tavusCompleted ? (
+                      <div className="space-y-3">
+                        <div className="bg-emerald-50 border border-emerald-200 rounded-[12px] p-4 text-center">
+                          <CheckCircle className="h-8 w-8 text-emerald-600 mx-auto mb-2" />
+                          <h4 className="text-base font-semibold text-emerald-900 mb-1">Practice Completed!</h4>
+                          {tavusAccuracy && (
+                            <p className="text-sm text-emerald-700 mb-2">
+                              Accuracy Score: {tavusAccuracy}%
+                            </p>
+                          )}
+                          <p className="text-sm text-emerald-600">
+                            You've successfully completed the AI practice session for this course.
+                          </p>
+                        </div>
+                        <button
+                          onClick={handleRetakePractice}
+                          disabled={!aiPracticeStatus.available}
+                          className={`w-full px-6 py-3 rounded-[10px] text-base font-medium transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex items-center justify-center space-x-2 ${
+                            aiPracticeStatus.available
+                              ? 'bg-gray-100 text-gray-800 hover:bg-gray-200 border border-gray-300'
+                              : 'bg-gray-200 text-gray-500 cursor-not-allowed opacity-60'
+                          }`}
+                        >
+                          <RotateCcw className="h-4 w-4" />
+                          <span>Practice Again</span>
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={handleAIPractice}
+                        disabled={!aiPracticeStatus.available}
+                        className={`w-full px-6 py-4 rounded-[10px] text-lg font-medium transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex items-center justify-center space-x-3 ${
+                          aiPracticeStatus.available
+                            ? 'bg-[#FF7A59] text-white hover:bg-[#FF8A6B]'
+                            : 'bg-gray-200 text-gray-500 cursor-not-allowed opacity-60'
+                        }`}
+                      >
+                        <MessageCircle className="h-5 w-5" />
+                        <span>Practice with AI</span>
+                      </button>
+                    )}
+                    <p className="text-sm text-gray-600 mt-2 text-center">
+                      {aiPracticeStatus.reason}
+                    </p>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">AI practice available</span>
-                    <span className="text-emerald-600">✓</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Learn at your pace</span>
-                    <span className="text-emerald-600">✓</span>
+
+                  {/* More Courses Button */}
+                  <button
+                    onClick={handleMoreCourses}
+                    className="w-full bg-[#F5C842] text-gray-900 px-6 py-3 rounded-[10px] text-lg font-medium hover:bg-[#F2C94C] transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex items-center justify-center space-x-2"
+                  >
+                    <span>More Courses</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+
+                  {/* Upgrade Prompt for Free Users */}
+                  {currentUser?.role === 'free' && (
+                    <div className="bg-[#FF7A59]/10 border border-[#FF7A59]/30 rounded-[12px] p-4 text-center">
+                      <Star className="h-6 w-6 text-[#FF7A59] mx-auto mb-2" />
+                      <h4 className="text-base font-semibold text-gray-900 mb-1">Want More Practice?</h4>
+                      <p className="text-sm text-gray-600 mb-3">
+                        Upgrade to BrevEdu+ for 3 daily AI practice sessions and premium content.
+                      </p>
+                      <a
+                        href="/brevedu-plus"
+                        className="inline-block bg-[#FF7A59] text-white px-4 py-2 rounded-[8px] text-base font-medium hover:bg-[#FF8A6B] transition-all"
+                        onClick={onClose}
+                      >
+                        Upgrade Now
+                      </a>
+                    </div>
+                  )}
+
+                  {/* Sign In Prompt for Anonymous Users */}
+                  {!currentUser && (
+                    <div className="bg-[#F5C842]/10 border border-[#F5C842]/30 rounded-[12px] p-4 text-center">
+                      <MessageCircle className="h-6 w-6 text-[#F5C842] mx-auto mb-2" />
+                      <h4 className="text-base font-semibold text-gray-900 mb-1">Ready to Practice?</h4>
+                      <p className="text-sm text-gray-600 mb-3">
+                        Sign in to start practicing with AI and track your progress.
+                      </p>
+                      <button
+                        className="inline-block bg-[#F5C842] text-gray-900 px-4 py-2 rounded-[8px] text-base font-medium hover:bg-[#F2C94C] transition-all"
+                        onClick={() => {
+                          onClose();
+                          // TODO: Open auth modal
+                          console.log('Open auth modal');
+                        }}
+                      >
+                        Sign In
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Course Stats (if available) */}
+                <div className="bg-gray-50 rounded-[12px] p-4">
+                  <h4 className="text-base font-semibold text-gray-900 mb-3">Quick Facts</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600">Bite-sized learning</span>
+                      <span className="text-emerald-600">✓</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600">Mobile friendly</span>
+                      <span className="text-emerald-600">✓</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600">AI practice available</span>
+                      <span className={course.tavusConversationUrl ? "text-emerald-600" : "text-gray-400"}>
+                        {course.tavusConversationUrl ? "✓" : "—"}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600">Learn at your pace</span>
+                      <span className="text-emerald-600">✓</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -549,7 +626,15 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Tavus Modal */}
+      <TavusModal
+        isOpen={showTavusModal}
+        course={course}
+        onClose={() => setShowTavusModal(false)}
+        onCompletion={handleTavusCompletion}
+      />
+    </>
   );
 };
 
