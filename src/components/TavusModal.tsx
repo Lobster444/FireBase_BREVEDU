@@ -43,9 +43,9 @@ const TavusModal: React.FC<TavusModalProps> = ({
   const modalRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   
-  // State management
-  const [hasConfirmedStart, setHasConfirmedStart] = useState(false); // NEW: Confirmation state
-  const [loading, setLoading] = useState(false); // Changed: Only true when actually loading
+  // State management - UPDATED: hasConfirmedStart gates all Tavus operations
+  const [hasConfirmedStart, setHasConfirmedStart] = useState(false); // CRITICAL: No session creation until true
+  const [loading, setLoading] = useState(false); // Only true when actually creating session
   const [error, setError] = useState<string>('');
   const [conversationStarted, setConversationStarted] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -55,12 +55,12 @@ const TavusModal: React.FC<TavusModalProps> = ({
   const [retryCount, setRetryCount] = useState(0);
   const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected'>('connecting');
 
-  // Reset states when modal opens/closes - UPDATED: No automatic session initialization
+  // Reset states when modal opens/closes - CRITICAL: No automatic session initialization
   useEffect(() => {
     if (isOpen && course) {
       // Reset all states but DON'T initialize session yet
-      setHasConfirmedStart(false);
-      setLoading(false);
+      setHasConfirmedStart(false); // CRITICAL: Start with confirmation required
+      setLoading(false); // No loading until user confirms
       setError('');
       setConversationStarted(false);
       setProgress(0);
@@ -86,17 +86,21 @@ const TavusModal: React.FC<TavusModalProps> = ({
     };
   }, [isOpen, course]);
 
-  // NEW: Handle user confirmation to start practice
+  // CRITICAL: Handle user confirmation to start practice - This is where Tavus API is called
   const handleStartPracticeClick = async () => {
     if (!currentUser || !course?.id) return;
 
-    setHasConfirmedStart(true);
-    await initializeTavusSession();
+    console.log('🎯 User confirmed start - now creating Tavus session');
+    setHasConfirmedStart(true); // Gate is now open
+    await initializeTavusSession(); // NOW we call the API
   };
 
-  // Initialize Tavus session - UPDATED: Only called after user confirmation
+  // Initialize Tavus session - CRITICAL: Only called after user confirmation
   const initializeTavusSession = async () => {
-    if (!currentUser || !course?.id) return;
+    if (!currentUser || !course?.id || !hasConfirmedStart) {
+      console.log('❌ Session initialization blocked - missing confirmation');
+      return;
+    }
 
     try {
       setLoading(true);
@@ -106,7 +110,9 @@ const TavusModal: React.FC<TavusModalProps> = ({
       setRetryCount(0);
       setConnectionStatus('connecting');
       
-      // Start session tracking with conversation URL
+      console.log('🚀 Creating Tavus session after user confirmation');
+      
+      // CRITICAL: This is the actual Tavus API call - only happens after confirmation
       const newSessionId = await executeWithOfflineFallback(
         () => startTavusSession(currentUser.uid, course.id!, course.tavusConversationUrl),
         {
@@ -121,7 +127,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
       
       if (newSessionId) {
         setSessionId(newSessionId);
-        console.log('🚀 Tavus session started:', newSessionId);
+        console.log('✅ Tavus session created after confirmation:', newSessionId);
       }
 
       // Set loading timeout
@@ -143,7 +149,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
     }
   };
 
-  // Cleanup session - UPDATED: Only cleanup if session was actually started
+  // Cleanup session - CRITICAL: Only cleanup if session was actually started
   const cleanupSession = () => {
     document.body.style.overflow = 'unset';
     
@@ -160,9 +166,12 @@ const TavusModal: React.FC<TavusModalProps> = ({
     }
   };
 
-  // Enhanced message event handler - UPDATED: Only active after confirmation
+  // Enhanced message event handler - CRITICAL: Only active after confirmation
   useEffect(() => {
-    if (!hasConfirmedStart) return; // Don't listen for messages until confirmed
+    if (!hasConfirmedStart) {
+      console.log('🚫 Message listener blocked - user has not confirmed start');
+      return; // Don't listen for messages until confirmed
+    }
 
     const handleMessage = async (event: MessageEvent) => {
       if (!isOpen || !course || !currentUser) return;
@@ -196,7 +205,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
-  }, [isOpen, course, currentUser, sessionId, hasConfirmedStart]); // Added hasConfirmedStart dependency
+  }, [isOpen, course, currentUser, sessionId, hasConfirmedStart]); // CRITICAL: hasConfirmedStart dependency
 
   // Validate message origin
   const validateMessageOrigin = (origin: string): boolean => {
@@ -393,9 +402,12 @@ const TavusModal: React.FC<TavusModalProps> = ({
     }
   };
 
-  // Handle iframe events - UPDATED: Only active after confirmation
+  // Handle iframe events - CRITICAL: Only active after confirmation
   const handleIframeLoad = () => {
-    if (!hasConfirmedStart) return;
+    if (!hasConfirmedStart) {
+      console.log('🚫 Iframe load blocked - user has not confirmed start');
+      return;
+    }
     
     console.log('📺 Tavus iframe loaded');
     
@@ -416,7 +428,10 @@ const TavusModal: React.FC<TavusModalProps> = ({
   };
 
   const handleIframeError = () => {
-    if (!hasConfirmedStart) return;
+    if (!hasConfirmedStart) {
+      console.log('🚫 Iframe error blocked - user has not confirmed start');
+      return;
+    }
     
     console.error('❌ Tavus iframe failed to load');
     setError('Failed to load AI conversation. Please check your connection and try again.');
@@ -425,7 +440,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
     setRetryCount(prev => prev + 1);
   };
 
-  // Send message to iframe
+  // Send message to iframe - CRITICAL: Only after confirmation
   const sendMessageToIframe = (message: any) => {
     if (iframeRef.current && course?.tavusConversationUrl && hasConfirmedStart) {
       try {
@@ -461,7 +476,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
     setRetryCount(prev => prev + 1);
   };
 
-  // Handle backdrop click with confirmation - UPDATED: Consider confirmation state
+  // Handle backdrop click with confirmation - CRITICAL: Consider confirmation state
   const handleBackdropClick = (event: React.MouseEvent) => {
     if (event.target === event.currentTarget) {
       if (conversationStarted && progress > 0) {
@@ -474,7 +489,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
     }
   };
 
-  // Keyboard event handling - UPDATED: Consider confirmation state
+  // Keyboard event handling - CRITICAL: Consider confirmation state
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!isOpen) return;
@@ -554,7 +569,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
         {/* Content with Enhanced States */}
         <div className="relative">
-          {/* NEW: Confirmation Screen - Show before starting session */}
+          {/* CRITICAL: Confirmation Screen - Show before starting session */}
           {!hasConfirmedStart && (
             <div className="flex items-center justify-center min-h-[500px] p-8">
               <div className="text-center max-w-md mx-auto">
@@ -670,7 +685,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
             </div>
           )}
 
-          {/* Tavus Iframe - Only show after confirmation */}
+          {/* Tavus Iframe - CRITICAL: Only show after confirmation */}
           {hasConfirmedStart && (
             <div className="w-full h-[70vh] min-h-[500px]">
               <iframe
