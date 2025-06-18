@@ -174,22 +174,47 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
         provider: 'youtube' as const,
       },
     ],
+    poster: course.thumbnailUrl, // Use course thumbnail as poster
   };
 
-  // Plyr options
+  // Enhanced Plyr options with accessibility and responsive features
   const plyrOptions = {
     ratio: '16:9',
-    quality: { default: 576, options: [4320, 2160, 1440, 1080, 720, 576, 480, 360, 240] },
-    controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen'],
+    autoplay: false, // Disabled for accessibility
+    muted: true, // No audio on mount
+    quality: { 
+      default: 720, 
+      options: [4320, 2160, 1440, 1080, 720, 576, 480, 360, 240] 
+    },
+    controls: [
+      'play-large', 
+      'play', 
+      'progress', 
+      'current-time', 
+      'duration',
+      'mute', 
+      'volume', 
+      'settings', 
+      'fullscreen'
+    ],
     settings: ['quality', 'speed'],
-    speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] },
+    speed: { 
+      selected: 1, 
+      options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] 
+    },
+    keyboard: { focused: true, global: false }, // Enable keyboard navigation
+    tooltips: { controls: true, seek: true },
+    captions: { active: false, language: 'auto', update: false },
     youtube: {
       noCookie: true,
       rel: 0,
       showinfo: 0,
       iv_load_policy: 3,
       modestbranding: 1,
+      playsinline: 1,
     },
+    // Responsive sizing
+    responsive: true,
   };
 
   return (
@@ -244,7 +269,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
             <div className="lg:col-span-2 space-y-6">
               {/* Video Player */}
               <div className="relative">
-                <div className="w-full aspect-video bg-gray-100 rounded-[12px] overflow-hidden border border-gray-200">
+                <div className="w-full aspect-video bg-gray-100 rounded-[12px] overflow-hidden border border-gray-200 max-w-[640px] mx-auto lg:mx-0">
                   {videoError ? (
                     <div className="w-full h-full flex items-center justify-center text-center p-6">
                       <div>
@@ -263,15 +288,26 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                       </div>
                     </div>
                   ) : videoId ? (
-                    <Plyr
-                      source={plyrSource}
-                      options={plyrOptions}
-                      onReady={() => setIsVideoLoading(false)}
-                      onError={() => {
-                        setVideoError(true);
-                        setIsVideoLoading(false);
-                      }}
-                    />
+                    <div className="relative w-full h-auto">
+                      <Plyr
+                        source={plyrSource}
+                        options={plyrOptions}
+                        onReady={() => setIsVideoLoading(false)}
+                        onError={() => {
+                          setVideoError(true);
+                          setIsVideoLoading(false);
+                        }}
+                        aria-label="Course video preview"
+                      />
+                      {isVideoLoading && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-[12px]">
+                          <div className="text-center">
+                            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A59] mb-4"></div>
+                            <p className="text-base text-gray-600">Loading video...</p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-center p-6">
                       <div>

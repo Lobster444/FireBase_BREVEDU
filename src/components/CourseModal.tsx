@@ -322,20 +322,39 @@ const CourseModal: React.FC<CourseModalProps> = ({
         provider: 'youtube' as const,
       },
     ],
+    poster: formData.thumbnailUrl || undefined, // Use thumbnail as poster
   };
 
-  // Plyr options for preview
+  // Enhanced Plyr options for preview
   const plyrOptions = {
     ratio: '16:9',
-    quality: { default: 576, options: [1080, 720, 576, 480, 360, 240] },
-    controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+    autoplay: false, // Disabled for accessibility
+    muted: true, // No audio on mount
+    quality: { 
+      default: 576, 
+      options: [1080, 720, 576, 480, 360, 240] 
+    },
+    controls: [
+      'play-large', 
+      'play', 
+      'progress', 
+      'current-time', 
+      'mute', 
+      'volume', 
+      'fullscreen'
+    ],
+    keyboard: { focused: true, global: false }, // Enable keyboard navigation
+    tooltips: { controls: true, seek: true },
     youtube: {
       noCookie: true,
       rel: 0,
       showinfo: 0,
       iv_load_policy: 3,
       modestbranding: 1,
+      playsinline: 1,
     },
+    // Responsive sizing
+    responsive: true,
   };
 
   return (
@@ -653,12 +672,15 @@ const CourseModal: React.FC<CourseModalProps> = ({
                 {/* Video Preview */}
                 <div className="mb-6">
                   <h4 className="text-lg font-semibold text-gray-900 mb-2">Video</h4>
-                  <div className="w-full aspect-video bg-gray-100 rounded-[12px] overflow-hidden border border-gray-200">
+                  <div className="w-full aspect-video bg-gray-100 rounded-[12px] overflow-hidden border border-gray-200 max-w-[640px]">
                     {formData.videoUrl && formData.videoUrl.includes('youtube-nocookie.com') && videoId ? (
-                      <Plyr
-                        source={plyrSource}
-                        options={plyrOptions}
-                      />
+                      <div className="relative w-full h-auto">
+                        <Plyr
+                          source={plyrSource}
+                          options={plyrOptions}
+                          aria-label="Course video preview"
+                        />
+                      </div>
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-gray-500">
                         <div className="text-center">
