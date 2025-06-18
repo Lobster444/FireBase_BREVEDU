@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, MessageCircle, AlertCircle, Loader2, CheckCircle, RefreshCw, Wifi, WifiOff } from 'lucide-react';
+import { X, MessageCircle, AlertCircle, Loader2, CheckCircle, RefreshCw, Wifi, WifiOff, Play } from 'lucide-react';
 import { Course, TavusCompletion } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { 
@@ -44,7 +44,8 @@ const TavusModal: React.FC<TavusModalProps> = ({
   const iframeRef = useRef<HTMLIFrameElement>(null);
   
   // State management
-  const [loading, setLoading] = useState(true);
+  const [hasConfirmedStart, setHasConfirmedStart] = useState(false); // NEW: Confirmation state
+  const [loading, setLoading] = useState(false); // Changed: Only true when actually loading
   const [error, setError] = useState<string>('');
   const [conversationStarted, setConversationStarted] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -54,10 +55,28 @@ const TavusModal: React.FC<TavusModalProps> = ({
   const [retryCount, setRetryCount] = useState(0);
   const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected'>('connecting');
 
-  // Reset states when modal opens/closes
+  // Reset states when modal opens/closes - UPDATED: No automatic session initialization
   useEffect(() => {
     if (isOpen && course) {
-      initializeTavusSession();
+      // Reset all states but DON'T initialize session yet
+      setHasConfirmedStart(false);
+      setLoading(false);
+      setError('');
+      setConversationStarted(false);
+      setProgress(0);
+      setRetryCount(0);
+      setConnectionStatus('connecting');
+      setSessionId('');
+      setConversationId('');
+      
+      // Clear any existing timeout
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        setTimeoutId(null);
+      }
+      
+      // Prevent body scroll
+      document.body.style.overflow = 'hidden';
     } else {
       cleanupSession();
     }
@@ -67,7 +86,15 @@ const TavusModal: React.FC<TavusModalProps> = ({
     };
   }, [isOpen, course]);
 
-  // Initialize Tavus session
+  // NEW: Handle user confirmation to start practice
+  const handleStartPracticeClick = async () => {
+    if (!currentUser || !course?.id) return;
+
+    setHasConfirmedStart(true);
+    await initializeTavusSession();
+  };
+
+  // Initialize Tavus session - UPDATED: Only called after user confirmation
   const initializeTavusSession = async () => {
     if (!currentUser || !course?.id) return;
 
@@ -108,8 +135,6 @@ const TavusModal: React.FC<TavusModalProps> = ({
       
       setTimeoutId(timeout);
       
-      // Prevent body scroll
-      document.body.style.overflow = 'hidden';
     } catch (error) {
       console.error('❌ Error initializing Tavus session:', error);
       setError('Failed to start AI practice session. Please try again.');
@@ -118,7 +143,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
     }
   };
 
-  // Cleanup session
+  // Cleanup session - UPDATED: Only cleanup if session was actually started
   const cleanupSession = () => {
     document.body.style.overflow = 'unset';
     
@@ -127,16 +152,18 @@ const TavusModal: React.FC<TavusModalProps> = ({
       setTimeoutId(null);
     }
 
-    // Mark session as abandoned if not completed
-    if (sessionId && !conversationStarted) {
+    // Mark session as abandoned only if it was started but not completed
+    if (sessionId && hasConfirmedStart && !conversationStarted) {
       updateTavusSession(sessionId, {
         status: 'abandoned'
       }).catch(console.error);
     }
   };
 
-  // Enhanced message event handler
+  // Enhanced message event handler - UPDATED: Only active after confirmation
   useEffect(() => {
+    if (!hasConfirmedStart) return; // Don't listen for messages until confirmed
+
     const handleMessage = async (event: MessageEvent) => {
       if (!isOpen || !course || !currentUser) return;
 
@@ -169,13 +196,15 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
-  }, [isOpen, course, currentUser, sessionId]);
+  }, [isOpen, course, currentUser, sessionId, hasConfirmedStart]); // Added hasConfirmedStart dependency
 
   // Validate message origin
   const validateMessageOrigin = (origin: string): boolean => {
     try {
       const messageUrl = new URL(origin);
       const validDomains = [
+        'tavus.daily.co',
+        'daily.co',
         'tavus.io',
         'app.tavus.io',
         'api.tavus.io',
@@ -364,8 +393,10 @@ const TavusModal: React.FC<TavusModalProps> = ({
     }
   };
 
-  // Handle iframe events
+  // Handle iframe events - UPDATED: Only active after confirmation
   const handleIframeLoad = () => {
+    if (!hasConfirmedStart) return;
+    
     console.log('📺 Tavus iframe loaded');
     
     if (timeoutId) {
@@ -385,6 +416,8 @@ const TavusModal: React.FC<TavusModalProps> = ({
   };
 
   const handleIframeError = () => {
+    if (!hasConfirmedStart) return;
+    
     console.error('❌ Tavus iframe failed to load');
     setError('Failed to load AI conversation. Please check your connection and try again.');
     setLoading(false);
@@ -394,7 +427,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
   // Send message to iframe
   const sendMessageToIframe = (message: any) => {
-    if (iframeRef.current && course?.tavusConversationUrl) {
+    if (iframeRef.current && course?.tavusConversationUrl && hasConfirmedStart) {
       try {
         const iframeWindow = iframeRef.current.contentWindow;
         if (iframeWindow) {
@@ -421,14 +454,14 @@ const TavusModal: React.FC<TavusModalProps> = ({
     await new Promise(resolve => setTimeout(resolve, backoffDelay));
     
     // Reload iframe
-    if (iframeRef.current && course?.tavusConversationUrl) {
+    if (iframeRef.current && course?.tavusConversationUrl && hasConfirmedStart) {
       iframeRef.current.src = course.tavusConversationUrl;
     }
     
     setRetryCount(prev => prev + 1);
   };
 
-  // Handle backdrop click with confirmation
+  // Handle backdrop click with confirmation - UPDATED: Consider confirmation state
   const handleBackdropClick = (event: React.MouseEvent) => {
     if (event.target === event.currentTarget) {
       if (conversationStarted && progress > 0) {
@@ -441,7 +474,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
     }
   };
 
-  // Keyboard event handling
+  // Keyboard event handling - UPDATED: Consider confirmation state
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!isOpen) return;
@@ -492,20 +525,22 @@ const TavusModal: React.FC<TavusModalProps> = ({
           </div>
           
           <div className="flex items-center space-x-3">
-            {/* Connection Status Indicator */}
-            <div className="flex items-center space-x-2">
-              {isOnline ? (
-                <Wifi className={`h-4 w-4 ${connectionStatus === 'connected' ? 'text-green-500' : 'text-yellow-500'}`} />
-              ) : (
-                <WifiOff className="h-4 w-4 text-red-500" />
-              )}
-              <span className={`text-sm font-medium ${
-                connectionStatus === 'connected' ? 'text-green-600' : 
-                connectionStatus === 'connecting' ? 'text-yellow-600' : 'text-red-600'
-              }`}>
-                {!isOnline ? 'Offline' : connectionStatus}
-              </span>
-            </div>
+            {/* Connection Status Indicator - Only show after confirmation */}
+            {hasConfirmedStart && (
+              <div className="flex items-center space-x-2">
+                {isOnline ? (
+                  <Wifi className={`h-4 w-4 ${connectionStatus === 'connected' ? 'text-green-500' : 'text-yellow-500'}`} />
+                ) : (
+                  <WifiOff className="h-4 w-4 text-red-500" />
+                )}
+                <span className={`text-sm font-medium ${
+                  connectionStatus === 'connected' ? 'text-green-600' : 
+                  connectionStatus === 'connecting' ? 'text-yellow-600' : 'text-red-600'
+                }`}>
+                  {!isOnline ? 'Offline' : connectionStatus}
+                </span>
+              </div>
+            )}
             
             <button
               onClick={onClose}
@@ -519,8 +554,64 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
         {/* Content with Enhanced States */}
         <div className="relative">
-          {/* Loading State */}
-          {loading && (
+          {/* NEW: Confirmation Screen - Show before starting session */}
+          {!hasConfirmedStart && (
+            <div className="flex items-center justify-center min-h-[500px] p-8">
+              <div className="text-center max-w-md mx-auto">
+                <div className="w-20 h-20 bg-[#FF7A59]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Play className="h-10 w-10 text-[#FF7A59]" />
+                </div>
+                
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  Ready to Start AI Practice?
+                </h3>
+                
+                <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                  You're about to begin an interactive AI conversation to practice what you learned in this course. 
+                  The session will help reinforce your knowledge through personalized questions and feedback.
+                </p>
+                
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                  <p className="text-sm text-blue-800">
+                    💡 <strong>Tip:</strong> Make sure you have a stable internet connection and about 5-10 minutes to complete the practice session.
+                  </p>
+                </div>
+                
+                <div className="space-y-3">
+                  <button
+                    onClick={handleStartPracticeClick}
+                    disabled={!isOnline}
+                    className={`w-full px-8 py-4 rounded-[10px] text-lg font-medium transition-all flex items-center justify-center space-x-3 ${
+                      isOnline 
+                        ? 'bg-[#FF7A59] text-white hover:bg-[#FF8A6B] shadow-[0_2px_8px_rgba(255,122,89,0.3)]'
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    }`}
+                  >
+                    <Play className="h-5 w-5" />
+                    <span>{isOnline ? 'Start Practice Session' : 'Waiting for Connection'}</span>
+                  </button>
+                  
+                  <button
+                    onClick={onClose}
+                    className="w-full border border-gray-300 text-gray-700 px-8 py-3 rounded-[10px] text-lg font-medium hover:bg-gray-50 transition-all"
+                  >
+                    Cancel
+                  </button>
+                </div>
+                
+                {!isOnline && (
+                  <div className="mt-4 bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                    <p className="text-sm text-yellow-800">
+                      📡 You're currently offline. Please check your internet connection to start the AI practice session.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Loading State - Only show after confirmation */}
+          {hasConfirmedStart && loading && (
             <div className="absolute inset-0 bg-white flex items-center justify-center z-10">
               <div className="text-center">
                 <Loader2 className="h-8 w-8 text-[#FF7A59] animate-spin mx-auto mb-4" />
@@ -537,8 +628,8 @@ const TavusModal: React.FC<TavusModalProps> = ({
             </div>
           )}
 
-          {/* Enhanced Error State */}
-          {error && (
+          {/* Enhanced Error State - Only show after confirmation */}
+          {hasConfirmedStart && error && (
             <div className="absolute inset-0 bg-white flex items-center justify-center z-10">
               <div className="text-center max-w-md mx-auto p-6">
                 <AlertCircle className="h-12 w-12 text-red-400 mx-auto mb-4" />
@@ -579,68 +670,72 @@ const TavusModal: React.FC<TavusModalProps> = ({
             </div>
           )}
 
-          {/* Tavus Iframe */}
-          <div className="w-full h-[70vh] min-h-[500px]">
-            <iframe
-              ref={iframeRef}
-              src={course.tavusConversationUrl}
-              className="w-full h-full border-0"
-              title="Tavus AI Practice Session"
-              allow="camera; microphone; autoplay; encrypted-media; fullscreen"
-              sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-presentation"
-              onLoad={handleIframeLoad}
-              onError={handleIframeError}
-              style={{
-                colorScheme: 'light',
-                backgroundColor: '#f9fafb'
-              }}
-            />
-          </div>
+          {/* Tavus Iframe - Only show after confirmation */}
+          {hasConfirmedStart && (
+            <div className="w-full h-[70vh] min-h-[500px]">
+              <iframe
+                ref={iframeRef}
+                src={course.tavusConversationUrl}
+                className="w-full h-full border-0"
+                title="Tavus AI Practice Session"
+                allow="camera; microphone; autoplay; encrypted-media; fullscreen"
+                sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-presentation"
+                onLoad={handleIframeLoad}
+                onError={handleIframeError}
+                style={{
+                  colorScheme: 'light',
+                  backgroundColor: '#f9fafb'
+                }}
+              />
+            </div>
+          )}
         </div>
 
-        {/* Enhanced Footer with Progress */}
-        <div className="p-6 border-t border-gray-100 bg-gray-50">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              {/* Status Indicator */}
-              <div className="flex items-center space-x-2 text-sm text-gray-600">
-                <div className={`w-2 h-2 rounded-full ${
-                  conversationStarted ? 'bg-green-500' : 
-                  connectionStatus === 'connected' ? 'bg-yellow-500' : 'bg-gray-400'
-                }`}></div>
-                <span>
-                  {conversationStarted ? 'Conversation in progress' : 
-                   connectionStatus === 'connected' ? 'Ready to start' : 'Connecting...'}
-                </span>
+        {/* Enhanced Footer with Progress - Only show after confirmation */}
+        {hasConfirmedStart && (
+          <div className="p-6 border-t border-gray-100 bg-gray-50">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                {/* Status Indicator */}
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <div className={`w-2 h-2 rounded-full ${
+                    conversationStarted ? 'bg-green-500' : 
+                    connectionStatus === 'connected' ? 'bg-yellow-500' : 'bg-gray-400'
+                  }`}></div>
+                  <span>
+                    {conversationStarted ? 'Conversation in progress' : 
+                     connectionStatus === 'connected' ? 'Ready to start' : 'Connecting...'}
+                  </span>
+                </div>
+                
+                {/* Progress Bar */}
+                {conversationStarted && progress > 0 && (
+                  <div className="flex items-center space-x-2">
+                    <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-[#FF7A59] transition-all duration-300"
+                        style={{ width: `${progress}%` }}
+                      />
+                    </div>
+                    <span className="text-sm text-gray-600">{Math.round(progress)}%</span>
+                  </div>
+                )}
               </div>
               
-              {/* Progress Bar */}
-              {conversationStarted && progress > 0 && (
-                <div className="flex items-center space-x-2">
-                  <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-[#FF7A59] transition-all duration-300"
-                      style={{ width: `${progress}%` }}
-                    />
-                  </div>
-                  <span className="text-sm text-gray-600">{Math.round(progress)}%</span>
-                </div>
-              )}
-            </div>
-            
-            <div className="flex items-center space-x-3">
-              <p className="text-sm text-gray-600">
-                Complete the conversation to mark this course as finished
-              </p>
-              <button
-                onClick={onClose}
-                className="border border-gray-300 text-gray-700 px-4 py-2 rounded-[8px] text-sm font-medium hover:bg-gray-100 transition-all"
-              >
-                Exit Practice
-              </button>
+              <div className="flex items-center space-x-3">
+                <p className="text-sm text-gray-600">
+                  Complete the conversation to mark this course as finished
+                </p>
+                <button
+                  onClick={onClose}
+                  className="border border-gray-300 text-gray-700 px-4 py-2 rounded-[8px] text-sm font-medium hover:bg-gray-100 transition-all"
+                >
+                  Exit Practice
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
