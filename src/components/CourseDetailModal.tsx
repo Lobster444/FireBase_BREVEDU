@@ -165,46 +165,38 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
   const aiPracticeStatus = getAIPracticeStatus();
   const videoId = getYouTubeVideoId(course.videoUrl);
 
-  // Plyr video source configuration
-  const plyrSource = {
-    type: 'video' as const,
-    sources: [
-      {
-        src: videoId || '',
-        provider: 'youtube' as const,
-      },
-    ],
-    poster: course.thumbnailUrl, // Use course thumbnail as poster
-  };
-
-  // Enhanced Plyr options with accessibility and responsive features
+  // Enhanced Plyr options for YouTube embeds
   const plyrOptions = {
     ratio: '16:9',
-    autoplay: false, // Disabled for accessibility
-    muted: true, // No audio on mount
+    autoplay: false,
+    muted: false,
+    hideControls: false,
+    resetOnEnd: false,
+    keyboard: { focused: true, global: false },
+    tooltips: { controls: true, seek: true },
+    captions: { active: false, language: 'auto', update: false },
+    fullscreen: { enabled: true, fallback: true, iosNative: false },
+    storage: { enabled: true, key: 'plyr' },
+    speed: { 
+      selected: 1, 
+      options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] 
+    },
     quality: { 
       default: 720, 
       options: [4320, 2160, 1440, 1080, 720, 576, 480, 360, 240] 
     },
     controls: [
-      'play-large', 
-      'play', 
-      'progress', 
-      'current-time', 
+      'play-large',
+      'play',
+      'progress',
+      'current-time',
       'duration',
-      'mute', 
-      'volume', 
-      'settings', 
+      'mute',
+      'volume',
+      'settings',
       'fullscreen'
     ],
     settings: ['quality', 'speed'],
-    speed: { 
-      selected: 1, 
-      options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] 
-    },
-    keyboard: { focused: true, global: false }, // Enable keyboard navigation
-    tooltips: { controls: true, seek: true },
-    captions: { active: false, language: 'auto', update: false },
     youtube: {
       noCookie: true,
       rel: 0,
@@ -212,10 +204,35 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
       iv_load_policy: 3,
       modestbranding: 1,
       playsinline: 1,
+      enablejsapi: 1,
+      origin: window.location.origin
     },
-    // Responsive sizing
-    responsive: true,
+    vimeo: {
+      byline: false,
+      portrait: false,
+      title: false,
+      speed: true,
+      transparent: false
+    }
   };
+
+  // Create proper Plyr source for YouTube
+  const createPlyrSource = () => {
+    if (!videoId) return null;
+    
+    return {
+      type: 'video' as const,
+      sources: [
+        {
+          src: videoId,
+          provider: 'youtube' as const,
+        }
+      ],
+      poster: course.thumbnailUrl
+    };
+  };
+
+  const plyrSource = createPlyrSource();
 
   return (
     <div 
@@ -287,14 +304,26 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                         </button>
                       </div>
                     </div>
-                  ) : videoId ? (
-                    <div className="relative w-full h-auto">
+                  ) : videoId && plyrSource ? (
+                    <div className="plyr__video-embed w-full h-full">
                       <Plyr
                         source={plyrSource}
                         options={plyrOptions}
-                        onReady={() => setIsVideoLoading(false)}
-                        onError={() => {
+                        onReady={() => {
+                          console.log('Plyr ready with video ID:', videoId);
+                          setIsVideoLoading(false);
+                        }}
+                        onError={(error) => {
+                          console.error('Plyr error:', error);
                           setVideoError(true);
+                          setIsVideoLoading(false);
+                        }}
+                        onLoadStart={() => {
+                          console.log('Video load started');
+                          setIsVideoLoading(true);
+                        }}
+                        onCanPlay={() => {
+                          console.log('Video can play');
                           setIsVideoLoading(false);
                         }}
                         aria-label="Course video preview"
@@ -314,7 +343,10 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                         <AlertCircle className="h-12 w-12 text-red-400 mx-auto mb-4" />
                         <h3 className="text-lg font-semibold text-gray-900 mb-2">Invalid video URL</h3>
                         <p className="text-base text-gray-600">
-                          The video URL is not valid or supported.
+                          The video URL is not valid or supported. Video ID: {videoId || 'Not found'}
+                        </p>
+                        <p className="text-sm text-gray-500 mt-2">
+                          URL: {course.videoUrl}
                         </p>
                       </div>
                     </div>
