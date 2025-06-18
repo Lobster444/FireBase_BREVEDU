@@ -3,6 +3,7 @@ import { X, Clock, MessageCircle, CheckCircle } from 'lucide-react';
 import { Course, hasTavusCompletion, getTavusCompletion } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import TavusModal from './TavusModal';
+import TavusConfirmationModal from './TavusConfirmationModal';
 import VideoPlayerSection from './VideoPlayerSection';
 import ThumbnailSection from './ThumbnailSection';
 import AIPracticeSection from './AIPracticeSection';
@@ -26,6 +27,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
   const [imageError, setImageError] = useState(false);
   const [isVideoLoading, setIsVideoLoading] = useState(true);
   const [showTavusModal, setShowTavusModal] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [tavusCompleted, setTavusCompleted] = useState(false);
   const [tavusAccuracy, setTavusAccuracy] = useState<number | undefined>(undefined);
 
@@ -36,6 +38,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
       setImageError(false);
       setIsVideoLoading(true);
       setShowTavusModal(false);
+      setShowConfirmationModal(false);
       
       // Check Tavus completion status
       if (currentUser && course.id) {
@@ -152,14 +155,22 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
     return { available: false, reason: 'Unknown user type' };
   };
 
+  // UPDATED: Show confirmation modal instead of directly starting Tavus
   const handleAIPractice = () => {
     const status = getAIPracticeStatus();
     if (status.available && course?.tavusConversationUrl) {
-      console.log('🚀 Starting Tavus AI practice for course:', course.title);
-      setShowTavusModal(true);
+      console.log('🎯 Showing confirmation modal for course:', course.title);
+      setShowConfirmationModal(true); // Show confirmation first
     } else {
       console.log('❌ AI practice not available:', status.reason);
     }
+  };
+
+  // UPDATED: Only called after user confirms in the confirmation modal
+  const handleConfirmStart = () => {
+    console.log('✅ User confirmed - starting Tavus session for course:', course?.title);
+    setShowConfirmationModal(false); // Close confirmation modal
+    setShowTavusModal(true); // Now open Tavus modal
   };
 
   const handleTavusCompletion = (completion: any) => {
@@ -171,7 +182,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
 
   const handleRetakePractice = () => {
     console.log('🔄 Retaking Tavus practice for course:', course?.title);
-    setShowTavusModal(true);
+    setShowConfirmationModal(true); // Show confirmation for retake too
   };
 
   const handleMoreCourses = () => {
@@ -300,7 +311,15 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
         </div>
       </div>
 
-      {/* Tavus Modal */}
+      {/* UPDATED: Confirmation Modal - Shows first */}
+      <TavusConfirmationModal
+        isOpen={showConfirmationModal}
+        course={course}
+        onClose={() => setShowConfirmationModal(false)}
+        onConfirmStart={handleConfirmStart}
+      />
+
+      {/* UPDATED: Tavus Modal - Only shows after confirmation */}
       <TavusModal
         isOpen={showTavusModal}
         course={course}
