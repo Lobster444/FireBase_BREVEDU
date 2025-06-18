@@ -122,29 +122,29 @@ const AdminCoursesPage: React.FC = () => {
       case 'anonymous':
         return {
           label: 'Anonymous',
-          color: 'text-neutral-gray',
-          bgColor: 'bg-neutral-gray/20',
+          color: 'text-gray-700',
+          bgColor: 'bg-gray-100',
           icon: '🌐'
         };
       case 'free':
         return {
           label: 'Free',
-          color: 'text-accent-yellow',
-          bgColor: 'bg-accent-yellow/20',
+          color: 'text-yellow-700',
+          bgColor: 'bg-yellow-100',
           icon: '👤'
         };
       case 'premium':
         return {
           label: 'Premium',
-          color: 'text-accent-purple',
-          bgColor: 'bg-accent-purple/20',
+          color: 'text-purple-700',
+          bgColor: 'bg-purple-100',
           icon: '💎'
         };
       default:
         return {
           label: 'Free',
-          color: 'text-accent-yellow',
-          bgColor: 'bg-accent-yellow/20',
+          color: 'text-yellow-700',
+          bgColor: 'bg-yellow-100',
           icon: '👤'
         };
     }
@@ -152,17 +152,17 @@ const AdminCoursesPage: React.FC = () => {
 
   return (
     <AdminRoute>
-      <div className="min-h-screen bg-primary">
+      <div className="min-h-screen bg-gray-50">
         {/* Offline Banner */}
         <OfflineBanner isVisible={!isOnline} />
         
         {/* Header */}
-        <div className={`border-b border-neutral-gray/20 ${!isOnline ? 'mt-16' : ''}`}>
+        <div className={`border-b border-gray-200 bg-white ${!isOnline ? 'mt-16' : ''}`}>
           <div className="max-w-7xl mx-auto px-6 py-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <h1 className="text-h1 text-text-light mb-2">Course Management</h1>
-                <p className="text-body text-text-secondary">
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">Course Management</h1>
+                <p className="text-lg text-gray-600">
                   Manage all courses, create new content, and control access levels
                 </p>
               </div>
@@ -170,10 +170,10 @@ const AdminCoursesPage: React.FC = () => {
               <button 
                 onClick={handleNewCourse}
                 disabled={!isOnline}
-                className={`px-6 py-3 rounded-lg text-link font-medium transition-all shadow-button flex items-center space-x-2 ${
+                className={`px-6 py-3 rounded-lg text-base font-medium transition-all shadow-sm flex items-center space-x-2 ${
                   isOnline 
-                    ? 'bg-accent-purple text-text-dark hover:bg-accent-deep-purple' 
-                    : 'bg-neutral-gray/50 text-neutral-gray cursor-not-allowed opacity-50'
+                    ? 'bg-[#FF7A59] text-white hover:bg-[#FF8A6B]' 
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-50'
                 }`}
               >
                 <Plus className="h-5 w-5" />
@@ -185,16 +185,16 @@ const AdminCoursesPage: React.FC = () => {
 
         {/* Filters and Search */}
         <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="bg-neutral-gray/10 rounded-lg p-6 mb-6">
+          <div className="bg-white rounded-lg p-6 mb-6 border border-gray-200">
             {/* Search Bar */}
             <div className="relative mb-4">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-neutral-gray" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search courses by title or description..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-neutral-gray/20 border border-neutral-gray/30 rounded-lg text-text-light placeholder-neutral-gray focus:outline-none focus:border-accent-yellow focus:ring-2 focus:ring-accent-yellow/20"
+                className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-[#FF7A59] focus:ring-2 focus:ring-[#FF7A59]/20"
               />
             </div>
 
@@ -206,10 +206,10 @@ const AdminCoursesPage: React.FC = () => {
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
-                    className={`px-4 py-2 rounded-lg text-small font-medium transition-all ${
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                       selectedCategory === category
-                        ? 'bg-accent-yellow text-text-dark'
-                        : 'bg-neutral-gray/20 text-text-light hover:bg-neutral-gray/30'
+                        ? 'bg-[#FF7A59] text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
                     {category}
@@ -220,11 +220,11 @@ const AdminCoursesPage: React.FC = () => {
               {/* Additional Filters */}
               <div className="flex flex-wrap items-center gap-4">
                 <div className="flex items-center space-x-2">
-                  <Filter className="h-4 w-4 text-neutral-gray" />
+                  <Filter className="h-4 w-4 text-gray-500" />
                   <select
                     value={selectedDifficulty}
                     onChange={(e) => setSelectedDifficulty(e.target.value)}
-                    className="bg-neutral-gray/20 border border-neutral-gray/30 rounded-lg px-3 py-2 text-small text-text-light focus:outline-none focus:border-accent-yellow"
+                    className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:border-[#FF7A59]"
                   >
                     {difficulties.map(difficulty => (
                       <option key={difficulty} value={difficulty}>{difficulty}</option>
@@ -233,11 +233,11 @@ const AdminCoursesPage: React.FC = () => {
                 </div>
 
                 <div className="flex items-center space-x-2">
-                  <Shield className="h-4 w-4 text-neutral-gray" />
+                  <Shield className="h-4 w-4 text-gray-500" />
                   <select
                     value={selectedAccessLevel}
                     onChange={(e) => setSelectedAccessLevel(e.target.value)}
-                    className="bg-neutral-gray/20 border border-neutral-gray/30 rounded-lg px-3 py-2 text-small text-text-light focus:outline-none focus:border-accent-yellow"
+                    className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:border-[#FF7A59]"
                   >
                     <option value="All">All Access Levels</option>
                     <option value="anonymous">Anonymous</option>
@@ -246,12 +246,12 @@ const AdminCoursesPage: React.FC = () => {
                   </select>
                 </div>
 
-                <label className="flex items-center space-x-2 text-small text-text-light">
+                <label className="flex items-center space-x-2 text-sm text-gray-700">
                   <input
                     type="checkbox"
                     checked={showPublishedOnly}
                     onChange={(e) => setShowPublishedOnly(e.target.checked)}
-                    className="rounded border-neutral-gray/30 text-accent-yellow focus:ring-accent-yellow/20"
+                    className="rounded border-gray-300 text-[#FF7A59] focus:ring-[#FF7A59]/20"
                   />
                   <span>Published only</span>
                 </label>
@@ -261,38 +261,38 @@ const AdminCoursesPage: React.FC = () => {
 
           {/* Course Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
-            <div className="bg-neutral-gray/10 rounded-lg p-4">
-              <div className="text-h3 text-accent-yellow">{courses.length}</div>
-              <div className="text-small text-text-secondary">Total Courses</div>
+            <div className="bg-white rounded-lg p-4 border border-gray-200">
+              <div className="text-2xl font-bold text-[#FF7A59]">{courses.length}</div>
+              <div className="text-sm text-gray-600">Total Courses</div>
             </div>
-            <div className="bg-neutral-gray/10 rounded-lg p-4">
-              <div className="text-h3 text-accent-green">{courses.filter(c => c.published).length}</div>
-              <div className="text-small text-text-secondary">Published</div>
+            <div className="bg-white rounded-lg p-4 border border-gray-200">
+              <div className="text-2xl font-bold text-emerald-600">{courses.filter(c => c.published).length}</div>
+              <div className="text-sm text-gray-600">Published</div>
             </div>
-            <div className="bg-neutral-gray/10 rounded-lg p-4">
-              <div className="text-h3 text-accent-purple">{courses.filter(c => !c.published).length}</div>
-              <div className="text-small text-text-secondary">Drafts</div>
+            <div className="bg-white rounded-lg p-4 border border-gray-200">
+              <div className="text-2xl font-bold text-purple-600">{courses.filter(c => !c.published).length}</div>
+              <div className="text-sm text-gray-600">Drafts</div>
             </div>
-            <div className="bg-neutral-gray/10 rounded-lg p-4">
-              <div className="text-h3 text-neutral-gray">{courses.filter(c => (c.accessLevel || 'free') === 'premium').length}</div>
-              <div className="text-small text-text-secondary">Premium Only</div>
+            <div className="bg-white rounded-lg p-4 border border-gray-200">
+              <div className="text-2xl font-bold text-gray-600">{courses.filter(c => (c.accessLevel || 'free') === 'premium').length}</div>
+              <div className="text-sm text-gray-600">Premium Only</div>
             </div>
           </div>
 
           {/* Loading State */}
           {loading && (
             <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-accent-yellow mb-4"></div>
-              <p className="text-body text-text-secondary">Loading courses...</p>
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A59] mb-4"></div>
+              <p className="text-lg text-gray-600">Loading courses...</p>
             </div>
           )}
 
           {/* Error State */}
           {error && (
-            <div className="bg-red-400/10 border border-red-400/20 rounded-lg p-4 mb-6">
-              <div className="flex items-center space-x-2 text-red-400">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+              <div className="flex items-center space-x-2 text-red-700">
                 <AlertCircle className="h-5 w-5" />
-                <span className="text-body">{error}</span>
+                <span className="text-base">{error}</span>
               </div>
             </div>
           )}
@@ -302,7 +302,7 @@ const AdminCoursesPage: React.FC = () => {
             <>
               {filteredCourses.length === 0 ? (
                 <div className="text-center py-12">
-                  <p className="text-body text-text-secondary mb-4">
+                  <p className="text-lg text-gray-600 mb-4">
                     {courses.length === 0 ? 'No courses found.' : 'No courses match your current filters.'}
                   </p>
                   {courses.length > 0 && (
@@ -314,7 +314,7 @@ const AdminCoursesPage: React.FC = () => {
                         setSearchQuery('');
                         setShowPublishedOnly(false);
                       }}
-                      className="text-accent-yellow hover:text-accent-green transition-colors underline"
+                      className="text-[#FF7A59] hover:text-[#FF8A6B] transition-colors underline"
                     >
                       Clear all filters
                     </button>
@@ -324,30 +324,30 @@ const AdminCoursesPage: React.FC = () => {
                 <>
                   {/* Results Count */}
                   <div className="flex items-center justify-between mb-4">
-                    <p className="text-body text-text-secondary">
+                    <p className="text-lg text-gray-600">
                       Showing {filteredCourses.length} of {courses.length} courses
                     </p>
                   </div>
 
                   {/* Desktop Table View */}
-                  <div className="hidden lg:block bg-neutral-gray/10 rounded-lg overflow-hidden">
+                  <div className="hidden lg:block bg-white rounded-lg overflow-hidden border border-gray-200">
                     <table className="w-full">
-                      <thead className="bg-neutral-gray/20">
+                      <thead className="bg-gray-50">
                         <tr>
-                          <th className="text-left p-4 text-small font-medium text-text-light">Course</th>
-                          <th className="text-left p-4 text-small font-medium text-text-light">Category</th>
-                          <th className="text-left p-4 text-small font-medium text-text-light">Difficulty</th>
-                          <th className="text-left p-4 text-small font-medium text-text-light">Access Level</th>
-                          <th className="text-left p-4 text-small font-medium text-text-light">Status</th>
-                          <th className="text-left p-4 text-small font-medium text-text-light">Created</th>
-                          <th className="text-right p-4 text-small font-medium text-text-light">Actions</th>
+                          <th className="text-left p-4 text-sm font-medium text-gray-900">Course</th>
+                          <th className="text-left p-4 text-sm font-medium text-gray-900">Category</th>
+                          <th className="text-left p-4 text-sm font-medium text-gray-900">Difficulty</th>
+                          <th className="text-left p-4 text-sm font-medium text-gray-900">Access Level</th>
+                          <th className="text-left p-4 text-sm font-medium text-gray-900">Status</th>
+                          <th className="text-left p-4 text-sm font-medium text-gray-900">Created</th>
+                          <th className="text-right p-4 text-sm font-medium text-gray-900">Actions</th>
                         </tr>
                       </thead>
                       <tbody>
                         {filteredCourses.map((course) => {
                           const accessInfo = getAccessLevelInfo(course.accessLevel);
                           return (
-                            <tr key={course.id} className="border-t border-neutral-gray/20 hover:bg-neutral-gray/5">
+                            <tr key={course.id} className="border-t border-gray-200 hover:bg-gray-50">
                               <td className="p-4">
                                 <div className="flex items-center space-x-3">
                                   <img
@@ -356,27 +356,27 @@ const AdminCoursesPage: React.FC = () => {
                                     className="w-16 h-10 object-cover rounded"
                                   />
                                   <div>
-                                    <div className="text-body font-medium text-text-light line-clamp-1">
+                                    <div className="text-base font-medium text-gray-900 line-clamp-1">
                                       {course.title}
                                     </div>
-                                    <div className="text-small text-text-secondary">
+                                    <div className="text-sm text-gray-600">
                                       {course.duration}
                                     </div>
                                   </div>
                                 </div>
                               </td>
                               <td className="p-4">
-                                <span className="text-small text-neutral-gray bg-neutral-gray/20 px-2 py-1 rounded">
+                                <span className="text-sm text-gray-800 bg-gray-100 px-2 py-1 rounded">
                                   {course.category}
                                 </span>
                               </td>
                               <td className="p-4">
-                                <span className="text-small text-text-light">
+                                <span className="text-sm text-gray-900">
                                   {course.difficulty}
                                 </span>
                               </td>
                               <td className="p-4">
-                                <span className={`text-small px-2 py-1 rounded flex items-center space-x-1 w-fit ${accessInfo.color} ${accessInfo.bgColor}`}>
+                                <span className={`text-sm px-2 py-1 rounded flex items-center space-x-1 w-fit ${accessInfo.color} ${accessInfo.bgColor}`}>
                                   <span>{accessInfo.icon}</span>
                                   <span>{accessInfo.label}</span>
                                 </span>
@@ -385,19 +385,19 @@ const AdminCoursesPage: React.FC = () => {
                                 <div className="flex items-center space-x-2">
                                   {course.published ? (
                                     <>
-                                      <Eye className="h-4 w-4 text-accent-green" />
-                                      <span className="text-small text-accent-green">Published</span>
+                                      <Eye className="h-4 w-4 text-emerald-600" />
+                                      <span className="text-sm text-emerald-600">Published</span>
                                     </>
                                   ) : (
                                     <>
-                                      <EyeOff className="h-4 w-4 text-accent-purple" />
-                                      <span className="text-small text-accent-purple">Draft</span>
+                                      <EyeOff className="h-4 w-4 text-purple-600" />
+                                      <span className="text-sm text-purple-600">Draft</span>
                                     </>
                                   )}
                                 </div>
                               </td>
                               <td className="p-4">
-                                <span className="text-small text-text-secondary">
+                                <span className="text-sm text-gray-600">
                                   {formatDate(course.createdAt)}
                                 </span>
                               </td>
@@ -408,8 +408,8 @@ const AdminCoursesPage: React.FC = () => {
                                     disabled={!isOnline}
                                     className={`p-2 rounded-lg transition-colors ${
                                       isOnline 
-                                        ? 'text-accent-yellow hover:bg-accent-yellow/20' 
-                                        : 'text-neutral-gray cursor-not-allowed opacity-50'
+                                        ? 'text-[#FF7A59] hover:bg-[#FF7A59]/10' 
+                                        : 'text-gray-400 cursor-not-allowed opacity-50'
                                     }`}
                                   >
                                     <Edit className="h-4 w-4" />
@@ -419,8 +419,8 @@ const AdminCoursesPage: React.FC = () => {
                                     disabled={!isOnline}
                                     className={`p-2 rounded-lg transition-colors ${
                                       isOnline 
-                                        ? 'text-red-400 hover:bg-red-400/20' 
-                                        : 'text-neutral-gray cursor-not-allowed opacity-50'
+                                        ? 'text-red-500 hover:bg-red-50' 
+                                        : 'text-gray-400 cursor-not-allowed opacity-50'
                                     }`}
                                   >
                                     <Trash2 className="h-4 w-4" />
@@ -439,7 +439,7 @@ const AdminCoursesPage: React.FC = () => {
                     {filteredCourses.map((course) => {
                       const accessInfo = getAccessLevelInfo(course.accessLevel);
                       return (
-                        <div key={course.id} className="bg-neutral-gray/10 rounded-lg p-4">
+                        <div key={course.id} className="bg-white rounded-lg p-4 border border-gray-200">
                           <div className="flex items-start space-x-3 mb-3">
                             <img
                               src={course.thumbnailUrl}
@@ -447,10 +447,10 @@ const AdminCoursesPage: React.FC = () => {
                               className="w-20 h-12 object-cover rounded flex-shrink-0"
                             />
                             <div className="flex-1 min-w-0">
-                              <h3 className="text-body font-medium text-text-light line-clamp-2 mb-1">
+                              <h3 className="text-base font-medium text-gray-900 line-clamp-2 mb-1">
                                 {course.title}
                               </h3>
-                              <div className="flex items-center space-x-2 text-small text-text-secondary mb-2">
+                              <div className="flex items-center space-x-2 text-sm text-gray-600 mb-2">
                                 <span>{course.duration}</span>
                                 <span>•</span>
                                 <span>{course.category}</span>
@@ -458,17 +458,17 @@ const AdminCoursesPage: React.FC = () => {
                                 <span>{course.difficulty}</span>
                               </div>
                               <div className="flex items-center space-x-2">
-                                <span className={`text-x-small px-2 py-1 rounded flex items-center space-x-1 ${accessInfo.color} ${accessInfo.bgColor}`}>
+                                <span className={`text-xs px-2 py-1 rounded flex items-center space-x-1 ${accessInfo.color} ${accessInfo.bgColor}`}>
                                   <span>{accessInfo.icon}</span>
                                   <span>{accessInfo.label}</span>
                                 </span>
                                 {course.published ? (
-                                  <span className="text-x-small text-accent-green bg-accent-green/20 px-2 py-1 rounded flex items-center space-x-1">
+                                  <span className="text-xs text-emerald-600 bg-emerald-50 px-2 py-1 rounded flex items-center space-x-1">
                                     <Eye className="h-3 w-3" />
                                     <span>Published</span>
                                   </span>
                                 ) : (
-                                  <span className="text-x-small text-accent-purple bg-accent-purple/20 px-2 py-1 rounded flex items-center space-x-1">
+                                  <span className="text-xs text-purple-600 bg-purple-50 px-2 py-1 rounded flex items-center space-x-1">
                                     <EyeOff className="h-3 w-3" />
                                     <span>Draft</span>
                                   </span>
@@ -483,8 +483,8 @@ const AdminCoursesPage: React.FC = () => {
                               disabled={!isOnline}
                               className={`p-2 rounded-lg transition-colors ${
                                 isOnline 
-                                  ? 'text-accent-yellow hover:bg-accent-yellow/20' 
-                                  : 'text-neutral-gray cursor-not-allowed opacity-50'
+                                  ? 'text-[#FF7A59] hover:bg-[#FF7A59]/10' 
+                                  : 'text-gray-400 cursor-not-allowed opacity-50'
                               }`}
                             >
                               <Edit className="h-4 w-4" />
@@ -494,8 +494,8 @@ const AdminCoursesPage: React.FC = () => {
                               disabled={!isOnline}
                               className={`p-2 rounded-lg transition-colors ${
                                 isOnline 
-                                  ? 'text-red-400 hover:bg-red-400/20' 
-                                  : 'text-neutral-gray cursor-not-allowed opacity-50'
+                                  ? 'text-red-500 hover:bg-red-50' 
+                                  : 'text-gray-400 cursor-not-allowed opacity-50'
                               }`}
                             >
                               <Trash2 className="h-4 w-4" />
@@ -513,14 +513,14 @@ const AdminCoursesPage: React.FC = () => {
 
         {/* Delete Confirmation Modal */}
         {deleteConfirm && (
-          <div className="fixed inset-0 bg-primary/80 backdrop-blur-ios flex items-center justify-center z-50 p-4">
-            <div className="bg-primary border border-neutral-gray/30 rounded-2xl w-full max-w-md p-6">
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-2xl w-full max-w-md p-6">
               <div className="text-center mb-6">
-                <div className="w-12 h-12 bg-red-400/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Trash2 className="h-6 w-6 text-red-400" />
+                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Trash2 className="h-6 w-6 text-red-600" />
                 </div>
-                <h3 className="text-h3 text-text-light mb-2">Delete Course</h3>
-                <p className="text-body text-text-secondary">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Delete Course</h3>
+                <p className="text-base text-gray-600">
                   Are you sure you want to delete this course? This action cannot be undone.
                 </p>
               </div>
@@ -529,17 +529,17 @@ const AdminCoursesPage: React.FC = () => {
                 <button
                   onClick={() => setDeleteConfirm(null)}
                   disabled={isDeleting}
-                  className="flex-1 border border-neutral-gray/30 text-text-light px-4 py-3 rounded-lg text-body font-medium hover:bg-neutral-gray/20 transition-all disabled:opacity-50"
+                  className="flex-1 border border-gray-300 text-gray-700 px-4 py-3 rounded-lg text-base font-medium hover:bg-gray-50 transition-all disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => handleDeleteCourse(deleteConfirm)}
                   disabled={isDeleting || !isOnline}
-                  className={`flex-1 px-4 py-3 rounded-lg text-body font-medium transition-all disabled:opacity-50 flex items-center justify-center space-x-2 ${
+                  className={`flex-1 px-4 py-3 rounded-lg text-base font-medium transition-all disabled:opacity-50 flex items-center justify-center space-x-2 ${
                     isOnline 
-                      ? 'bg-red-400 text-white hover:bg-red-500' 
-                      : 'bg-neutral-gray/50 text-neutral-gray cursor-not-allowed'
+                      ? 'bg-red-600 text-white hover:bg-red-700' 
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
                 >
                   {isDeleting ? (
