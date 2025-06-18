@@ -9,6 +9,7 @@ export interface Course {
   difficulty: "Beginner" | "Intermediate" | "Advanced";
   accessLevel: "anonymous" | "free" | "premium";  // New field for access control
   published: boolean;
+  tavusConversationUrl?: string;  // New: Tavus AI conversation URL
   createdAt?: any;  // Firestore Timestamp
   updatedAt?: any;  // Firestore Timestamp
 }
@@ -22,6 +23,15 @@ export interface User {
   aiChatsUsed?: number;
   lastChatReset?: string;
   createdAt?: string;
+  // New: Track Tavus AI completion per course
+  tavusCompletions?: { [courseId: string]: TavusCompletion };
+}
+
+export interface TavusCompletion {
+  completed: boolean;
+  accuracyScore?: number;
+  completedAt: string;
+  conversationId?: string;
 }
 
 export type UserRole = 'anonymous' | 'free' | 'premium';
@@ -70,4 +80,16 @@ export const getAccessLevelRequirement = (accessLevel: AccessLevel): string => {
     default:
       return 'Account required';
   }
+};
+
+// Helper function to check if user has completed Tavus AI for a course
+export const hasTavusCompletion = (user: User | null, courseId: string): boolean => {
+  if (!user || !courseId) return false;
+  return user.tavusCompletions?.[courseId]?.completed || false;
+};
+
+// Helper function to get Tavus completion data for a course
+export const getTavusCompletion = (user: User | null, courseId: string): TavusCompletion | null => {
+  if (!user || !courseId) return null;
+  return user.tavusCompletions?.[courseId] || null;
 };

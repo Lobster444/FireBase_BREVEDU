@@ -55,7 +55,9 @@ export const getCourses = (
           accessLevel: data.accessLevel || 'free',
           // Convert Firestore Timestamps to readable format if needed
           createdAt: data.createdAt,
-          updatedAt: data.updatedAt
+          updatedAt: data.updatedAt,
+          // Include Tavus conversation URL
+          tavusConversationUrl: data.tavusConversationUrl || undefined
         } as Course);
       });
       callback(courses);
@@ -109,7 +111,9 @@ export const getCoursesByCategory = (
           // Ensure accessLevel defaults to 'free' if not set
           accessLevel: data.accessLevel || 'free',
           createdAt: data.createdAt,
-          updatedAt: data.updatedAt
+          updatedAt: data.updatedAt,
+          // Include Tavus conversation URL
+          tavusConversationUrl: data.tavusConversationUrl || undefined
         } as Course);
       });
       callback(courses);
@@ -143,7 +147,9 @@ export const getCourse = async (id: string): Promise<Course | null> => {
         // Ensure accessLevel defaults to 'free' if not set
         accessLevel: data.accessLevel || 'free',
         createdAt: data.createdAt,
-        updatedAt: data.updatedAt
+        updatedAt: data.updatedAt,
+        // Include Tavus conversation URL
+        tavusConversationUrl: data.tavusConversationUrl || undefined
       } as Course;
     } else {
       console.log('No course found with ID:', id);
@@ -191,12 +197,21 @@ export const addCourse = async (
       throw new Error('Access level must be anonymous, free, or premium');
     }
 
+    // Validate Tavus conversation URL if provided
+    if (course.tavusConversationUrl) {
+      if (!isValidTavusUrl(course.tavusConversationUrl)) {
+        throw new Error('Invalid Tavus conversation URL format');
+      }
+    }
+
     const courseData = {
       ...course,
       title: course.title.trim(),
       description: course.description.trim(),
       // Ensure accessLevel is set, default to 'free' if not provided
       accessLevel: course.accessLevel || 'free',
+      // Include Tavus conversation URL if provided
+      tavusConversationUrl: course.tavusConversationUrl || undefined,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
     };
@@ -239,6 +254,13 @@ export const updateCourse = async (
       const validAccessLevels = ['anonymous', 'free', 'premium'];
       if (!validAccessLevels.includes(data.accessLevel)) {
         throw new Error('Access level must be anonymous, free, or premium');
+      }
+    }
+
+    // Validate Tavus conversation URL if provided
+    if (data.tavusConversationUrl !== undefined) {
+      if (data.tavusConversationUrl && !isValidTavusUrl(data.tavusConversationUrl)) {
+        throw new Error('Invalid Tavus conversation URL format');
       }
     }
 
@@ -318,7 +340,9 @@ export const getCoursesPaginated = async (
         // Ensure accessLevel defaults to 'free' if not set
         accessLevel: data.accessLevel || 'free',
         createdAt: data.createdAt,
-        updatedAt: data.updatedAt
+        updatedAt: data.updatedAt,
+        // Include Tavus conversation URL
+        tavusConversationUrl: data.tavusConversationUrl || undefined
       } as Course);
     });
 
@@ -372,7 +396,9 @@ export const searchCourses = async (
         // Ensure accessLevel defaults to 'free' if not set
         accessLevel: data.accessLevel || 'free',
         createdAt: data.createdAt,
-        updatedAt: data.updatedAt
+        updatedAt: data.updatedAt,
+        // Include Tavus conversation URL
+        tavusConversationUrl: data.tavusConversationUrl || undefined
       } as Course;
       
       // Client-side filtering
@@ -390,5 +416,51 @@ export const searchCourses = async (
   } catch (error) {
     console.error('Error searching courses:', error);
     throw error;
+  }
+};
+
+/**
+ * Validate Tavus conversation URL format
+ * @param url - URL to validate
+ * @returns boolean - Whether the URL is a valid Tavus conversation URL
+ */
+export const isValidTavusUrl = (url: string): boolean => {
+  if (!url || typeof url !== 'string') {
+    return false;
+  }
+
+  try {
+    const urlObj = new URL(url);
+    
+    // Check if it's a valid Tavus domain
+    const validDomains = [
+      'tavus.io',
+      'app.tavus.io',
+      'api.tavus.io',
+      'embed.tavus.io',
+      'conversation.tavus.io'
+    ];
+    
+    const isValidDomain = validDomains.some(domain => 
+      urlObj.hostname === domain || urlObj.hostname.endsWith(`.${domain}`)
+    );
+    
+    if (!isValidDomain) {
+      return false;
+    }
+    
+    // Check for HTTPS protocol
+    if (urlObj.protocol !== 'https:') {
+      return false;
+    }
+    
+    // Additional validation for conversation URLs
+    // This can be expanded based on Tavus URL patterns
+    const hasValidPath = urlObj.pathname.length > 1; // Must have a path beyond "/"
+    
+    return hasValidPath;
+  } catch (error) {
+    // Invalid URL format
+    return false;
   }
 };

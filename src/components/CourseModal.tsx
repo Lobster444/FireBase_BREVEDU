@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Save, Eye, AlertCircle, Loader2, Shield } from 'lucide-react';
+import { X, Save, Eye, AlertCircle, Loader2, Shield, MessageCircle } from 'lucide-react';
 import Plyr from 'plyr-react';
 import { Course, AccessLevel } from '../types';
-import { addCourse, updateCourse } from '../lib/courseService';
+import { addCourse, updateCourse, isValidTavusUrl } from '../lib/courseService';
 import { notifyLoading, updateToast } from '../lib/toast';
 import { useNetworkStatusWithUtils } from '../hooks/useNetworkStatus';
 
@@ -24,6 +24,7 @@ interface FormData {
   difficulty: Course['difficulty'];
   accessLevel: AccessLevel;
   published: boolean;
+  tavusConversationUrl: string; // New field for Tavus AI
 }
 
 interface FormErrors {
@@ -33,6 +34,7 @@ interface FormErrors {
   thumbnailUrl?: string;
   duration?: string;
   accessLevel?: string;
+  tavusConversationUrl?: string; // New field for Tavus AI validation
 }
 
 const CourseModal: React.FC<CourseModalProps> = ({
@@ -59,7 +61,8 @@ const CourseModal: React.FC<CourseModalProps> = ({
     category: 'Tech',
     difficulty: 'Beginner',
     accessLevel: 'free',
-    published: false
+    published: false,
+    tavusConversationUrl: '' // New field for Tavus AI
   });
 
   // Initialize form data when modal opens or course changes
@@ -75,7 +78,8 @@ const CourseModal: React.FC<CourseModalProps> = ({
           category: course.category,
           difficulty: course.difficulty,
           accessLevel: course.accessLevel || 'free',
-          published: course.published
+          published: course.published,
+          tavusConversationUrl: course.tavusConversationUrl || '' // Include Tavus URL
         });
       } else {
         // Reset form for add mode
@@ -88,7 +92,8 @@ const CourseModal: React.FC<CourseModalProps> = ({
           category: 'Tech',
           difficulty: 'Beginner',
           accessLevel: 'free',
-          published: false
+          published: false,
+          tavusConversationUrl: '' // Reset Tavus URL
         });
       }
       setErrors({});
@@ -196,6 +201,13 @@ const CourseModal: React.FC<CourseModalProps> = ({
       newErrors.accessLevel = 'Please select a valid access level';
     }
 
+    // Tavus conversation URL validation (optional field)
+    if (formData.tavusConversationUrl.trim()) {
+      if (!isValidTavusUrl(formData.tavusConversationUrl.trim())) {
+        newErrors.tavusConversationUrl = 'Must be a valid Tavus conversation URL (https://tavus.io/...)';
+      }
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -237,7 +249,9 @@ const CourseModal: React.FC<CourseModalProps> = ({
           category: formData.category,
           difficulty: formData.difficulty,
           accessLevel: formData.accessLevel,
-          published: formData.published
+          published: formData.published,
+          // Include Tavus conversation URL if provided
+          tavusConversationUrl: formData.tavusConversationUrl.trim() || undefined
         };
 
         if (mode === 'add') {
@@ -378,8 +392,8 @@ const CourseModal: React.FC<CourseModalProps> = ({
             </h2>
             <p id="modal-description" className="text-lg text-gray-600 mt-1">
               {mode === 'add' 
-                ? 'Create a new course with video content and access controls'
-                : 'Update course information, settings, and access level'
+                ? 'Create a new course with video content, AI practice, and access controls'
+                : 'Update course information, AI practice settings, and access level'
               }
             </p>
           </div>
@@ -481,6 +495,37 @@ const CourseModal: React.FC<CourseModalProps> = ({
                 ) : (
                   <p id="videoUrl-help" className="mt-1 text-sm text-gray-600">
                     Use YouTube nocookie embed URLs for privacy compliance
+                  </p>
+                )}
+              </div>
+
+              {/* Tavus AI Conversation URL */}
+              <div>
+                <label htmlFor="tavusConversationUrl" className="block text-base font-semibold text-gray-900 mb-2 flex items-center space-x-2">
+                  <MessageCircle className="h-5 w-5 text-[#FF7A59]" />
+                  <span>Tavus AI Practice URL (Optional)</span>
+                </label>
+                <input
+                  type="url"
+                  id="tavusConversationUrl"
+                  value={formData.tavusConversationUrl}
+                  onChange={(e) => handleInputChange('tavusConversationUrl', e.target.value)}
+                  className={`w-full px-4 py-3 bg-white border rounded-[10px] text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition-colors ${
+                    errors.tavusConversationUrl 
+                      ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
+                      : 'border-gray-300 focus:border-[#FF7A59] focus:ring-[#FF7A59]/20'
+                  }`}
+                  placeholder="https://tavus.io/conversation/..."
+                  aria-describedby={errors.tavusConversationUrl ? 'tavusUrl-error' : 'tavusUrl-help'}
+                />
+                {errors.tavusConversationUrl ? (
+                  <p id="tavusUrl-error" className="mt-1 text-base text-red-600 flex items-center space-x-1">
+                    <AlertCircle className="h-4 w-4" />
+                    <span>{errors.tavusConversationUrl}</span>
+                  </p>
+                ) : (
+                  <p id="tavusUrl-help" className="mt-1 text-sm text-gray-600">
+                    Add a Tavus AI conversation URL to enable interactive practice sessions
                   </p>
                 )}
               </div>
@@ -693,6 +738,35 @@ const CourseModal: React.FC<CourseModalProps> = ({
                   </div>
                 </div>
 
+                {/* Tavus AI Practice Preview */}
+                {formData.tavusConversationUrl && (
+                  <div className="mb-6">
+                    <h4 className="text-lg font-semibold text-gray-900 mb-2 flex items-center space-x-2">
+                      <MessageCircle className="h-5 w-5 text-[#FF7A59]" />
+                      <span>AI Practice Session</span>
+                    </h4>
+                    <div className="bg-[#FF7A59]/10 border border-[#FF7A59]/20 rounded-[12px] p-4">
+                      <div className="flex items-center space-x-3 mb-3">
+                        <div className="w-10 h-10 bg-[#FF7A59] rounded-full flex items-center justify-center">
+                          <MessageCircle className="h-5 w-5 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-base font-semibold text-gray-900">Tavus AI Practice</p>
+                          <p className="text-sm text-gray-600">Interactive conversation enabled</p>
+                        </div>
+                      </div>
+                      <p className="text-sm text-gray-700">
+                        Students will be able to practice with AI after watching the video lesson.
+                      </p>
+                      <div className="mt-3">
+                        <p className="text-xs text-gray-500 break-all">
+                          URL: {formData.tavusConversationUrl}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Course Info Preview */}
                 <div className="bg-gray-50 rounded-[12px] p-4">
                   <h4 className="text-lg font-semibold text-gray-900 mb-3">Course Card Preview</h4>
@@ -727,6 +801,12 @@ const CourseModal: React.FC<CourseModalProps> = ({
                           <Shield className="h-3 w-3" />
                           <span>{accessLevelInfo.label}</span>
                         </span>
+                        {formData.tavusConversationUrl && (
+                          <span className="text-sm text-[#FF7A59] bg-[#FF7A59]/10 px-2 py-1 rounded-[6px] flex items-center space-x-1">
+                            <MessageCircle className="h-3 w-3" />
+                            <span>AI Practice</span>
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
