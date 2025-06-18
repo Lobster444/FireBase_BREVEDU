@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import Plyr CSS */
+@import 'plyr-react/dist/plyr.css';
+
 /* Import Headspace theme */
 @import './styles/headspace-theme.css';
 
@@ -360,4 +363,72 @@
   .animate-scale-in {
     animation: scale-in 0.2s ease-out;
   }
+}
+
+/* Plyr player customization to match Headspace theme */
+.plyr {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.plyr--video {
+  background: #000;
+}
+
+.plyr__control--overlaid {
+  background: rgba(255, 122, 89, 0.9);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.plyr__control--overlaid:hover {
+  background: rgba(255, 122, 89, 1);
+  transform: scale(1.1);
+}
+
+.plyr__controls {
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  border-radius: 0 0 12px 12px;
+}
+
+.plyr__control {
+  color: #fff;
+  transition: all 0.2s ease;
+}
+
+.plyr__control:hover {
+  color: #FF7A59;
+}
+
+.plyr__control.plyr__tab-focus {
+  box-shadow: 0 0 0 3px rgba(255, 122, 89, 0.5);
+}
+
+.plyr__progress__buffer {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.plyr__progress__played {
+  color: #FF7A59;
+}
+
+.plyr__volume__display {
+  color: #fff;
+}
+
+.plyr__menu__container {
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.plyr__menu__container .plyr__control {
+  color: #fff;
+}
+
+.plyr__menu__container .plyr__control:hover {
+  background: rgba(255, 122, 89, 0.2);
+  color: #FF7A59;
 }
