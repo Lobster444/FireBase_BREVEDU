@@ -79,12 +79,16 @@ const TavusModal: React.FC<TavusModalProps> = ({
       setRetryCount(0);
       setConnectionStatus('connecting');
       
-      // Start session tracking
+      // Start session tracking with conversation URL
       const newSessionId = await executeWithOfflineFallback(
-        () => startTavusSession(currentUser.uid, course.id!),
+        () => startTavusSession(currentUser.uid, course.id!, course.tavusConversationUrl),
         {
           operation: 'startSession',
-          data: { userId: currentUser.uid, courseId: course.id }
+          data: { 
+            userId: currentUser.uid, 
+            courseId: course.id,
+            conversationUrl: course.tavusConversationUrl
+          }
         }
       );
       

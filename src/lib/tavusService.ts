@@ -11,7 +11,7 @@ export interface TavusSession {
   id?: string;
   userId: string;
   courseId: string;
-  conversationId?: string;
+  conversationId?: string | null;
   status: 'started' | 'in_progress' | 'completed' | 'failed' | 'abandoned';
   startedAt: string;
   completedAt?: string;
@@ -43,13 +43,13 @@ export interface TavusWebhookPayload {
  * Start a new Tavus session and track it in Firestore
  * @param userId - User ID
  * @param courseId - Course ID
- * @param conversationId - Optional Tavus conversation ID
+ * @param conversationUrl - Optional Tavus conversation URL
  * @returns Promise<string> - Session ID
  */
 export const startTavusSession = async (
   userId: string,
   courseId: string,
-  conversationId?: string
+  conversationUrl?: string
 ): Promise<string> => {
   try {
     if (!userId || !courseId) {
@@ -59,7 +59,7 @@ export const startTavusSession = async (
     const sessionData: Omit<TavusSession, 'id'> = {
       userId,
       courseId,
-      conversationId,
+      conversationId: conversationUrl || null, // Convert undefined to null for Firestore
       status: 'started',
       startedAt: new Date().toISOString(),
       metadata: {
@@ -97,13 +97,19 @@ export const updateTavusSession = async (
       throw new Error('Session ID is required');
     }
 
+    // Convert undefined values to null for Firestore compatibility
+    const sanitizedUpdates = Object.entries(updates).reduce((acc, [key, value]) => {
+      acc[key] = value === undefined ? null : value;
+      return acc;
+    }, {} as any);
+
     const sessionRef = doc(db, 'tavusSessions', sessionId);
     await updateDoc(sessionRef, {
-      ...updates,
+      ...sanitizedUpdates,
       updatedAt: serverTimestamp()
     });
 
-    console.log('📝 Updated Tavus session:', sessionId, updates);
+    console.log('📝 Updated Tavus session:', sessionId, sanitizedUpdates);
   } catch (error) {
     console.error('❌ Error updating Tavus session:', error);
     throw error;
@@ -546,7 +552,7 @@ class TavusOfflineQueue {
         await startTavusSession(
           item.data.userId,
           item.data.courseId,
-          item.data.conversationId
+          item.data.conversationUrl
         );
         break;
       
