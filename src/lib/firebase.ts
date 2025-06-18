@@ -26,4 +26,3 @@ export const db = getFirestore(app);
 //   connectFirestoreEmulator(db, 'localhost', 8080);
 // }
 
-export default app;

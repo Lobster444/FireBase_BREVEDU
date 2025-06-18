@@ -6,7 +6,7 @@ import { notifyInfo, notifyWarning } from '../lib/toast';
  * @param showToasts - Whether to show toast notifications on status change
  * @returns boolean indicating if the device is online
  */
-export const useNetworkStatus = (showToasts: boolean = false) => {
+const useNetworkStatus = (showToasts: boolean = false) => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   useEffect(() => {

@@ -103,7 +103,7 @@ export const useFirestoreCourses = (options: UseCoursesOptions = {}): UseCourses
  * @param userRole - User role for access filtering
  * @returns Object containing featured courses and loading state
  */
-export const useFeaturedCourses = (
+const useFeaturedCourses = (
   limit: number = 3, 
   category?: string, 
   userRole?: UserRole | null

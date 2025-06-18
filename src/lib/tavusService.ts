@@ -7,7 +7,7 @@ import { notifySuccess, notifyError, notifyWarning } from './toast';
  * Enhanced Tavus service for handling AI practice sessions with TTL support
  */
 
-export interface TavusSession {
+interface TavusSession {
   id?: string;
   userId: string;
   courseId: string;
@@ -28,7 +28,7 @@ export interface TavusSession {
   };
 }
 
-export interface TavusWebhookPayload {
+interface TavusWebhookPayload {
   event_type: 'conversation_started' | 'conversation_completed' | 'conversation_failed';
   conversation_id: string;
   user_id: string;
@@ -257,7 +257,7 @@ export const completeTavusSession = async (
  * @param batchSize - Number of sessions to process in one batch
  * @returns Promise<number> - Number of sessions cleaned up
  */
-export const cleanupExpiredSessions = async (batchSize: number = 100): Promise<number> => {
+const cleanupExpiredSessions = async (batchSize: number = 100): Promise<number> => {
   try {
     const now = new Date();
     let cleanedCount = 0;
@@ -286,7 +286,7 @@ export const cleanupExpiredSessions = async (batchSize: number = 100): Promise<n
  * @param timeRange - Time range in days
  * @returns Promise<object> - Analytics data
  */
-export const getSessionAnalytics = async (
+const getSessionAnalytics = async (
   userId?: string,
   timeRange: number = 30
 ): Promise<{
@@ -325,7 +325,7 @@ export const getSessionAnalytics = async (
  * @param completion - Tavus completion data
  * @returns Promise<void>
  */
-export const updateUserTavusCompletion = async (
+const updateUserTavusCompletion = async (
   userId: string,
   courseId: string,
   completion: TavusCompletion

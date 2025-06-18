@@ -37,7 +37,7 @@ export interface TavusCompletion {
 export type UserRole = 'anonymous' | 'free' | 'premium';
 export type AccessLevel = 'anonymous' | 'free' | 'premium';
 
-export interface AIChat {
+interface AIChat {
   topic: string;
   objective: string;
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';

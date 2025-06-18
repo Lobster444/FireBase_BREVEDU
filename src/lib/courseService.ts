@@ -134,7 +134,7 @@ export const getCoursesByCategory = (
  * @param id - Course ID
  * @returns Promise<Course | null>
  */
-export const getCourse = async (id: string): Promise<Course | null> => {
+const getCourse = async (id: string): Promise<Course | null> => {
   try {
     const docRef = doc(db, COURSES_COLLECTION, id);
     const docSnap = await getDoc(docRef);
@@ -311,7 +311,7 @@ export const deleteCourse = async (id: string): Promise<void> => {
  * @param publishedOnly - Whether to fetch only published courses
  * @returns Promise<Course[]>
  */
-export const getCoursesPaginated = async (
+const getCoursesPaginated = async (
   limit: number = 10,
   publishedOnly: boolean = true
 ): Promise<Course[]> => {
@@ -359,7 +359,7 @@ export const getCoursesPaginated = async (
  * @param publishedOnly - Whether to search only published courses
  * @returns Promise<Course[]>
  */
-export const searchCourses = async (
+const searchCourses = async (
   searchTerm: string,
   publishedOnly: boolean = true
 ): Promise<Course[]> => {

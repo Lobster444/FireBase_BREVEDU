@@ -53,11 +53,11 @@ export const updateToast = (
 };
 
 // Dismiss all toasts
-export const dismissAllToasts = () => {
+const dismissAllToasts = () => {
   toast.dismiss();
 };
 
 // Dismiss specific toast
-export const dismissToast = (toastId: string | number) => {
+const dismissToast = (toastId: string | number) => {
   toast.dismiss(toastId);
 };
