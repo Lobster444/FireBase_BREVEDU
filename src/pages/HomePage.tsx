@@ -6,6 +6,7 @@ import CourseCard from '../components/CourseCard';
 import CourseDetailModal from '../components/CourseDetailModal';
 import AuthModal from '../components/AuthModal';
 import HeroSection from '../components/HeroSection';
+import FeaturedCoursesSection from '../components/FeaturedCoursesSection';
 import { PrimaryButton, AccentButton, SecondaryButton, PillToggleButton } from '../components/UIButtons';
 import { categories } from '../data/mockCourses';
 import { Course } from '../types';
@@ -28,9 +29,6 @@ const HomePage: React.FC = () => {
     activeTab === 'premium',
     currentUser?.role || null
   );
-
-  // Show only first 3 courses for featured section
-  const featuredCourses = courses.slice(0, 3);
 
   const handleCourseClick = (course: Course) => {
     setSelectedCourse(course);
@@ -148,123 +146,17 @@ const HomePage: React.FC = () => {
       />
 
       {/* Featured Courses Section */}
-      <section className="px-6 pb-12 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                {activeTab === 'premium' ? 'Premium Courses' : 'Featured Courses'}
-              </h2>
-              {!currentUser && (
-                <p className="text-base text-gray-600">
-                  Sign up for free to access more courses and AI practice sessions
-                </p>
-              )}
-              {currentUser?.role === 'free' && activeTab === 'all' && (
-                <p className="text-base text-gray-600">
-                  Upgrade to BrevEdu+ to unlock premium courses and more AI practice sessions
-                </p>
-              )}
-            </div>
-            
-            {/* Category Filter */}
-            <div className="flex flex-wrap gap-2 mt-4 sm:mt-0">
-              {categories.map((category) => (
-                <PillToggleButton
-                  key={category}
-                  label={category}
-                  active={selectedCategory === category}
-                  onClick={() => setSelectedCategory(category)}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Loading State */}
-          {loading && (
-            <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A59]"></div>
-              <p className="text-lg text-gray-700 mt-4">Loading courses...</p>
-            </div>
-          )}
-
-          {/* Error State */}
-          {error && (
-            <div className="text-center py-12">
-              <p className="text-lg text-red-600 mb-4">{error}</p>
-              <AccentButton onClick={() => window.location.reload()}>
-                Try again
-              </AccentButton>
-            </div>
-          )}
-
-          {/* Course Grid */}
-          {!loading && !error && (
-            <>
-              {featuredCourses.length === 0 ? (
-                <div className="text-center py-12">
-                  {!currentUser ? (
-                    <div>
-                      <p className="text-lg text-gray-700 mb-4">
-                        Sign up for free to access our course library!
-                      </p>
-                      <AccentButton 
-                        onClick={handleStartLearningFree}
-                        aria-label="Sign up for free account"
-                      >
-                        Create Free Account
-                      </AccentButton>
-                    </div>
-                  ) : activeTab === 'premium' && currentUser.role !== 'premium' ? (
-                    <div>
-                      <p className="text-lg text-gray-700 mb-4">
-                        Upgrade to BrevEdu+ to access premium courses!
-                      </p>
-                      <PrimaryButton 
-                        onClick={handleUpgradeClick}
-                        aria-label="Upgrade to BrevEdu+ premium subscription"
-                      >
-                        Upgrade Now
-                      </PrimaryButton>
-                    </div>
-                  ) : (
-                    <div>
-                      <p className="text-lg text-gray-700 mb-4">
-                        No courses found for this category.
-                      </p>
-                      <PillToggleButton
-                        label="View all courses"
-                        active={false}
-                        onClick={() => setSelectedCategory('All')}
-                      />
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                  {featuredCourses.map((course) => (
-                    <CourseCard key={course.id} course={course} onClick={handleCourseClick} />
-                  ))}
-                </div>
-              )}
-
-              {/* More Courses Button */}
-              {featuredCourses.length > 0 && (
-                <div className="text-center">
-                  <SecondaryButton 
-                    className="inline-flex items-center space-x-2 bg-gray-100 text-gray-800 hover:bg-gray-200"
-                    onClick={handleExploreCourses}
-                    aria-label="View all courses"
-                  >
-                    <span>More Courses</span>
-                    <ArrowRight className="h-5 w-5" />
-                  </SecondaryButton>
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      </section>
+      <FeaturedCoursesSection
+        courses={courses}
+        loading={loading}
+        error={error}
+        currentUser={currentUser}
+        activeTab={activeTab}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        onCourseClick={handleCourseClick}
+        onExploreCourses={handleExploreCourses}
+      />
 
       {/* Upgrade Promotional Section - Only for non-premium users */}
       {currentUser?.role !== 'premium' && (
