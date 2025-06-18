@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Save, Eye, AlertCircle, Loader2, Shield } from 'lucide-react';
 import Plyr from 'plyr-react';
-import 'plyr-react/dist/plyr.css';
 import { Course, AccessLevel } from '../types';
 import { addCourse, updateCourse } from '../lib/courseService';
 import { notifyLoading, updateToast } from '../lib/toast';
