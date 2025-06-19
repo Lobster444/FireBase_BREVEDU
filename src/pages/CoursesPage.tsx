@@ -81,13 +81,13 @@ const CoursesPage: React.FC = () => {
         return {
           level: 'Free Account',
           description: 'Upgrade to BrevEdu+ for premium courses',
-          color: 'text-[#F5C842]'
+          color: 'text-subscription-free'
         };
       case 'premium':
         return {
           level: 'BrevEdu+ Member',
           description: 'You have access to all courses',
-          color: 'text-[#FF7A59]'
+          color: 'text-subscription-premium'
         };
       default:
         return {

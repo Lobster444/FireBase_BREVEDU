@@ -162,7 +162,9 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                       <div className="px-4 py-3 border-b border-gray-100">
                         <p className="text-base font-semibold text-gray-900">{currentUser.name}</p>
                         <p className="text-sm text-gray-600">{currentUser.email}</p>
-                        <p className="text-sm text-[#002fa7] capitalize mt-1 font-medium">{currentUser.role} Plan</p>
+                        <p className={`text-sm capitalize mt-1 font-medium ${
+                          currentUser.role === 'premium' ? 'text-subscription-premium' : 'text-subscription-free'
+                        }`}>{currentUser.role} Plan</p>
                       </div>
                       <button
                         onClick={handleLogout}

@@ -47,6 +47,12 @@ export default {
         'negative-light': 'var(--color-negative-light)',
         'sentiment-negative': 'var(--color-sentiment-negative)',
         
+        // Subscription status colors
+        'subscription-free': 'var(--color-subscription-free)',
+        'subscription-premium': 'var(--color-subscription-premium)',
+        'subscription-free-light': 'var(--color-subscription-free-light)',
+        'subscription-premium-light': 'var(--color-subscription-premium-light)',
+        
         // Legacy colors for backward compatibility
         'accent-yellow': 'var(--color-accent-yellow)', // #F8DE7E
         'accent-yellow-dark': 'var(--color-accent-yellow-hover)',
