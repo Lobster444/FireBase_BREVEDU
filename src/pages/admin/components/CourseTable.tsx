@@ -60,9 +60,12 @@ const CourseTable: React.FC<CourseTableProps> = ({
                   </span>
                 </td>
                 <td className="p-4">
-                  <span className={`text-sm px-2 py-1 rounded flex items-center space-x-1 w-fit ${accessInfo.color} ${accessInfo.bgColor}`}>
-                    <span>{accessInfo.icon}</span>
-                    <span>{accessInfo.label}</span>
+                  <span className={`text-sm px-3 py-1 rounded-full font-medium w-fit ${
+                    (course.accessLevel || 'free') === 'premium' 
+                      ? 'bg-[#C967D3] text-white' 
+                      : 'bg-[#6D9A52] text-white'
+                  }`}>
+                    <span>{(course.accessLevel || 'free') === 'premium' ? 'Premium' : 'Free'}</span>
                   </span>
                 </td>
                 <td className="p-4">

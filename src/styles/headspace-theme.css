@@ -44,8 +44,8 @@
   --color-black: #000000;
   
   /* === SUBSCRIPTION STATUS COLORS === */
-  --color-subscription-free: #6D9A52;     /* Sage green for free users */
-  --color-subscription-premium: #C967D3;  /* Bright purple for premium users */
+  --color-subscription-free: #6D9A52;     /* Green for free courses */
+  --color-subscription-premium: #C967D3;  /* Purple for premium courses */
   --color-subscription-free-light: #E8F5E0;   /* Light sage green background */
   --color-subscription-premium-light: #F5E6F8; /* Light purple background */
   

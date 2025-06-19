@@ -30,25 +30,25 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
       case 'anonymous':
         return {
           label: 'Free',
-          bgColor: 'bg-subscription-free-light',
-          textColor: 'text-subscription-free'
+          bgColor: 'bg-[#6D9A52]',
+          textColor: 'text-white'
         };
       case 'free':
         return {
           label: 'Free',
-          bgColor: 'bg-subscription-free',
+          bgColor: 'bg-[#6D9A52]',
           textColor: 'text-white'
         };
       case 'premium':
         return {
-          label: 'Pro',
-          bgColor: 'bg-subscription-premium',
+          label: 'Premium',
+          bgColor: 'bg-[#C967D3]',
           textColor: 'text-white'
         };
       default:
         return {
           label: 'Free',
-          bgColor: 'bg-subscription-free',
+          bgColor: 'bg-[#6D9A52]',
           textColor: 'text-white'
         };
     }
@@ -122,7 +122,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
             </span>
             
             {/* Access level badge */}
-            <span className={`${accessBadge.bgColor} ${accessBadge.textColor} px-3 py-1.5 rounded-headspace-md text-sm font-bold`}>
+            <span className={`${accessBadge.bgColor} ${accessBadge.textColor} px-3 py-1.5 rounded-full text-sm font-medium`}>
               {accessBadge.label}
             </span>
           </div>

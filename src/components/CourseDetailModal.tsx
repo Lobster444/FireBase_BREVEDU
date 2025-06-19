@@ -354,6 +354,13 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                 <span className="text-sm text-[#002fa7] bg-[#002fa7]/10 px-3 py-1 rounded-headspace-md font-semibold">
                   {course.category}
                 </span>
+                <span className={`text-sm px-3 py-1 rounded-full font-medium ${
+                  (course.accessLevel || 'free') === 'premium' 
+                    ? 'bg-[#C967D3] text-white' 
+                    : 'bg-[#6D9A52] text-white'
+                }`}>
+                  {(course.accessLevel || 'free') === 'premium' ? 'Premium' : 'Free'}
+                </span>
                 <div className="flex items-center space-x-1 text-sm text-gray-600">
                   <Clock className="h-4 w-4" />
                   <span>{course.duration}</span>

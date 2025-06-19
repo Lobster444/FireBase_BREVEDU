@@ -41,8 +41,12 @@ const CourseMobileGrid: React.FC<CourseMobileGridProps> = ({
                 </div>
                 <div className="flex items-center space-x-2 flex-wrap gap-1">
                   <span className={`text-xs px-2 py-1 rounded flex items-center space-x-1 ${accessInfo.color} ${accessInfo.bgColor}`}>
-                    <span>{accessInfo.icon}</span>
-                    <span>{accessInfo.label}</span>
+                  <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+                    (course.accessLevel || 'free') === 'premium' 
+                      ? 'bg-[#C967D3] text-white' 
+                      : 'bg-[#6D9A52] text-white'
+                  }`}>
+                    <span>{(course.accessLevel || 'free') === 'premium' ? 'Premium' : 'Free'}</span>
                   </span>
                   <span className={`text-xs px-2 py-1 rounded flex items-center space-x-1 ${aiPracticeInfo.color} ${aiPracticeInfo.bgColor}`}>
                     <span>{aiPracticeInfo.icon}</span>
