@@ -79,7 +79,14 @@ const TavusModal: React.FC<TavusModalProps> = ({
   // Initialize when modal opens with dynamic conversation URL
   useEffect(() => {
     if (isOpen && course && conversationUrl) {
-      console.log('🚀 TavusModal opened with dynamic conversation URL');
+      console.log('🚀 TavusModal opened with dynamic conversation URL:', {
+        courseId: course.id,
+        courseTitle: course.title,
+        conversationUrl,
+        sessionId: propSessionId,
+        tavusConversationId: propTavusConversationId,
+        currentUser: currentUser?.uid
+      });
       initializeTavusSession();
       
       // Prevent body scroll
@@ -248,11 +255,26 @@ const TavusModal: React.FC<TavusModalProps> = ({
       setCanRetry(true);
       setMaxRetriesReached(false);
       
-      console.log('🚀 Initializing Tavus session with dynamic URL:', conversationUrl);
+      console.log('🚀 Initializing Tavus session with detailed info:', {
+        conversationUrl,
+        sessionId,
+        userId: currentUser?.uid,
+        courseId: course?.id,
+        courseTitle: course?.title,
+        isOnline: isNetworkAvailable(),
+        timestamp: new Date().toISOString()
+      });
       
       // Set loading timeout (20 seconds)
       const timeout = setTimeout(() => {
         if (loading && !isTimedOut) {
+          console.error('⏰ Connection timeout after 20 seconds:', {
+            loading,
+            isTimedOut,
+            connectionStatus,
+            conversationUrl,
+            sessionId
+          });
           setError('Connection timeout. Please check your internet connection and try again.');
           setErrorType('timeout');
           setLoading(false);
@@ -328,19 +350,67 @@ const TavusModal: React.FC<TavusModalProps> = ({
   // Enhanced message event handler with better error handling
   useEffect(() => {
     const handleMessage = async (event: MessageEvent) => {
+      console.log('📨 Received message event:', {
+        origin: event.origin,
+        data: event.data,
+        type: typeof event.data,
+        isOpen,
+        courseId: course?.id,
+        currentUser: currentUser?.uid,
+        isTimedOut,
+        timestamp: new Date().toISOString()
+      });
+
       if (!isOpen || !course || !currentUser || isTimedOut) return;
 
       // Enhanced origin validation
       if (!validateMessageOrigin(event.origin)) {
         console.warn('🚫 Received message from invalid origin:', event.origin);
+        console.log('🚫 Ignoring message - modal not ready:', {
+          isOpen,
+          hasCourse: !!course,
+          hasCurrentUser: !!currentUser,
+          isTimedOut
+        console.warn('🚫 Received message from invalid origin:', {
+          origin: event.origin,
+          expectedDomains: [
+            'tavus.daily.co',
+            'daily.co',
+            'tavus.io',
+            'app.tavus.io',
+            'api.tavus.io',
+            'embed.tavus.io',
+            'conversation.tavus.io',
+            'localhost'
+          ]
+        });
         return;
       }
 
       // Parse and validate message
       const tavusMessage = parseAndValidateMessage(event.data);
-      if (!tavusMessage) return;
+      if (!tavusMessage) {
+        console.warn('📨 Could not parse message:', {
+          data: event.data,
+          type: typeof event.data
+        });
+        return;
+      }
 
-      console.log('📨 Received Tavus message:', tavusMessage);
+      console.log('📨 Parsed Tavus message:', {
+        message: tavusMessage,
+        origin: event.origin,
+        sessionId,
+        conversationId,
+        currentState: {
+          loading,
+          error,
+          connectionStatus,
+          conversationStarted,
+          progress,
+          timeRemaining
+        }
+      });
 
       // Handle message with enhanced retry logic
       try {
@@ -396,24 +466,39 @@ const TavusModal: React.FC<TavusModalProps> = ({
   // Parse and validate Tavus message
   const parseAndValidateMessage = (data: any): TavusMessage | null => {
     try {
+      console.log('🔍 Parsing message data:', {
+        data,
+        type: typeof data,
+        isString: typeof data === 'string',
+        isObject: typeof data === 'object'
+      });
+
       let message: TavusMessage;
       
       if (typeof data === 'string') {
+        console.log('📝 Parsing string message:', data);
         message = JSON.parse(data);
       } else if (typeof data === 'object' && data.type) {
+        console.log('📦 Using object message:', data);
         message = data;
       } else {
+        console.warn('❓ Unknown message format:', data);
         return null;
       }
 
       // Validate message structure
       if (!message.type || typeof message.type !== 'string') {
+        console.warn('❌ Invalid message structure:', message);
         return null;
       }
 
+      console.log('✅ Successfully parsed message:', message);
       return message;
     } catch (error) {
-      console.warn('📨 Could not parse Tavus message:', data);
+      console.warn('📨 Could not parse Tavus message:', {
+        data,
+        error: error instanceof Error ? error.message : error
+      });
       return null;
     }
   };
@@ -422,6 +507,18 @@ const TavusModal: React.FC<TavusModalProps> = ({
   const handleTavusMessage = async (message: TavusMessage): Promise<void> => {
     if (isTimedOut) return;
     
+    console.log(`🎯 Handling Tavus message type: ${message.type}`, {
+      message,
+      currentState: {
+        loading,
+        error,
+        connectionStatus,
+        conversationStarted,
+        sessionId,
+        conversationId
+      }
+    });
+
     switch (message.type) {
       case 'tavus_ready':
         await handleTavusReady(message);
@@ -452,18 +549,26 @@ const TavusModal: React.FC<TavusModalProps> = ({
   const handleTavusReady = async (message: TavusMessage): Promise<void> => {
     if (isTimedOut) return;
     
-    console.log('✅ Tavus conversation ready');
+    console.log('✅ Tavus conversation ready:', {
+      message,
+      sessionId,
+      conversationUrl,
+      timeoutId: !!timeoutId
+    });
+
     setLoading(false);
     setError('');
     setConnectionStatus('connected');
     
     if (timeoutId) {
+      console.log('⏰ Clearing connection timeout');
       clearTimeout(timeoutId);
       setTimeoutId(null);
     }
 
     // Update session status
     if (sessionId) {
+      console.log('📝 Updating session to in_progress:', sessionId);
       await executeWithOfflineFallback(
         () => updateTavusSession(sessionId, {
           status: 'in_progress',
@@ -488,12 +593,21 @@ const TavusModal: React.FC<TavusModalProps> = ({
   const handleTavusStarted = async (message: TavusMessage): Promise<void> => {
     if (isTimedOut) return;
     
-    console.log('🎬 Tavus conversation started');
+    console.log('🎬 Tavus conversation started:', {
+      message,
+      sessionId,
+      conversationId: message.data?.conversationId
+    });
+
     setConversationStarted(true);
     setConversationId(message.data?.conversationId || '');
     
     // Update session status
     if (sessionId) {
+      console.log('📝 Updating session with conversation ID:', {
+        sessionId,
+        conversationId: message.data?.conversationId
+      });
       await executeWithOfflineFallback(
         () => updateTavusSession(sessionId, {
           status: 'in_progress',
@@ -520,6 +634,11 @@ const TavusModal: React.FC<TavusModalProps> = ({
   const handleTavusProgress = (message: TavusMessage): void => {
     if (isTimedOut) return;
     
+    console.log('📊 Tavus progress update:', {
+      progress: message.data?.progress,
+      currentProgress: progress
+    });
+
     if (message.data?.progress !== undefined) {
       setProgress(Math.min(100, Math.max(0, message.data.progress)));
     }
@@ -529,10 +648,18 @@ const TavusModal: React.FC<TavusModalProps> = ({
   const handleTavusCompletion = async (message: TavusMessage): Promise<void> => {
     if (!message.data?.completed || !currentUser || !course?.id || isTimedOut) return;
 
-    console.log('🎉 Tavus conversation completed:', message.data);
+    console.log('🎉 Tavus conversation completed:', {
+      messageData: message.data,
+      sessionId,
+      conversationId,
+      timeRemaining,
+      currentUser: currentUser.uid,
+      courseId: course.id
+    });
 
     // Clear countdown timer
     if (countdownTimer) {
+      console.log('⏰ Clearing completion countdown timer');
       clearInterval(countdownTimer);
       setCountdownTimer(null);
     }
@@ -594,7 +721,17 @@ const TavusModal: React.FC<TavusModalProps> = ({
   // Enhanced Tavus error handling
   const handleTavusError = (message: TavusMessage): void => {
     const errorMsg = message.data?.error || 'An error occurred during the conversation';
-    console.error('❌ Tavus error:', errorMsg);
+    console.error('❌ Tavus error:', {
+      error: errorMsg,
+      message,
+      sessionId,
+      conversationUrl,
+      currentState: {
+        loading,
+        connectionStatus,
+        conversationStarted
+      }
+    });
     
     setError(errorMsg);
     setErrorType('api');
@@ -625,14 +762,22 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
   // Handle iframe events
   const handleIframeLoad = () => {
-    console.log('📺 Tavus iframe loaded');
+    console.log('📺 Tavus iframe loaded:', {
+      conversationUrl,
+      sessionId,
+      timeoutId: !!timeoutId,
+      loading,
+      connectionStatus
+    });
     
     if (timeoutId) {
+      console.log('⏰ Clearing iframe load timeout');
       clearTimeout(timeoutId);
       setTimeoutId(null);
     }
     
     // Send initialization message
+    console.log('📤 Sending parent_ready message to iframe');
     sendMessageToIframe({
       type: 'parent_ready',
       data: {
@@ -644,7 +789,14 @@ const TavusModal: React.FC<TavusModalProps> = ({
   };
 
   const handleIframeError = () => {
-    console.error('❌ Tavus iframe failed to load');
+    console.error('❌ Tavus iframe failed to load:', {
+      conversationUrl,
+      sessionId,
+      loading,
+      connectionStatus,
+      retryCount
+    });
+
     setError('Failed to load AI conversation. Please check your connection and try again.');
     setErrorType('network');
     setLoading(false);
@@ -663,16 +815,35 @@ const TavusModal: React.FC<TavusModalProps> = ({
   const sendMessageToIframe = (message: any) => {
     if (iframeRef.current && conversationUrl) {
       try {
+        console.log('📤 Sending message to iframe:', {
+          message,
+          conversationUrl,
+          iframeExists: !!iframeRef.current,
+          hasContentWindow: !!iframeRef.current.contentWindow
+        });
+
         const iframeWindow = iframeRef.current.contentWindow;
         if (iframeWindow) {
           iframeWindow.postMessage(
             message,
             new URL(conversationUrl).origin
           );
+          console.log('✅ Message sent to iframe successfully');
+        } else {
+          console.warn('⚠️ Iframe contentWindow not available');
         }
       } catch (error) {
-        console.warn('⚠️ Could not send message to iframe:', error);
+        console.warn('⚠️ Could not send message to iframe:', {
+          error: error instanceof Error ? error.message : error,
+          conversationUrl,
+          message
+        });
       }
+    } else {
+      console.warn('⚠️ Cannot send message - iframe or URL not available:', {
+        hasIframe: !!iframeRef.current,
+        conversationUrl
+      });
     }
   };
 
@@ -783,6 +954,23 @@ const TavusModal: React.FC<TavusModalProps> = ({
   };
 
   if (!isOpen || !course || !conversationUrl) return null;
+
+  // Log current render state
+  console.log('🎨 TavusModal render:', {
+    isOpen,
+    courseId: course?.id,
+    conversationUrl,
+    loading,
+    error,
+    connectionStatus,
+    conversationStarted,
+    timeRemaining,
+    isTimedOut,
+    showTimeoutWarning,
+    sessionId,
+    conversationId,
+    tavusConversationId
+  });
 
   return (
     <div 
