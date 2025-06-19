@@ -86,7 +86,7 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
           </h3>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-headspace-lg hover:bg-gray-50"
+            className="icon-button icon-button-gray p-2 rounded-headspace-lg"
           >
             <X className="h-5 w-5" />
           </button>

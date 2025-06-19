@@ -346,7 +346,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
             <button
               onClick={handleClose}
               disabled={isCompleting}
-              className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-headspace-md hover:bg-gray-100 disabled:opacity-50"
+              className="icon-button icon-button-gray p-2 rounded-headspace-md disabled:opacity-50"
               aria-label="Close AI practice session"
             >
               <X className="h-5 w-5" />

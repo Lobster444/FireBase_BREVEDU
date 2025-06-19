@@ -148,7 +148,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-headspace-md hover:bg-gray-50"
+            className="icon-button icon-button-gray p-2 rounded-headspace-md"
             aria-label="Close confirmation dialog"
           >
             <X className="h-5 w-5" />

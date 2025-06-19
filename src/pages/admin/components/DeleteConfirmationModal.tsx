@@ -42,9 +42,9 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
           <button
             onClick={onConfirm}
             disabled={isDeleting || !isOnline}
-            className={`flex-1 px-4 py-3 rounded-headspace-lg text-base font-medium transition-all disabled:opacity-50 flex items-center justify-center space-x-2 ${
+            className={`flex-1 px-4 py-3 rounded-headspace-lg text-base font-medium transition-all disabled:opacity-50 flex items-center justify-center space-x-2 focus:outline-none focus-visible:outline-2 focus-visible:outline-negative focus-visible:outline-offset-2 ${
               isOnline 
-                ? 'bg-red-600 text-white hover:bg-red-700' 
+                ? 'bg-negative text-white hover:bg-negative-hover active:bg-negative-active' 
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
           >

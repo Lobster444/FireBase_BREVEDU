@@ -34,6 +34,13 @@ export default {
           900: 'var(--color-neutral-900)',
         },
         
+        // Negative/Danger colors
+        'negative': 'var(--color-negative)',
+        'negative-hover': 'var(--color-negative-hover)',
+        'negative-active': 'var(--color-negative-active)',
+        'negative-light': 'var(--color-negative-light)',
+        'sentiment-negative': 'var(--color-sentiment-negative)',
+        
         // Legacy colors for backward compatibility
         'accent-yellow': 'var(--color-accent-yellow)',
         'accent-yellow-dark': 'var(--color-accent-yellow-hover)',

@@ -101,9 +101,9 @@ const CourseTable: React.FC<CourseTableProps> = ({
                     <button 
                       onClick={() => onEditCourse(course)}
                       disabled={!isOnline}
-                      className={`p-2 rounded-headspace-lg transition-colors ${
+                      className={`icon-button p-2 rounded-headspace-lg transition-colors ${
                         isOnline 
-                          ? 'text-[#FF7A59] hover:bg-[#FF7A59]/10' 
+                          ? 'icon-button-primary' 
                           : 'text-gray-400 cursor-not-allowed opacity-50'
                       }`}
                     >
@@ -112,7 +112,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                     <button 
                       onClick={() => onDeleteCourse(course.id!)}
                       disabled={!isOnline}
-                      className={`p-2 rounded-headspace-lg transition-colors ${
+                      className={`icon-button p-2 rounded-headspace-lg transition-colors ${
                         isOnline 
                           ? 'text-red-500 hover:bg-red-50' 
                           : 'text-gray-400 cursor-not-allowed opacity-50'

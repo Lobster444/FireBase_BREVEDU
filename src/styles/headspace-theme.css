@@ -13,6 +13,13 @@
   --color-accent-green: #7ED321;
   --color-accent-purple: #9013FE;
   
+  /* Negative/Danger color tokens */
+  --color-negative: #EF4444;
+  --color-negative-hover: #DC2626;
+  --color-negative-active: #B91C1C;
+  --color-negative-light: #FEF2F2;
+  --color-sentiment-negative: #EF4444; /* Alias for semantic naming */
+  
   --color-neutral-50: #FAFAFA;
   --color-neutral-100: #F5F5F5;
   --color-neutral-200: #EEEEEE;
@@ -83,7 +90,7 @@
   --focus-border-width: 2px;
   --focus-border-offset: 2px;
   --focus-border-color: var(--color-primary);
-  --focus-border-negative: #EF4444; /* Red for negative/danger actions */
+  --focus-border-negative: var(--color-negative); /* Red for negative/danger actions */
   
   /* Input focus border tokens - 3px for inputs */
   --input-focus-border-width: 3px;
@@ -450,6 +457,25 @@
 .icon-button-primary:hover {
   color: var(--color-primary-hover);
   background-color: var(--color-primary-light);
+}
+
+/* Icon button negative/danger variant */
+.icon-button-negative,
+.icon-button-danger {
+  color: var(--color-negative);
+}
+
+.icon-button-negative:hover,
+.icon-button-danger:hover {
+  color: var(--color-negative-hover);
+  background-color: var(--color-negative-light);
+}
+
+.icon-button-negative:focus-visible,
+.icon-button-danger:focus-visible {
+  box-shadow: 
+    0 0 0 var(--icon-button-focus-ring-offset) var(--color-white),
+    0 0 0 calc(var(--icon-button-focus-ring-offset) + var(--icon-button-focus-ring-width)) var(--color-negative);
 }
 
 /* Accessibility Utilities */

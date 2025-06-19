@@ -168,7 +168,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                       </div>
                       <button
                         onClick={handleLogout}
-                        className="w-full text-left px-4 py-3 text-base text-gray-700 hover:bg-gray-50 hover:text-[#FF7A59] transition-colors duration-200 ease-out flex items-center space-x-3 focus:outline-none focus-visible:bg-gray-50 rounded-[8px] mx-2 mt-1"
+                        className="w-full text-left px-4 py-3 text-base text-gray-700 hover:bg-gray-50 hover:text-[#FF7A59] transition-colors duration-200 ease-out flex items-center space-x-3 focus:outline-none focus-visible:outline-2 focus-visible:outline-[#FF7A59] focus-visible:outline-offset-2 rounded-[8px] mx-2 mt-1"
                         style={{ minHeight: '44px' }}
                       >
                         <LogOut className="h-5 w-5" />
@@ -229,7 +229,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setShowMobileMenu(!showMobileMenu)}
-            className="p-2 text-gray-700 hover:text-[#FF7A59] hover:bg-gray-50 rounded-[8px] transition-colors duration-200 ease-out focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF7A59] focus-visible:ring-opacity-40 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            className="icon-button icon-button-gray p-2 rounded-[8px] transition-colors duration-200 ease-out"
             aria-expanded={showMobileMenu}
             aria-controls="mobile-menu"
             aria-label="Toggle mobile menu"
@@ -261,7 +261,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                 <h2 className="text-xl font-bold text-gray-900">Menu</h2>
                 <button
                   onClick={() => setShowMobileMenu(false)}
-                  className="p-2 text-gray-500 hover:text-gray-700 rounded-[8px] transition-colors"
+                  className="icon-button icon-button-gray p-2 rounded-[8px]"
                   aria-label="Close menu"
                 >
                   <X className="h-6 w-6" />
@@ -307,7 +307,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                     </div>
                     <button
                       onClick={handleLogout}
-                      className="w-full text-left text-gray-700 font-medium py-3 px-4 rounded-[10px] hover:bg-gray-50 hover:text-[#FF7A59] transition-colors duration-200 ease-out flex items-center space-x-3 focus:outline-none focus-visible:bg-gray-50"
+                      className="w-full text-left text-gray-700 font-medium py-3 px-4 rounded-[10px] hover:bg-gray-50 hover:text-[#FF7A59] transition-colors duration-200 ease-out flex items-center space-x-3 focus:outline-none focus-visible:outline-2 focus-visible:outline-[#FF7A59] focus-visible:outline-offset-2"
                       style={{ minHeight: '44px' }}
                     >
                       <LogOut className="h-5 w-5" />

@@ -204,6 +204,46 @@ export const SecondaryButton: React.FC<BaseButtonProps> = ({
   );
 };
 
+// Danger/Negative Button (for destructive actions)
+export const DangerButton: React.FC<BaseButtonProps> = ({
+  onClick,
+  disabled = false,
+  children,
+  className = '',
+  type = 'button',
+  'aria-label': ariaLabel,
+  icon,
+  ...props
+}) => {
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={ariaLabel}
+      aria-disabled={disabled}
+      className={`
+        bg-negative text-white px-6 py-4 sm:py-3 rounded-headspace-lg font-medium text-base
+        transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out]
+        hover:bg-negative-hover hover:shadow-[0_4px_12px_rgba(239,68,68,0.4)] hover:animate-[breathe_2s_infinite]
+        active:bg-negative-active active:scale-95
+        disabled:bg-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed disabled:hover:bg-gray-300 disabled:hover:shadow-none disabled:active:scale-100 disabled:hover:animate-none
+        focus:outline-none focus-visible:outline-2 focus-visible:outline-negative focus-visible:outline-offset-2 focus-visible:animate-[breathe_2s_infinite]
+        flex items-center justify-center
+        ${className}
+      `}
+      style={{
+        minHeight: '44px',
+        animationTimingFunction: 'ease-in-out'
+      }}
+      {...props}
+    >
+      {icon && <span className="mr-2 flex items-center">{icon}</span>}
+      {children}
+    </button>
+  );
+};
+
 // Link Button (looks like a link but behaves like a button)
 export const LinkButton: React.FC<BaseButtonProps> = ({
   onClick,

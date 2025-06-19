@@ -226,7 +226,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors z-10 p-2 rounded-headspace-md hover:bg-gray-50"
+          className="absolute top-4 right-4 icon-button icon-button-gray z-10 p-2 rounded-headspace-md"
           aria-label="Close modal"
         >
           <X className="h-6 w-6" />

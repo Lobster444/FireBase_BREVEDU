@@ -397,7 +397,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
             </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-headspace-md hover:bg-gray-50 flex-shrink-0"
+              className="icon-button icon-button-gray p-2 rounded-headspace-md flex-shrink-0"
               aria-label="Close course details"
             >
               <X className="h-6 w-6" />
