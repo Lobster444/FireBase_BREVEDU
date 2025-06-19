@@ -341,14 +341,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
               type="submit"
               disabled={loading}
               className="w-full bg-[#FF7A59] text-white py-3 px-6 rounded-headspace-lg font-medium
-                w-full bg-[#FF7A59] text-white py-3 px-6 rounded-[10px] font-medium
                 transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out]
                 hover:bg-[#FF8A6B] hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)] hover:animate-[breathe_2s_infinite]
                 active:bg-[#E6694F] active:scale-95
                 disabled:bg-[#e0e0e0] disabled:text-[#888] disabled:cursor-not-allowed disabled:hover:bg-[#e0e0e0] disabled:hover:shadow-none disabled:active:scale-100 disabled:hover:animate-none
                 focus:outline-none focus:ring-2 focus:ring-[rgba(255,122,89,0.5)] focus:ring-offset-2 focus:animate-[breathe_2s_infinite]
-                flex items-center justify-center
-              `}
+                flex items-center justify-center"
               style={{
                 minHeight: '44px',
                 animationTimingFunction: 'ease-in-out'

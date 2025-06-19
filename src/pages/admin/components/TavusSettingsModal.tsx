@@ -141,7 +141,6 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
               />
             </div>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <div className="bg-blue-50 border border-blue-200 rounded-headspace-lg p-4">
               <p className="text-sm text-blue-800">
                 <strong>Note:</strong> These settings are used for all dynamic AI conversations. 

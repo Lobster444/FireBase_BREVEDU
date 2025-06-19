@@ -311,7 +311,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
     <>
       <div 
         className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-        className="bg-white rounded-headspace-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto md:max-h-[85vh] shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
+        onClick={handleBackdropClick}
         role="dialog"
         aria-modal="true"
         aria-labelledby="course-modal-title"
@@ -328,7 +328,6 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                 <span className="text-sm text-[#FF7A59] bg-[#FF7A59]/10 px-3 py-1 rounded-headspace-md font-semibold">
                   {course.category}
                 </span>
-                <span className="text-sm text-gray-700 bg-gray-100 px-3 py-1 rounded-[8px] font-medium">
                 <span className="text-sm text-gray-700 bg-gray-100 px-3 py-1 rounded-headspace-md font-medium">
                   {course.difficulty}
                 </span>
