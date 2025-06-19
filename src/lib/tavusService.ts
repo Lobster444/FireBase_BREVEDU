@@ -38,7 +38,6 @@ interface TavusConversationRequest {
   persona_id: string;
   conversational_context: string;
   callback_url: string;
-  ttl: number;
 }
 
 interface TavusConversationResponse {
@@ -407,8 +406,7 @@ export const createTavusConversation = async (
       replica_id: settings.replica_id,
       persona_id: settings.persona_id,
       conversational_context: courseContext,
-      callback_url: callbackUrl,
-      ttl: 180 // 3 minutes
+      callback_url: callbackUrl
     };
 
     console.log('📤 Tavus API request payload:', {
