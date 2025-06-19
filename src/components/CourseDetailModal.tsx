@@ -18,6 +18,7 @@ import {
   TavusAPIError,
   TavusTimeoutError
 } from '../lib/tavusService';
+import { canStartConversation } from '../services/tavusUsage';
 import { notifyError, notifySuccess, notifyLoading, updateToast, notifyWarning } from '../lib/toast';
 
 interface CourseDetailModalProps {
@@ -193,6 +194,17 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
     if (!currentUser || !course?.id) {
       console.error('❌ Missing user or course for Tavus conversation creation');
       notifyError('Unable to start practice session. Please try again.');
+      return;
+    }
+
+    // Check usage limits before proceeding
+    try {
+      await canStartConversation(currentUser);
+      console.log('✅ Usage check passed - user can start conversation');
+    } catch (error: any) {
+      console.warn('⚠️ Usage limit reached:', error.message);
+      notifyError(error.message);
+      setShowConfirmationModal(false);
       return;
     }
 

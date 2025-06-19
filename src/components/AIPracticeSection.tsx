@@ -1,6 +1,7 @@
 import React from 'react';
 import { MessageCircle, CheckCircle, RotateCcw } from 'lucide-react';
 import { Course, User } from '../types';
+import { DAILY_LIMITS } from '../services/tavusUsage';
 
 interface AIPracticeStatus {
   available: boolean;

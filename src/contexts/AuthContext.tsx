@@ -10,6 +10,7 @@ import {
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 import { User, UserRole } from '../types';
+import { getUserUsageStatus } from '../services/tavusUsage';
 
 interface AuthContextType {
   currentUser: User | null;
@@ -106,36 +107,75 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const incrementAIChatsUsed = async () => {
     if (!currentUser) return;
 
-    const today = new Date().toISOString().split('T')[0];
-    const userRef = doc(db, 'users', currentUser.uid);
-    
-    // Reset counter if it's a new day
-    if (currentUser.lastChatReset !== today) {
+    try {
+      // Get current usage status from the usage service
+      const usageStatus = await getUserUsageStatus(currentUser);
+      
+      // Update user document with current usage
+      const today = new Date().toISOString().split('T')[0];
+      const userRef = doc(db, 'users', currentUser.uid);
+      
       await updateDoc(userRef, {
-        aiChatsUsed: 1,
+        aiChatsUsed: usageStatus.used,
         lastChatReset: today
       });
-      setCurrentUser(prev => prev ? { ...prev, aiChatsUsed: 1, lastChatReset: today } : null);
-    } else {
-      const newCount = (currentUser.aiChatsUsed || 0) + 1;
-      await updateDoc(userRef, { aiChatsUsed: newCount });
-      setCurrentUser(prev => prev ? { ...prev, aiChatsUsed: newCount } : null);
+      
+      // Update local state
+      setCurrentUser(prev => prev ? { 
+        ...prev, 
+        aiChatsUsed: usageStatus.used, 
+        lastChatReset: today 
+      } : null);
+      
+      console.log('📊 Updated user AI chats used:', usageStatus.used);
+    } catch (error) {
+      console.error('❌ Error updating AI chats used:', error);
     }
   };
 
   const resetDailyAIChats = async () => {
     if (!currentUser) return;
 
-    const today = new Date().toISOString().split('T')[0];
-    const userRef = doc(db, 'users', currentUser.uid);
-    
-    await updateDoc(userRef, {
-      aiChatsUsed: 0,
-      lastChatReset: today
-    });
-    
-    setCurrentUser(prev => prev ? { ...prev, aiChatsUsed: 0, lastChatReset: today } : null);
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      const userRef = doc(db, 'users', currentUser.uid);
+      
+      await updateDoc(userRef, {
+        aiChatsUsed: 0,
+        lastChatReset: today
+      });
+      
+      setCurrentUser(prev => prev ? { ...prev, aiChatsUsed: 0, lastChatReset: today } : null);
+      console.log('🔄 Reset daily AI chats for user:', currentUser.uid);
+    } catch (error) {
+      console.error('❌ Error resetting daily AI chats:', error);
+    }
   };
+
+  // Sync user usage data when user changes
+  useEffect(() => {
+    const syncUsageData = async () => {
+      if (currentUser && currentUser.role !== 'anonymous') {
+        try {
+          const usageStatus = await getUserUsageStatus(currentUser);
+          const today = new Date().toISOString().split('T')[0];
+          
+          // Only update if the data is different
+          if (currentUser.aiChatsUsed !== usageStatus.used || currentUser.lastChatReset !== today) {
+            setCurrentUser(prev => prev ? {
+              ...prev,
+              aiChatsUsed: usageStatus.used,
+              lastChatReset: today
+            } : null);
+          }
+        } catch (error) {
+          console.error('❌ Error syncing usage data:', error);
+        }
+      }
+    };
+
+    syncUsageData();
+  }, [currentUser?.uid, currentUser?.role]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {

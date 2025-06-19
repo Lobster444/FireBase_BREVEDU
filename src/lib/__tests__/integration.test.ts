@@ -52,6 +52,13 @@ vi.mock('../../lib/tavusService', () => ({
   TavusTimeoutError: class TavusTimeoutError extends Error {},
 }));
 
+// Mock Tavus Usage Service
+vi.mock('../../services/tavusUsage', () => ({
+  canStartConversation: vi.fn(),
+  getUserUsageStatus: vi.fn(),
+  DAILY_LIMITS: { free: 1, premium: 3 },
+}));
+
 // Mock toast notifications
 vi.mock('../../lib/toast', () => ({
   notifySuccess: vi.fn(),
@@ -242,8 +249,10 @@ describe('Tavus Integration Tests', () => {
   describe('API Integration Flow', () => {
     it('should create Tavus conversation with correct payload', async () => {
       const { createTavusConversation, startTavusSession } = require('../../lib/tavusService');
+      const { canStartConversation } = require('../../services/tavusUsage');
       
       // Mock successful responses
+      canStartConversation.mockResolvedValue(true);
       startTavusSession.mockResolvedValue('session-123');
       createTavusConversation.mockResolvedValue({
         conversation_id: 'tavus-conv-123',
@@ -273,6 +282,10 @@ describe('Tavus Integration Tests', () => {
       await user.click(startButton);
 
       await waitFor(() => {
+        expect(canStartConversation).toHaveBeenCalledWith(mockUser);
+      });
+
+      await waitFor(() => {
         expect(startTavusSession).toHaveBeenCalledWith(
           mockUser.uid,
           mockCourse.id,
@@ -285,6 +298,40 @@ describe('Tavus Integration Tests', () => {
           mockCourse.id,
           mockUser.uid,
           'session-123'
+        );
+      });
+    });
+
+    it('should handle usage limit errors', async () => {
+      const { canStartConversation } = require('../../services/tavusUsage');
+      
+      canStartConversation.mockRejectedValue(
+        new Error('Daily limit of 1 AI practice session reached. Upgrade to BrevEdu+ for more sessions!')
+      );
+
+      const user = userEvent.setup();
+      render(
+        <BrowserRouter>
+          <AuthProvider>
+            <CourseDetailModal
+              isOpen={true}
+              course={mockCourse}
+              onClose={vi.fn()}
+            />
+          </AuthProvider>
+        </BrowserRouter>
+      );
+
+      const practiceButton = screen.getByRole('button', { name: /practice with ai/i });
+      await user.click(practiceButton);
+
+      const startButton = screen.getByRole('button', { name: /start practice/i });
+      await user.click(startButton);
+
+      await waitFor(() => {
+        const { notifyError } = require('../../lib/toast');
+        expect(notifyError).toHaveBeenCalledWith(
+          'Daily limit of 1 AI practice session reached. Upgrade to BrevEdu+ for more sessions!'
         );
       });
     });

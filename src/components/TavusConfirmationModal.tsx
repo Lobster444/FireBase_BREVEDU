@@ -3,6 +3,7 @@ import { X, Play, MessageCircle, Clock, WifiOff, AlertTriangle } from 'lucide-re
 import { Course } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { useNetworkStatusWithUtils } from '../hooks/useNetworkStatus';
+import { DAILY_LIMITS } from '../services/tavusUsage';
 
 interface TavusConfirmationModalProps {
   isOpen: boolean;
@@ -76,7 +77,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
     }
 
     if (currentUser.role === 'free') {
-      const dailyLimit = 1;
+      const dailyLimit = DAILY_LIMITS.free;
       const used = currentUser.aiChatsUsed || 0;
       const today = new Date().toISOString().split('T')[0];
       const lastReset = currentUser.lastChatReset || '';
@@ -91,7 +92,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
     }
 
     if (currentUser.role === 'premium') {
-      const dailyLimit = 3;
+      const dailyLimit = DAILY_LIMITS.premium;
       const used = currentUser.aiChatsUsed || 0;
       const today = new Date().toISOString().split('T')[0];
       const lastReset = currentUser.lastChatReset || '';
