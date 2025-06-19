@@ -300,57 +300,6 @@ export const startTavusSession = async (
   }
 };
 
-// ... (rest of the existing functions remain the same)
-
-/**
- * Update user's Tavus completion status with enhanced error handling
- * @param userId - User ID
- * @param courseId - Course ID
- * @param completion - Tavus completion data
- * @returns Promise<void>
- */
-const updateUserTavusCompletion = async (
-  userId: string,
-  courseId: string,
-  completion: TavusCompletion
-): Promise<void> => {
-  try {
-    if (!userId || !courseId) {
-      throw new Error('User ID and Course ID are required');
-    }
-
-    const userRef = doc(db, 'users', userId);
-    
-    // Get current user data to preserve existing completions
-    const userSnap = await getDoc(userRef);
-    if (!userSnap.exists()) {
-      throw new Error('User not found');
-    }
-
-    const userData = userSnap.data() as User;
-    const currentCompletions = userData.tavusCompletions || {};
-
-    // Update the specific course completion
-    const updatedCompletions = {
-      ...currentCompletions,
-      [courseId]: {
-        ...completion,
-        completedAt: completion.completedAt || new Date().toISOString()
-      }
-    };
-
-    await updateDoc(userRef, {
-      tavusCompletions: updatedCompletions,
-      updatedAt: serverTimestamp()
-    });
-
-    console.log(`✅ Updated Tavus completion for user ${userId}, course ${courseId}`);
-  } catch (error) {
-    console.error('❌ Error updating Tavus completion:', error);
-    throw error;
-  }
-};
-
 /**
  * UPDATED: Update Tavus session status with TTL awareness
  * @param sessionId - Session ID
@@ -488,6 +437,55 @@ export const completeTavusSession = async (
     console.log('✅ Completed Tavus session within TTL:', sessionId);
   } catch (error) {
     console.error('❌ Error completing Tavus session:', error);
+    throw error;
+  }
+};
+
+/**
+ * Update user's Tavus completion status with enhanced error handling
+ * @param userId - User ID
+ * @param courseId - Course ID
+ * @param completion - Tavus completion data
+ * @returns Promise<void>
+ */
+const updateUserTavusCompletion = async (
+  userId: string,
+  courseId: string,
+  completion: TavusCompletion
+): Promise<void> => {
+  try {
+    if (!userId || !courseId) {
+      throw new Error('User ID and Course ID are required');
+    }
+
+    const userRef = doc(db, 'users', userId);
+    
+    // Get current user data to preserve existing completions
+    const userSnap = await getDoc(userRef);
+    if (!userSnap.exists()) {
+      throw new Error('User not found');
+    }
+
+    const userData = userSnap.data() as User;
+    const currentCompletions = userData.tavusCompletions || {};
+
+    // Update the specific course completion
+    const updatedCompletions = {
+      ...currentCompletions,
+      [courseId]: {
+        ...completion,
+        completedAt: completion.completedAt || new Date().toISOString()
+      }
+    };
+
+    await updateDoc(userRef, {
+      tavusCompletions: updatedCompletions,
+      updatedAt: serverTimestamp()
+    });
+
+    console.log(`✅ Updated Tavus completion for user ${userId}, course ${courseId}`);
+  } catch (error) {
+    console.error('❌ Error updating Tavus completion:', error);
     throw error;
   }
 };

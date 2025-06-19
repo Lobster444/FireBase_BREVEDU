@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, MessageCircle, AlertCircle, Loader2, CheckCircle, RefreshCw, Wifi, WifiOff } from 'lucide-react';
+import { X, MessageCircle, AlertCircle, Loader2, CheckCircle, RefreshCw, Wifi, WifiOff, Clock } from 'lucide-react';
 import { Course, TavusCompletion } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { 
-  startTavusSession, 
-  completeTavusSession, 
   updateTavusSession,
   retryTavusOperation,
+  endTavusConversation,
   TavusError
 } from '../lib/tavusService';
 import { useOfflineSupport } from '../hooks/useOfflineSupport';
@@ -17,6 +16,7 @@ interface TavusModalProps {
   course: Course | null;
   onClose: () => void;
   onCompletion?: (completion: TavusCompletion) => void;
+  conversationUrl?: string; // NEW: Accept dynamic conversation URL
 }
 
 interface TavusMessage {
@@ -36,15 +36,15 @@ const TavusModal: React.FC<TavusModalProps> = ({
   isOpen,
   course,
   onClose,
-  onCompletion
+  onCompletion,
+  conversationUrl // NEW: Use dynamic URL instead of course.tavusConversationUrl
 }) => {
   const { currentUser } = useAuth();
   const { isOnline, executeWithOfflineFallback } = useOfflineSupport();
   const modalRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   
-  // CRITICAL: Session is created immediately when modal opens (user already confirmed)
-  const [loading, setLoading] = useState(true); // Start with loading since we create session immediately
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
   const [conversationStarted, setConversationStarted] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -53,11 +53,16 @@ const TavusModal: React.FC<TavusModalProps> = ({
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [retryCount, setRetryCount] = useState(0);
   const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected'>('connecting');
+  
+  // NEW: 3-minute countdown timer
+  const [timeRemaining, setTimeRemaining] = useState(180); // 3 minutes in seconds
+  const [countdownTimer, setCountdownTimer] = useState<NodeJS.Timeout | null>(null);
+  const [showTimeoutWarning, setShowTimeoutWarning] = useState(false);
 
-  // CRITICAL: Initialize Tavus session immediately when modal opens (user already confirmed)
+  // Initialize when modal opens with dynamic conversation URL
   useEffect(() => {
-    if (isOpen && course) {
-      console.log('🚀 TavusModal opened - user already confirmed, creating session immediately');
+    if (isOpen && course && conversationUrl) {
+      console.log('🚀 TavusModal opened with dynamic conversation URL');
       initializeTavusSession();
       
       // Prevent body scroll
@@ -69,13 +74,81 @@ const TavusModal: React.FC<TavusModalProps> = ({
     return () => {
       cleanupSession();
     };
-  }, [isOpen, course]);
+  }, [isOpen, course, conversationUrl]);
 
-  // Initialize Tavus session immediately (no confirmation needed - already done)
+  // NEW: Start 3-minute countdown when conversation starts
+  useEffect(() => {
+    if (conversationStarted && !countdownTimer) {
+      console.log('⏰ Starting 3-minute countdown timer');
+      
+      const timer = setInterval(() => {
+        setTimeRemaining(prev => {
+          const newTime = prev - 1;
+          
+          // Show warning at 30 seconds remaining
+          if (newTime === 30 && !showTimeoutWarning) {
+            setShowTimeoutWarning(true);
+            notifyWarning('⏰ 30 seconds remaining in your AI practice session');
+          }
+          
+          // Auto-end conversation when time runs out
+          if (newTime <= 0) {
+            handleTimeoutEnd();
+            return 0;
+          }
+          
+          return newTime;
+        });
+      }, 1000);
+      
+      setCountdownTimer(timer);
+    }
+
+    return () => {
+      if (countdownTimer) {
+        clearInterval(countdownTimer);
+        setCountdownTimer(null);
+      }
+    };
+  }, [conversationStarted, countdownTimer, showTimeoutWarning]);
+
+  // NEW: Handle automatic timeout end
+  const handleTimeoutEnd = async () => {
+    console.log('⏰ 3-minute timer expired - ending conversation');
+    
+    try {
+      // End conversation via Tavus API if we have the conversation ID
+      if (conversationId) {
+        await endTavusConversation(conversationId);
+      }
+      
+      // Update session status
+      if (sessionId) {
+        await updateTavusSession(sessionId, {
+          status: 'expired',
+          completedAt: new Date().toISOString()
+        });
+      }
+      
+      notifyInfo('⏰ Practice session ended - 3 minute limit reached');
+      
+      // Close modal after short delay
+      setTimeout(() => {
+        onClose();
+      }, 2000);
+      
+    } catch (error) {
+      console.error('❌ Error ending timed-out conversation:', error);
+      // Still close the modal even if API call fails
+      onClose();
+    }
+  };
+
+  // Initialize Tavus session with dynamic URL
   const initializeTavusSession = async () => {
-    if (!currentUser || !course?.id) {
-      console.error('❌ Cannot initialize session - missing user or course');
-      setError('Missing user or course information');
+    if (!currentUser || !course?.id || !conversationUrl) {
+      console.error('❌ Cannot initialize session - missing required data');
+      setError('Missing required information for AI practice session');
       setLoading(false);
       return;
     }
@@ -87,36 +160,11 @@ const TavusModal: React.FC<TavusModalProps> = ({
       setProgress(0);
       setRetryCount(0);
       setConnectionStatus('connecting');
+      setTimeRemaining(180); // Reset timer
+      setShowTimeoutWarning(false);
       
-      console.log('🚀 Creating Tavus session immediately (user already confirmed)');
+      console.log('🚀 Initializing Tavus session with dynamic URL:', conversationUrl);
       
-      // CRITICAL: Create session with TTL (default 1 hour)
-      const newSessionId = await executeWithOfflineFallback(
-        () => startTavusSession(
-          currentUser.uid, 
-          course.id!, 
-          course.tavusConversationUrl,
-          3600 // 1 hour TTL
-        ),
-        {
-          operation: 'startSession',
-          data: { 
-            userId: currentUser.uid, 
-            courseId: course.id,
-            conversationUrl: course.tavusConversationUrl,
-            ttl: 3600
-          }
-        }
-      );
-      
-      if (newSessionId) {
-        setSessionId(newSessionId);
-        console.log('✅ Tavus session created with TTL:', newSessionId);
-        
-        // Session is created, now load the iframe
-        // Loading will be set to false when iframe loads or errors
-      }
-
       // Set loading timeout (20 seconds)
       const timeout = setTimeout(() => {
         if (loading) {
@@ -143,6 +191,11 @@ const TavusModal: React.FC<TavusModalProps> = ({
     if (timeoutId) {
       clearTimeout(timeoutId);
       setTimeoutId(null);
+    }
+
+    if (countdownTimer) {
+      clearInterval(countdownTimer);
+      setCountdownTimer(null);
     }
 
     // Mark session as abandoned if it was started but not completed
@@ -302,7 +355,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
       });
     }
 
-    notifyInfo('🎬 AI conversation started! Complete it to mark the course as finished.');
+    notifyInfo('🎬 AI conversation started! You have 3 minutes to complete the practice.');
   };
 
   // Handle Tavus progress
@@ -318,6 +371,12 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
     console.log('🎉 Tavus conversation completed:', message.data);
 
+    // Clear countdown timer
+    if (countdownTimer) {
+      clearInterval(countdownTimer);
+      setCountdownTimer(null);
+    }
+
     try {
       const completion: TavusCompletion = {
         completed: true,
@@ -328,7 +387,9 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
       // Complete session with offline fallback
       await executeWithOfflineFallback(
-        () => completeTavusSession(sessionId, {
+        () => updateTavusSession(sessionId, {
+          status: 'completed',
+          completedAt: completion.completedAt,
           accuracyScore: completion.accuracyScore,
           conversationId: completion.conversationId
         }),
@@ -414,13 +475,13 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
   // Send message to iframe
   const sendMessageToIframe = (message: any) => {
-    if (iframeRef.current && course?.tavusConversationUrl) {
+    if (iframeRef.current && conversationUrl) {
       try {
         const iframeWindow = iframeRef.current.contentWindow;
         if (iframeWindow) {
           iframeWindow.postMessage(
             message,
-            new URL(course.tavusConversationUrl).origin
+            new URL(conversationUrl).origin
           );
         }
       } catch (error) {
@@ -441,8 +502,8 @@ const TavusModal: React.FC<TavusModalProps> = ({
     await new Promise(resolve => setTimeout(resolve, backoffDelay));
     
     // Reload iframe
-    if (iframeRef.current && course?.tavusConversationUrl) {
-      iframeRef.current.src = course.tavusConversationUrl;
+    if (iframeRef.current && conversationUrl) {
+      iframeRef.current.src = conversationUrl;
     }
     
     setRetryCount(prev => prev + 1);
@@ -480,7 +541,14 @@ const TavusModal: React.FC<TavusModalProps> = ({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, conversationStarted, progress, onClose]);
 
-  if (!isOpen || !course || !course.tavusConversationUrl) return null;
+  // Format time remaining for display
+  const formatTimeRemaining = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
+  if (!isOpen || !course || !conversationUrl) return null;
 
   return (
     <div 
@@ -495,7 +563,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
         ref={modalRef}
         className="bg-white rounded-[16px] w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.12)] relative"
       >
-        {/* Enhanced Header with Connection Status */}
+        {/* Enhanced Header with Connection Status and Timer */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-white">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-[#FF7A59] rounded-full flex items-center justify-center">
@@ -511,7 +579,19 @@ const TavusModal: React.FC<TavusModalProps> = ({
             </div>
           </div>
           
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-4">
+            {/* NEW: Timer Display */}
+            {conversationStarted && (
+              <div className={`flex items-center space-x-2 px-3 py-2 rounded-lg ${
+                timeRemaining <= 30 ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'
+              }`}>
+                <Clock className="h-4 w-4" />
+                <span className="text-sm font-medium">
+                  {formatTimeRemaining(timeRemaining)}
+                </span>
+              </div>
+            )}
+            
             {/* Connection Status Indicator */}
             <div className="flex items-center space-x-2">
               {isOnline ? (
@@ -603,7 +683,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
           <div className="w-full h-[70vh] min-h-[500px]">
             <iframe
               ref={iframeRef}
-              src={course.tavusConversationUrl}
+              src={conversationUrl}
               className="w-full h-full border-0"
               title="Tavus AI Practice Session"
               allow="camera; microphone; autoplay; encrypted-media; fullscreen"
@@ -618,7 +698,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
           </div>
         </div>
 
-        {/* Enhanced Footer with Progress */}
+        {/* Enhanced Footer with Progress and Timer */}
         <div className="p-6 border-t border-gray-100 bg-gray-50">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -650,7 +730,10 @@ const TavusModal: React.FC<TavusModalProps> = ({
             
             <div className="flex items-center space-x-3">
               <p className="text-sm text-gray-600">
-                Complete the conversation to mark this course as finished
+                {conversationStarted 
+                  ? `${formatTimeRemaining(timeRemaining)} remaining`
+                  : 'Complete the conversation to mark this course as finished'
+                }
               </p>
               <button
                 onClick={onClose}
