@@ -94,3 +94,4 @@ export const hasTavusCompletion = (user: User | null, courseId: string): boolean
 export const getTavusCompletion = (user: User | null, courseId: string): TavusCompletion | null => {
   if (!user || !courseId) return null;
   return user.tavusCompletions?.[courseId] || null;
+};
