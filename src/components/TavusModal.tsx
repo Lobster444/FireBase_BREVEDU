@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, MessageCircle, AlertCircle, Loader2, CheckCircle, RefreshCw, Wifi, WifiOff, Clock, Timer, ExclamationTriangle } from 'lucide-react';
+import { X, MessageCircle, AlertCircle, Loader2, CheckCircle, RefreshCw, Wifi, WifiOff, Clock, Timer, Triangle as ExclamationTriangle } from 'lucide-react';
 import { Course, TavusCompletion } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { 
