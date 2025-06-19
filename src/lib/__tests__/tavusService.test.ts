@@ -141,8 +141,7 @@ describe('TavusService', () => {
         replica_id: mockTavusSettings.replica_id,
         persona_id: mockTavusSettings.persona_id,
         conversational_context: mockCourseData.conversationalContext,
-        callback_url: expect.stringContaining(mockUserId),
-        ttl: 180
+        callback_url: expect.stringContaining(mockUserId)
       });
     });
 

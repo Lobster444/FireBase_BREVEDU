@@ -30,7 +30,7 @@ vi.mock('firebase/auth', () => ({
   signOut: vi.fn(),
 }));
 
-// Mock Tavus Service
+// Mock Tavus Service - Updated imports
 vi.mock('../../lib/tavusService', () => ({
   createTavusConversation: vi.fn(),
   startTavusSession: vi.fn(),
@@ -418,6 +418,20 @@ describe('Tavus Integration Tests', () => {
   describe('User Experience Validation', () => {
     it('should show appropriate messages for different user roles', () => {
       // Test free user experience
+      const renderCourseModal = () => {
+        return render(
+          <BrowserRouter>
+            <AuthProvider>
+              <CourseDetailModal
+                isOpen={true}
+                course={mockCourse}
+                onClose={vi.fn()}
+              />
+            </AuthProvider>
+          </BrowserRouter>
+        );
+      };
+      
       renderCourseModal();
       expect(screen.getByText(/1 practice session available today/i)).toBeInTheDocument();
     });
@@ -430,6 +444,20 @@ describe('Tavus Integration Tests', () => {
         loading: false,
       });
 
+      const renderCourseModal = () => {
+        return render(
+          <BrowserRouter>
+            <AuthProvider>
+              <CourseDetailModal
+                isOpen={true}
+                course={mockCourse}
+                onClose={vi.fn()}
+              />
+            </AuthProvider>
+          </BrowserRouter>
+        );
+      };
+      
       renderCourseModal();
       expect(screen.getByText(/daily limit reached/i)).toBeInTheDocument();
     });
@@ -452,6 +480,20 @@ describe('Tavus Integration Tests', () => {
         loading: false,
       });
 
+      const renderCourseModal = () => {
+        return render(
+          <BrowserRouter>
+            <AuthProvider>
+              <CourseDetailModal
+                isOpen={true}
+                course={mockCourse}
+                onClose={vi.fn()}
+              />
+            </AuthProvider>
+          </BrowserRouter>
+        );
+      };
+      
       renderCourseModal();
       expect(screen.getByText(/practice completed/i)).toBeInTheDocument();
       expect(screen.getByText(/accuracy score: 85%/i)).toBeInTheDocument();
