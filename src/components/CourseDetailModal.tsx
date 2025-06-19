@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, Clock, MessageCircle, CheckCircle } from 'lucide-react';
 import { Course, hasTavusCompletion, getTavusCompletion } from '../types';
 import { useAuth } from '../contexts/AuthContext';
+import ProgressBar from './ProgressBar';
 import TavusModal from './TavusModal';
 import TavusConfirmationModal from './TavusConfirmationModal';
 import VideoPlayerSection from './VideoPlayerSection';
@@ -20,6 +21,7 @@ import {
 } from '../lib/tavusService';
 import { canStartConversation } from '../services/tavusUsage';
 import { notifyError, notifySuccess, notifyLoading, updateToast, notifyWarning } from '../lib/toast';
+import { subscribeToCourseProgress } from '../lib/progressService';
 
 interface CourseDetailModalProps {
   isOpen: boolean;
@@ -43,6 +45,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
   const [tavusAccuracy, setTavusAccuracy] = useState<number | undefined>(undefined);
   const [tavusConversationUrl, setTavusConversationUrl] = useState<string>('');
   const [isCreatingConversation, setIsCreatingConversation] = useState(false);
+  const [courseProgress, setCourseProgress] = useState(0);
   
   // Store session and conversation IDs for timeout handling
   const [sessionId, setSessionId] = useState<string>('');
@@ -60,6 +63,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
       setIsCreatingConversation(false);
       setSessionId('');
       setTavusConversationId('');
+      setCourseProgress(0);
       
       // Check Tavus completion status
       if (currentUser && course.id) {
@@ -73,6 +77,28 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
       
       // Prevent body scroll when modal is open
       document.body.style.overflow = 'hidden';
+      
+      // Set up progress subscription for authenticated users
+      let unsubscribeProgress: (() => void) | undefined;
+      if (currentUser && course.id) {
+        console.log('📊 Setting up progress subscription for course:', course.id);
+        unsubscribeProgress = subscribeToCourseProgress(
+          currentUser.uid,
+          course.id,
+          (progress) => {
+            console.log('📈 Progress updated:', progress);
+            setCourseProgress(progress);
+          }
+        );
+      }
+      
+      // Cleanup function
+      return () => {
+        if (unsubscribeProgress) {
+          console.log('🧹 Cleaning up progress subscription');
+          unsubscribeProgress();
+        }
+      };
     } else {
       // Restore body scroll when modal is closed
       document.body.style.overflow = 'unset';
@@ -351,11 +377,25 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                     <CheckCircle className="h-3 w-3" />
                     <span>Completed</span>
                   </span>
+              {/* Progress Bar - Only show for authenticated users */}
+              {currentUser && (
+                <div className="bg-gray-50 rounded-headspace-xl p-4">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Your Progress</h3>
+                  <ProgressBar 
+                    progress={courseProgress} 
+                    size="md"
+                    showLabel={true}
+                  />
+                </div>
+              )}
+
                 )}
               </div>
               <h1 id="course-modal-title" className="text-2xl font-bold text-gray-900 mb-2 leading-tight">
                 {course.title}
               </h1>
+                userId={currentUser?.uid}
+                courseId={course.id}
             </div>
             <button
               onClick={onClose}
@@ -396,6 +436,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                   courseTitle={course.title}
                   imageError={imageError}
                   onImageError={setImageError}
+                  isModuleCompleted={courseProgress >= 100}
                 />
 
                 {/* Action Buttons */}
