@@ -73,6 +73,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
         <img 
           src={course.thumbnailUrl} 
           alt={course.title}
+          loading="lazy"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-headspace"
         />
         

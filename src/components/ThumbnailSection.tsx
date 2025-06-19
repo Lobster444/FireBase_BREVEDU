@@ -39,6 +39,7 @@ const ThumbnailSection: React.FC<ThumbnailSectionProps> = ({
           <img
             src={thumbnailUrl}
             alt={`${courseTitle} thumbnail`}
+            loading="lazy"
             className="w-full h-full object-cover"
             onError={() => onImageError(true)}
           />

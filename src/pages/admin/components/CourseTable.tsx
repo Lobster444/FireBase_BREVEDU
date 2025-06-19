@@ -42,6 +42,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                     <img
                       src={course.thumbnailUrl}
                       alt={course.title}
+                      loading="lazy"
                       className="w-16 h-10 object-cover rounded"
                     />
                     <div>

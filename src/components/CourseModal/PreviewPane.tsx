@@ -100,6 +100,7 @@ const PreviewPane: React.FC<PreviewPaneProps> = ({
               <img
                 src={formData.thumbnailUrl}
                 alt="Course thumbnail preview"
+                loading="lazy"
                 className="w-full h-full object-cover"
                 onError={() => {
                   setImageError(true);

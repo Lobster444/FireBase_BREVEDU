@@ -27,6 +27,7 @@ const CourseMobileGrid: React.FC<CourseMobileGridProps> = ({
               <img
                 src={course.thumbnailUrl}
                 alt={course.title}
+                loading="lazy"
                 className="w-20 h-12 object-cover rounded flex-shrink-0"
               />
               <div className="flex-1 min-w-0">
