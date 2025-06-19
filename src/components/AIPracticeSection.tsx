@@ -1,11 +1,12 @@
 import React from 'react';
 import { MessageCircle, CheckCircle, RotateCcw } from 'lucide-react';
 import { Course, User } from '../types';
-import { DAILY_LIMITS } from '../services/tavusUsage';
 
 interface AIPracticeStatus {
   available: boolean;
   reason: string;
+  isCompleted?: boolean;
+  isLimitReached?: boolean;
 }
 
 interface AIPracticeSectionProps {
@@ -16,6 +17,7 @@ interface AIPracticeSectionProps {
   aiPracticeStatus: AIPracticeStatus;
   onAIPractice: () => void;
   onRetakePractice: () => void;
+  isModuleCompleted?: boolean;
 }
 
 const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
@@ -26,6 +28,7 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
   aiPracticeStatus,
   onAIPractice,
   onRetakePractice
+  isModuleCompleted = false
 }) => {
   return (
     <div>
@@ -45,11 +48,21 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
           </div>
           <button
             onClick={onRetakePractice}
-            disabled={!aiPracticeStatus.available}
+            disabled={!aiPracticeStatus.available || isModuleCompleted}
             className={`w-full px-6 py-3 rounded-headspace-lg text-base font-medium transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex items-center justify-center space-x-2 ${
-              aiPracticeStatus.available
+              aiPracticeStatus.available && !isModuleCompleted
                 ? 'bg-gray-100 text-gray-800 hover:bg-gray-200 border border-gray-300'
                 : 'bg-gray-200 text-gray-500 cursor-not-allowed opacity-60'
+            }`}
+          >
+            <RotateCcw className="h-4 w-4" />
+            <span>Practice Again</span>
+          </button>
+          {isModuleCompleted && (
+            <p className="text-sm text-emerald-600 mt-2 text-center font-medium">
+              ✅ Module completed! Practice is no longer needed.
+            </p>
+          )}
             }`}
           >
             <RotateCcw className="h-4 w-4" />
@@ -70,9 +83,19 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
           <span>Practice with AI</span>
         </button>
       )}
-      <p className="text-sm text-gray-600 mt-2 text-center">
-        {aiPracticeStatus.reason}
-      </p>
+      
+      {/* Status Messages */}
+      <div className="mt-2 text-center">
+        {aiPracticeStatus.isLimitReached ? (
+          <p className="text-sm text-red-600 font-medium">
+            ❌ {aiPracticeStatus.reason}
+          </p>
+        ) : (
+          <p className="text-sm text-gray-600">
+            {aiPracticeStatus.reason}
+          </p>
+        )}
+      </div>
     </div>
   );
 };
