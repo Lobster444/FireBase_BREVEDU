@@ -13,7 +13,6 @@ import { useAuth } from '../contexts/AuthContext';
 
 const CoursesPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedDifficulty, setSelectedDifficulty] = useState('All');
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [showCourseModal, setShowCourseModal] = useState(false);
   const [showAccessModal, setShowAccessModal] = useState(false);
@@ -38,11 +37,6 @@ const CoursesPage: React.FC = () => {
     false, // Not filtering for premium only
     currentUser?.role || null
   );
-
-  const filteredCourses = courses.filter(course => {
-    const matchesDifficulty = selectedDifficulty === 'All' || course.difficulty === selectedDifficulty;
-    return matchesDifficulty;
-  });
 
   const handleCourseClick = (course: Course) => {
     setSelectedCourse(course);
@@ -70,7 +64,6 @@ const CoursesPage: React.FC = () => {
 
   const clearAllFilters = () => {
     setSelectedCategory('All');
-    setSelectedDifficulty('All');
   };
 
   // Get user access level display
@@ -169,21 +162,6 @@ const CoursesPage: React.FC = () => {
                 />
               ))}
             </div>
-
-            {/* Difficulty Filter */}
-            <div className="flex items-center justify-center space-x-2">
-              <Filter className="h-4 w-4 text-gray-500" />
-              <select
-                value={selectedDifficulty}
-                onChange={(e) => setSelectedDifficulty(e.target.value)}
-                className="bg-white border border-gray-300 rounded-[10px] px-3 py-2 text-base text-gray-900 focus:outline-none focus:border-[#FF7A59] focus:ring-2 focus:ring-[#FF7A59]/20"
-              >
-                <option value="All">All Levels</option>
-                <option value="Beginner">Beginner</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Advanced">Advanced</option>
-              </select>
-            </div>
           </div>
         </div>
       </section>
@@ -212,7 +190,7 @@ const CoursesPage: React.FC = () => {
           {/* Results */}
           {!loading && !error && (
             <>
-              {filteredCourses.length === 0 ? (
+              {courses.length === 0 ? (
                 <div className="text-center py-12">
                   {courses.length === 0 ? (
                     <div>
@@ -267,7 +245,7 @@ const CoursesPage: React.FC = () => {
                 <>
                   <div className="flex items-center justify-between mb-6">
                     <p className="text-lg text-gray-700">
-                      Showing {filteredCourses.length} of {courses.length} courses
+                      Showing {courses.length} courses
                       {currentUser?.role === 'premium' ? ' (full access)' : ' available to you'}
                     </p>
                     {/* Hide "Unlock All Courses" link for premium users */}
@@ -283,7 +261,7 @@ const CoursesPage: React.FC = () => {
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {filteredCourses.map((course) => (
+                    {courses.map((course) => (
                       <CourseCard key={course.id} course={course} onClick={handleCourseClick} />
                     ))}
                   </div>
