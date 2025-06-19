@@ -183,9 +183,9 @@ export const SecondaryButton: React.FC<BaseButtonProps> = ({
       aria-disabled={disabled}
       className={`
         bg-gray-100 text-gray-800 px-6 py-4 sm:py-3 rounded-headspace-lg font-medium text-base
-        border border-gray-200
+        border-2 border-gray-400
         transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out]
-        hover:bg-gray-200 hover:border-gray-300 hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] hover:animate-[breathe_2s_infinite]
+        hover:bg-gray-200 hover:border-gray-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] hover:animate-[breathe_2s_infinite]
         active:bg-gray-300 active:scale-95
         disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-100 disabled:hover:shadow-none disabled:active:scale-100 disabled:hover:animate-none
         focus:outline-none focus-visible:outline-2 focus-visible:outline-gray-400 focus-visible:outline-offset-2 focus-visible:animate-[breathe_2s_infinite]
