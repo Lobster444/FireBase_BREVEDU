@@ -1,12 +1,12 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* Import Plyr CSS */
 @import 'plyr-react/plyr.css';
 
 /* Import Headspace theme */
 @import './styles/headspace-theme.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   /* Apply Inter font with optimized features globally */
