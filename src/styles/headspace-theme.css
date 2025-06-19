@@ -13,6 +13,14 @@
   --color-accent-green: #7ED321;
   --color-accent-purple: #9013FE;
   
+  /* Headspace signature colors */
+  --color-headspace-orange: #FF7A59; /* Primary brand color */
+  --color-headspace-peach: #FFB4A0; /* Lighter warm tone */
+  --color-headspace-cream: #FFF8F6; /* Very light warm background */
+  --color-headspace-warm-bg: #FFF4F1; /* Hero background color */
+  --color-headspace-warm-text: #2D2C2B; /* Dark warm text for contrast */
+  --color-headspace-warm-secondary: #6B5B73; /* Muted purple-gray for secondary text */
+  
   /* Negative/Danger color tokens */
   --color-negative: #EF4444;
   --color-negative-hover: #DC2626;
@@ -565,4 +573,102 @@
 img, video {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: optimize-contrast;
+}
+
+/* Headspace Hero Section Styles */
+.hero-headspace {
+  background: linear-gradient(135deg, var(--color-headspace-warm-bg) 0%, var(--color-headspace-cream) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-headspace::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(255, 122, 89, 0.08) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(245, 200, 66, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Headspace-style text colors for hero */
+.hero-title {
+  color: var(--color-headspace-warm-text);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.hero-subtitle {
+  color: var(--color-headspace-warm-secondary);
+}
+
+/* Enhanced CTA button for hero section */
+.hero-cta-primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+  box-shadow: 
+    0 4px 12px rgba(255, 122, 89, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(0);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hero-cta-primary:hover {
+  background: linear-gradient(135deg, var(--color-primary-hover) 0%, var(--color-primary) 100%);
+  box-shadow: 
+    0 6px 20px rgba(255, 122, 89, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.hero-cta-secondary {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 122, 89, 0.2);
+  color: var(--color-headspace-warm-text);
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.hero-cta-secondary:hover {
+  background: rgba(255, 255, 255, 1);
+  border-color: rgba(255, 122, 89, 0.3);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  transform: translateY(-1px);
+}
+
+/* Headspace-style pill toggle for hero */
+.hero-pill-toggle {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 122, 89, 0.15);
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.hero-pill-toggle .pill-button {
+  background: transparent;
+  color: var(--color-headspace-warm-secondary);
+  transition: all 0.3s ease;
+}
+
+.hero-pill-toggle .pill-button.active {
+  background: var(--color-primary);
+  color: white;
+  box-shadow: 0 2px 6px rgba(255, 122, 89, 0.3);
+}
+
+.hero-pill-toggle .pill-button:hover:not(.active) {
+  background: rgba(255, 122, 89, 0.1);
+  color: var(--color-primary);
 }

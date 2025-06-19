@@ -117,17 +117,15 @@ const HomePage: React.FC = () => {
   return (
     <Layout currentPage="home">
       {/* Hero Section */}
-      <section className="px-padding-medium py-12 text-center bg-white">
-        <HeroSection
-          currentUser={currentUser}
-          userMessage={userMessage}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          onStartLearning={handleStartLearningFree}
-          onUpgrade={handleUpgradeClick}
-          onExploreCourses={handleExploreCourses}
-        />
-      </section>
+      <HeroSection
+        currentUser={currentUser}
+        userMessage={userMessage}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        onStartLearning={handleStartLearningFree}
+        onUpgrade={handleUpgradeClick}
+        onExploreCourses={handleExploreCourses}
+      />
 
       {/* Featured Courses Section */}
       <section className="px-padding-medium pb-12 bg-white">
