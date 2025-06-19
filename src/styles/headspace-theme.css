@@ -76,8 +76,14 @@
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
   --shadow-xl: 0 12px 48px rgba(0, 0, 0, 0.18);
-  --shadow-focus: 0 0 0 4px rgba(255, 122, 89, 0.4);
+  --shadow-focus: 0 0 0 2px transparent, 0 0 0 4px rgba(255, 122, 89, 0.4);
   --shadow-focus-ring: 0 0 0 2px rgba(255, 122, 89, 0.3);
+  
+  /* Focus border tokens */
+  --focus-border-width: 2px;
+  --focus-border-offset: 2px;
+  --focus-border-color: var(--color-primary);
+  --focus-border-negative: #EF4444; /* Red for negative/danger actions */
   
   /* === TYPOGRAPHY TOKENS === */
   --font-size-h1: 32px;
@@ -160,7 +166,8 @@
 
 .btn-headspace-base:focus-visible {
   outline: none;
-  box-shadow: var(--shadow-focus);
+  outline: var(--focus-border-width) solid var(--focus-border-color);
+  outline-offset: var(--focus-border-offset);
   animation: breathe 2s ease-in-out infinite;
 }
 
@@ -196,6 +203,11 @@
   background-color: var(--color-primary-active);
 }
 
+/* Primary Button Focus - uses primary color */
+.btn-primary:focus-visible {
+  outline-color: var(--focus-border-color);
+}
+
 /* Secondary Button */
 .btn-secondary {
   background-color: var(--color-white);
@@ -208,6 +220,17 @@
   background-color: var(--color-neutral-50);
   border-color: var(--color-neutral-400);
   box-shadow: var(--shadow-sm);
+}
+
+/* Secondary Button Focus - uses primary color */
+.btn-secondary:focus-visible {
+  outline-color: var(--focus-border-color);
+}
+
+/* Danger/Negative Button Focus - uses red color */
+.btn-danger:focus-visible,
+.btn-negative:focus-visible {
+  outline-color: var(--focus-border-negative);
 }
 
 /* Card Base Styles */
@@ -256,8 +279,9 @@
 
 .input-headspace:focus-visible {
   outline: none;
+  outline: var(--focus-border-width) solid var(--focus-border-color);
+  outline-offset: var(--focus-border-offset);
   border-color: var(--color-primary);
-  box-shadow: var(--shadow-focus-ring);
   animation: breathe 2s ease-in-out infinite;
 }
 
@@ -266,7 +290,7 @@
 }
 
 .input-headspace:invalid:focus-visible {
-  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
+  outline-color: var(--focus-border-negative);
 }
 
 /* Layout Utilities */
@@ -361,12 +385,13 @@
 
 /* Focus Ring Utilities - Using focus-visible for better UX */
 .focus-ring-headspace {
-  transition: box-shadow var(--transition-normal);
+  transition: outline-color var(--transition-normal);
 }
 
 .focus-ring-headspace:focus-visible {
   outline: none;
-  box-shadow: var(--shadow-focus);
+  outline: var(--focus-border-width) solid var(--focus-border-color);
+  outline-offset: var(--focus-border-offset);
 }
 
 /* Accessibility Utilities */

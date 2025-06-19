@@ -100,6 +100,20 @@ export default {
         'card': 'var(--shadow-md)',
         'button': 'var(--shadow-sm)',
       },
+      outlineWidth: {
+        // Focus outline widths
+        '1': '1px',
+        '2': '2px',
+        '3': '3px',
+        '4': '4px',
+      },
+      outlineOffset: {
+        // Focus outline offsets
+        '1': '1px',
+        '2': '2px',
+        '3': '3px',
+        '4': '4px',
+      },
       spacing: {
         // Headspace spacing scale mapped to CSS variables
         'headspace-xs': 'var(--space-xs)',
