@@ -219,6 +219,12 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
                   }
                 }
               }}
+              onEnded={() => {
+                console.log('🎬 Video ended - ensuring progress is tracked');
+                if (userId && courseId && !hasTrackedCompletion) {
+                  handleVideoProgress(999999, 1000000); // Force completion by simulating near-end time
+                }
+              }}
               aria-label="Course video preview"
             />
             {isVideoLoading && (
