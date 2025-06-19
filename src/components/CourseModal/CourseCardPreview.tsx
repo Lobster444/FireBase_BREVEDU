@@ -61,12 +61,13 @@ const CourseCardPreview: React.FC<CourseCardPreviewProps> = ({
                 </span>
               )}
               <span className={`text-sm px-2 py-1 rounded-[6px] flex items-center space-x-1 ${accessLevelInfo.color} ${accessLevelInfo.bgColor}`}>
-              <span className={`text-sm px-3 py-1 rounded-full font-medium ${
-                formData.accessLevel === 'premium' 
-                  ? 'bg-[#C967D3] text-white' 
-                  : 'bg-[#6D9A52] text-white'
-              }`}>
-                <span>{formData.accessLevel === 'premium' ? 'Premium' : 'Free'}</span>
+                <span className={`text-sm px-3 py-1 rounded-full font-medium ${
+                  formData.accessLevel === 'premium' 
+                    ? 'bg-[#C967D3] text-white' 
+                    : 'bg-[#6D9A52] text-white'
+                }`}>
+                  <span>{formData.accessLevel === 'premium' ? 'Premium' : 'Free'}</span>
+                </span>
               </span>
               {formData.tavusConversationUrl && (
                 <span className="text-sm text-[#FF7A59] bg-[#FF7A59]/10 px-2 py-1 rounded-[6px] flex items-center space-x-1">
