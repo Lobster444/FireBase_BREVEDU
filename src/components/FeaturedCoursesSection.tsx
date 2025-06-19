@@ -58,8 +58,8 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
   return (
     <section className="px-padding-medium pb-12 bg-white">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
-          <div>
+        <div className="flex flex-col items-center text-center mb-8">
+          <div className="mb-6">
             <h2 className="text-3xl font-bold text-gray-900 mb-2">
               {activeTab === 'premium' ? 'Premium Courses' : 'Featured Courses'}
             </h2>
@@ -76,7 +76,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
           </div>
           
           {/* Category Filter */}
-          <div className="flex flex-wrap gap-2 mt-4 sm:mt-0">
+          <div className="flex flex-wrap justify-center gap-2">
             {categories.map((category) => (
               <PillToggleButton
                 key={category}

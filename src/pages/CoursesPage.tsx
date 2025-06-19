@@ -157,9 +157,9 @@ const CoursesPage: React.FC = () => {
           </div>
 
           {/* Filters */}
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col items-center gap-6">
             {/* Category Filter */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap justify-center gap-2">
               {categories.map((category) => (
                 <PillToggleButton
                   key={category}
@@ -171,7 +171,7 @@ const CoursesPage: React.FC = () => {
             </div>
 
             {/* Difficulty Filter */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center justify-center space-x-2">
               <Filter className="h-4 w-4 text-gray-500" />
               <select
                 value={selectedDifficulty}
