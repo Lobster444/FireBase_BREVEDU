@@ -94,14 +94,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               >
                 {userMessage.ctaText}
               </AccentButton>
-              <SecondaryButton 
+              <PrimaryButton 
                 className="hero-cta-secondary px-8 py-4 text-lg font-semibold flex items-center justify-center space-x-2"
                 onClick={onUpgrade}
                 aria-label="Upgrade to BrevEdu+ premium subscription"
               >
                 <Sparkles className="h-5 w-5" />
                 <span>Upgrade to Premium</span>
-              </SecondaryButton>
+              </PrimaryButton>
             </>
           ) : (
             <AccentButton 
