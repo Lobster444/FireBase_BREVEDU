@@ -30,7 +30,7 @@ const CourseFilters: React.FC<CourseFiltersProps> = ({
   const difficulties = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 
   return (
-    <div className="bg-white rounded-headspace-lg p-6 mb-6 border border-gray-200">
+    <div className="bg-white rounded-headspace-lg p-padding-medium mb-6 border border-gray-200">
       {/* Search Bar */}
       <div className="relative mb-4">
         <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />

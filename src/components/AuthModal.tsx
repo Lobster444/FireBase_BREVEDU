@@ -222,7 +222,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
 
   return (
     <div className="fixed inset-0 bg-primary/80 backdrop-blur-ios flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-headspace-xl w-full max-w-md p-8 relative max-h-[90vh] overflow-y-auto shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
+      <div className="bg-white rounded-headspace-xl w-full max-w-md p-padding-large relative max-h-[90vh] overflow-y-auto shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
         {/* Close Button */}
         <button
           onClick={onClose}

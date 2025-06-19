@@ -49,7 +49,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
   ];
 
   return (
-    <section className="px-6 py-12 bg-gray-50">
+    <section className="px-padding-medium py-12 bg-gray-50">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">What Our Learners Say</h2>
@@ -63,7 +63,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
           {testimonials.map((testimonial) => (
             <div 
               key={testimonial.id} 
-              className="bg-white rounded-[12px] p-6 shadow-[0_2px_8px_rgba(0,0,0,0.1)] border border-gray-100 hover:border-[#FF7A59]/30 transition-all duration-200"
+              className="bg-white rounded-[12px] p-padding-medium shadow-[0_2px_8px_rgba(0,0,0,0.1)] border border-gray-100 hover:border-[#FF7A59]/30 transition-all duration-200"
               role="article"
               aria-labelledby={`testimonial-${testimonial.id}-name`}
             >

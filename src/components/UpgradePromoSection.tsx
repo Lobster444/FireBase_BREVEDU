@@ -10,9 +10,9 @@ const UpgradePromoSection: React.FC<UpgradePromoSectionProps> = ({
   onUpgradeClick
 }) => {
   return (
-    <section className="px-6 pb-12 bg-white">
+    <section className="px-padding-medium pb-12 bg-white">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-gradient-to-r from-[#FF7A59]/10 to-[#F5C842]/10 rounded-[16px] p-8 text-center border border-[#FF7A59]/20">
+        <div className="bg-gradient-to-r from-[#FF7A59]/10 to-[#F5C842]/10 rounded-[16px] p-padding-large text-center border border-[#FF7A59]/20">
           <div className="max-w-3xl mx-auto">
             <div className="flex items-center justify-center mb-4">
               <Sparkles className="h-8 w-8 text-[#FF7A59] mr-3" />

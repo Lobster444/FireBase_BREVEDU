@@ -308,7 +308,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
         className="bg-white rounded-headspace-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.15)]"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-gray-50">
+        <div className="flex items-center justify-between p-padding-small border-b border-gray-100 bg-gray-50">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-[#FF7A59] rounded-full flex items-center justify-center">
               <Clock className="h-5 w-5 text-white" />
@@ -409,7 +409,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between p-4 border-t border-gray-100 bg-gray-50">
+        <div className="flex items-center justify-between p-padding-small border-t border-gray-100 bg-gray-50">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2 text-sm text-gray-600">
               <div className={`w-2 h-2 rounded-full ${isOnline ? 'bg-green-500' : 'bg-red-500'}`}></div>

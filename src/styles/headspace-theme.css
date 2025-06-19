@@ -390,18 +390,18 @@
 
 /* Responsive Utilities */
 .responsive-padding {
-  padding: var(--space-md);
+  padding: var(--padding-small);
 }
 
 @media (min-width: 640px) {
   .responsive-padding {
-    padding: var(--space-lg);
+    padding: var(--padding-medium);
   }
 }
 
 @media (min-width: 1024px) {
   .responsive-padding {
-    padding: var(--space-xl);
+    padding: var(--padding-medium);
   }
 }
 

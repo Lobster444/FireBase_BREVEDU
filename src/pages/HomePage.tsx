@@ -117,7 +117,7 @@ const HomePage: React.FC = () => {
   return (
     <Layout currentPage="home">
       {/* Hero Section */}
-      <HeroSection
+      <section className="px-padding-medium py-12 text-center bg-white">
         currentUser={currentUser}
         userMessage={userMessage}
         activeTab={activeTab}
@@ -128,7 +128,7 @@ const HomePage: React.FC = () => {
       />
 
       {/* Featured Courses Section */}
-      <FeaturedCoursesSection
+      <section className="px-padding-medium pb-12 bg-white">
         courses={courses}
         loading={loading}
         error={error}

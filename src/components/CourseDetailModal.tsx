@@ -348,7 +348,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
           className="bg-white rounded-[16px] w-full max-w-4xl max-h-[90vh] overflow-y-auto md:max-h-[85vh] shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
         >
           {/* Header */}
-          <div className="flex items-start justify-between p-6 border-b border-gray-100">
+          <div className="flex items-start justify-between p-padding-medium border-b border-gray-100">
             <div className="flex-1 pr-4">
               <div className="flex items-center space-x-2 mb-2">
                 <span className="text-sm text-[#FF7A59] bg-[#FF7A59]/10 px-3 py-1 rounded-headspace-md font-semibold">
@@ -385,7 +385,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
               
               {/* Progress Bar - Only show for authenticated users */}
               {currentUser && (
-                <div className="bg-gray-50 rounded-headspace-xl p-4 mt-4">
+                <div className="bg-gray-50 rounded-headspace-xl p-padding-small mt-4">
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">Your Progress</h3>
                   <ProgressBar 
                     progress={courseProgress} 
@@ -404,7 +404,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
             </button>
           </div>
 
-          <div className="p-6">
+          <div className="p-padding-medium">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Left Column - Video and Description */}
               <div className="lg:col-span-2 space-y-6">

@@ -29,7 +29,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   onExploreCourses
 }) => {
   return (
-    <section className="px-6 py-12 text-center bg-white">
+    <section className="px-padding-medium py-12 text-center bg-white">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 leading-tight">
           {userMessage.title.includes('Just 5 Minutes') ? (

@@ -132,7 +132,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
         className="bg-white rounded-headspace-2xl w-full max-w-md shadow-[0_8px_32px_rgba(0,0,0,0.15)] overflow-hidden"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-100">
+        <div className="flex items-center justify-between p-padding-medium border-b border-gray-100">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-[#FF7A59] rounded-full flex items-center justify-center">
               <MessageCircle className="h-5 w-5 text-white" />
@@ -156,7 +156,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-padding-medium">
           <div id="confirm-modal-description" className="space-y-4">
             {/* Main Message */}
             <div className="text-center">

@@ -61,7 +61,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
 
   return (
     <div 
-      className="bg-white rounded-headspace-xl shadow-[0_2px_8px_rgba(0,0,0,0.1)] p-6 cursor-pointer group focus:outline-none focus:ring-4 focus:ring-[#FF7A59] focus:ring-opacity-40 focus:ring-offset-2 focus:ring-offset-white hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:-translate-y-1 hover:animate-[card-breathe_3s_infinite] transition-all duration-300 ease-headspace"
+      className="bg-white rounded-headspace-xl shadow-[0_2px_8px_rgba(0,0,0,0.1)] p-padding-small cursor-pointer group focus:outline-none focus:ring-4 focus:ring-[#FF7A59] focus:ring-opacity-40 focus:ring-offset-2 focus:ring-offset-white hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:-translate-y-1 hover:animate-[card-breathe_3s_infinite] transition-all duration-300 ease-headspace"
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       tabIndex={0}
