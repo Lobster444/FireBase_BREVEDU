@@ -90,6 +90,12 @@
   --input-focus-border-offset: 0px; /* No offset for input borders */
   --input-focus-border-color: var(--color-primary);
   
+  /* Icon button focus tokens */
+  --icon-button-focus-ring-width: 2px;
+  --icon-button-focus-ring-offset: 2px;
+  --icon-button-focus-ring-color: var(--color-primary);
+  --icon-button-border-radius: 4px;
+  
   /* === TYPOGRAPHY TOKENS === */
   --font-size-h1: 32px;
   --line-height-h1: 1.25;
@@ -397,6 +403,53 @@
   outline: none;
   outline: var(--focus-border-width) solid var(--focus-border-color);
   outline-offset: var(--focus-border-offset);
+}
+
+/* Icon Button Base Styles */
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--icon-button-border-radius);
+  transition: all var(--transition-normal);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  min-height: 44px; /* Touch target size */
+  min-width: 44px; /* Touch target size */
+  touch-action: manipulation;
+}
+
+.icon-button:focus-visible {
+  outline: none;
+  box-shadow: 
+    0 0 0 var(--icon-button-focus-ring-offset) var(--color-white),
+    0 0 0 calc(var(--icon-button-focus-ring-offset) + var(--icon-button-focus-ring-width)) var(--icon-button-focus-ring-color);
+}
+
+.icon-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Icon button variants */
+.icon-button-gray {
+  color: var(--color-neutral-400);
+}
+
+.icon-button-gray:hover {
+  color: var(--color-neutral-600);
+  background-color: var(--color-neutral-50);
+}
+
+.icon-button-primary {
+  color: var(--color-primary);
+}
+
+.icon-button-primary:hover {
+  color: var(--color-primary-hover);
+  background-color: var(--color-primary-light);
 }
 
 /* Accessibility Utilities */
