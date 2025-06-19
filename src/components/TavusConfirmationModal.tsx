@@ -134,7 +134,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between p-padding-medium border-b border-gray-100">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-[#002fa7] rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 bg-[#002fa7] rounded-full flex items-center justify-center text-white">
               <MessageCircle className="h-5 w-5 text-white" />
             </div>
             <div>
@@ -160,7 +160,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
           <div id="confirm-modal-description" className="space-y-4">
             {/* Main Message */}
             <div className="text-center">
-              <div className="w-16 h-16 bg-[#002fa7]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-[#002fa7]/10 rounded-full flex items-center justify-center mx-auto mb-4 text-[#002fa7]">
                 <Play className="h-8 w-8 text-[#002fa7]" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -173,7 +173,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
             </div>
 
             {/* Session Info */}
-            <div className="bg-blue-50 border border-blue-200 rounded-headspace-lg p-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-headspace-lg p-4 text-blue-900">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-medium text-blue-900">Account Type:</span>
                 <span className="text-sm text-blue-800">{sessionInfo.sessionType}</span>
@@ -245,7 +245,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
             <button
               onClick={handleConfirmStart}
               disabled={!canStart}
-              className={`flex-1 px-4 py-3 rounded-headspace-lg text-base font-medium transition-all flex items-center justify-center space-x-2 ${
+              className={`flex-1 px-4 py-3 rounded-headspace-lg text-base font-medium transition-all flex items-center justify-center space-x-2 text-white ${
                 canStart
                   ? 'bg-[#002fa7] text-white hover:bg-[#0040d1] shadow-[0_2px_8px_rgba(0,47,167,0.3)]'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'

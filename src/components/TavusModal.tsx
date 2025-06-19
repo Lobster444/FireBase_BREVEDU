@@ -310,7 +310,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between p-padding-small border-b border-gray-100 bg-gray-50">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-[#002fa7] rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
               <Clock className="h-5 w-5 text-white" />
             </div>
             <div>

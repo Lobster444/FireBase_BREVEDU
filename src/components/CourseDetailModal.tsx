@@ -367,7 +367,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                   </span>
                 )}
                 {(course.tavusConversationUrl || course.conversationalContext || course.id) && (
-                  <span className="text-sm text-[#002fa7] bg-[#002fa7]/10 px-3 py-1 rounded-headspace-md font-semibold flex items-center space-x-1">
+                  <span className="text-sm text-primary bg-primary/10 px-3 py-1 rounded-headspace-md font-semibold flex items-center space-x-1">
                     <MessageCircle className="h-3 w-3" />
                     <span>AI Practice</span>
                   </span>

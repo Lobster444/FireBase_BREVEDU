@@ -47,11 +47,11 @@ const BrevEduPlusPage: React.FC = () => {
       <section className="px-padding-medium py-12 text-center bg-white">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-center mb-6">
-            <Sparkles className="h-12 w-12 text-[#002fa7] mr-3" />
+            <Sparkles className="h-12 w-12 text-primary mr-3" />
             <h1 className="text-4xl font-bold text-gray-900">BrevEdu+</h1>
           </div>
           
-          <p className="text-2xl font-semibold text-[#002fa7] mb-4">Supercharge Your Learning</p>
+          <p className="text-2xl font-semibold text-primary mb-4">Supercharge Your Learning</p>
           <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto leading-relaxed">
             Unlock premium features, AI-powered practice sessions, and exclusive content 
             to accelerate your skill development journey.
@@ -61,7 +61,7 @@ const BrevEduPlusPage: React.FC = () => {
           {currentUser?.role !== 'premium' && (
             <div className="bg-gray-50 rounded-[16px] p-8 mb-8 max-w-md mx-auto border border-gray-200">
               <div className="text-center mb-6">
-                <div className="text-4xl font-bold text-[#002fa7] mb-2">$3.99</div>
+                <div className="text-4xl font-bold text-primary mb-2">$3.99</div>
                 <div className="text-lg text-gray-700">/month</div>
                 <div className="text-base text-gray-600 mt-2">Cancel anytime</div>
               </div>
@@ -78,10 +78,10 @@ const BrevEduPlusPage: React.FC = () => {
 
           {/* Thank you message for premium users */}
           {currentUser?.role === 'premium' && (
-            <div className="bg-[#002fa7]/10 rounded-[16px] p-8 mb-8 max-w-md mx-auto border border-[#002fa7]/20">
+            <div className="bg-primary/10 rounded-[16px] p-8 mb-8 max-w-md mx-auto border border-primary/20 text-primary">
               <div className="text-center">
-                <Crown className="h-12 w-12 text-[#002fa7] mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-[#002fa7] mb-2">You're already a BrevEdu+ member!</h3>
+                <Crown className="h-12 w-12 text-primary mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-primary mb-2">You're already a BrevEdu+ member!</h3>
                 <p className="text-lg text-gray-700 mb-4">
                   Thank you for being a premium subscriber. Enjoy unlimited access to all features.
                 </p>
@@ -106,8 +106,8 @@ const BrevEduPlusPage: React.FC = () => {
               const Icon = feature.icon;
               return (
                 <div key={index} className="text-center">
-                  <div className="bg-[#002fa7]/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Icon className="h-8 w-8 text-[#002fa7]" />
+                  <div className="bg-primary/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-primary">
+                    <Icon className="h-8 w-8 text-primary" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
                   <p className="text-base text-gray-700 leading-relaxed">{feature.description}</p>
@@ -146,7 +146,7 @@ const BrevEduPlusPage: React.FC = () => {
           {/* Mock Chat Interface Preview */}
           <div className="bg-white rounded-[16px] p-padding-medium max-w-2xl mx-auto border border-gray-200 shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
             <div className="flex items-center space-x-3 mb-6">
-              <div className="w-10 h-10 bg-[#002fa7] rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
                 <MessageCircle className="h-5 w-5 text-white" />
               </div>
               <div>
@@ -156,7 +156,7 @@ const BrevEduPlusPage: React.FC = () => {
             </div>
             
             <div className="space-y-4">
-              <div className="bg-[#002fa7]/10 rounded-[12px] p-padding-small border border-[#002fa7]/20">
+              <div className="bg-primary/10 rounded-[12px] p-padding-small border border-primary/20 text-primary">
                 <p className="text-base text-gray-900">
                   Hi! I'm your AI learning assistant. Let's practice what you learned in the JavaScript fundamentals course. 
                   Can you explain what a variable is?
@@ -164,6 +164,7 @@ const BrevEduPlusPage: React.FC = () => {
               </div>
               
               <div className="bg-[#F8DE7E]/10 rounded-[12px] p-padding-small border border-[#F8DE7E]/20">
+              <div className="bg-accent-yellow/10 rounded-[12px] p-padding-small border border-accent-yellow/20 text-gray-900">
                 <p className="text-base text-gray-900">
                   A variable is like a container that stores data values...
                 </p>
