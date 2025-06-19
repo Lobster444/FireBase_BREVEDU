@@ -37,6 +37,12 @@
   --space-3xl: 64px;
   --space-4xl: 96px;
   
+  /* === PADDING TOKENS === */
+  --padding-x-small: 8px;
+  --padding-small: 16px;
+  --padding-medium: 24px;
+  --padding-large: 32px;
+  
   /* === BORDER RADIUS TOKENS === */
   /* Mobile-first radius values - bolder and more expressive */
   --radius-sm: 10px;

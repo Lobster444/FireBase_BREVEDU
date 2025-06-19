@@ -110,6 +110,12 @@ export default {
         'headspace-2xl': 'var(--space-2xl)',
         'headspace-3xl': 'var(--space-3xl)',
         'headspace-4xl': 'var(--space-4xl)',
+        
+        // Padding design tokens
+        'padding-x-small': 'var(--padding-x-small)',
+        'padding-small': 'var(--padding-small)',
+        'padding-medium': 'var(--padding-medium)',
+        'padding-large': 'var(--padding-large)',
       },
       backdropBlur: {
         'ios': '20px',
