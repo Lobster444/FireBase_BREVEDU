@@ -131,7 +131,6 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
   return (
     <div className="relative">
       <div className="w-full aspect-video bg-gray-100 rounded-[12px] overflow-hidden border border-gray-200 max-w-[640px] mx-auto lg:mx-0">
-      <div className="w-full aspect-video bg-gray-100 rounded-headspace-xl overflow-hidden border border-gray-200 max-w-[640px] mx-auto lg:mx-0">
         {videoError ? (
           <div className="w-full h-full flex items-center justify-center text-center p-6">
             <div>
