@@ -28,6 +28,7 @@ interface FormData {
   accessLevel: AccessLevel;
   published: boolean;
   tavusConversationUrl: string;
+  conversationalContext: string; // NEW: AI conversation context
 }
 
 interface FormErrors {
@@ -38,6 +39,7 @@ interface FormErrors {
   duration?: string;
   accessLevel?: string;
   tavusConversationUrl?: string;
+  conversationalContext?: string; // NEW: Validation for AI context
 }
 
 const CourseModal: React.FC<CourseModalProps> = ({
@@ -65,7 +67,8 @@ const CourseModal: React.FC<CourseModalProps> = ({
     difficulty: 'Beginner',
     accessLevel: 'free',
     published: false,
-    tavusConversationUrl: ''
+    tavusConversationUrl: '',
+    conversationalContext: '' // NEW: Initialize AI context
   });
 
   // Initialize form data when modal opens or course changes
@@ -82,7 +85,8 @@ const CourseModal: React.FC<CourseModalProps> = ({
           difficulty: course.difficulty,
           accessLevel: course.accessLevel || 'free',
           published: course.published,
-          tavusConversationUrl: course.tavusConversationUrl || ''
+          tavusConversationUrl: course.tavusConversationUrl || '',
+          conversationalContext: course.conversationalContext || course.tavusConversationalContext || '' // NEW: Load AI context
         });
       } else {
         // Reset form for add mode
@@ -96,7 +100,8 @@ const CourseModal: React.FC<CourseModalProps> = ({
           difficulty: 'Beginner',
           accessLevel: 'free',
           published: false,
-          tavusConversationUrl: ''
+          tavusConversationUrl: '',
+          conversationalContext: '' // NEW: Reset AI context
         });
       }
       setErrors({});
@@ -203,7 +208,12 @@ const CourseModal: React.FC<CourseModalProps> = ({
       newErrors.accessLevel = 'Please select a valid access level';
     }
 
-    // Tavus conversation URL validation (optional field) - Updated error message
+    // NEW: Conversational context validation (optional but with length limit)
+    if (formData.conversationalContext.trim() && formData.conversationalContext.length > 1000) {
+      newErrors.conversationalContext = 'AI conversation context must be 1000 characters or less';
+    }
+
+    // Tavus conversation URL validation (optional field)
     if (formData.tavusConversationUrl.trim()) {
       if (!isValidTavusUrl(formData.tavusConversationUrl.trim())) {
         newErrors.tavusConversationUrl = 'Must be a valid Tavus conversation URL (https://tavus.daily.co/... or https://tavus.io/...)';
@@ -253,7 +263,9 @@ const CourseModal: React.FC<CourseModalProps> = ({
           accessLevel: formData.accessLevel,
           published: formData.published,
           // Include Tavus conversation URL if provided
-          tavusConversationUrl: formData.tavusConversationUrl.trim() || undefined
+          tavusConversationUrl: formData.tavusConversationUrl.trim() || undefined,
+          // NEW: Include conversational context for AI practice
+          conversationalContext: formData.conversationalContext.trim() || undefined
         };
 
         if (mode === 'add') {

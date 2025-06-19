@@ -13,6 +13,7 @@ interface FormData {
   accessLevel: AccessLevel;
   published: boolean;
   tavusConversationUrl: string;
+  conversationalContext: string; // NEW: AI conversation context
 }
 
 interface FormErrors {
@@ -23,6 +24,7 @@ interface FormErrors {
   duration?: string;
   accessLevel?: string;
   tavusConversationUrl?: string;
+  conversationalContext?: string; // NEW: Validation for AI context
 }
 
 interface CourseFormFieldsProps {
@@ -133,11 +135,43 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
         )}
       </div>
 
+      {/* NEW: AI Conversational Context */}
+      <div>
+        <label htmlFor="conversationalContext" className="block text-base font-semibold text-gray-900 mb-2 flex items-center space-x-2">
+          <MessageCircle className="h-5 w-5 text-[#FF7A59]" />
+          <span>AI Conversation Context ({formData.conversationalContext.length}/1000)</span>
+        </label>
+        <textarea
+          id="conversationalContext"
+          value={formData.conversationalContext}
+          onChange={(e) => handleInputChange('conversationalContext', e.target.value)}
+          rows={4}
+          className={`w-full px-4 py-3 bg-white border rounded-[10px] text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition-colors resize-vertical ${
+            errors.conversationalContext 
+              ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
+              : 'border-gray-300 focus:border-[#FF7A59] focus:ring-[#FF7A59]/20'
+          }`}
+          placeholder="Define how the AI should behave and what topics to focus on during practice conversations. Example: 'You are a JavaScript tutor. Help students practice variables, functions, and basic concepts. Ask questions to test their understanding and provide helpful explanations.'"
+          maxLength={1000}
+          aria-describedby={errors.conversationalContext ? 'conversationalContext-error' : 'conversationalContext-help'}
+        />
+        {errors.conversationalContext ? (
+          <p id="conversationalContext-error" className="mt-1 text-base text-red-600 flex items-center space-x-1">
+            <AlertCircle className="h-4 w-4" />
+            <span>{errors.conversationalContext}</span>
+          </p>
+        ) : (
+          <p id="conversationalContext-help" className="mt-1 text-sm text-gray-600">
+            This context guides the AI's behavior during practice sessions. If left empty, the course description will be used as fallback.
+          </p>
+        )}
+      </div>
+
       {/* Tavus AI Conversation URL - Updated placeholder and help text */}
       <div>
         <label htmlFor="tavusConversationUrl" className="block text-base font-semibold text-gray-900 mb-2 flex items-center space-x-2">
           <MessageCircle className="h-5 w-5 text-[#FF7A59]" />
-          <span>Tavus AI Practice URL (Optional)</span>
+          <span>Legacy Tavus URL (Optional)</span>
         </label>
         <input
           type="url"
@@ -149,7 +183,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
               ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
               : 'border-gray-300 focus:border-[#FF7A59] focus:ring-[#FF7A59]/20'
           }`}
-          placeholder="https://tavus.daily.co/your_conversation_id"
+          placeholder="https://tavus.daily.co/your_conversation_id (legacy - not recommended)"
           aria-describedby={errors.tavusConversationUrl ? 'tavusUrl-error' : 'tavusUrl-help'}
         />
         {errors.tavusConversationUrl ? (
@@ -159,7 +193,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
           </p>
         ) : (
           <p id="tavusUrl-help" className="mt-1 text-sm text-gray-600">
-            Add a Tavus AI conversation URL to enable interactive practice sessions. Supports both tavus.daily.co and tavus.io domains.
+            Legacy static URL support. New courses should use the AI Conversation Context above for dynamic conversations.
           </p>
         )}
       </div>

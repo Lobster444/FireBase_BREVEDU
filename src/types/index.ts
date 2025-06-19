@@ -9,7 +9,9 @@ export interface Course {
   difficulty: "Beginner" | "Intermediate" | "Advanced";
   accessLevel: "anonymous" | "free" | "premium";  // New field for access control
   published: boolean;
-  tavusConversationUrl?: string;  // New: Tavus AI conversation URL
+  tavusConversationUrl?: string;  // Legacy: Static Tavus conversation URL
+  conversationalContext?: string; // NEW: AI conversation context for dynamic conversations
+  tavusConversationalContext?: string; // Legacy field name support
   createdAt?: any;  // Firestore Timestamp
   updatedAt?: any;  // Firestore Timestamp
 }

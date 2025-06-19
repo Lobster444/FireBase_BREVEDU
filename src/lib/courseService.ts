@@ -57,7 +57,10 @@ export const getCourses = (
           createdAt: data.createdAt,
           updatedAt: data.updatedAt,
           // Include Tavus conversation URL
-          tavusConversationUrl: data.tavusConversationUrl || undefined
+          tavusConversationUrl: data.tavusConversationUrl || undefined,
+          // NEW: Include conversational context for AI practice
+          conversationalContext: data.conversationalContext || undefined,
+          tavusConversationalContext: data.tavusConversationalContext || undefined
         } as Course);
       });
       callback(courses);
@@ -113,7 +116,10 @@ export const getCoursesByCategory = (
           createdAt: data.createdAt,
           updatedAt: data.updatedAt,
           // Include Tavus conversation URL
-          tavusConversationUrl: data.tavusConversationUrl || undefined
+          tavusConversationUrl: data.tavusConversationUrl || undefined,
+          // NEW: Include conversational context for AI practice
+          conversationalContext: data.conversationalContext || undefined,
+          tavusConversationalContext: data.tavusConversationalContext || undefined
         } as Course);
       });
       callback(courses);
@@ -149,7 +155,10 @@ const getCourse = async (id: string): Promise<Course | null> => {
         createdAt: data.createdAt,
         updatedAt: data.updatedAt,
         // Include Tavus conversation URL
-        tavusConversationUrl: data.tavusConversationUrl || undefined
+        tavusConversationUrl: data.tavusConversationUrl || undefined,
+        // NEW: Include conversational context for AI practice
+        conversationalContext: data.conversationalContext || undefined,
+        tavusConversationalContext: data.tavusConversationalContext || undefined
       } as Course;
     } else {
       console.log('No course found with ID:', id);
@@ -204,6 +213,11 @@ export const addCourse = async (
       }
     }
 
+    // NEW: Validate conversational context if provided
+    if (course.conversationalContext && course.conversationalContext.length > 1000) {
+      throw new Error('Conversational context must be 1000 characters or less');
+    }
+
     const courseData = {
       ...course,
       title: course.title.trim(),
@@ -212,6 +226,8 @@ export const addCourse = async (
       accessLevel: course.accessLevel || 'free',
       // Include Tavus conversation URL if provided
       tavusConversationUrl: course.tavusConversationUrl || undefined,
+      // NEW: Include conversational context if provided
+      conversationalContext: course.conversationalContext?.trim() || undefined,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
     };
@@ -261,6 +277,13 @@ export const updateCourse = async (
     if (data.tavusConversationUrl !== undefined) {
       if (data.tavusConversationUrl && !isValidTavusUrl(data.tavusConversationUrl)) {
         throw new Error('Invalid Tavus conversation URL format');
+      }
+    }
+
+    // NEW: Validate conversational context if provided
+    if (data.conversationalContext !== undefined) {
+      if (data.conversationalContext && data.conversationalContext.length > 1000) {
+        throw new Error('Conversational context must be 1000 characters or less');
       }
     }
 
@@ -342,7 +365,10 @@ const getCoursesPaginated = async (
         createdAt: data.createdAt,
         updatedAt: data.updatedAt,
         // Include Tavus conversation URL
-        tavusConversationUrl: data.tavusConversationUrl || undefined
+        tavusConversationUrl: data.tavusConversationUrl || undefined,
+        // NEW: Include conversational context for AI practice
+        conversationalContext: data.conversationalContext || undefined,
+        tavusConversationalContext: data.tavusConversationalContext || undefined
       } as Course);
     });
 
@@ -398,7 +424,10 @@ const searchCourses = async (
         createdAt: data.createdAt,
         updatedAt: data.updatedAt,
         // Include Tavus conversation URL
-        tavusConversationUrl: data.tavusConversationUrl || undefined
+        tavusConversationUrl: data.tavusConversationUrl || undefined,
+        // NEW: Include conversational context for AI practice
+        conversationalContext: data.conversationalContext || undefined,
+        tavusConversationalContext: data.tavusConversationalContext || undefined
       } as Course;
       
       // Client-side filtering
