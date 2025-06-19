@@ -41,6 +41,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const warningShownRef = useRef(false);
   const finalWarningShownRef = useRef(false);
+  const hasStartedRef = useRef(false);
 
   console.log('🎬 TavusModal render:', {
     isOpen,
@@ -56,8 +57,9 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
   // Start timer when modal opens and conversation URL is available
   useEffect(() => {
-    if (isOpen && conversationUrl && !isTimedOut && !hasStarted) {
+    if (isOpen && conversationUrl && !isTimedOut && !hasStartedRef.current) {
       console.log('⏰ Starting 3-minute timer for Tavus session');
+      hasStartedRef.current = true;
       setHasStarted(true);
       setTimeRemaining(180);
       
@@ -96,13 +98,18 @@ const TavusModal: React.FC<TavusModalProps> = ({
       }, 1000);
     }
 
+    // Reset hasStartedRef when modal closes
+    if (!isOpen) {
+      hasStartedRef.current = false;
+    }
+
     return () => {
       if (timerRef.current) {
         clearInterval(timerRef.current);
         timerRef.current = null;
       }
     };
-  }, [isOpen, conversationUrl, isTimedOut, hasStarted, sessionId]);
+  }, [isOpen, conversationUrl, isTimedOut, sessionId]);
 
   // Handle session timeout
   const handleTimeout = async () => {
