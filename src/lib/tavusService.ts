@@ -4,7 +4,7 @@ import { User, TavusCompletion } from '../types';
 import { notifySuccess, notifyError, notifyWarning } from './toast';
 
 /**
- * Enhanced Tavus service for handling AI practice sessions with TTL support
+ * Enhanced Tavus service for handling AI practice sessions with dynamic API integration
  */
 
 interface TavusSession {
@@ -12,51 +12,247 @@ interface TavusSession {
   userId: string;
   courseId: string;
   conversationId?: string | null;
+  tavusConversationId?: string; // NEW: Actual Tavus conversation ID from API
   status: 'confirmed' | 'started' | 'in_progress' | 'completed' | 'failed' | 'abandoned' | 'expired';
-  confirmedAt?: string; // NEW: When user confirmed start
+  confirmedAt?: string;
   startedAt: string;
   completedAt?: string;
-  expiresAt?: string; // NEW: TTL expiration time
+  expiresAt?: string;
   accuracyScore?: number;
-  duration?: number; // in seconds
-  ttl?: number; // NEW: Time to live in seconds (default 3600)
+  duration?: number;
+  ttl?: number;
   metadata?: {
     userAgent?: string;
     ipAddress?: string;
     deviceType?: string;
-    confirmationDelay?: number; // Time between confirmation and actual start
+    confirmationDelay?: number;
+    callbackUrl?: string; // NEW: Store callback URL
   };
 }
 
-interface TavusWebhookPayload {
-  event_type: 'conversation_started' | 'conversation_completed' | 'conversation_failed';
+interface TavusConversationRequest {
+  replica_id: string;
+  persona_id: string;
+  conversational_context: string;
+  callback_url: string;
+  ttl: number;
+}
+
+interface TavusConversationResponse {
   conversation_id: string;
-  user_id: string;
-  course_id: string;
-  timestamp: string;
-  data?: {
-    accuracy_score?: number;
-    duration?: number;
-    completion_percentage?: number;
-    error_message?: string;
-  };
-  signature?: string; // For webhook verification
+  conversation_url: string;
+  status: string;
+}
+
+interface TavusSettings {
+  replica_id: string;
+  persona_id: string;
+  api_key: string;
 }
 
 /**
- * UPDATED: Start a new Tavus session with TTL and track it in Firestore
- * Session is created only after user confirmation, not on modal open
+ * NEW: Create a Tavus conversation via API
+ * @param courseId - Course ID to get conversational context
+ * @param userId - User ID for callback URL generation
+ * @param sessionId - Session ID for tracking
+ * @returns Promise<TavusConversationResponse>
+ */
+export const createTavusConversation = async (
+  courseId: string,
+  userId: string,
+  sessionId: string
+): Promise<TavusConversationResponse> => {
+  try {
+    console.log('🚀 Creating Tavus conversation via API for course:', courseId);
+
+    // Get Tavus settings from Firebase
+    const settings = await getTavusSettings();
+    if (!settings) {
+      throw new Error('Tavus settings not configured. Please contact administrator.');
+    }
+
+    // Get course conversational context
+    const courseContext = await getCourseConversationalContext(courseId);
+    if (!courseContext) {
+      throw new Error('Course conversational context not found.');
+    }
+
+    // Generate unique callback URL
+    const callbackUrl = generateCallbackUrl(userId, sessionId);
+
+    // Prepare API request
+    const requestPayload: TavusConversationRequest = {
+      replica_id: settings.replica_id,
+      persona_id: settings.persona_id,
+      conversational_context: courseContext,
+      callback_url: callbackUrl,
+      ttl: 180 // 3 minutes
+    };
+
+    console.log('📤 Tavus API request payload:', {
+      ...requestPayload,
+      api_key: '[REDACTED]'
+    });
+
+    // Call Tavus API
+    const response = await fetch('https://tavusapi.com/v2/conversations', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': settings.api_key
+      },
+      body: JSON.stringify(requestPayload)
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      console.error('❌ Tavus API error:', response.status, errorData);
+      throw new Error(`Tavus API error: ${response.status} - ${errorData}`);
+    }
+
+    const conversationData: TavusConversationResponse = await response.json();
+    console.log('✅ Tavus conversation created:', conversationData.conversation_id);
+
+    // Update session with Tavus conversation ID and callback URL
+    await updateTavusSession(sessionId, {
+      tavusConversationId: conversationData.conversation_id,
+      conversationId: conversationData.conversation_url,
+      metadata: {
+        callbackUrl: callbackUrl
+      }
+    });
+
+    return conversationData;
+  } catch (error) {
+    console.error('❌ Error creating Tavus conversation:', error);
+    throw error;
+  }
+};
+
+/**
+ * NEW: Get Tavus settings from Firebase
+ * @returns Promise<TavusSettings | null>
+ */
+const getTavusSettings = async (): Promise<TavusSettings | null> => {
+  try {
+    const settingsRef = doc(db, 'settings', 'tavus');
+    const settingsSnap = await getDoc(settingsRef);
+    
+    if (!settingsSnap.exists()) {
+      console.warn('⚠️ Tavus settings not found in Firebase');
+      return null;
+    }
+
+    const data = settingsSnap.data();
+    
+    // Validate required fields
+    if (!data.replica_id || !data.persona_id || !data.api_key) {
+      console.error('❌ Incomplete Tavus settings:', data);
+      throw new Error('Tavus settings are incomplete. Missing replica_id, persona_id, or api_key.');
+    }
+
+    return {
+      replica_id: data.replica_id,
+      persona_id: data.persona_id,
+      api_key: data.api_key
+    };
+  } catch (error) {
+    console.error('❌ Error fetching Tavus settings:', error);
+    throw error;
+  }
+};
+
+/**
+ * NEW: Get course conversational context from Firebase
+ * @param courseId - Course ID
+ * @returns Promise<string | null>
+ */
+const getCourseConversationalContext = async (courseId: string): Promise<string | null> => {
+  try {
+    const courseRef = doc(db, 'courses', courseId);
+    const courseSnap = await getDoc(courseRef);
+    
+    if (!courseSnap.exists()) {
+      console.warn('⚠️ Course not found:', courseId);
+      return null;
+    }
+
+    const courseData = courseSnap.data();
+    const context = courseData.conversationalContext || courseData.tavusConversationalContext;
+    
+    if (!context) {
+      console.warn('⚠️ No conversational context found for course:', courseId);
+      // Fallback to course description
+      return courseData.description || 'General learning conversation about the course topic.';
+    }
+
+    return context;
+  } catch (error) {
+    console.error('❌ Error fetching course conversational context:', error);
+    throw error;
+  }
+};
+
+/**
+ * NEW: Generate unique callback URL for user session
+ * @param userId - User ID
+ * @param sessionId - Session ID
+ * @returns string - Callback URL
+ */
+const generateCallbackUrl = (userId: string, sessionId: string): string => {
+  const baseUrl = window.location.origin;
+  const timestamp = Date.now();
+  const randomId = Math.random().toString(36).substr(2, 9);
+  
+  return `${baseUrl}/api/tavus/callback/${userId}/${sessionId}/${timestamp}/${randomId}`;
+};
+
+/**
+ * NEW: End Tavus conversation via API
+ * @param conversationId - Tavus conversation ID
+ * @returns Promise<void>
+ */
+export const endTavusConversation = async (conversationId: string): Promise<void> => {
+  try {
+    console.log('🛑 Ending Tavus conversation:', conversationId);
+
+    const settings = await getTavusSettings();
+    if (!settings) {
+      throw new Error('Tavus settings not configured');
+    }
+
+    const response = await fetch(`https://tavusapi.com/v2/conversations/${conversationId}/end`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': settings.api_key
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      console.error('❌ Error ending Tavus conversation:', response.status, errorData);
+      throw new Error(`Failed to end conversation: ${response.status}`);
+    }
+
+    console.log('✅ Tavus conversation ended successfully');
+  } catch (error) {
+    console.error('❌ Error ending Tavus conversation:', error);
+    throw error;
+  }
+};
+
+/**
+ * UPDATED: Start a new Tavus session with dynamic API integration
  * @param userId - User ID
  * @param courseId - Course ID
- * @param conversationUrl - Optional Tavus conversation URL
- * @param ttl - Time to live in seconds (default 3600 = 1 hour)
+ * @param ttl - Time to live in seconds (default 180 = 3 minutes)
  * @returns Promise<string> - Session ID
  */
 export const startTavusSession = async (
   userId: string,
   courseId: string,
-  conversationUrl?: string,
-  ttl: number = 3600 // Default 1 hour TTL
+  ttl: number = 180 // Default 3 minutes for API conversations
 ): Promise<string> => {
   try {
     if (!userId || !courseId) {
@@ -64,9 +260,9 @@ export const startTavusSession = async (
     }
 
     const now = new Date();
-    const expiresAt = new Date(now.getTime() + (ttl * 1000)); // TTL in milliseconds
+    const expiresAt = new Date(now.getTime() + (ttl * 1000));
 
-    console.log('🚀 Creating Tavus session with TTL:', {
+    console.log('🚀 Creating Tavus session for API conversation:', {
       userId,
       courseId,
       ttl: `${ttl}s`,
@@ -76,16 +272,17 @@ export const startTavusSession = async (
     const sessionData: Omit<TavusSession, 'id'> = {
       userId,
       courseId,
-      conversationId: conversationUrl || null,
-      status: 'confirmed', // NEW: Start with confirmed status
-      confirmedAt: now.toISOString(), // NEW: Track confirmation time
+      conversationId: null, // Will be set after API call
+      tavusConversationId: null, // Will be set after API call
+      status: 'confirmed',
+      confirmedAt: now.toISOString(),
       startedAt: now.toISOString(),
-      expiresAt: expiresAt.toISOString(), // NEW: TTL expiration
-      ttl, // NEW: Store TTL value
+      expiresAt: expiresAt.toISOString(),
+      ttl,
       metadata: {
         userAgent: navigator.userAgent,
         deviceType: /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'mobile' : 'desktop',
-        confirmationDelay: 0 // Will be updated when session actually starts
+        confirmationDelay: 0
       }
     };
 
@@ -95,17 +292,61 @@ export const startTavusSession = async (
       updatedAt: serverTimestamp()
     });
 
-    console.log('✅ Tavus session created with TTL:', sessionRef.id, `expires in ${ttl}s`);
-    
-    // Schedule cleanup for expired sessions (client-side reminder)
-    setTimeout(() => {
-      console.log('⏰ Session TTL expired for:', sessionRef.id);
-      // The session will be marked as expired by backend cleanup
-    }, ttl * 1000);
-
+    console.log('✅ Tavus session created:', sessionRef.id);
     return sessionRef.id;
   } catch (error) {
     console.error('❌ Error starting Tavus session:', error);
+    throw error;
+  }
+};
+
+// ... (rest of the existing functions remain the same)
+
+/**
+ * Update user's Tavus completion status with enhanced error handling
+ * @param userId - User ID
+ * @param courseId - Course ID
+ * @param completion - Tavus completion data
+ * @returns Promise<void>
+ */
+const updateUserTavusCompletion = async (
+  userId: string,
+  courseId: string,
+  completion: TavusCompletion
+): Promise<void> => {
+  try {
+    if (!userId || !courseId) {
+      throw new Error('User ID and Course ID are required');
+    }
+
+    const userRef = doc(db, 'users', userId);
+    
+    // Get current user data to preserve existing completions
+    const userSnap = await getDoc(userRef);
+    if (!userSnap.exists()) {
+      throw new Error('User not found');
+    }
+
+    const userData = userSnap.data() as User;
+    const currentCompletions = userData.tavusCompletions || {};
+
+    // Update the specific course completion
+    const updatedCompletions = {
+      ...currentCompletions,
+      [courseId]: {
+        ...completion,
+        completedAt: completion.completedAt || new Date().toISOString()
+      }
+    };
+
+    await updateDoc(userRef, {
+      tavusCompletions: updatedCompletions,
+      updatedAt: serverTimestamp()
+    });
+
+    console.log(`✅ Updated Tavus completion for user ${userId}, course ${courseId}`);
+  } catch (error) {
+    console.error('❌ Error updating Tavus completion:', error);
     throw error;
   }
 };
@@ -252,122 +493,6 @@ export const completeTavusSession = async (
 };
 
 /**
- * NEW: Cleanup expired Tavus sessions (for maintenance/backend)
- * This should be called periodically by a backend service
- * @param batchSize - Number of sessions to process in one batch
- * @returns Promise<number> - Number of sessions cleaned up
- */
-const cleanupExpiredSessions = async (batchSize: number = 100): Promise<number> => {
-  try {
-    const now = new Date();
-    let cleanedCount = 0;
-
-    // This is a simplified version - in production, you'd use Cloud Functions
-    // with proper querying and batching
-    console.log('🧹 Starting cleanup of expired Tavus sessions...');
-    
-    // In a real implementation, you would:
-    // 1. Query sessions where expiresAt < now AND status != 'completed' AND status != 'expired'
-    // 2. Update them to status: 'expired'
-    // 3. Log analytics about expired sessions
-    // 4. Optionally notify users about expired sessions
-    
-    console.log(`🧹 Cleaned up ${cleanedCount} expired sessions`);
-    return cleanedCount;
-  } catch (error) {
-    console.error('❌ Error cleaning up expired sessions:', error);
-    return 0;
-  }
-};
-
-/**
- * NEW: Get session analytics with TTL insights
- * @param userId - Optional user ID for user-specific analytics
- * @param timeRange - Time range in days
- * @returns Promise<object> - Analytics data
- */
-const getSessionAnalytics = async (
-  userId?: string,
-  timeRange: number = 30
-): Promise<{
-  totalSessions: number;
-  completedSessions: number;
-  expiredSessions: number;
-  averageConfirmationDelay: number;
-  completionRate: number;
-  expirationRate: number;
-}> => {
-  try {
-    // This would query Firestore for session analytics
-    // For now, return mock data
-    console.log('📊 Getting session analytics for:', userId || 'all users');
-    
-    return {
-      totalSessions: 0,
-      completedSessions: 0,
-      expiredSessions: 0,
-      averageConfirmationDelay: 0,
-      completionRate: 0,
-      expirationRate: 0
-    };
-  } catch (error) {
-    console.error('❌ Error getting session analytics:', error);
-    throw error;
-  }
-};
-
-// ... (rest of the existing functions remain the same)
-
-/**
- * Update user's Tavus completion status with enhanced error handling
- * @param userId - User ID
- * @param courseId - Course ID
- * @param completion - Tavus completion data
- * @returns Promise<void>
- */
-const updateUserTavusCompletion = async (
-  userId: string,
-  courseId: string,
-  completion: TavusCompletion
-): Promise<void> => {
-  try {
-    if (!userId || !courseId) {
-      throw new Error('User ID and Course ID are required');
-    }
-
-    const userRef = doc(db, 'users', userId);
-    
-    // Get current user data to preserve existing completions
-    const userSnap = await getDoc(userRef);
-    if (!userSnap.exists()) {
-      throw new Error('User not found');
-    }
-
-    const userData = userSnap.data() as User;
-    const currentCompletions = userData.tavusCompletions || {};
-
-    // Update the specific course completion
-    const updatedCompletions = {
-      ...currentCompletions,
-      [courseId]: {
-        ...completion,
-        completedAt: completion.completedAt || new Date().toISOString()
-      }
-    };
-
-    await updateDoc(userRef, {
-      tavusCompletions: updatedCompletions,
-      updatedAt: serverTimestamp()
-    });
-
-    console.log(`✅ Updated Tavus completion for user ${userId}, course ${courseId}`);
-  } catch (error) {
-    console.error('❌ Error updating Tavus completion:', error);
-    throw error;
-  }
-};
-
-/**
  * Enhanced error handling for Tavus operations
  */
 export class TavusError extends Error {
@@ -483,7 +608,6 @@ class TavusOfflineQueue {
         await startTavusSession(
           item.data.userId,
           item.data.courseId,
-          item.data.conversationUrl,
           item.data.ttl
         );
         break;

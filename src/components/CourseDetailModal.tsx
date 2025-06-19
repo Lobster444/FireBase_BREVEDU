@@ -9,6 +9,8 @@ import ThumbnailSection from './ThumbnailSection';
 import AIPracticeSection from './AIPracticeSection';
 import CourseDetailsSection from './CourseDetailsSection';
 import ActionButtonsSection from './ActionButtonsSection';
+import { createTavusConversation, startTavusSession } from '../lib/tavusService';
+import { notifyError, notifySuccess, notifyLoading, updateToast } from '../lib/toast';
 
 interface CourseDetailModalProps {
   isOpen: boolean;
@@ -30,6 +32,8 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [tavusCompleted, setTavusCompleted] = useState(false);
   const [tavusAccuracy, setTavusAccuracy] = useState<number | undefined>(undefined);
+  const [tavusConversationUrl, setTavusConversationUrl] = useState<string>('');
+  const [isCreatingConversation, setIsCreatingConversation] = useState(false);
 
   // Reset states when modal opens/closes or course changes
   useEffect(() => {
@@ -39,6 +43,8 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
       setIsVideoLoading(true);
       setShowTavusModal(false);
       setShowConfirmationModal(false);
+      setTavusConversationUrl('');
+      setIsCreatingConversation(false);
       
       // Check Tavus completion status
       if (currentUser && course.id) {
@@ -104,13 +110,15 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
     }
   };
 
-  // Get AI practice availability based on user type and Tavus URL
+  // Get AI practice availability based on user type
   const getAIPracticeStatus = () => {
     if (!currentUser) {
       return { available: false, reason: 'Sign in required' };
     }
 
-    if (!course?.tavusConversationUrl) {
+    // Check if course has AI practice capability (either static URL or can create dynamic conversation)
+    const hasAIPractice = course?.tavusConversationUrl || course?.id;
+    if (!hasAIPractice) {
       return { available: false, reason: 'AI practice not available for this course' };
     }
 
@@ -155,22 +163,66 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
     return { available: false, reason: 'Unknown user type' };
   };
 
-  // UPDATED: Show confirmation modal instead of directly starting Tavus
+  // Show confirmation modal for AI practice
   const handleAIPractice = () => {
     const status = getAIPracticeStatus();
-    if (status.available && course?.tavusConversationUrl) {
+    if (status.available && course?.id) {
       console.log('🎯 Showing confirmation modal for course:', course.title);
-      setShowConfirmationModal(true); // Show confirmation first
+      setShowConfirmationModal(true);
     } else {
       console.log('❌ AI practice not available:', status.reason);
     }
   };
 
-  // UPDATED: Only called after user confirms in the confirmation modal
-  const handleConfirmStart = () => {
-    console.log('✅ User confirmed - starting Tavus session for course:', course?.title);
-    setShowConfirmationModal(false); // Close confirmation modal
-    setShowTavusModal(true); // Now open Tavus modal
+  // UPDATED: Handle confirmed start - now creates Tavus conversation via API
+  const handleConfirmStart = async () => {
+    if (!currentUser || !course?.id) {
+      console.error('❌ Missing user or course for Tavus conversation creation');
+      notifyError('Unable to start practice session. Please try again.');
+      return;
+    }
+
+    console.log('✅ User confirmed - creating Tavus conversation via API for course:', course.title);
+    setShowConfirmationModal(false);
+    setIsCreatingConversation(true);
+
+    const toastId = notifyLoading('Creating AI practice session...');
+
+    try {
+      // Step 1: Create session in Firestore
+      const sessionId = await startTavusSession(currentUser.uid, course.id, 180); // 3 minutes
+      console.log('📝 Created session:', sessionId);
+
+      // Step 2: Create Tavus conversation via API
+      const conversationData = await createTavusConversation(course.id, currentUser.uid, sessionId);
+      console.log('🎬 Created Tavus conversation:', conversationData);
+
+      // Step 3: Set conversation URL and open modal
+      setTavusConversationUrl(conversationData.conversation_url);
+      updateToast(toastId, '✅ AI practice session ready!', 'success');
+      
+      // Small delay to show success message
+      setTimeout(() => {
+        setShowTavusModal(true);
+      }, 1000);
+
+    } catch (error: any) {
+      console.error('❌ Error creating Tavus conversation:', error);
+      
+      let errorMessage = 'Failed to create AI practice session. Please try again.';
+      
+      if (error.message?.includes('settings not configured')) {
+        errorMessage = 'AI practice is not configured. Please contact support.';
+      } else if (error.message?.includes('conversational context')) {
+        errorMessage = 'This course is not set up for AI practice yet.';
+      } else if (error.message?.includes('API error')) {
+        errorMessage = 'AI service is temporarily unavailable. Please try again later.';
+      }
+      
+      updateToast(toastId, `❌ ${errorMessage}`, 'error');
+    } finally {
+      setIsCreatingConversation(false);
+    }
   };
 
   const handleTavusCompletion = (completion: any) => {
@@ -182,7 +234,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
 
   const handleRetakePractice = () => {
     console.log('🔄 Retaking Tavus practice for course:', course?.title);
-    setShowConfirmationModal(true); // Show confirmation for retake too
+    setShowConfirmationModal(true);
   };
 
   const handleMoreCourses = () => {
@@ -227,7 +279,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                     Draft
                   </span>
                 )}
-                {course.tavusConversationUrl && (
+                {(course.tavusConversationUrl || course.id) && (
                   <span className="text-sm text-[#FF7A59] bg-[#FF7A59]/10 px-3 py-1 rounded-[8px] font-semibold flex items-center space-x-1">
                     <MessageCircle className="h-3 w-3" />
                     <span>AI Practice</span>
@@ -311,7 +363,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
         </div>
       </div>
 
-      {/* UPDATED: Confirmation Modal - Shows first */}
+      {/* Confirmation Modal - Shows first */}
       <TavusConfirmationModal
         isOpen={showConfirmationModal}
         course={course}
@@ -319,12 +371,13 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
         onConfirmStart={handleConfirmStart}
       />
 
-      {/* UPDATED: Tavus Modal - Only shows after confirmation */}
+      {/* Tavus Modal - Only shows after API conversation is created */}
       <TavusModal
         isOpen={showTavusModal}
         course={course}
         onClose={() => setShowTavusModal(false)}
         onCompletion={handleTavusCompletion}
+        conversationUrl={tavusConversationUrl} // Pass the dynamically created URL
       />
     </>
   );

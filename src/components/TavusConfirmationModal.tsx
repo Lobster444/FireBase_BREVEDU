@@ -49,7 +49,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
     }
   };
 
-  // Handle confirm start with loading state
+  // UPDATED: Handle confirm start with loading state
   const handleConfirmStart = async () => {
     if (!isOnline || isStarting) return;
     
@@ -57,6 +57,8 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
     try {
       // Small delay to show loading state
       await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Call the parent handler which will now create Tavus conversation via API
       onConfirmStart();
     } finally {
       setIsStarting(false);
@@ -165,7 +167,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
               </h3>
               <p className="text-base text-gray-700 leading-relaxed">
                 You're about to start an interactive AI conversation to practice what you learned. 
-                This will count as one of your daily practice sessions.
+                This session will last up to 3 minutes and count as one of your daily practice sessions.
               </p>
             </div>
 
@@ -182,10 +184,10 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-blue-900">Estimated Duration:</span>
+                <span className="text-sm font-medium text-blue-900">Session Duration:</span>
                 <span className="text-sm text-blue-800 flex items-center space-x-1">
                   <Clock className="h-3 w-3" />
-                  <span>5-10 minutes</span>
+                  <span>3 minutes max</span>
                 </span>
               </div>
             </div>
@@ -196,7 +198,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
               <ul className="text-sm text-gray-700 space-y-1">
                 <li>• Make sure you have a stable internet connection</li>
                 <li>• Find a quiet place to focus</li>
-                <li>• Have about 5-10 minutes available</li>
+                <li>• Session will automatically end after 3 minutes</li>
                 <li>• Speak clearly and engage with the AI</li>
               </ul>
             </div>
@@ -251,7 +253,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
               {isStarting ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  <span>Starting...</span>
+                  <span>Creating Session...</span>
                 </>
               ) : (
                 <>
