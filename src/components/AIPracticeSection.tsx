@@ -27,7 +27,7 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
   tavusAccuracy,
   aiPracticeStatus,
   onAIPractice,
-  onRetakePractice
+  onRetakePractice,
   isModuleCompleted = false
 }) => {
   return (
