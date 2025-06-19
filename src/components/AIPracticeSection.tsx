@@ -63,17 +63,12 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
               ✅ Module completed! Practice is no longer needed.
             </p>
           )}
-            }`}
-          >
-            <RotateCcw className="h-4 w-4" />
-            <span>Practice Again</span>
-          </button>
         </div>
       ) : (
         <button
           onClick={onAIPractice}
           disabled={!aiPracticeStatus.available}
-          className={\`w-full px-6 py-4 rounded-headspace-lg text-lg font-medium transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex items-center justify-center space-x-3 ${
+          className={`w-full px-6 py-4 rounded-headspace-lg text-lg font-medium transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex items-center justify-center space-x-3 ${
             aiPracticeStatus.available
               ? 'bg-[#FF7A59] text-white hover:bg-[#FF8A6B]'
               : 'bg-gray-200 text-gray-500 cursor-not-allowed opacity-60'
