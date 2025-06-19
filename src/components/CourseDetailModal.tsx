@@ -9,8 +9,16 @@ import ThumbnailSection from './ThumbnailSection';
 import AIPracticeSection from './AIPracticeSection';
 import CourseDetailsSection from './CourseDetailsSection';
 import ActionButtonsSection from './ActionButtonsSection';
-import { createTavusConversation, startTavusSession } from '../lib/tavusService';
-import { notifyError, notifySuccess, notifyLoading, updateToast } from '../lib/toast';
+import { 
+  createTavusConversation, 
+  startTavusSession,
+  TavusError,
+  TavusNetworkError,
+  TavusConfigError,
+  TavusAPIError,
+  TavusTimeoutError
+} from '../lib/tavusService';
+import { notifyError, notifySuccess, notifyLoading, updateToast, notifyWarning } from '../lib/toast';
 
 interface CourseDetailModalProps {
   isOpen: boolean;
@@ -35,7 +43,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
   const [tavusConversationUrl, setTavusConversationUrl] = useState<string>('');
   const [isCreatingConversation, setIsCreatingConversation] = useState(false);
   
-  // NEW: Store session and conversation IDs for timeout handling
+  // Store session and conversation IDs for timeout handling
   const [sessionId, setSessionId] = useState<string>('');
   const [tavusConversationId, setTavusConversationId] = useState<string>('');
 
@@ -180,7 +188,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
     }
   };
 
-  // UPDATED: Handle confirmed start - now creates Tavus conversation via API
+  // Enhanced handle confirmed start with comprehensive error handling
   const handleConfirmStart = async () => {
     if (!currentUser || !course?.id) {
       console.error('❌ Missing user or course for Tavus conversation creation');
@@ -218,16 +226,49 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
       console.error('❌ Error creating Tavus conversation:', error);
       
       let errorMessage = 'Failed to create AI practice session. Please try again.';
+      let shouldShowRetry = true;
       
-      if (error.message?.includes('settings not configured')) {
-        errorMessage = 'AI practice is not configured. Please contact support.';
-      } else if (error.message?.includes('conversational context')) {
-        errorMessage = 'This course is not set up for AI practice yet.';
-      } else if (error.message?.includes('API error')) {
-        errorMessage = 'AI service is temporarily unavailable. Please try again later.';
+      // Enhanced error categorization
+      if (error instanceof TavusConfigError) {
+        if (error.message.includes('settings not configured')) {
+          errorMessage = 'AI practice is not configured. Please contact support.';
+          shouldShowRetry = false;
+        } else if (error.message.includes('conversational context')) {
+          errorMessage = 'This course is not set up for AI practice yet.';
+          shouldShowRetry = false;
+        } else {
+          errorMessage = 'AI practice configuration issue. Please contact support.';
+          shouldShowRetry = false;
+        }
+      } else if (error instanceof TavusNetworkError) {
+        errorMessage = 'Network connection issue. Please check your internet and try again.';
+        notifyWarning('📡 You can try again when your connection is stable.');
+      } else if (error instanceof TavusAPIError) {
+        if (error.details?.status === 429) {
+          errorMessage = 'AI service is busy. Please try again in a few minutes.';
+        } else if (error.details?.status >= 500) {
+          errorMessage = 'AI service is temporarily unavailable. Please try again later.';
+        } else if (error.details?.status === 401) {
+          errorMessage = 'AI service authentication issue. Please contact support.';
+          shouldShowRetry = false;
+        } else {
+          errorMessage = 'AI service error. Please try again or contact support.';
+        }
+      } else if (error instanceof TavusTimeoutError) {
+        errorMessage = 'Request timed out. Please check your connection and try again.';
+      } else if (error instanceof TavusError) {
+        errorMessage = `AI Practice Error: ${error.message}`;
+        shouldShowRetry = error.retryable;
       }
       
       updateToast(toastId, `❌ ${errorMessage}`, 'error');
+      
+      // Show retry guidance if applicable
+      if (shouldShowRetry) {
+        setTimeout(() => {
+          notifyWarning('💡 You can try starting the practice session again.');
+        }, 3000);
+      }
     } finally {
       setIsCreatingConversation(false);
     }
@@ -386,8 +427,8 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
         onClose={() => setShowTavusModal(false)}
         onCompletion={handleTavusCompletion}
         conversationUrl={tavusConversationUrl} // Pass the dynamically created URL
-        sessionId={sessionId} // NEW: Pass session ID for timeout handling
-        tavusConversationId={tavusConversationId} // NEW: Pass Tavus conversation ID for API calls
+        sessionId={sessionId} // Pass session ID for timeout handling
+        tavusConversationId={tavusConversationId} // Pass Tavus conversation ID for API calls
       />
     </>
   );

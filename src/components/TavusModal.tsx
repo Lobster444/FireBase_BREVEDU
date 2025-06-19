@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, MessageCircle, AlertCircle, Loader2, CheckCircle, RefreshCw, Wifi, WifiOff, Clock, Timer } from 'lucide-react';
+import { X, MessageCircle, AlertCircle, Loader2, CheckCircle, RefreshCw, Wifi, WifiOff, Clock, Timer, ExclamationTriangle } from 'lucide-react';
 import { Course, TavusCompletion } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { 
   updateTavusSession,
   retryTavusOperation,
   endTavusConversation,
-  TavusError
+  TavusError,
+  TavusNetworkError,
+  TavusConfigError,
+  TavusAPIError,
+  TavusTimeoutError,
+  executeWithOfflineFallback
 } from '../lib/tavusService';
 import { useOfflineSupport } from '../hooks/useOfflineSupport';
 import { notifySuccess, notifyError, notifyWarning, notifyInfo } from '../lib/toast';
@@ -16,9 +21,9 @@ interface TavusModalProps {
   course: Course | null;
   onClose: () => void;
   onCompletion?: (completion: TavusCompletion) => void;
-  conversationUrl?: string; // Accept dynamic conversation URL
-  sessionId?: string; // NEW: Accept session ID for timeout handling
-  tavusConversationId?: string; // NEW: Accept Tavus conversation ID for API calls
+  conversationUrl?: string;
+  sessionId?: string;
+  tavusConversationId?: string;
 }
 
 interface TavusMessage {
@@ -44,12 +49,13 @@ const TavusModal: React.FC<TavusModalProps> = ({
   tavusConversationId: propTavusConversationId
 }) => {
   const { currentUser } = useAuth();
-  const { isOnline, executeWithOfflineFallback } = useOfflineSupport();
+  const { isOnline } = useOfflineSupport();
   const modalRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
+  const [errorType, setErrorType] = useState<'network' | 'config' | 'api' | 'timeout' | 'general'>('general');
   const [conversationStarted, setConversationStarted] = useState(false);
   const [progress, setProgress] = useState(0);
   const [sessionId, setSessionId] = useState<string>(propSessionId || '');
@@ -59,12 +65,16 @@ const TavusModal: React.FC<TavusModalProps> = ({
   const [retryCount, setRetryCount] = useState(0);
   const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected'>('connecting');
   
-  // NEW: 3-minute countdown timer state
-  const [timeRemaining, setTimeRemaining] = useState(180); // 3 minutes in seconds
+  // 3-minute countdown timer state
+  const [timeRemaining, setTimeRemaining] = useState(180);
   const [countdownTimer, setCountdownTimer] = useState<NodeJS.Timeout | null>(null);
   const [showTimeoutWarning, setShowTimeoutWarning] = useState(false);
   const [isTimedOut, setIsTimedOut] = useState(false);
   const [isEndingConversation, setIsEndingConversation] = useState(false);
+
+  // Enhanced error handling state
+  const [canRetry, setCanRetry] = useState(true);
+  const [maxRetriesReached, setMaxRetriesReached] = useState(false);
 
   // Initialize when modal opens with dynamic conversation URL
   useEffect(() => {
@@ -83,7 +93,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
     };
   }, [isOpen, course, conversationUrl]);
 
-  // NEW: Start 3-minute countdown when conversation starts
+  // Start 3-minute countdown when conversation starts
   useEffect(() => {
     if (conversationStarted && !countdownTimer && !isTimedOut) {
       console.log('⏰ Starting 3-minute countdown timer');
@@ -124,9 +134,9 @@ const TavusModal: React.FC<TavusModalProps> = ({
     };
   }, [conversationStarted, countdownTimer, showTimeoutWarning, isTimedOut]);
 
-  // NEW: Handle automatic timeout end
+  // Enhanced automatic timeout end with better error handling
   const handleTimeoutEnd = async () => {
-    if (isTimedOut || isEndingConversation) return; // Prevent multiple calls
+    if (isTimedOut || isEndingConversation) return;
     
     console.log('⏰ 3-minute timer expired - ending conversation');
     setIsTimedOut(true);
@@ -142,17 +152,41 @@ const TavusModal: React.FC<TavusModalProps> = ({
       // End conversation via Tavus API if we have the conversation ID
       if (tavusConversationId) {
         console.log('🛑 Calling Tavus API to end conversation:', tavusConversationId);
-        await endTavusConversation(tavusConversationId);
+        
+        await executeWithOfflineFallback(
+          () => endTavusConversation(tavusConversationId),
+          {
+            operation: 'endConversation',
+            data: { conversationId: tavusConversationId }
+          },
+          'End conversation'
+        );
+        
         console.log('✅ Tavus conversation ended via API');
       }
       
       // Update session status
       if (sessionId) {
-        await updateTavusSession(sessionId, {
-          status: 'expired',
-          completedAt: new Date().toISOString(),
-          duration: 180 // Full 3 minutes
-        });
+        await executeWithOfflineFallback(
+          () => updateTavusSession(sessionId, {
+            status: 'expired',
+            completedAt: new Date().toISOString(),
+            duration: 180 // Full 3 minutes
+          }),
+          {
+            operation: 'updateSession',
+            data: {
+              sessionId,
+              updates: {
+                status: 'expired',
+                completedAt: new Date().toISOString(),
+                duration: 180
+              }
+            }
+          },
+          'Update session status'
+        );
+        
         console.log('📝 Session marked as expired in Firestore');
       }
       
@@ -161,6 +195,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
       
       // Update UI to show timeout state
       setError('Session timed out after 3 minutes');
+      setErrorType('timeout');
       setLoading(false);
       setConnectionStatus('disconnected');
       
@@ -171,6 +206,14 @@ const TavusModal: React.FC<TavusModalProps> = ({
       
     } catch (error) {
       console.error('❌ Error ending timed-out conversation:', error);
+      
+      // Show appropriate error message
+      if (error instanceof TavusNetworkError) {
+        notifyWarning('📡 Session ended offline - will sync when connection is restored');
+      } else {
+        notifyError('⚠️ Error ending session, but time limit was reached');
+      }
+      
       // Still close the modal even if API call fails
       setTimeout(() => {
         onClose();
@@ -180,11 +223,12 @@ const TavusModal: React.FC<TavusModalProps> = ({
     }
   };
 
-  // Initialize Tavus session with dynamic URL
+  // Enhanced session initialization with better error handling
   const initializeTavusSession = async () => {
     if (!currentUser || !course?.id || !conversationUrl) {
       console.error('❌ Cannot initialize session - missing required data');
       setError('Missing required information for AI practice session');
+      setErrorType('config');
       setLoading(false);
       return;
     }
@@ -192,14 +236,17 @@ const TavusModal: React.FC<TavusModalProps> = ({
     try {
       setLoading(true);
       setError('');
+      setErrorType('general');
       setConversationStarted(false);
       setProgress(0);
       setRetryCount(0);
       setConnectionStatus('connecting');
-      setTimeRemaining(180); // Reset timer
+      setTimeRemaining(180);
       setShowTimeoutWarning(false);
       setIsTimedOut(false);
       setIsEndingConversation(false);
+      setCanRetry(true);
+      setMaxRetriesReached(false);
       
       console.log('🚀 Initializing Tavus session with dynamic URL:', conversationUrl);
       
@@ -207,6 +254,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
       const timeout = setTimeout(() => {
         if (loading && !isTimedOut) {
           setError('Connection timeout. Please check your internet connection and try again.');
+          setErrorType('timeout');
           setLoading(false);
           setConnectionStatus('disconnected');
         }
@@ -216,10 +264,38 @@ const TavusModal: React.FC<TavusModalProps> = ({
       
     } catch (error) {
       console.error('❌ Error initializing Tavus session:', error);
-      setError('Failed to start AI practice session. Please try again.');
-      setLoading(false);
-      setConnectionStatus('disconnected');
+      handleInitializationError(error);
     }
+  };
+
+  // Enhanced error handling for initialization
+  const handleInitializationError = (error: any) => {
+    console.error('❌ Initialization error:', error);
+    
+    let errorMessage = 'Failed to start AI practice session. Please try again.';
+    let errorCategory: typeof errorType = 'general';
+    let retryable = true;
+    
+    if (error instanceof TavusNetworkError) {
+      errorMessage = 'Network connection issue. Please check your internet and try again.';
+      errorCategory = 'network';
+    } else if (error instanceof TavusConfigError) {
+      errorMessage = 'AI practice is not properly configured. Please contact support.';
+      errorCategory = 'config';
+      retryable = false;
+    } else if (error instanceof TavusAPIError) {
+      errorMessage = 'AI service is temporarily unavailable. Please try again later.';
+      errorCategory = 'api';
+    } else if (error instanceof TavusTimeoutError) {
+      errorMessage = 'Request timed out. Please check your connection and try again.';
+      errorCategory = 'timeout';
+    }
+    
+    setError(errorMessage);
+    setErrorType(errorCategory);
+    setLoading(false);
+    setConnectionStatus('disconnected');
+    setCanRetry(retryable);
   };
 
   // Cleanup session
@@ -238,13 +314,18 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
     // Mark session as abandoned if it was started but not completed and not timed out
     if (sessionId && !conversationStarted && !isTimedOut) {
-      updateTavusSession(sessionId, {
-        status: 'abandoned'
-      }).catch(console.error);
+      executeWithOfflineFallback(
+        () => updateTavusSession(sessionId, { status: 'abandoned' }),
+        {
+          operation: 'updateSession',
+          data: { sessionId, updates: { status: 'abandoned' } }
+        },
+        'Mark session as abandoned'
+      ).catch(console.error);
     }
   };
 
-  // Enhanced message event handler
+  // Enhanced message event handler with better error handling
   useEffect(() => {
     const handleMessage = async (event: MessageEvent) => {
       if (!isOpen || !course || !currentUser || isTimedOut) return;
@@ -261,7 +342,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
       console.log('📨 Received Tavus message:', tavusMessage);
 
-      // Handle message with retry logic
+      // Handle message with enhanced retry logic
       try {
         await retryTavusOperation(
           () => handleTavusMessage(tavusMessage),
@@ -270,8 +351,15 @@ const TavusModal: React.FC<TavusModalProps> = ({
         );
       } catch (error) {
         console.error('❌ Failed to handle Tavus message after retries:', error);
+        
         if (error instanceof TavusError) {
           setError(`AI Practice Error: ${error.message}`);
+          setErrorType(error instanceof TavusNetworkError ? 'network' : 
+                     error instanceof TavusConfigError ? 'config' :
+                     error instanceof TavusAPIError ? 'api' : 'general');
+        } else {
+          setError('Unexpected error during AI practice session');
+          setErrorType('general');
         }
       }
     };
@@ -332,7 +420,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
   // Handle different Tavus message types
   const handleTavusMessage = async (message: TavusMessage): Promise<void> => {
-    if (isTimedOut) return; // Ignore messages after timeout
+    if (isTimedOut) return;
     
     switch (message.type) {
       case 'tavus_ready':
@@ -376,10 +464,23 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
     // Update session status
     if (sessionId) {
-      await updateTavusSession(sessionId, {
-        status: 'in_progress',
-        conversationId: message.data?.conversationId
-      });
+      await executeWithOfflineFallback(
+        () => updateTavusSession(sessionId, {
+          status: 'in_progress',
+          conversationId: message.data?.conversationId
+        }),
+        {
+          operation: 'updateSession',
+          data: {
+            sessionId,
+            updates: {
+              status: 'in_progress',
+              conversationId: message.data?.conversationId
+            }
+          }
+        },
+        'Update session to in_progress'
+      );
     }
   };
 
@@ -393,10 +494,23 @@ const TavusModal: React.FC<TavusModalProps> = ({
     
     // Update session status
     if (sessionId) {
-      await updateTavusSession(sessionId, {
-        status: 'in_progress',
-        conversationId: message.data?.conversationId
-      });
+      await executeWithOfflineFallback(
+        () => updateTavusSession(sessionId, {
+          status: 'in_progress',
+          conversationId: message.data?.conversationId
+        }),
+        {
+          operation: 'updateSession',
+          data: {
+            sessionId,
+            updates: {
+              status: 'in_progress',
+              conversationId: message.data?.conversationId
+            }
+          }
+        },
+        'Update session with conversation ID'
+      );
     }
 
     notifyInfo('🎬 AI conversation started! You have 3 minutes to complete the practice.');
@@ -411,7 +525,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
     }
   };
 
-  // Handle Tavus completion
+  // Enhanced Tavus completion handling
   const handleTavusCompletion = async (message: TavusMessage): Promise<void> => {
     if (!message.data?.completed || !currentUser || !course?.id || isTimedOut) return;
 
@@ -438,7 +552,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
           completedAt: completion.completedAt,
           accuracyScore: completion.accuracyScore,
           conversationId: completion.conversationId,
-          duration: 180 - timeRemaining // Calculate actual duration
+          duration: 180 - timeRemaining
         }),
         {
           operation: 'updateCompletion',
@@ -447,7 +561,8 @@ const TavusModal: React.FC<TavusModalProps> = ({
             courseId: course.id,
             completion
           }
-        }
+        },
+        'Complete session'
       );
 
       // Show success notification
@@ -468,7 +583,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
     } catch (error) {
       console.error('❌ Error handling Tavus completion:', error);
       
-      if (!isOnline) {
+      if (error instanceof TavusNetworkError) {
         notifyWarning('📡 Completion saved offline. Will sync when connection is restored.');
       } else {
         notifyError('Failed to save completion status. Please try again.');
@@ -476,19 +591,35 @@ const TavusModal: React.FC<TavusModalProps> = ({
     }
   };
 
-  // Handle Tavus error
+  // Enhanced Tavus error handling
   const handleTavusError = (message: TavusMessage): void => {
     const errorMsg = message.data?.error || 'An error occurred during the conversation';
     console.error('❌ Tavus error:', errorMsg);
+    
     setError(errorMsg);
+    setErrorType('api');
     setLoading(false);
     setConnectionStatus('disconnected');
 
     // Update session status
     if (sessionId) {
-      updateTavusSession(sessionId, {
-        status: 'failed'
-      }).catch(console.error);
+      executeWithOfflineFallback(
+        () => updateTavusSession(sessionId, {
+          status: 'failed',
+          metadata: { lastError: errorMsg }
+        }),
+        {
+          operation: 'updateSession',
+          data: {
+            sessionId,
+            updates: {
+              status: 'failed',
+              metadata: { lastError: errorMsg }
+            }
+          }
+        },
+        'Update session with error'
+      ).catch(console.error);
     }
   };
 
@@ -515,9 +646,17 @@ const TavusModal: React.FC<TavusModalProps> = ({
   const handleIframeError = () => {
     console.error('❌ Tavus iframe failed to load');
     setError('Failed to load AI conversation. Please check your connection and try again.');
+    setErrorType('network');
     setLoading(false);
     setConnectionStatus('disconnected');
-    setRetryCount(prev => prev + 1);
+    setRetryCount(prev => {
+      const newCount = prev + 1;
+      if (newCount >= 3) {
+        setMaxRetriesReached(true);
+        setCanRetry(false);
+      }
+      return newCount;
+    });
   };
 
   // Send message to iframe
@@ -537,9 +676,9 @@ const TavusModal: React.FC<TavusModalProps> = ({
     }
   };
 
-  // Handle retry with exponential backoff
+  // Enhanced retry with exponential backoff
   const handleRetry = async () => {
-    if (isTimedOut) return;
+    if (isTimedOut || !canRetry) return;
     
     const backoffDelay = Math.min(1000 * Math.pow(2, retryCount), 10000);
     
@@ -555,10 +694,17 @@ const TavusModal: React.FC<TavusModalProps> = ({
       iframeRef.current.src = conversationUrl;
     }
     
-    setRetryCount(prev => prev + 1);
+    setRetryCount(prev => {
+      const newCount = prev + 1;
+      if (newCount >= 3) {
+        setMaxRetriesReached(true);
+        setCanRetry(false);
+      }
+      return newCount;
+    });
   };
 
-  // Handle backdrop click with confirmation
+  // Enhanced backdrop click handling
   const handleBackdropClick = (event: React.MouseEvent) => {
     if (event.target === event.currentTarget) {
       if (conversationStarted && progress > 0 && !isTimedOut) {
@@ -604,6 +750,38 @@ const TavusModal: React.FC<TavusModalProps> = ({
     return 'bg-blue-100 text-blue-700 border-blue-200';
   };
 
+  // Get error icon based on error type
+  const getErrorIcon = () => {
+    switch (errorType) {
+      case 'network':
+        return <WifiOff className="h-12 w-12 text-red-400" />;
+      case 'config':
+        return <ExclamationTriangle className="h-12 w-12 text-yellow-400" />;
+      case 'timeout':
+        return <Clock className="h-12 w-12 text-orange-400" />;
+      case 'api':
+        return <MessageCircle className="h-12 w-12 text-red-400" />;
+      default:
+        return <AlertCircle className="h-12 w-12 text-red-400" />;
+    }
+  };
+
+  // Get error title based on error type
+  const getErrorTitle = () => {
+    switch (errorType) {
+      case 'network':
+        return 'Connection Problem';
+      case 'config':
+        return 'Configuration Issue';
+      case 'timeout':
+        return isTimedOut ? 'Session Timed Out' : 'Connection Timeout';
+      case 'api':
+        return 'AI Service Error';
+      default:
+        return 'AI Practice Error';
+    }
+  };
+
   if (!isOpen || !course || !conversationUrl) return null;
 
   return (
@@ -636,7 +814,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
           </div>
           
           <div className="flex items-center space-x-4">
-            {/* NEW: Enhanced Timer Display */}
+            {/* Enhanced Timer Display */}
             {conversationStarted && !isTimedOut && (
               <div className={`flex items-center space-x-2 px-4 py-2 rounded-lg border ${getTimerColor(timeRemaining)}`}>
                 <Timer className="h-4 w-4" />
@@ -661,7 +839,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
               </div>
             )}
             
-            {/* Connection Status Indicator */}
+            {/* Enhanced Connection Status Indicator */}
             <div className="flex items-center space-x-2">
               {isOnline ? (
                 <Wifi className={`h-4 w-4 ${connectionStatus === 'connected' ? 'text-green-500' : 'text-yellow-500'}`} />
@@ -710,14 +888,14 @@ const TavusModal: React.FC<TavusModalProps> = ({
           {error && (
             <div className="absolute inset-0 bg-white flex items-center justify-center z-10">
               <div className="text-center max-w-md mx-auto p-6">
-                <AlertCircle className="h-12 w-12 text-red-400 mx-auto mb-4" />
+                {getErrorIcon()}
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  {isTimedOut ? 'Session Timed Out' : 
-                   !isOnline ? 'Connection Lost' : 'AI Practice Error'}
+                  {getErrorTitle()}
                 </h3>
                 <p className="text-base text-gray-600 mb-6">{error}</p>
                 
-                {isTimedOut && (
+                {/* Enhanced error-specific guidance */}
+                {errorType === 'timeout' && isTimedOut && (
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                     <div className="flex items-center space-x-2 text-blue-800 mb-2">
                       <Clock className="h-5 w-5" />
@@ -729,27 +907,54 @@ const TavusModal: React.FC<TavusModalProps> = ({
                   </div>
                 )}
                 
-                {!isOnline && (
+                {errorType === 'network' && !isOnline && (
                   <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-                    <p className="text-sm text-yellow-800">
+                    <div className="flex items-center space-x-2 text-yellow-800 mb-2">
+                      <WifiOff className="h-5 w-5" />
+                      <span className="text-sm font-medium">No internet connection</span>
+                    </div>
+                    <p className="text-sm text-yellow-700">
                       Your progress will be saved when connection is restored.
+                    </p>
+                  </div>
+                )}
+
+                {errorType === 'config' && (
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                    <div className="flex items-center space-x-2 text-yellow-800 mb-2">
+                      <ExclamationTriangle className="h-5 w-5" />
+                      <span className="text-sm font-medium">Setup required</span>
+                    </div>
+                    <p className="text-sm text-yellow-700">
+                      AI practice needs to be configured by an administrator.
+                    </p>
+                  </div>
+                )}
+
+                {maxRetriesReached && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                    <p className="text-sm text-red-800">
+                      Maximum retry attempts reached. Please try again later or contact support.
                     </p>
                   </div>
                 )}
                 
                 <div className="space-y-3">
-                  {!isTimedOut && (
+                  {!isTimedOut && canRetry && (
                     <button
                       onClick={handleRetry}
-                      disabled={!isOnline || isEndingConversation}
+                      disabled={!isOnline || isEndingConversation || maxRetriesReached}
                       className={`w-full px-6 py-3 rounded-[10px] text-base font-medium transition-all flex items-center justify-center space-x-2 ${
-                        isOnline && !isEndingConversation
+                        isOnline && !isEndingConversation && !maxRetriesReached
                           ? 'bg-[#FF7A59] text-white hover:bg-[#FF8A6B]'
                           : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                       }`}
                     >
                       <RefreshCw className="h-4 w-4" />
-                      <span>{isOnline ? 'Try Again' : 'Waiting for Connection'}</span>
+                      <span>
+                        {!isOnline ? 'Waiting for Connection' : 
+                         maxRetriesReached ? 'Max Retries Reached' : 'Try Again'}
+                      </span>
                     </button>
                   )}
                   <button
@@ -800,7 +1005,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
         <div className="p-6 border-t border-gray-100 bg-gray-50">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              {/* Status Indicator */}
+              {/* Enhanced Status Indicator */}
               <div className="flex items-center space-x-2 text-sm text-gray-600">
                 <div className={`w-2 h-2 rounded-full ${
                   isTimedOut ? 'bg-red-500' :
@@ -824,6 +1029,13 @@ const TavusModal: React.FC<TavusModalProps> = ({
                     />
                   </div>
                   <span className="text-sm text-gray-600">{Math.round(progress)}%</span>
+                </div>
+              )}
+
+              {/* Retry count indicator */}
+              {retryCount > 0 && (
+                <div className="text-sm text-gray-500">
+                  Retry {retryCount}/3
                 </div>
               )}
             </div>
