@@ -102,11 +102,8 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
               aria-label="Go to homepage"
               onClick={handleLogoClick}
             >
-              <div className="h-10 w-10 bg-[#FF7A59] rounded-full flex items-center justify-center group-hover:bg-[#FF8A6B] transition-colors duration-300 ease-out shadow-[0_2px_8px_rgba(255,122,89,0.3)]">
-                <div className="h-10 w-10 bg-[#002fa7] rounded-full flex items-center justify-center group-hover:bg-[#0040d1] transition-colors duration-300 ease-out shadow-[0_2px_8px_rgba(0,47,167,0.3)]">
-                  <BookOpen className="h-6 w-6 text-white" />
-                </div>
-              </div>
+              <BookOpen className="h-8 w-8 text-white" />
+            </div>
               <h1 className="text-2xl font-bold text-gray-900 group-hover:text-[#002fa7] transition-colors duration-300 ease-out">
                 BrevEdu
               </h1>
@@ -220,10 +217,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             aria-label="Go to homepage"
             onClick={handleLogoClick}
           >
-            <div className="h-8 w-8 bg-[#FF7A59] rounded-full flex items-center justify-center group-hover:bg-[#FF8A6B] transition-colors duration-300 ease-out">
-              <div className="h-8 w-8 bg-[#002fa7] rounded-full flex items-center justify-center group-hover:bg-[#0040d1] transition-colors duration-300 ease-out">
-                <BookOpen className="h-5 w-5 text-white" />
-              </div>
+              <BookOpen className="h-5 w-5 text-white" />
             </div>
             <h1 className="text-xl font-bold text-gray-900 group-hover:text-[#002fa7] transition-colors duration-300 ease-out">
               BrevEdu
