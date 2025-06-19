@@ -7,6 +7,8 @@ interface VideoPlayerSectionProps {
   videoUrl: string;
   thumbnailUrl: string;
   courseTitle: string;
+  userId?: string;
+  courseId?: string;
   onVideoError: (error: boolean) => void;
   onVideoLoading: (loading: boolean) => void;
   videoError: boolean;
@@ -17,11 +19,15 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
   videoUrl,
   thumbnailUrl,
   courseTitle,
+  userId,
+  courseId,
   onVideoError,
   onVideoLoading,
   videoError,
   isVideoLoading
 }) => {
+  const [hasTrackedCompletion, setHasTrackedCompletion] = useState(false);
+
   // Get YouTube video ID from URL - Enhanced with debugging
   const getYouTubeVideoId = (url: string): string | null => {
     console.log('🎥 Extracting video ID from URL:', url);
@@ -49,6 +55,29 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
   const handleVideoRetry = () => {
     onVideoError(false);
     onVideoLoading(true);
+    setHasTrackedCompletion(false);
+  };
+
+  // Handle video progress tracking
+  const handleVideoProgress = async (currentTime: number, duration: number) => {
+    // Only track if we have user and course info, and haven't already tracked completion
+    if (!userId || !courseId || hasTrackedCompletion) {
+      return;
+    }
+
+    // Check if video is within 5 seconds of completion
+    const isNearCompletion = currentTime >= (duration - 5);
+    
+    if (isNearCompletion) {
+      try {
+        const { updateCourseProgress } = await import('../lib/progressService');
+        await updateCourseProgress(userId, courseId, 50, 'video');
+        setHasTrackedCompletion(true);
+        console.log('📹 Video completion tracked for course:', courseId);
+      } catch (error) {
+        console.error('❌ Error tracking video completion:', error);
+      }
+    }
   };
 
   const videoId = getYouTubeVideoId(videoUrl);
@@ -181,6 +210,12 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
               }}
               onPause={() => {
                 console.log('⏸️ Video paused');
+              }}
+              onTimeUpdate={(event) => {
+                const player = event.detail.plyr;
+                if (player && player.duration) {
+                  handleVideoProgress(player.currentTime, player.duration);
+                }
               }}
               aria-label="Course video preview"
             />
