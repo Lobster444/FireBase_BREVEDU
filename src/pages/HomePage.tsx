@@ -118,28 +118,32 @@ const HomePage: React.FC = () => {
     <Layout currentPage="home">
       {/* Hero Section */}
       <section className="px-padding-medium py-12 text-center bg-white">
-        currentUser={currentUser}
-        userMessage={userMessage}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        onStartLearning={handleStartLearningFree}
-        onUpgrade={handleUpgradeClick}
-        onExploreCourses={handleExploreCourses}
-      />
+        <HeroSection
+          currentUser={currentUser}
+          userMessage={userMessage}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          onStartLearning={handleStartLearningFree}
+          onUpgrade={handleUpgradeClick}
+          onExploreCourses={handleExploreCourses}
+        />
+      </section>
 
       {/* Featured Courses Section */}
       <section className="px-padding-medium pb-12 bg-white">
-        courses={courses}
-        loading={loading}
-        error={error}
-        currentUser={currentUser}
-        activeTab={activeTab}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-        onCourseClick={handleCourseClick}
-        onExploreCourses={handleExploreCourses}
-        onAuthPrompt={handleAuthPrompt}
-      />
+        <FeaturedCoursesSection
+          courses={courses}
+          loading={loading}
+          error={error}
+          currentUser={currentUser}
+          activeTab={activeTab}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          onCourseClick={handleCourseClick}
+          onExploreCourses={handleExploreCourses}
+          onAuthPrompt={handleAuthPrompt}
+        />
+      </section>
 
       {/* Upgrade Promotional Section - Only for non-premium users */}
       {currentUser?.role !== 'premium' && (
