@@ -377,9 +377,15 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                     <CheckCircle className="h-3 w-3" />
                     <span>Completed</span>
                   </span>
+                )}
+              </div>
+              <h1 id="course-modal-title" className="text-2xl font-bold text-gray-900 mb-2 leading-tight">
+                {course.title}
+              </h1>
+              
               {/* Progress Bar - Only show for authenticated users */}
               {currentUser && (
-                <div className="bg-gray-50 rounded-headspace-xl p-4">
+                <div className="bg-gray-50 rounded-headspace-xl p-4 mt-4">
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">Your Progress</h3>
                   <ProgressBar 
                     progress={courseProgress} 
@@ -388,14 +394,6 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                   />
                 </div>
               )}
-
-                )}
-              </div>
-              <h1 id="course-modal-title" className="text-2xl font-bold text-gray-900 mb-2 leading-tight">
-                {course.title}
-              </h1>
-                userId={currentUser?.uid}
-                courseId={course.id}
             </div>
             <button
               onClick={onClose}
