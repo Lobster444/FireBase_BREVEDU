@@ -114,6 +114,12 @@ export default {
         '3': '3px',
         '4': '4px',
       },
+      borderWidth: {
+        // Custom border widths for focus states
+        '3': '3px',
+        '4': '4px',
+        '5': '5px',
+      },
       spacing: {
         // Headspace spacing scale mapped to CSS variables
         'headspace-xs': 'var(--space-xs)',

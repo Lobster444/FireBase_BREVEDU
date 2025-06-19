@@ -85,6 +85,11 @@
   --focus-border-color: var(--color-primary);
   --focus-border-negative: #EF4444; /* Red for negative/danger actions */
   
+  /* Input focus border tokens - 3px for inputs */
+  --input-focus-border-width: 3px;
+  --input-focus-border-offset: 0px; /* No offset for input borders */
+  --input-focus-border-color: var(--color-primary);
+  
   /* === TYPOGRAPHY TOKENS === */
   --font-size-h1: 32px;
   --line-height-h1: 1.25;
@@ -279,18 +284,18 @@
 
 .input-headspace:focus-visible {
   outline: none;
-  outline: var(--focus-border-width) solid var(--focus-border-color);
-  outline-offset: var(--focus-border-offset);
-  border-color: var(--color-primary);
+  border-color: var(--input-focus-border-color);
+  border-width: var(--input-focus-border-width);
   animation: breathe 2s ease-in-out infinite;
 }
 
 .input-headspace:invalid {
-  border-color: #EF4444;
+  border-color: var(--focus-border-negative);
 }
 
 .input-headspace:invalid:focus-visible {
-  outline-color: var(--focus-border-negative);
+  border-color: var(--focus-border-negative);
+  border-width: var(--input-focus-border-width);
 }
 
 /* Layout Utilities */

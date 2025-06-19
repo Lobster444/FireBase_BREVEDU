@@ -64,11 +64,11 @@ const InputField: React.FC<InputFieldProps> = ({
           className="w-full bg-white border rounded-headspace-lg py-3 sm:py-2 px-4 text-gray-900 font-normal placeholder-gray-400
             transition-[border-color_0.3s_ease-out,box-shadow_0.3s_ease-out]
             hover:border-[#ccc] hover:animate-[breathe_2s_infinite]
-            focus:outline-none focus:border-[#FF7A59] focus:shadow-[0_0_0_2px_rgba(255,122,89,0.3)] focus:animate-[breathe_2s_infinite]
+            focus:outline-none focus:border-[#FF7A59] focus:border-3 focus:animate-[breathe_2s_infinite]
             disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed
             ${icon ? 'pl-10' : ''}
             ${hasError 
-              ? 'border-red-400 focus:border-red-400 focus:shadow-[0_0_0_2px_rgba(239,68,68,0.3)]' 
+              ? 'border-red-400 focus:border-red-400 focus:border-3' 
               : 'border-[#e0e0e0]'
             }
           `}
