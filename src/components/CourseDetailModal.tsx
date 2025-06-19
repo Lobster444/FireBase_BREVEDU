@@ -34,6 +34,10 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
   const [tavusAccuracy, setTavusAccuracy] = useState<number | undefined>(undefined);
   const [tavusConversationUrl, setTavusConversationUrl] = useState<string>('');
   const [isCreatingConversation, setIsCreatingConversation] = useState(false);
+  
+  // NEW: Store session and conversation IDs for timeout handling
+  const [sessionId, setSessionId] = useState<string>('');
+  const [tavusConversationId, setTavusConversationId] = useState<string>('');
 
   // Reset states when modal opens/closes or course changes
   useEffect(() => {
@@ -45,6 +49,8 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
       setShowConfirmationModal(false);
       setTavusConversationUrl('');
       setIsCreatingConversation(false);
+      setSessionId('');
+      setTavusConversationId('');
       
       // Check Tavus completion status
       if (currentUser && course.id) {
@@ -190,15 +196,17 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
 
     try {
       // Step 1: Create session in Firestore
-      const sessionId = await startTavusSession(currentUser.uid, course.id, 180); // 3 minutes
-      console.log('📝 Created session:', sessionId);
+      const newSessionId = await startTavusSession(currentUser.uid, course.id, 180); // 3 minutes
+      console.log('📝 Created session:', newSessionId);
+      setSessionId(newSessionId);
 
       // Step 2: Create Tavus conversation via API
-      const conversationData = await createTavusConversation(course.id, currentUser.uid, sessionId);
+      const conversationData = await createTavusConversation(course.id, currentUser.uid, newSessionId);
       console.log('🎬 Created Tavus conversation:', conversationData);
 
-      // Step 3: Set conversation URL and open modal
+      // Step 3: Store conversation details and open modal
       setTavusConversationUrl(conversationData.conversation_url);
+      setTavusConversationId(conversationData.conversation_id);
       updateToast(toastId, '✅ AI practice session ready!', 'success');
       
       // Small delay to show success message
@@ -279,7 +287,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                     Draft
                   </span>
                 )}
-                {(course.tavusConversationUrl || course.id) && (
+                {(course.tavusConversationUrl || course.conversationalContext || course.id) && (
                   <span className="text-sm text-[#FF7A59] bg-[#FF7A59]/10 px-3 py-1 rounded-[8px] font-semibold flex items-center space-x-1">
                     <MessageCircle className="h-3 w-3" />
                     <span>AI Practice</span>
@@ -378,6 +386,8 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
         onClose={() => setShowTavusModal(false)}
         onCompletion={handleTavusCompletion}
         conversationUrl={tavusConversationUrl} // Pass the dynamically created URL
+        sessionId={sessionId} // NEW: Pass session ID for timeout handling
+        tavusConversationId={tavusConversationId} // NEW: Pass Tavus conversation ID for API calls
       />
     </>
   );
