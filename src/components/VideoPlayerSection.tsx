@@ -28,6 +28,28 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
 }) => {
   const [hasTrackedCompletion, setHasTrackedCompletion] = useState(false);
 
+  // Dedicated handler for video completion
+  const handleVideoEnded = async () => {
+    if (!userId || !courseId || hasTrackedCompletion) {
+      console.log('🎬 Video ended but skipping progress update:', {
+        hasUserId: !!userId,
+        hasCourseId: !!courseId,
+        hasTrackedCompletion
+      });
+      return;
+    }
+    
+    console.log('🎬 Video ended - updating progress to 50%');
+    try {
+      const { updateCourseProgress } = await import('../lib/progressService');
+      await updateCourseProgress(userId, courseId, 50, 'video');
+      setHasTrackedCompletion(true);
+      console.log('✅ Video completion progress tracked successfully');
+    } catch (error) {
+      console.error('❌ Error updating progress on video end:', error);
+    }
+  };
+
   // Get YouTube video ID from URL - Enhanced with debugging
   const getYouTubeVideoId = (url: string): string | null => {
     console.log('🎥 Extracting video ID from URL:', url);
@@ -220,10 +242,7 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
                 }
               }}
               onEnded={() => {
-                console.log('🎬 Video ended - ensuring progress is tracked');
-                if (userId && courseId && !hasTrackedCompletion) {
-                  handleVideoProgress(999999, 1000000); // Force completion by simulating near-end time
-                }
+                handleVideoEnded();
               }}
               aria-label="Course video preview"
             />
