@@ -103,7 +103,6 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
       {/* Content */}
       <div className="space-y-4">
         {/* Title */}
-        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-[#FF7A59] transition-colors duration-300 ease-headspace leading-tight">
         <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-[#002fa7] transition-colors duration-300 ease-headspace leading-tight">
           {course.title}
         </h3>
