@@ -64,11 +64,11 @@ const InputField: React.FC<InputFieldProps> = ({
           className="w-full bg-white border rounded-headspace-lg py-3 sm:py-2 px-4 text-gray-900 font-normal placeholder-gray-400
             transition-[border-color_0.3s_ease-out,box-shadow_0.3s_ease-out]
             hover:border-[#ccc] hover:animate-[breathe_2s_infinite]
-            focus:outline-none focus:border-[#FF7A59] focus:border-3 focus:animate-[breathe_2s_infinite]
+            focus:outline-none focus:border-[#002fa7] focus:border-3 focus:animate-[breathe_2s_infinite]
             disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed
             ${icon ? 'pl-10' : ''}
             ${hasError 
-              ? 'border-red-400 focus:border-red-400 focus:border-3' 
+              ? 'border-red-400 focus:border-red-400 focus:border-3'
               : 'border-[#e0e0e0]'
             }
           `}
@@ -235,7 +235,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-6">
-            <div className="w-16 h-16 bg-[#FF7A59] rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(255,122,89,0.3)]">
+            <div className="w-16 h-16 bg-[#002fa7] rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(0,47,167,0.3)]">
               <User className="h-8 w-8 text-white" />
             </div>
           </div>
@@ -340,12 +340,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#FF7A59] text-white py-3 px-6 rounded-headspace-lg font-medium
+              className="w-full bg-[#002fa7] text-white py-3 px-6 rounded-headspace-lg font-medium
                 transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out]
-                hover:bg-[#FF8A6B] hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)] hover:animate-[breathe_2s_infinite]
-                active:bg-[#E6694F] active:scale-95
+                hover:bg-[#0040d1] hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)] hover:animate-[breathe_2s_infinite]
+                active:bg-[#002080] active:scale-95
                 disabled:bg-[#e0e0e0] disabled:text-[#888] disabled:cursor-not-allowed disabled:hover:bg-[#e0e0e0] disabled:hover:shadow-none disabled:active:scale-100 disabled:hover:animate-none
-                focus:outline-none focus:ring-2 focus:ring-[rgba(255,122,89,0.5)] focus:ring-offset-2 focus:animate-[breathe_2s_infinite]
+                focus:outline-none focus:ring-2 focus:ring-[rgba(0,47,167,0.5)] focus:ring-offset-2 focus:animate-[breathe_2s_infinite]
                 flex items-center justify-center"
               style={{
                 minHeight: '44px',
@@ -371,7 +371,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
             <button
               onClick={switchMode}
               disabled={loading}
-              className="text-[#FF7A59] hover:text-[#FF8A6B] transition-colors ml-2 underline underline-offset-4 font-medium p-1 rounded-headspace-sm focus:outline-none focus:ring-2 focus:ring-[rgba(255,122,89,0.3)] disabled:opacity-50"
+              className="text-[#002fa7] hover:text-[#0040d1] transition-colors ml-2 underline underline-offset-4 font-medium p-1 rounded-headspace-sm focus:outline-none focus:ring-2 focus:ring-[rgba(0,47,167,0.3)] disabled:opacity-50"
             >
               {mode === 'login' ? 'Sign Up' : 'Sign In'}
             </button>
@@ -385,14 +385,14 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
               By creating an account, you agree to our{' '}
               <a 
                 href="#" 
-                className="text-[#FF7A59] hover:text-[#FF8A6B] underline underline-offset-2 transition-colors focus:outline-none focus:ring-2 focus:ring-[rgba(255,122,89,0.3)] rounded-headspace-sm p-1"
+                className="text-[#002fa7] hover:text-[#0040d1] underline underline-offset-2 transition-colors focus:outline-none focus:ring-2 focus:ring-[rgba(0,47,167,0.3)] rounded-headspace-sm p-1"
               >
                 Terms of Service
               </a>
               {' '}and{' '}
               <a 
                 href="#" 
-                className="text-[#FF7A59] hover:text-[#FF8A6B] underline underline-offset-2 transition-colors focus:outline-none focus:ring-2 focus:ring-[rgba(255,122,89,0.3)] rounded-headspace-sm p-1"
+                className="text-[#002fa7] hover:text-[#0040d1] underline underline-offset-2 transition-colors focus:outline-none focus:ring-2 focus:ring-[rgba(0,47,167,0.3)] rounded-headspace-sm p-1"
               >
                 Privacy Policy
               </a>

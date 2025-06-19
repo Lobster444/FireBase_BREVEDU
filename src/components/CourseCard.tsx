@@ -85,7 +85,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
 
         {/* AI Practice badge - Top Right */}
         {course.tavusConversationUrl && (
-          <div className="absolute top-2 right-2 bg-[#FF7A59]/90 backdrop-blur-sm px-2 py-1 rounded-headspace-sm text-xs font-semibold text-white flex items-center space-x-1">
+          <div className="absolute top-2 right-2 bg-[#002fa7]/90 backdrop-blur-sm px-2 py-1 rounded-headspace-sm text-xs font-semibold text-white flex items-center space-x-1">
             <MessageCircle className="h-3 w-3" />
             <span>AI</span>
           </div>
@@ -104,6 +104,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
       <div className="space-y-4">
         {/* Title */}
         <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-[#FF7A59] transition-colors duration-300 ease-headspace leading-tight">
+        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-[#002fa7] transition-colors duration-300 ease-headspace leading-tight">
           {course.title}
         </h3>
         

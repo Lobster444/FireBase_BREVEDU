@@ -134,7 +134,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between p-padding-medium border-b border-gray-100">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-[#FF7A59] rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 bg-[#002fa7] rounded-full flex items-center justify-center">
               <MessageCircle className="h-5 w-5 text-white" />
             </div>
             <div>
@@ -160,8 +160,8 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
           <div id="confirm-modal-description" className="space-y-4">
             {/* Main Message */}
             <div className="text-center">
-              <div className="w-16 h-16 bg-[#FF7A59]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Play className="h-8 w-8 text-[#FF7A59]" />
+              <div className="w-16 h-16 bg-[#002fa7]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Play className="h-8 w-8 text-[#002fa7]" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 Ready to Practice with AI?
@@ -247,7 +247,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
               disabled={!canStart}
               className={`flex-1 px-4 py-3 rounded-headspace-lg text-base font-medium transition-all flex items-center justify-center space-x-2 ${
                 canStart
-                  ? 'bg-[#FF7A59] text-white hover:bg-[#FF8A6B] shadow-[0_2px_8px_rgba(255,122,89,0.3)]'
+                  ? 'bg-[#002fa7] text-white hover:bg-[#0040d1] shadow-[0_2px_8px_rgba(0,47,167,0.3)]'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
             >
@@ -273,7 +273,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
               </p>
               <a
                 href="/brevedu-plus"
-                className="text-[#FF7A59] hover:text-[#FF8A6B] transition-colors text-sm font-medium underline"
+               className="text-[#002fa7] hover:text-[#0040d1] transition-colors text-sm font-medium underline"
                 onClick={onClose}
               >
                 Upgrade to BrevEdu+ for 3 daily sessions

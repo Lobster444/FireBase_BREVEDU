@@ -138,7 +138,7 @@ const CoursesPage: React.FC = () => {
                   {currentUser?.role === 'free' && (
                     <a
                       href="/brevedu-plus"
-                      className="inline-flex items-center space-x-1 text-[#FF7A59] hover:text-[#FF8A6B] transition-colors text-base mt-2 font-medium"
+                      className="inline-flex items-center space-x-1 text-[#002fa7] hover:text-[#0040d1] transition-colors text-base mt-2 font-medium"
                     >
                       <Crown className="h-4 w-4" />
                       <span>Upgrade Now</span>
@@ -252,7 +252,7 @@ const CoursesPage: React.FC = () => {
                     {currentUser?.role !== 'premium' && (
                       <a
                         href="/brevedu-plus"
-                        className="text-[#FF7A59] hover:text-[#FF8A6B] transition-colors text-base flex items-center space-x-1 font-medium"
+                        className="text-[#002fa7] hover:text-[#0040d1] transition-colors text-base flex items-center space-x-1 font-medium"
                       >
                         <Crown className="h-4 w-4" />
                         <span>Unlock All Courses</span>
@@ -284,7 +284,7 @@ const CoursesPage: React.FC = () => {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white border border-gray-200 rounded-[16px] w-full max-w-md p-6">
             <div className="text-center">
-              <Lock className="h-12 w-12 text-[#FF7A59] mx-auto mb-4" />
+              <Lock className="h-12 w-12 text-[#002fa7] mx-auto mb-4" />
               <h3 className="text-2xl font-bold text-gray-900 mb-2">Access Restricted</h3>
               <p className="text-lg text-gray-700 mb-4">
                 This course requires: {getAccessLevelRequirement(restrictedCourse.accessLevel)}

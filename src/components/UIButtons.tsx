@@ -29,7 +29,7 @@ export const PrimaryButton: React.FC<BaseButtonProps> = ({
       aria-label={ariaLabel}
       aria-disabled={disabled}
       className={`
-        bg-[#FF7A59] text-white px-6 py-4 sm:py-3 rounded-headspace-lg font-medium text-base
+        bg-[#002fa7] text-white px-6 py-4 sm:py-3 rounded-headspace-lg font-medium text-base
         transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out]
         hover:bg-[#0040d1] hover:shadow-[0_4px_12px_rgba(0,47,167,0.4)] hover:animate-[breathe_2s_infinite]
         active:bg-[#002080] active:scale-95
@@ -110,24 +110,24 @@ export const OutlineButton: React.FC<OutlineButtonProps> = ({
 }) => {
   const variantClasses = variant === 'purple' 
     ? {
-        border: 'border-[#FF7A59]',
-        text: 'text-[#FF7A59]',
-        hoverBg: 'hover:bg-[#FF7A59]',
+        border: 'border-[#002fa7]',
+        text: 'text-[#002fa7]',
+        hoverBg: 'hover:bg-[#002fa7]',
         hoverText: 'hover:text-white',
-        activeBg: 'bg-[#FF7A59]',
+        activeBg: 'bg-[#002fa7]',
         activeText: 'text-white',
-        focusRing: 'focus-visible:ring-[rgba(255,122,89,0.4)]',
-        hoverShadow: 'hover:shadow-[0_4px_12px_rgba(255,122,89,0.3)]'
+        focusRing: 'focus-visible:ring-[rgba(0,47,167,0.4)]',
+        hoverShadow: 'hover:shadow-[0_4px_12px_rgba(0,47,167,0.3)]'
       }
     : {
-        border: 'border-[#F5C842]',
-        text: 'text-[#F5C842]',
-        hoverBg: 'hover:bg-[#F5C842]',
+        border: 'border-[#F8DE7E]',
+        text: 'text-[#F8DE7E]',
+        hoverBg: 'hover:bg-[#F8DE7E]',
         hoverText: 'hover:text-gray-900',
-        activeBg: 'bg-[#F5C842]',
+        activeBg: 'bg-[#F8DE7E]',
         activeText: 'text-gray-900',
-        focusRing: 'focus-visible:ring-[rgba(245,200,66,0.4)]',
-        hoverShadow: 'hover:shadow-[0_4px_12px_rgba(245,200,66,0.3)]'
+        focusRing: 'focus-visible:ring-[rgba(248,222,126,0.4)]',
+        hoverShadow: 'hover:shadow-[0_4px_12px_rgba(248,222,126,0.3)]'
       };
 
   return (
@@ -143,7 +143,7 @@ export const OutlineButton: React.FC<OutlineButtonProps> = ({
         transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out,border-color_0.3s_ease-out]
         hover:animate-[breathe_2s_infinite] active:scale-95
         ${active 
-          ? `${variantClasses.activeBg} ${variantClasses.activeText} ${variantClasses.border} shadow-[0_2px_8px_rgba(0,0,0,0.1)]` 
+          ? `${variantClasses.activeBg} ${variantClasses.activeText} ${variantClasses.border} shadow-[0_2px_8px_rgba(0,0,0,0.1)]`
           : `bg-white ${variantClasses.text} ${variantClasses.border} ${variantClasses.hoverBg} ${variantClasses.hoverText} ${variantClasses.hoverShadow}`
         }
         disabled:border-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-500 disabled:hover:shadow-none disabled:hover:animate-none
@@ -263,7 +263,7 @@ export const LinkButton: React.FC<BaseButtonProps> = ({
       aria-label={ariaLabel}
       aria-disabled={disabled}
       className={`
-        text-[#FF7A59] hover:text-[#FF8A6B] 
+        text-[#002fa7] hover:text-[#0040d1] 
         transition-[color_0.3s_ease-out,transform_0.2s_ease-out]
         underline underline-offset-4 font-medium px-2 py-4 sm:py-3 rounded-headspace-lg text-base
         hover:animate-[breathe_2s_infinite]

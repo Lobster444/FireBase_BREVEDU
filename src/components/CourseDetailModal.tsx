@@ -351,7 +351,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
           <div className="flex items-start justify-between p-padding-medium border-b border-gray-100">
             <div className="flex-1 pr-4">
               <div className="flex items-center space-x-2 mb-2">
-                <span className="text-sm text-[#FF7A59] bg-[#FF7A59]/10 px-3 py-1 rounded-headspace-md font-semibold">
+                <span className="text-sm text-[#002fa7] bg-[#002fa7]/10 px-3 py-1 rounded-headspace-md font-semibold">
                   {course.category}
                 </span>
                 <span className="text-sm text-gray-700 bg-gray-100 px-3 py-1 rounded-headspace-md font-medium">
@@ -367,7 +367,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                   </span>
                 )}
                 {(course.tavusConversationUrl || course.conversationalContext || course.id) && (
-                  <span className="text-sm text-[#FF7A59] bg-[#FF7A59]/10 px-3 py-1 rounded-headspace-md font-semibold flex items-center space-x-1">
+                  <span className="text-sm text-[#002fa7] bg-[#002fa7]/10 px-3 py-1 rounded-headspace-md font-semibold flex items-center space-x-1">
                     <MessageCircle className="h-3 w-3" />
                     <span>AI Practice</span>
                   </span>
