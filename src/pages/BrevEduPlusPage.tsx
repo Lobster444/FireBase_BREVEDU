@@ -135,59 +135,6 @@ const BrevEduPlusPage: React.FC = () => {
       </section>
 
       {/* AI Chat Preview Section */}
-      <section className="px-padding-medium py-12 bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-8">AI Chat Practice</h2>
-          <p className="text-lg text-gray-700 text-center mb-12 max-w-2xl mx-auto leading-relaxed">
-            Practice your skills with AI-powered conversations. Get personalized feedback 
-            and improve your understanding through interactive dialogue.
-          </p>
-          
-          {/* Mock Chat Interface Preview */}
-          <div className="bg-white rounded-[16px] p-padding-medium max-w-2xl mx-auto border border-gray-200 shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
-                <MessageCircle className="h-5 w-5 text-white" />
-              </div>
-              <div>
-                <div className="text-lg font-semibold text-gray-900">AI Learning Assistant</div>
-                <div className="text-sm text-emerald-600 font-medium">●  Online</div>
-              </div>
-            </div>
-            
-            <div className="space-y-4">
-              <div className="bg-primary/10 rounded-[12px] p-padding-small border border-primary/20 text-primary">
-                <p className="text-base text-gray-900">
-                  Hi! I'm your AI learning assistant. Let's practice what you learned in the JavaScript fundamentals course. 
-                  Can you explain what a variable is?
-                </p>
-              </div>
-              
-              <div className="bg-[#F8DE7E]/10 rounded-[12px] p-padding-small border border-[#F8DE7E]/20">
-              <div className="bg-accent-yellow/10 rounded-[12px] p-padding-small border border-accent-yellow/20 text-gray-900">
-                <p className="text-base text-gray-900">
-                  A variable is like a container that stores data values...
-                </p>
-              </div>
-            </div>
-            
-            <div className="mt-6 text-center">
-              {currentUser?.role === 'premium' ? (
-                <a href="/courses">
-                  <AccentButton>
-                    Start AI Practice Session
-                  </AccentButton>
-                </a>
-              ) : (
-                <AccentButton>
-                  Try AI Chat Practice
-                </AccentButton>
-              )}
-            </div>
-          </div>
-        </div>
-        </div>
-      </section>
 
       {/* CTA Section - Hide for premium users */}
       {currentUser?.role !== 'premium' && (
