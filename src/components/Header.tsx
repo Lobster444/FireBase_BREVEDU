@@ -102,7 +102,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
               aria-label="Go to homepage"
               onClick={handleLogoClick}
             >
-              <BookOpen className="h-8 w-8 text-white" />
+              <BookOpen className="h-8 w-8 text-[#002fa7]" />
               <h1 className="text-2xl font-bold text-gray-900 group-hover:text-[#002fa7] transition-colors duration-300 ease-out">
                 BrevEdu
               </h1>
@@ -216,7 +216,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             aria-label="Go to homepage"
             onClick={handleLogoClick}
           >
-              <BookOpen className="h-5 w-5 text-white" />
+              <BookOpen className="h-5 w-5 text-[#002fa7]" />
             <h1 className="text-xl font-bold text-gray-900 group-hover:text-[#002fa7] transition-colors duration-300 ease-out">
               BrevEdu
             </h1>
