@@ -17,14 +17,14 @@ export default {
       },
       colors: {
         // Headspace-inspired color palette using CSS variables
-        primary: 'var(--color-primary)',
-        'headspace-orange': 'var(--color-primary)',
-        'headspace-orange-hover': 'var(--color-primary-hover)',
-        'headspace-orange-active': 'var(--color-primary-active)',
-        'headspace-orange-light': 'var(--color-primary-light)',
-        'headspace-yellow': 'var(--color-accent-yellow)',
+        primary: 'var(--color-primary)', // #002fa7
+        'headspace-blue': 'var(--color-primary)', // Main blue
+        'headspace-blue-hover': 'var(--color-primary-hover)',
+        'headspace-blue-active': 'var(--color-primary-active)',
+        'headspace-blue-light': 'var(--color-primary-light)',
+        'headspace-yellow': 'var(--color-accent-yellow)', // #F8DE7E
         'headspace-yellow-hover': 'var(--color-accent-yellow-hover)',
-        'headspace-blue': 'var(--color-accent-blue)',
+        'headspace-light-blue': 'var(--color-accent-blue)', // #45B1E8
         'headspace-green': 'var(--color-accent-green)',
         'headspace-purple': 'var(--color-accent-purple)',
         'headspace-gray': {
@@ -48,16 +48,17 @@ export default {
         'sentiment-negative': 'var(--color-sentiment-negative)',
         
         // Legacy colors for backward compatibility
-        'accent-yellow': 'var(--color-accent-yellow)',
+        'accent-yellow': 'var(--color-accent-yellow)', // #F8DE7E
         'accent-yellow-dark': 'var(--color-accent-yellow-hover)',
+        'accent-blue': 'var(--color-accent-blue)', // #45B1E8
         'accent-purple': 'var(--color-accent-purple)',
         'accent-purple-dark': '#7B1FA2',
         'accent-deep-purple': '#7B1FA2',
         'accent-green': 'var(--color-accent-green)',
         'neutral-gray': 'var(--color-neutral-500)',
         'text-light': '#ffffff',
-        'text-primary': 'var(--color-accent-yellow)',
-        'text-secondary': 'var(--color-accent-purple)',
+        'text-primary': 'var(--color-primary)', // Main blue
+        'text-secondary': 'var(--color-neutral-600)', // Gray
         'text-dark': 'var(--color-neutral-900)',
       },
       fontSize: {

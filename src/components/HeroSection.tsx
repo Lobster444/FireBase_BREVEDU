@@ -35,7 +35,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           {userMessage.title.includes('Just 5 Minutes') ? (
             <>
               Master New Skills in
-              <span className="block text-[#FF7A59] mt-2 drop-shadow-sm">Just 5 Minutes</span>
+              <span className="block text-[#002fa7] mt-2 drop-shadow-sm">Just 5 Minutes</span>
             </>
           ) : (
             userMessage.title
