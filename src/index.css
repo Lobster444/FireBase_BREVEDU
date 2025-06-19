@@ -244,7 +244,7 @@
   
   /* Container styles with responsive padding */
   .container-headspace {
-    @apply max-w-5xl mx-auto px-4;
+    @apply max-w-7xl mx-auto px-4;
   }
   
   @screen sm {

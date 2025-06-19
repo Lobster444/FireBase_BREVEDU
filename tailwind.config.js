@@ -5,6 +5,12 @@ import fontInter from 'tailwindcss-font-inter';
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    container: {
+      screens: {
+        xl: '1280px',
+        '2xl': '1280px',
+      },
+    },
     extend: {
       fontFamily: {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],
@@ -180,8 +186,8 @@ export default {
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
         'scale-in': {
-          xl: '1280px', // Updated to match max-w-7xl
-          '2xl': '1280px', // Keep consistent with design system
+          '0%': { transform: 'scale(0.95)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
         },
       },
       transitionTimingFunction: {
