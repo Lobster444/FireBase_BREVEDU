@@ -305,7 +305,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
     >
       <div 
         ref={modalRef}
-        className="bg-white rounded-[16px] w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.15)]"
+        className="bg-white rounded-headspace-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.15)]"
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-gray-50">
@@ -323,7 +323,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
           
           <div className="flex items-center space-x-4">
             {/* Timer Display */}
-            <div className={`flex items-center space-x-2 px-3 py-2 rounded-lg ${
+            <div className={`flex items-center space-x-2 px-3 py-2 rounded-headspace-lg ${
               timeRemaining <= 30 ? 'bg-red-100 text-red-800' : 
               timeRemaining <= 60 ? 'bg-yellow-100 text-yellow-800' : 
               'bg-blue-100 text-blue-800'
@@ -346,7 +346,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
             <button
               onClick={handleClose}
               disabled={isCompleting}
-              className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-[8px] hover:bg-gray-100 disabled:opacity-50"
+              className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-headspace-md hover:bg-gray-100 disabled:opacity-50"
               aria-label="Close AI practice session"
             >
               <X className="h-5 w-5" />
@@ -399,7 +399,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
           {/* Warning Overlay */}
           {showWarning && timeRemaining <= 30 && timeRemaining > 0 && (
-            <div className="absolute top-4 left-4 right-4 bg-yellow-100 border border-yellow-300 rounded-lg p-3 flex items-center space-x-2">
+            <div className="absolute top-4 left-4 right-4 bg-yellow-100 border border-yellow-300 rounded-headspace-lg p-3 flex items-center space-x-2">
               <AlertTriangle className="h-5 w-5 text-yellow-600" />
               <span className="text-yellow-800 font-medium">
                 {timeRemaining} seconds remaining
@@ -428,7 +428,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
               <button
                 onClick={handleComplete}
                 disabled={isCompleting || !hasStarted}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center space-x-2 ${
+                className={`px-4 py-2 rounded-headspace-lg text-sm font-medium transition-all flex items-center space-x-2 ${
                   isCompleting || !hasStarted
                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     : 'bg-emerald-600 text-white hover:bg-emerald-700'
@@ -451,7 +451,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
             <button
               onClick={handleClose}
               disabled={isCompleting}
-              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-all disabled:opacity-50"
+              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-headspace-lg text-sm font-medium hover:bg-gray-50 transition-all disabled:opacity-50"
             >
               {isTimedOut ? 'Close' : 'Exit Practice'}
             </button>

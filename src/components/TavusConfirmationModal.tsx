@@ -129,7 +129,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
     >
       <div 
         ref={modalRef}
-        className="bg-white rounded-[16px] w-full max-w-md shadow-[0_8px_32px_rgba(0,0,0,0.15)] overflow-hidden"
+        className="bg-white rounded-headspace-2xl w-full max-w-md shadow-[0_8px_32px_rgba(0,0,0,0.15)] overflow-hidden"
       >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
@@ -148,7 +148,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-[8px] hover:bg-gray-50"
+            className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-headspace-md hover:bg-gray-50"
             aria-label="Close confirmation dialog"
           >
             <X className="h-5 w-5" />
@@ -173,7 +173,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
             </div>
 
             {/* Session Info */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-headspace-lg p-4">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-medium text-blue-900">Account Type:</span>
                 <span className="text-sm text-blue-800">{sessionInfo.sessionType}</span>
@@ -194,7 +194,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
             </div>
 
             {/* Tips */}
-            <div className="bg-gray-50 rounded-lg p-4">
+            <div className="bg-gray-50 rounded-headspace-lg p-4">
               <h4 className="text-sm font-semibold text-gray-900 mb-2">💡 Practice Tips:</h4>
               <ul className="text-sm text-gray-700 space-y-1">
                 <li>• Make sure you have a stable internet connection</li>
@@ -206,7 +206,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
 
             {/* Offline Warning */}
             {!isOnline && (
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <div className="bg-yellow-50 border border-yellow-200 rounded-headspace-lg p-4">
                 <div className="flex items-center space-x-2 text-yellow-800">
                   <WifiOff className="h-5 w-5" />
                   <span className="text-sm font-medium">You're currently offline</span>
@@ -219,7 +219,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
 
             {/* No Sessions Warning */}
             {isOnline && sessionInfo.sessionsAvailable === 0 && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+              <div className="bg-red-50 border border-red-200 rounded-headspace-lg p-4">
                 <div className="flex items-center space-x-2 text-red-800">
                   <AlertTriangle className="h-5 w-5" />
                   <span className="text-sm font-medium">No sessions available</span>
@@ -238,14 +238,14 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
           <div className="flex space-x-3 mt-6">
             <button
               onClick={onClose}
-              className="flex-1 border border-gray-300 text-gray-700 px-4 py-3 rounded-[10px] text-base font-medium hover:bg-gray-50 transition-all"
+              className="flex-1 border border-gray-300 text-gray-700 px-4 py-3 rounded-headspace-lg text-base font-medium hover:bg-gray-50 transition-all"
             >
               Cancel
             </button>
             <button
               onClick={handleConfirmStart}
               disabled={!canStart}
-              className={`flex-1 px-4 py-3 rounded-[10px] text-base font-medium transition-all flex items-center justify-center space-x-2 ${
+              className={`flex-1 px-4 py-3 rounded-headspace-lg text-base font-medium transition-all flex items-center justify-center space-x-2 ${
                 canStart
                   ? 'bg-[#FF7A59] text-white hover:bg-[#FF8A6B] shadow-[0_2px_8px_rgba(255,122,89,0.3)]'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'

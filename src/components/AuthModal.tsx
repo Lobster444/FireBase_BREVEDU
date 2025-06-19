@@ -61,7 +61,7 @@ const InputField: React.FC<InputFieldProps> = ({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           className={`
-            w-full bg-white border rounded-[10px] py-3 sm:py-2 px-4 text-gray-900 font-normal placeholder-gray-400
+          className="w-full bg-white border rounded-headspace-lg py-3 sm:py-2 px-4 text-gray-900 font-normal placeholder-gray-400
             transition-[border-color_0.3s_ease-out,box-shadow_0.3s_ease-out]
             hover:border-[#ccc] hover:animate-[breathe_2s_infinite]
             focus:outline-none focus:border-[#FF7A59] focus:shadow-[0_0_0_2px_rgba(255,122,89,0.3)] focus:animate-[breathe_2s_infinite]
@@ -222,11 +222,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
 
   return (
     <div className="fixed inset-0 bg-primary/80 backdrop-blur-ios flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-[12px] w-full max-w-md p-8 relative max-h-[90vh] overflow-y-auto shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
+      <div className="bg-white rounded-headspace-xl w-full max-w-md p-8 relative max-h-[90vh] overflow-y-auto shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors z-10 p-2 rounded-[8px] hover:bg-gray-50"
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors z-10 p-2 rounded-headspace-md hover:bg-gray-50"
           aria-label="Close modal"
         >
           <X className="h-6 w-6" />
@@ -317,7 +317,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
 
           {/* Error Message */}
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-[10px] p-4 mb-4">
+            <div className="bg-red-50 border border-red-200 rounded-headspace-lg p-4 mb-4">
               <div className="flex items-start space-x-3 text-red-700">
                 <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
                 <span className="text-sm font-medium">{error}</span>
@@ -327,7 +327,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
 
           {/* Success Message */}
           {success && (
-            <div className="bg-emerald-50 border border-emerald-200 rounded-[10px] p-4 mb-4">
+            <div className="bg-emerald-50 border border-emerald-200 rounded-headspace-lg p-4 mb-4">
               <div className="flex items-start space-x-3 text-emerald-700">
                 <CheckCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
                 <span className="text-sm font-medium">{success}</span>
@@ -340,7 +340,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
             <button
               type="submit"
               disabled={loading}
-              className={`
+              className="w-full bg-[#FF7A59] text-white py-3 px-6 rounded-headspace-lg font-medium
                 w-full bg-[#FF7A59] text-white py-3 px-6 rounded-[10px] font-medium
                 transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out]
                 hover:bg-[#FF8A6B] hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)] hover:animate-[breathe_2s_infinite]
@@ -373,7 +373,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
             <button
               onClick={switchMode}
               disabled={loading}
-              className="text-[#FF7A59] hover:text-[#FF8A6B] transition-colors ml-2 underline underline-offset-4 font-medium p-1 rounded-[6px] focus:outline-none focus:ring-2 focus:ring-[rgba(255,122,89,0.3)] disabled:opacity-50"
+              className="text-[#FF7A59] hover:text-[#FF8A6B] transition-colors ml-2 underline underline-offset-4 font-medium p-1 rounded-headspace-sm focus:outline-none focus:ring-2 focus:ring-[rgba(255,122,89,0.3)] disabled:opacity-50"
             >
               {mode === 'login' ? 'Sign Up' : 'Sign In'}
             </button>
@@ -387,14 +387,14 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
               By creating an account, you agree to our{' '}
               <a 
                 href="#" 
-                className="text-[#FF7A59] hover:text-[#FF8A6B] underline underline-offset-2 transition-colors focus:outline-none focus:ring-2 focus:ring-[rgba(255,122,89,0.3)] rounded-[4px] p-1"
+                className="text-[#FF7A59] hover:text-[#FF8A6B] underline underline-offset-2 transition-colors focus:outline-none focus:ring-2 focus:ring-[rgba(255,122,89,0.3)] rounded-headspace-sm p-1"
               >
                 Terms of Service
               </a>
               {' '}and{' '}
               <a 
                 href="#" 
-                className="text-[#FF7A59] hover:text-[#FF8A6B] underline underline-offset-2 transition-colors focus:outline-none focus:ring-2 focus:ring-[rgba(255,122,89,0.3)] rounded-[4px] p-1"
+                className="text-[#FF7A59] hover:text-[#FF8A6B] underline underline-offset-2 transition-colors focus:outline-none focus:ring-2 focus:ring-[rgba(255,122,89,0.3)] rounded-headspace-sm p-1"
               >
                 Privacy Policy
               </a>

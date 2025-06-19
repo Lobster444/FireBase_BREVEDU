@@ -131,6 +131,7 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
   return (
     <div className="relative">
       <div className="w-full aspect-video bg-gray-100 rounded-[12px] overflow-hidden border border-gray-200 max-w-[640px] mx-auto lg:mx-0">
+      <div className="w-full aspect-video bg-gray-100 rounded-headspace-xl overflow-hidden border border-gray-200 max-w-[640px] mx-auto lg:mx-0">
         {videoError ? (
           <div className="w-full h-full flex items-center justify-center text-center p-6">
             <div>
@@ -141,7 +142,7 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
               </p>
               <button
                 onClick={handleVideoRetry}
-                className="bg-[#FF7A59] text-white px-4 py-2 rounded-[8px] text-base font-medium hover:bg-[#FF8A6B] transition-all flex items-center space-x-2 mx-auto"
+                className="bg-[#FF7A59] text-white px-4 py-2 rounded-headspace-md text-base font-medium hover:bg-[#FF8A6B] transition-all flex items-center space-x-2 mx-auto"
               >
                 <RefreshCw className="h-4 w-4" />
                 <span>Retry</span>
@@ -185,7 +186,7 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
               aria-label="Course video preview"
             />
             {isVideoLoading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-[12px]">
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-headspace-xl">
                 <div className="text-center">
                   <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A59] mb-4"></div>
                   <p className="text-base text-gray-600">Loading video...</p>

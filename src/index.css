@@ -367,7 +367,7 @@
 
 /* Enhanced Plyr player customization to match theme */
 .plyr {
-  border-radius: 12px;
+  border-radius: var(--radius-xl);
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   max-width: 640px; /* Desktop max-width */
@@ -403,7 +403,7 @@
 /* Control bar styling */
 .plyr__controls {
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-  border-radius: 0 0 12px 12px;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
   padding: 10px 15px;
 }
 
@@ -413,7 +413,7 @@
   transition: all 0.2s ease;
   min-width: 32px;
   min-height: 32px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
 }
 
 .plyr__control:hover {
@@ -473,7 +473,7 @@
 /* Settings menu */
 .plyr__menu__container {
   background: rgba(0, 0, 0, 0.9);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
 }
@@ -512,12 +512,12 @@
 @media (max-width: 640px) {
   .plyr {
     max-width: 100%;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
   }
   
   .plyr__controls {
     padding: 8px 12px;
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
   }
   
   .plyr__control {

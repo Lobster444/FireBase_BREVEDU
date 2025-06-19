@@ -29,7 +29,7 @@ export const PrimaryButton: React.FC<BaseButtonProps> = ({
       aria-label={ariaLabel}
       aria-disabled={disabled}
       className={`
-        bg-[#FF7A59] text-white px-6 py-4 sm:py-3 rounded-[10px] font-medium text-base
+        bg-[#FF7A59] text-white px-6 py-4 sm:py-3 rounded-headspace-lg font-medium text-base
         transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out]
         hover:bg-[#FF8A6B] hover:shadow-[0_4px_12px_rgba(255,122,89,0.4)] hover:animate-[breathe_2s_infinite]
         active:bg-[#E6694F] active:scale-95
@@ -69,7 +69,7 @@ export const AccentButton: React.FC<BaseButtonProps> = ({
       aria-label={ariaLabel}
       aria-disabled={disabled}
       className={`
-        bg-[#F5C842] text-gray-900 px-6 py-4 sm:py-3 rounded-[10px] font-medium text-base
+        bg-[#F5C842] text-gray-900 px-6 py-4 sm:py-3 rounded-headspace-lg font-medium text-base
         transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out]
         hover:bg-[#F2C94C] hover:shadow-[0_4px_12px_rgba(245,200,66,0.4)] hover:animate-[breathe_2s_infinite]
         active:bg-[#E6B800] active:scale-95
@@ -139,7 +139,7 @@ export const OutlineButton: React.FC<OutlineButtonProps> = ({
       aria-disabled={disabled}
       aria-pressed={active}
       className={`
-        px-4 py-4 sm:py-3 rounded-[10px] font-medium text-base border-2
+        px-4 py-4 sm:py-3 rounded-headspace-lg font-medium text-base border-2
         transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out,border-color_0.3s_ease-out]
         hover:animate-[breathe_2s_infinite] active:scale-95
         ${active 
@@ -182,7 +182,7 @@ export const SecondaryButton: React.FC<BaseButtonProps> = ({
       aria-label={ariaLabel}
       aria-disabled={disabled}
       className={`
-        bg-gray-100 text-gray-800 px-6 py-4 sm:py-3 rounded-[10px] font-medium text-base
+        bg-gray-100 text-gray-800 px-6 py-4 sm:py-3 rounded-headspace-lg font-medium text-base
         border border-gray-200
         transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out]
         hover:bg-gray-200 hover:border-gray-300 hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] hover:animate-[breathe_2s_infinite]
@@ -225,7 +225,7 @@ export const LinkButton: React.FC<BaseButtonProps> = ({
       className={`
         text-[#FF7A59] hover:text-[#FF8A6B] 
         transition-[color_0.3s_ease-out,transform_0.2s_ease-out]
-        underline underline-offset-4 font-medium px-2 py-4 sm:py-3 rounded-[10px] text-base
+        underline underline-offset-4 font-medium px-2 py-4 sm:py-3 rounded-headspace-lg text-base
         hover:animate-[breathe_2s_infinite]
         disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:text-gray-500 disabled:hover:animate-none
         focus:outline-none focus-visible:ring-4 focus-visible:ring-offset-2 focus-visible:ring-[rgba(255,122,89,0.4)] focus-visible:ring-offset-white focus-visible:animate-[breathe_2s_infinite]
@@ -271,7 +271,7 @@ export const PillToggleButton: React.FC<PillToggleButtonProps> = ({
       aria-label={ariaLabel || label}
       aria-disabled={disabled}
       className={`
-        inline-flex items-center justify-center px-4 py-2 rounded-[8px] font-medium text-base
+        inline-flex items-center justify-center px-4 py-2 rounded-headspace-md font-medium text-base
         transition-[background-color_0.3s_ease-out,color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out]
         active:scale-95
         focus:outline-none focus-visible:ring-4 focus-visible:ring-offset-2 focus-visible:ring-[#FF7A59]/50

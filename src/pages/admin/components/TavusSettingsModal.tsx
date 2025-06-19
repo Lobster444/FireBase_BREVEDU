@@ -78,7 +78,7 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl w-full max-w-md p-6">
+      <div className="bg-white rounded-headspace-2xl w-full max-w-md p-6">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl font-bold text-gray-900 flex items-center space-x-2">
             <Settings className="h-6 w-6 text-blue-600" />
@@ -86,7 +86,7 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
           </h3>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-lg hover:bg-gray-50"
+            className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-headspace-lg hover:bg-gray-50"
           >
             <X className="h-5 w-5" />
           </button>
@@ -107,7 +107,7 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
                 type="text"
                 value={settings.replica_id}
                 onChange={(e) => setSettings(prev => ({ ...prev, replica_id: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"
+                className="w-full px-3 py-2 border border-gray-300 rounded-headspace-lg focus:outline-none focus:border-blue-600"
                 placeholder="Enter Tavus replica ID"
                 required
               />
@@ -121,7 +121,7 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
                 type="text"
                 value={settings.persona_id}
                 onChange={(e) => setSettings(prev => ({ ...prev, persona_id: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"
+                className="w-full px-3 py-2 border border-gray-300 rounded-headspace-lg focus:outline-none focus:border-blue-600"
                 placeholder="Enter Tavus persona ID"
                 required
               />
@@ -135,13 +135,14 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
                 type="password"
                 value={settings.api_key}
                 onChange={(e) => setSettings(prev => ({ ...prev, api_key: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"
+                className="w-full px-3 py-2 border border-gray-300 rounded-headspace-lg focus:outline-none focus:border-blue-600"
                 placeholder="Enter Tavus API key"
                 required
               />
             </div>
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-headspace-lg p-4">
               <p className="text-sm text-blue-800">
                 <strong>Note:</strong> These settings are used for all dynamic AI conversations. 
                 Make sure to use valid Tavus credentials.
@@ -152,14 +153,14 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
               <button
                 onClick={onClose}
                 disabled={saving}
-                className="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-all disabled:opacity-50"
+                className="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-headspace-lg hover:bg-gray-50 transition-all disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 onClick={saveTavusSettings}
                 disabled={saving || !settings.replica_id || !settings.persona_id || !settings.api_key}
-                className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all disabled:opacity-50 flex items-center justify-center space-x-2"
+                className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-headspace-lg hover:bg-blue-700 transition-all disabled:opacity-50 flex items-center justify-center space-x-2"
               >
                 {saving ? (
                   <>

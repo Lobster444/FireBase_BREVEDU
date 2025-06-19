@@ -61,7 +61,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
 
   return (
     <div 
-      className="bg-white rounded-[12px] shadow-[0_2px_8px_rgba(0,0,0,0.1)] p-6 cursor-pointer group focus:outline-none focus:ring-4 focus:ring-[#FF7A59] focus:ring-opacity-40 focus:ring-offset-2 focus:ring-offset-white hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:-translate-y-1 hover:animate-[card-breathe_3s_infinite] transition-all duration-300 ease-headspace"
+      className="bg-white rounded-headspace-xl shadow-[0_2px_8px_rgba(0,0,0,0.1)] p-6 cursor-pointer group focus:outline-none focus:ring-4 focus:ring-[#FF7A59] focus:ring-opacity-40 focus:ring-offset-2 focus:ring-offset-white hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:-translate-y-1 hover:animate-[card-breathe_3s_infinite] transition-all duration-300 ease-headspace"
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       tabIndex={0}
@@ -69,7 +69,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
       aria-label={`View details for ${course.title}`}
     >
       {/* Thumbnail */}
-      <div className="relative w-full h-32 bg-neutral-gray/20 rounded-[8px] overflow-hidden mb-4">
+      <div className="relative w-full h-32 bg-neutral-gray/20 rounded-headspace-md overflow-hidden mb-4">
         <img 
           src={course.thumbnailUrl} 
           alt={course.title}
@@ -77,14 +77,14 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
         />
         
         {/* Duration badge - Bottom Right with improved legibility */}
-        <div className="absolute bottom-2 right-2 bg-gray-900/85 backdrop-blur-sm px-3 py-1.5 rounded-[6px] text-sm font-semibold text-white flex items-center space-x-1.5">
+        <div className="absolute bottom-2 right-2 bg-gray-900/85 backdrop-blur-sm px-3 py-1.5 rounded-headspace-sm text-sm font-semibold text-white flex items-center space-x-1.5">
           <Clock className="h-3.5 w-3.5" />
           <span>{course.duration}</span>
         </div>
 
         {/* AI Practice badge - Top Right */}
         {course.tavusConversationUrl && (
-          <div className="absolute top-2 right-2 bg-[#FF7A59]/90 backdrop-blur-sm px-2 py-1 rounded-[6px] text-xs font-semibold text-white flex items-center space-x-1">
+          <div className="absolute top-2 right-2 bg-[#FF7A59]/90 backdrop-blur-sm px-2 py-1 rounded-headspace-sm text-xs font-semibold text-white flex items-center space-x-1">
             <MessageCircle className="h-3 w-3" />
             <span>AI</span>
           </div>
@@ -92,7 +92,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
 
         {/* Completion badge - Top Left */}
         {tavusCompleted && (
-          <div className="absolute top-2 left-2 bg-emerald-500/90 backdrop-blur-sm px-2 py-1 rounded-[6px] text-xs font-semibold text-white flex items-center space-x-1">
+          <div className="absolute top-2 left-2 bg-emerald-500/90 backdrop-blur-sm px-2 py-1 rounded-headspace-sm text-xs font-semibold text-white flex items-center space-x-1">
             <CheckCircle className="h-3 w-3" />
             <span>Done</span>
           </div>
@@ -116,23 +116,23 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
           {/* Left side - Topic and Access Level badges */}
           <div className="flex items-center space-x-2">
             {/* Topic badge */}
-            <span className="bg-gray-100 text-gray-800 px-3 py-1.5 rounded-[8px] text-sm font-semibold">
+            <span className="bg-gray-100 text-gray-800 px-3 py-1.5 rounded-headspace-md text-sm font-semibold">
               {course.category}
             </span>
             
             {/* Access level badge */}
-            <span className={`${accessBadge.bgColor} ${accessBadge.textColor} px-3 py-1.5 rounded-[8px] text-sm font-bold`}>
+            <span className={`${accessBadge.bgColor} ${accessBadge.textColor} px-3 py-1.5 rounded-headspace-md text-sm font-bold`}>
               {accessBadge.label}
             </span>
           </div>
           
           {/* Right side - Difficulty and Draft status */}
           <div className="flex items-center space-x-2">
-            <span className="text-sm font-semibold text-gray-700 bg-gray-50 px-3 py-1.5 rounded-[8px]">
+            <span className="text-sm font-semibold text-gray-700 bg-gray-50 px-3 py-1.5 rounded-headspace-md">
               {course.difficulty}
             </span>
             {!course.published && (
-              <span className="text-sm text-purple-800 bg-purple-100 px-3 py-1.5 rounded-[8px] font-semibold">
+              <span className="text-sm text-purple-800 bg-purple-100 px-3 py-1.5 rounded-headspace-md font-semibold">
                 Draft
               </span>
             )}

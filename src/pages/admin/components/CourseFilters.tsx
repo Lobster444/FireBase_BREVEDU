@@ -30,7 +30,7 @@ const CourseFilters: React.FC<CourseFiltersProps> = ({
   const difficulties = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 
   return (
-    <div className="bg-white rounded-lg p-6 mb-6 border border-gray-200">
+    <div className="bg-white rounded-headspace-lg p-6 mb-6 border border-gray-200">
       {/* Search Bar */}
       <div className="relative mb-4">
         <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -39,7 +39,7 @@ const CourseFilters: React.FC<CourseFiltersProps> = ({
           placeholder="Search courses by title or description..."
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-[#FF7A59] focus:ring-2 focus:ring-[#FF7A59]/20"
+          className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-headspace-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-[#FF7A59] focus:ring-2 focus:ring-[#FF7A59]/20"
         />
       </div>
 
@@ -51,7 +51,7 @@ const CourseFilters: React.FC<CourseFiltersProps> = ({
             <button
               key={category}
               onClick={() => onCategoryChange(category)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              className={`px-4 py-2 rounded-headspace-lg text-sm font-medium transition-all ${
                 selectedCategory === category
                   ? 'bg-[#FF7A59] text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -69,7 +69,7 @@ const CourseFilters: React.FC<CourseFiltersProps> = ({
             <select
               value={selectedDifficulty}
               onChange={(e) => onDifficultyChange(e.target.value)}
-              className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:border-[#FF7A59]"
+              className="bg-white border border-gray-300 rounded-headspace-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:border-[#FF7A59]"
             >
               {difficulties.map(difficulty => (
                 <option key={difficulty} value={difficulty}>{difficulty}</option>
@@ -82,7 +82,7 @@ const CourseFilters: React.FC<CourseFiltersProps> = ({
             <select
               value={selectedAccessLevel}
               onChange={(e) => onAccessLevelChange(e.target.value)}
-              className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:border-[#FF7A59]"
+              className="bg-white border border-gray-300 rounded-headspace-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:border-[#FF7A59]"
             >
               <option value="All">All Access Levels</option>
               <option value="anonymous">Anonymous</option>

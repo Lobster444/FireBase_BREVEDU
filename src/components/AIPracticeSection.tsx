@@ -31,7 +31,7 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
     <div>
       {tavusCompleted ? (
         <div className="space-y-3">
-          <div className="bg-emerald-50 border border-emerald-200 rounded-[12px] p-4 text-center">
+          <div className="bg-emerald-50 border border-emerald-200 rounded-headspace-xl p-4 text-center">
             <CheckCircle className="h-8 w-8 text-emerald-600 mx-auto mb-2" />
             <h4 className="text-base font-semibold text-emerald-900 mb-1">Practice Completed!</h4>
             {tavusAccuracy && (
@@ -46,7 +46,7 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
           <button
             onClick={onRetakePractice}
             disabled={!aiPracticeStatus.available}
-            className={`w-full px-6 py-3 rounded-[10px] text-base font-medium transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex items-center justify-center space-x-2 ${
+            className={`w-full px-6 py-3 rounded-headspace-lg text-base font-medium transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex items-center justify-center space-x-2 ${
               aiPracticeStatus.available
                 ? 'bg-gray-100 text-gray-800 hover:bg-gray-200 border border-gray-300'
                 : 'bg-gray-200 text-gray-500 cursor-not-allowed opacity-60'
@@ -60,7 +60,7 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
         <button
           onClick={onAIPractice}
           disabled={!aiPracticeStatus.available}
-          className={`w-full px-6 py-4 rounded-[10px] text-lg font-medium transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex items-center justify-center space-x-3 ${
+          className={`w-full px-6 py-4 rounded-headspace-lg text-lg font-medium transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex items-center justify-center space-x-3 ${
             aiPracticeStatus.available
               ? 'bg-[#FF7A59] text-white hover:bg-[#FF8A6B]'
               : 'bg-gray-200 text-gray-500 cursor-not-allowed opacity-60'

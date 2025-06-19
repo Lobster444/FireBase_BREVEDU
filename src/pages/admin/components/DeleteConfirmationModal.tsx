@@ -20,7 +20,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl w-full max-w-md p-6">
+      <div className="bg-white rounded-headspace-2xl w-full max-w-md p-6">
         <div className="text-center mb-6">
           <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Trash2 className="h-6 w-6 text-red-600" />
@@ -35,14 +35,14 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
           <button
             onClick={onCancel}
             disabled={isDeleting}
-            className="flex-1 border border-gray-300 text-gray-700 px-4 py-3 rounded-lg text-base font-medium hover:bg-gray-50 transition-all disabled:opacity-50"
+            className="flex-1 border border-gray-300 text-gray-700 px-4 py-3 rounded-headspace-lg text-base font-medium hover:bg-gray-50 transition-all disabled:opacity-50"
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
             disabled={isDeleting || !isOnline}
-            className={`flex-1 px-4 py-3 rounded-lg text-base font-medium transition-all disabled:opacity-50 flex items-center justify-center space-x-2 ${
+            className={`flex-1 px-4 py-3 rounded-headspace-lg text-base font-medium transition-all disabled:opacity-50 flex items-center justify-center space-x-2 ${
               isOnline 
                 ? 'bg-red-600 text-white hover:bg-red-700' 
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'

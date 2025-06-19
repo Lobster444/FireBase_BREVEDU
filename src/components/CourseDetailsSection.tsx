@@ -22,7 +22,7 @@ const CourseDetailsSection: React.FC<CourseDetailsSectionProps> = ({
       </div>
 
       {/* Course Details */}
-      <div className="bg-gray-50 rounded-[12px] p-4">
+      <div className="bg-gray-50 rounded-headspace-xl p-4">
         <h3 className="text-lg font-semibold text-gray-900 mb-3">Course Details</h3>
         <div className="grid grid-cols-2 gap-4 text-base">
           <div>
@@ -45,7 +45,7 @@ const CourseDetailsSection: React.FC<CourseDetailsSectionProps> = ({
       </div>
 
       {/* Course Stats */}
-      <div className="bg-gray-50 rounded-[12px] p-4">
+      <div className="bg-gray-50 rounded-headspace-xl p-4">
         <h4 className="text-base font-semibold text-gray-900 mb-3">Quick Facts</h4>
         <div className="space-y-2 text-sm">
           <div className="flex items-center justify-between">

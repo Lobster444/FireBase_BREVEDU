@@ -311,7 +311,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
     <>
       <div 
         className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-        onClick={handleBackdropClick}
+        className="bg-white rounded-headspace-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto md:max-h-[85vh] shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
         role="dialog"
         aria-modal="true"
         aria-labelledby="course-modal-title"
@@ -325,10 +325,11 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
           <div className="flex items-start justify-between p-6 border-b border-gray-100">
             <div className="flex-1 pr-4">
               <div className="flex items-center space-x-2 mb-2">
-                <span className="text-sm text-[#FF7A59] bg-[#FF7A59]/10 px-3 py-1 rounded-[8px] font-semibold">
+                <span className="text-sm text-[#FF7A59] bg-[#FF7A59]/10 px-3 py-1 rounded-headspace-md font-semibold">
                   {course.category}
                 </span>
                 <span className="text-sm text-gray-700 bg-gray-100 px-3 py-1 rounded-[8px] font-medium">
+                <span className="text-sm text-gray-700 bg-gray-100 px-3 py-1 rounded-headspace-md font-medium">
                   {course.difficulty}
                 </span>
                 <div className="flex items-center space-x-1 text-sm text-gray-600">
@@ -336,18 +337,18 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                   <span>{course.duration}</span>
                 </div>
                 {!course.published && (
-                  <span className="text-sm text-purple-800 bg-purple-100 px-3 py-1 rounded-[8px] font-semibold">
+                  <span className="text-sm text-purple-800 bg-purple-100 px-3 py-1 rounded-headspace-md font-semibold">
                     Draft
                   </span>
                 )}
                 {(course.tavusConversationUrl || course.conversationalContext || course.id) && (
-                  <span className="text-sm text-[#FF7A59] bg-[#FF7A59]/10 px-3 py-1 rounded-[8px] font-semibold flex items-center space-x-1">
+                  <span className="text-sm text-[#FF7A59] bg-[#FF7A59]/10 px-3 py-1 rounded-headspace-md font-semibold flex items-center space-x-1">
                     <MessageCircle className="h-3 w-3" />
                     <span>AI Practice</span>
                   </span>
                 )}
                 {tavusCompleted && (
-                  <span className="text-sm text-emerald-700 bg-emerald-100 px-3 py-1 rounded-[8px] font-semibold flex items-center space-x-1">
+                  <span className="text-sm text-emerald-700 bg-emerald-100 px-3 py-1 rounded-headspace-md font-semibold flex items-center space-x-1">
                     <CheckCircle className="h-3 w-3" />
                     <span>Completed</span>
                   </span>
@@ -359,7 +360,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
             </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-[8px] hover:bg-gray-50 flex-shrink-0"
+              className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-headspace-md hover:bg-gray-50 flex-shrink-0"
               aria-label="Close course details"
             >
               <X className="h-6 w-6" />

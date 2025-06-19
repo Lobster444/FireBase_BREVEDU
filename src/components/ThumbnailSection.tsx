@@ -21,7 +21,7 @@ const ThumbnailSection: React.FC<ThumbnailSectionProps> = ({
   return (
     <div>
       <h3 className="text-lg font-semibold text-gray-900 mb-3">Course Preview</h3>
-      <div className="w-full aspect-video bg-gray-100 rounded-[12px] overflow-hidden border border-gray-200">
+      <div className="w-full aspect-video bg-gray-100 rounded-headspace-xl overflow-hidden border border-gray-200">
         {imageError ? (
           <div className="w-full h-full flex items-center justify-center text-center p-4">
             <div>
@@ -29,7 +29,7 @@ const ThumbnailSection: React.FC<ThumbnailSectionProps> = ({
               <p className="text-base text-gray-600 mb-2">Image failed to load</p>
               <button
                 onClick={handleImageRetry}
-                className="text-[#FF7A59] hover:text-[#FF8A6B] transition-colors text-base underline"
+                className="text-[#FF7A59] hover:text-[#FF8A6B] transition-colors text-base underline rounded-headspace-sm"
               >
                 Retry
               </button>
