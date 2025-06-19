@@ -98,7 +98,7 @@ const BrevEduPlusPage: React.FC = () => {
 
       {/* Features Section */}
       <section className="px-padding-medium py-12 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto"> {/* Already using max-w-7xl - good! */}
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">Premium Features</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

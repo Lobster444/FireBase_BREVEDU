@@ -131,7 +131,7 @@ const HomePage: React.FC = () => {
 
       {/* Featured Courses Section */}
       <section className="px-padding-medium pb-12 bg-white">
-        <FeaturedCoursesSection
+        <div className="max-w-7xl mx-auto"> {/* Already using max-w-7xl - good! */}
           courses={courses}
           loading={loading}
           error={error}

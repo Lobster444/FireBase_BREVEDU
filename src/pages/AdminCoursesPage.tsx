@@ -128,7 +128,7 @@ const AdminCoursesPage: React.FC = () => {
         </div>
 
         {/* Main Content */}
-        <div className="max-w-7xl mx-auto px-padding-medium py-padding-medium">
+        <div className="max-w-7xl mx-auto px-padding-medium py-padding-medium"> {/* Already using max-w-7xl - good! */}
           {/* Filters */}
           <CourseFilters
             searchQuery={searchQuery}

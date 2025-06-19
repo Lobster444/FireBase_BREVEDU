@@ -180,8 +180,8 @@ export default {
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
         'scale-in': {
-          '0%': { transform: 'scale(0.95)', opacity: '0' },
-          '100%': { transform: 'scale(1)', opacity: '1' },
+          xl: '1280px', // Updated to match max-w-7xl
+          '2xl': '1280px', // Keep consistent with design system
         },
       },
       transitionTimingFunction: {

@@ -93,7 +93,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
     <>
       {/* Desktop Header */}
       <header className="hidden sm:block sticky top-0 bg-white z-50 shadow-sm border-b border-gray-100">
-        <div className="max-w-5xl mx-auto px-padding-small sm:px-padding-medium lg:px-padding-large py-padding-small">
+        <div className="max-w-7xl mx-auto px-padding-small sm:px-padding-medium lg:px-padding-large py-padding-small">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link 

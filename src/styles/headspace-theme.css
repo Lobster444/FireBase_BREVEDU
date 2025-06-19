@@ -313,7 +313,7 @@
 
 /* Layout Utilities */
 .container-headspace {
-  max-width: 1200px;
+  max-width: 1280px; /* Increased from 1200px to match max-w-7xl */
   margin: 0 auto;
   padding: 0 var(--space-md);
 }
