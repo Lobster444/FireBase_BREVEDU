@@ -186,6 +186,7 @@ const BrevEduPlusPage: React.FC = () => {
             </div>
           </div>
         </div>
+        </div>
       </section>
 
       {/* CTA Section - Hide for premium users */}
