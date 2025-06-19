@@ -16,6 +16,7 @@ interface FeaturedCoursesSectionProps {
   onCourseClick: (course: Course) => void;
   onExploreCourses: () => void;
   onAuthPrompt?: () => void; // New prop for auth prompt
+  showCategoryFilter?: boolean; // New prop to control filter visibility
 }
 
 const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
@@ -28,7 +29,8 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
   setSelectedCategory,
   onCourseClick,
   onExploreCourses,
-  onAuthPrompt
+  onAuthPrompt,
+  showCategoryFilter = true // Default to true to maintain existing behavior
 }) => {
   // Show only first 3 courses for featured section
   const featuredCourses = courses.slice(0, 3);
@@ -75,17 +77,19 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
             )}
           </div>
           
-          {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-2">
-            {categories.map((category) => (
-              <PillToggleButton
-                key={category}
-                label={category}
-                active={selectedCategory === category}
-                onClick={() => setSelectedCategory(category)}
-              />
-            ))}
-          </div>
+          {/* Category Filter - Only show when showCategoryFilter is true */}
+          {showCategoryFilter && (
+            <div className="flex flex-wrap justify-center gap-2">
+              {categories.map((category) => (
+                <PillToggleButton
+                  key={category}
+                  label={category}
+                  active={selectedCategory === category}
+                  onClick={() => setSelectedCategory(category)}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Loading State */}
@@ -140,11 +144,13 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
                     <p className="text-lg text-gray-700 mb-4">
                       No courses found for this category.
                     </p>
-                    <PillToggleButton
-                      label="View all courses"
-                      active={false}
-                      onClick={() => setSelectedCategory('All')}
-                    />
+                    {showCategoryFilter && (
+                      <PillToggleButton
+                        label="View all courses"
+                        active={false}
+                        onClick={() => setSelectedCategory('All')}
+                      />
+                    )}
                   </div>
                 )}
               </div>

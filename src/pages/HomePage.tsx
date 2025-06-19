@@ -10,7 +10,6 @@ import FeaturedCoursesSection from '../components/FeaturedCoursesSection';
 import UpgradePromoSection from '../components/UpgradePromoSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import { PrimaryButton, AccentButton, SecondaryButton, PillToggleButton } from '../components/UIButtons';
-import { categories } from '../data/mockCourses';
 import { Course } from '../types';
 import { useCourses } from '../hooks/useCourses';
 import { useAuth } from '../contexts/AuthContext';
@@ -141,6 +140,7 @@ const HomePage: React.FC = () => {
             onCourseClick={handleCourseClick}
             onExploreCourses={handleExploreCourses}
             onAuthPrompt={handleAuthPrompt}
+            showCategoryFilter={false}
           />
         </div>
       </section>
