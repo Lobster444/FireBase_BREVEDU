@@ -30,10 +30,6 @@ const CourseDetailsSection: React.FC<CourseDetailsSectionProps> = ({
             <span className="text-gray-900 ml-2 font-medium">{course.duration}</span>
           </div>
           <div>
-            <span className="text-gray-600">Level:</span>
-            <span className="text-gray-900 ml-2 font-medium">{course.difficulty}</span>
-          </div>
-          <div>
             <span className="text-gray-600">Category:</span>
             <span className="text-gray-900 ml-2 font-medium">{course.category}</span>
           </div>

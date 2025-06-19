@@ -9,7 +9,6 @@ interface FormData {
   thumbnailUrl: string;
   duration: string;
   category: Course['category'];
-  difficulty: Course['difficulty'];
   accessLevel: AccessLevel;
   published: boolean;
   tavusConversationUrl: string;
@@ -258,7 +257,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
       </div>
 
       {/* Category, Difficulty, and Access Level */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label htmlFor="category" className="block text-base font-semibold text-gray-900 mb-2">
             Category
@@ -277,21 +276,6 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
           </select>
         </div>
 
-        <div>
-          <label htmlFor="difficulty" className="block text-base font-semibold text-gray-900 mb-2">
-            Difficulty
-          </label>
-          <select
-            id="difficulty"
-            value={formData.difficulty}
-            onChange={(e) => handleInputChange('difficulty', e.target.value as Course['difficulty'])}
-            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-[10px] text-gray-900 focus:outline-none focus:border-[#FF7A59] focus:ring-2 focus:ring-[#FF7A59]/20"
-          >
-            <option value="Beginner">Beginner</option>
-            <option value="Intermediate">Intermediate</option>
-            <option value="Advanced">Advanced</option>
-          </select>
-        </div>
 
         <div>
           <label htmlFor="accessLevel" className="block text-base font-semibold text-gray-900 mb-2">

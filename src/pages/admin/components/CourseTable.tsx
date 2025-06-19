@@ -23,7 +23,6 @@ const CourseTable: React.FC<CourseTableProps> = ({
           <tr>
             <th className="text-left p-4 text-sm font-medium text-gray-900">Course</th>
             <th className="text-left p-4 text-sm font-medium text-gray-900">Category</th>
-            <th className="text-left p-4 text-sm font-medium text-gray-900">Difficulty</th>
             <th className="text-left p-4 text-sm font-medium text-gray-900">Access Level</th>
             <th className="text-left p-4 text-sm font-medium text-gray-900">AI Practice</th>
             <th className="text-left p-4 text-sm font-medium text-gray-900">Status</th>
@@ -58,11 +57,6 @@ const CourseTable: React.FC<CourseTableProps> = ({
                 <td className="p-4">
                   <span className="text-sm text-gray-800 bg-gray-100 px-2 py-1 rounded">
                     {course.category}
-                  </span>
-                </td>
-                <td className="p-4">
-                  <span className="text-sm text-gray-900">
-                    {course.difficulty}
                   </span>
                 </td>
                 <td className="p-4">

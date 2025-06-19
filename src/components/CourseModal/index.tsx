@@ -24,7 +24,6 @@ interface FormData {
   thumbnailUrl: string;
   duration: string;
   category: Course['category'];
-  difficulty: Course['difficulty'];
   accessLevel: AccessLevel;
   published: boolean;
   tavusConversationUrl: string;
@@ -64,7 +63,6 @@ const CourseModal: React.FC<CourseModalProps> = ({
     thumbnailUrl: '',
     duration: '',
     category: 'Tech',
-    difficulty: 'Beginner',
     accessLevel: 'free',
     published: false,
     tavusConversationUrl: '',
@@ -82,7 +80,6 @@ const CourseModal: React.FC<CourseModalProps> = ({
           thumbnailUrl: course.thumbnailUrl,
           duration: course.duration,
           category: course.category,
-          difficulty: course.difficulty,
           accessLevel: course.accessLevel || 'free',
           published: course.published,
           tavusConversationUrl: course.tavusConversationUrl || '',
@@ -97,7 +94,6 @@ const CourseModal: React.FC<CourseModalProps> = ({
           thumbnailUrl: '',
           duration: '',
           category: 'Tech',
-          difficulty: 'Beginner',
           accessLevel: 'free',
           published: false,
           tavusConversationUrl: '',
@@ -259,7 +255,6 @@ const CourseModal: React.FC<CourseModalProps> = ({
           thumbnailUrl: formData.thumbnailUrl.trim(),
           duration: formData.duration.trim(),
           category: formData.category,
-          difficulty: formData.difficulty,
           accessLevel: formData.accessLevel,
           published: formData.published,
           // Include Tavus conversation URL if provided

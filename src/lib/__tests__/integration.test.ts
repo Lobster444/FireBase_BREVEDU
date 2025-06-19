@@ -105,7 +105,6 @@ const mockCourse: Course = {
   thumbnailUrl: 'https://example.com/thumbnail.jpg',
   duration: '5m',
   category: 'Tech',
-  difficulty: 'Beginner',
   accessLevel: 'free',
   published: true,
   conversationalContext: 'Practice JavaScript fundamentals with interactive exercises',

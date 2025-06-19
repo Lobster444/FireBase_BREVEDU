@@ -136,7 +136,6 @@ export const filterCourses = (
   filters: {
     searchQuery: string;
     selectedCategory: string;
-    selectedDifficulty: string;
     selectedAccessLevel: string;
     showPublishedOnly: boolean;
   }
@@ -145,10 +144,9 @@ export const filterCourses = (
     const matchesSearch = course.title.toLowerCase().includes(filters.searchQuery.toLowerCase()) ||
                          course.description.toLowerCase().includes(filters.searchQuery.toLowerCase());
     const matchesCategory = filters.selectedCategory === 'All' || course.category === filters.selectedCategory;
-    const matchesDifficulty = filters.selectedDifficulty === 'All' || course.difficulty === filters.selectedDifficulty;
     const matchesAccessLevel = filters.selectedAccessLevel === 'All' || (course.accessLevel || 'free') === filters.selectedAccessLevel;
     const matchesPublished = !filters.showPublishedOnly || course.published;
     
-    return matchesSearch && matchesCategory && matchesDifficulty && matchesAccessLevel && matchesPublished;
+    return matchesSearch && matchesCategory && matchesAccessLevel && matchesPublished;
   });
 };

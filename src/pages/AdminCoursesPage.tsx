@@ -21,7 +21,6 @@ const AdminCoursesPage: React.FC = () => {
   // Filter state
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedDifficulty, setSelectedDifficulty] = useState('All');
   const [selectedAccessLevel, setSelectedAccessLevel] = useState('All');
   const [showPublishedOnly, setShowPublishedOnly] = useState(false);
   
@@ -46,7 +45,6 @@ const AdminCoursesPage: React.FC = () => {
   const filteredCourses = filterCourses(courses, {
     searchQuery,
     selectedCategory,
-    selectedDifficulty,
     selectedAccessLevel,
     showPublishedOnly
   });
@@ -106,7 +104,6 @@ const AdminCoursesPage: React.FC = () => {
 
   const clearAllFilters = () => {
     setSelectedCategory('All');
-    setSelectedDifficulty('All');
     setSelectedAccessLevel('All');
     setSearchQuery('');
     setShowPublishedOnly(false);
@@ -133,12 +130,10 @@ const AdminCoursesPage: React.FC = () => {
           <CourseFilters
             searchQuery={searchQuery}
             selectedCategory={selectedCategory}
-            selectedDifficulty={selectedDifficulty}
             selectedAccessLevel={selectedAccessLevel}
             showPublishedOnly={showPublishedOnly}
             onSearchChange={setSearchQuery}
             onCategoryChange={setSelectedCategory}
-            onDifficultyChange={setSelectedDifficulty}
             onAccessLevelChange={setSelectedAccessLevel}
             onPublishedOnlyChange={setShowPublishedOnly}
           />

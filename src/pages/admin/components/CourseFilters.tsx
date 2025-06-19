@@ -4,12 +4,10 @@ import { Search, Filter, Shield } from 'lucide-react';
 interface CourseFiltersProps {
   searchQuery: string;
   selectedCategory: string;
-  selectedDifficulty: string;
   selectedAccessLevel: string;
   showPublishedOnly: boolean;
   onSearchChange: (query: string) => void;
   onCategoryChange: (category: string) => void;
-  onDifficultyChange: (difficulty: string) => void;
   onAccessLevelChange: (level: string) => void;
   onPublishedOnlyChange: (published: boolean) => void;
 }
@@ -17,17 +15,14 @@ interface CourseFiltersProps {
 const CourseFilters: React.FC<CourseFiltersProps> = ({
   searchQuery,
   selectedCategory,
-  selectedDifficulty,
   selectedAccessLevel,
   showPublishedOnly,
   onSearchChange,
   onCategoryChange,
-  onDifficultyChange,
   onAccessLevelChange,
   onPublishedOnlyChange
 }) => {
   const categories = ['All', 'Tech', 'Business', 'Health', 'Personal', 'Creative'];
-  const difficulties = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 
   return (
     <div className="bg-white rounded-headspace-lg p-padding-medium mb-6 border border-gray-200">
@@ -64,18 +59,6 @@ const CourseFilters: React.FC<CourseFiltersProps> = ({
 
         {/* Additional Filters */}
         <div className="flex flex-wrap items-center gap-4">
-          <div className="flex items-center space-x-2">
-            <Filter className="h-4 w-4 text-gray-500" />
-            <select
-              value={selectedDifficulty}
-              onChange={(e) => onDifficultyChange(e.target.value)}
-              className="bg-white border border-gray-300 rounded-headspace-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:border-[#FF7A59]"
-            >
-              {difficulties.map(difficulty => (
-                <option key={difficulty} value={difficulty}>{difficulty}</option>
-              ))}
-            </select>
-          </div>
 
           <div className="flex items-center space-x-2">
             <Shield className="h-4 w-4 text-gray-500" />

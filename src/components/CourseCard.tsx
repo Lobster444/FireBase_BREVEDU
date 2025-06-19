@@ -127,11 +127,8 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
             </span>
           </div>
           
-          {/* Right side - Difficulty and Draft status */}
+          {/* Right side - Draft status */}
           <div className="flex items-center space-x-2">
-            <span className="text-sm font-semibold text-gray-700 bg-gray-50 px-3 py-1.5 rounded-headspace-md">
-              {course.difficulty}
-            </span>
             {!course.published && (
               <span className="text-sm text-purple-800 bg-purple-100 px-3 py-1.5 rounded-headspace-md font-semibold">
                 Draft

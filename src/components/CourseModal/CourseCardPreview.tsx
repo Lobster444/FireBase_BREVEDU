@@ -9,7 +9,6 @@ interface FormData {
   thumbnailUrl: string;
   duration: string;
   category: Course['category'];
-  difficulty: Course['difficulty'];
   accessLevel: AccessLevel;
   published: boolean;
   tavusConversationUrl: string;
@@ -48,9 +47,6 @@ const CourseCardPreview: React.FC<CourseCardPreviewProps> = ({
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-700 bg-gray-200 px-2 py-1 rounded-[6px]">
                 {formData.category}
-              </span>
-              <span className="text-sm text-gray-900">
-                {formData.difficulty}
               </span>
             </div>
             <span className="text-sm text-gray-900">

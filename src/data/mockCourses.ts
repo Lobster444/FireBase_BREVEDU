@@ -9,7 +9,6 @@ export const mockCourses: Course[] = [
     thumbnailUrl: 'https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg?auto=compress&cs=tinysrgb&w=320&h=180&fit=crop',
     duration: '5m',
     category: 'Tech',
-    difficulty: 'Beginner',
     published: true,
     videoUrl: 'https://www.youtube-nocookie.com/embed/PkZNo7MFNFg'
   },
@@ -20,7 +19,6 @@ export const mockCourses: Course[] = [
     thumbnailUrl: 'https://images.pexels.com/photos/11035471/pexels-photo-11035471.jpeg?auto=compress&cs=tinysrgb&w=320&h=180&fit=crop',
     duration: '7m',
     category: 'Tech',
-    difficulty: 'Intermediate',
     published: true,
     videoUrl: 'https://www.youtube-nocookie.com/embed/jV8B24rSN5o'
   },
@@ -31,7 +29,6 @@ export const mockCourses: Course[] = [
     thumbnailUrl: 'https://images.pexels.com/photos/11035540/pexels-photo-11035540.jpeg?auto=compress&cs=tinysrgb&w=320&h=180&fit=crop',
     duration: '8m',
     category: 'Tech',
-    difficulty: 'Advanced',
     published: true,
     videoUrl: 'https://www.youtube-nocookie.com/embed/O6P86uwfdR0'
   },
@@ -42,7 +39,6 @@ export const mockCourses: Course[] = [
     thumbnailUrl: 'https://images.pexels.com/photos/267669/pexels-photo-267669.jpeg?auto=compress&cs=tinysrgb&w=320&h=180&fit=crop',
     duration: '6m',
     category: 'Personal',
-    difficulty: 'Beginner',
     published: true,
     videoUrl: 'https://www.youtube-nocookie.com/embed/sByzHoiYFX0'
   },
@@ -53,7 +49,6 @@ export const mockCourses: Course[] = [
     thumbnailUrl: 'https://images.pexels.com/photos/11035382/pexels-photo-11035382.jpeg?auto=compress&cs=tinysrgb&w=320&h=180&fit=crop',
     duration: '9m',
     category: 'Business',
-    difficulty: 'Intermediate',
     published: true,
     videoUrl: 'https://www.youtube-nocookie.com/embed/cuEtnrL9-H0'
   },
@@ -64,7 +59,6 @@ export const mockCourses: Course[] = [
     thumbnailUrl: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=320&h=180&fit=crop',
     duration: '5m',
     category: 'Health',
-    difficulty: 'Beginner',
     published: true,
     videoUrl: 'https://www.youtube-nocookie.com/embed/Ovj4hFxko7c'
   }

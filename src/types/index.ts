@@ -6,7 +6,6 @@ export interface Course {
   thumbnailUrl: string;
   duration: string;           // e.g. "5m", "12m"
   category: "Business" | "Tech" | "Health" | "Personal" | "Creative";
-  difficulty: "Beginner" | "Intermediate" | "Advanced";
   accessLevel: "anonymous" | "free" | "premium";  // New field for access control
   published: boolean;
   tavusConversationUrl?: string;  // Legacy: Static Tavus conversation URL

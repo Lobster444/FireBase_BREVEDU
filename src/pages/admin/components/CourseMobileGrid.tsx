@@ -38,8 +38,6 @@ const CourseMobileGrid: React.FC<CourseMobileGridProps> = ({
                   <span>{course.duration}</span>
                   <span>•</span>
                   <span>{course.category}</span>
-                  <span>•</span>
-                  <span>{course.difficulty}</span>
                 </div>
                 <div className="flex items-center space-x-2 flex-wrap gap-1">
                   <span className={`text-xs px-2 py-1 rounded flex items-center space-x-1 ${accessInfo.color} ${accessInfo.bgColor}`}>
