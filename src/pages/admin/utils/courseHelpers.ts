@@ -34,22 +34,22 @@ export const getAccessLevelInfo = (level: AccessLevel | undefined): AccessLevelI
     case 'free':
       return {
         label: 'Free',
-        color: 'text-subscription-free',
-        bgColor: 'bg-subscription-free-light',
+        color: 'text-white',
+        bgColor: 'bg-subscription-free',
         icon: '👤'
       };
     case 'premium':
       return {
         label: 'Premium',
-        color: 'text-subscription-premium',
-        bgColor: 'bg-subscription-premium-light',
+        color: 'text-white',
+        bgColor: 'bg-subscription-premium',
         icon: '💎'
       };
     default:
       return {
         label: 'Free',
-        color: 'text-subscription-free',
-        bgColor: 'bg-subscription-free-light',
+        color: 'text-white',
+        bgColor: 'bg-subscription-free',
         icon: '👤'
       };
   }

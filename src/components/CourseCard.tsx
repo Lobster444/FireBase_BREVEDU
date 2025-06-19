@@ -36,20 +36,20 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
       case 'free':
         return {
           label: 'Free',
-          bgColor: 'bg-subscription-free-light',
-          textColor: 'text-subscription-free'
+          bgColor: 'bg-subscription-free',
+          textColor: 'text-white'
         };
       case 'premium':
         return {
           label: 'Pro',
-          bgColor: 'bg-subscription-premium-light',
-          textColor: 'text-subscription-premium'
+          bgColor: 'bg-subscription-premium',
+          textColor: 'text-white'
         };
       default:
         return {
           label: 'Free',
-          bgColor: 'bg-subscription-free-light',
-          textColor: 'text-subscription-free'
+          bgColor: 'bg-subscription-free',
+          textColor: 'text-white'
         };
     }
   };
