@@ -212,9 +212,11 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
                 console.log('⏸️ Video paused');
               }}
               onTimeUpdate={(event) => {
-                const player = event.detail.plyr;
-                if (player && player.duration) {
-                  handleVideoProgress(player.currentTime, player.duration);
+                if (event.detail && event.detail.plyr) {
+                  const player = event.detail.plyr;
+                  if (player && player.duration) {
+                    handleVideoProgress(player.currentTime, player.duration);
+                  }
                 }
               }}
               aria-label="Course video preview"
