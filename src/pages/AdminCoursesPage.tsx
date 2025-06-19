@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Eye, EyeOff, Search, Filter, AlertCircle, Shield, Settings, MessageCircle } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, EyeOff, Search, Filter, AlertCircle, Shield, Settings, MessageCircle, X } from 'lucide-react';
 import AdminRoute from '../components/AdminRoute';
 import OfflineBanner from '../components/OfflineBanner';
 import CourseModal from '../components/CourseModal';
