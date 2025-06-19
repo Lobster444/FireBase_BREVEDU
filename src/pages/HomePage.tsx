@@ -131,18 +131,20 @@ const HomePage: React.FC = () => {
 
       {/* Featured Courses Section */}
       <section className="px-padding-medium pb-12 bg-white">
-        <div className="max-w-7xl mx-auto"> {/* Already using max-w-7xl - good! */}
-          courses={courses}
-          loading={loading}
-          error={error}
-          currentUser={currentUser}
-          activeTab={activeTab}
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-          onCourseClick={handleCourseClick}
-          onExploreCourses={handleExploreCourses}
-          onAuthPrompt={handleAuthPrompt}
-        />
+        <div className="max-w-7xl mx-auto">
+          <FeaturedCoursesSection
+            courses={courses}
+            loading={loading}
+            error={error}
+            currentUser={currentUser}
+            activeTab={activeTab}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            onCourseClick={handleCourseClick}
+            onExploreCourses={handleExploreCourses}
+            onAuthPrompt={handleAuthPrompt}
+          />
+        </div>
       </section>
 
       {/* Upgrade Promotional Section - Only for non-premium users */}
