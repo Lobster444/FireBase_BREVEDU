@@ -69,7 +69,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
       aria-label={`View details for ${course.title}`}
     >
       {/* Thumbnail */}
-      <div className="relative w-full h-32 bg-neutral-gray/20 rounded-headspace-md overflow-hidden mb-4">
+      <div className="relative w-full aspect-square bg-neutral-gray/20 rounded-headspace-md overflow-hidden mb-4">
         <img 
           src={course.thumbnailUrl} 
           alt={course.title}
