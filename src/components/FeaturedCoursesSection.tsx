@@ -68,7 +68,6 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
                 Sign up for free to access more courses and AI practice sessions
               </p>
             )}
-            {currentUser?.role === 'free' && activeTab === 'all' && (
             {currentUser?.role === 'free' && (
               <p className="text-base text-gray-600">
                 Upgrade to BrevEdu+ to unlock premium courses and more AI practice sessions
