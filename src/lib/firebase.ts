@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: "AIzaSyChSy_0MFnUJiUHDeFxGZjszTji3CMRc0I",
@@ -19,6 +20,9 @@ export const auth = getAuth(app);
 
 // Initialize Cloud Firestore and get a reference to the service
 export const db = getFirestore(app);
+
+// Initialize Firebase Storage and get a reference to the service
+export const storage = getStorage(app);
 
 // Connect to Firestore emulator in development (optional)
 // Uncomment the lines below if you want to use the Firestore emulator for local development

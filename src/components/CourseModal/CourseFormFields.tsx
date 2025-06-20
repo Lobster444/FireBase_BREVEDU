@@ -1,6 +1,7 @@
 import React from 'react';
 import { AlertCircle, User, Mail, Lock, MessageCircle, Shield } from 'lucide-react';
 import { Course, AccessLevel } from '../../types';
+import ImageUploadField from './ImageUploadField';
 
 interface FormData {
   title: string;
@@ -199,29 +200,13 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
 
       {/* Thumbnail URL */}
       <div>
-        <label htmlFor="thumbnailUrl" className="block text-base font-semibold text-gray-900 mb-2">
-          Thumbnail Image URL *
-        </label>
-        <input
-          type="url"
-          id="thumbnailUrl"
+        <ImageUploadField
           value={formData.thumbnailUrl}
-          onChange={(e) => handleInputChange('thumbnailUrl', e.target.value)}
-          className={`w-full px-4 py-3 bg-white border rounded-[10px] text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition-colors ${
-            errors.thumbnailUrl 
-              ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
-              : 'border-gray-300 focus:border-[#FF7A59] focus:ring-[#FF7A59]/20'
-          }`}
-          placeholder="https://images.pexels.com/..."
+          onChange={(url) => handleInputChange('thumbnailUrl', url)}
+          error={errors.thumbnailUrl}
+          label="Thumbnail Image"
           required
-          aria-describedby={errors.thumbnailUrl ? 'thumbnailUrl-error' : undefined}
         />
-        {errors.thumbnailUrl && (
-          <p id="thumbnailUrl-error" className="mt-1 text-base text-red-600 flex items-center space-x-1">
-            <AlertCircle className="h-4 w-4" />
-            <span>{errors.thumbnailUrl}</span>
-          </p>
-        )}
       </div>
 
       {/* Duration */}

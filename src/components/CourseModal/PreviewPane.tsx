@@ -97,20 +97,28 @@ const PreviewPane: React.FC<PreviewPaneProps> = ({
           <h4 className="text-lg font-semibold text-gray-900 mb-2">Thumbnail</h4>
           <div className="w-full h-48 bg-gray-100 rounded-[12px] overflow-hidden border border-gray-200">
             {formData.thumbnailUrl ? (
-              <img
-                src={formData.thumbnailUrl}
-                alt="Course thumbnail preview"
-                loading="lazy"
-                className="w-full h-full object-cover"
-                onError={() => {
-                  setImageError(true);
-                  onPreviewErrorChange('Failed to load thumbnail image');
-                }}
-                onLoad={() => {
-                  setImageError(false);
-                  onPreviewErrorChange('');
-                }}
-              />
+              <>
+                <img
+                  src={formData.thumbnailUrl}
+                  alt="Course thumbnail preview"
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                  onError={() => {
+                    setImageError(true);
+                    onPreviewErrorChange('Failed to load thumbnail image');
+                  }}
+                  onLoad={() => {
+                    setImageError(false);
+                    onPreviewErrorChange('');
+                  }}
+                />
+                {/* Upload indicator for Firebase Storage URLs */}
+                {formData.thumbnailUrl.includes('firebasestorage.googleapis.com') && (
+                  <div className="absolute top-2 right-2 bg-emerald-500 text-white px-2 py-1 rounded text-xs font-medium">
+                    Uploaded
+                  </div>
+                )}
+              </>
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-500">
                 <div className="text-center">
