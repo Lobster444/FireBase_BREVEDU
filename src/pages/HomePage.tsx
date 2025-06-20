@@ -15,7 +15,6 @@ import { useCourses } from '../hooks/useCourses';
 import { useAuth } from '../contexts/AuthContext';
 
 const HomePage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'all' | 'premium'>('all');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [showCourseModal, setShowCourseModal] = useState(false);
@@ -27,7 +26,7 @@ const HomePage: React.FC = () => {
   // Pass user role to filter courses based on access level
   const { courses, loading, error } = useCourses(
     selectedCategory, 
-    activeTab === 'premium',
+    false, // Always show all courses, not just premium
     currentUser?.role || null
   );
 
@@ -119,8 +118,6 @@ const HomePage: React.FC = () => {
       <HeroSection
         currentUser={currentUser}
         userMessage={userMessage}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
         onStartLearning={handleStartLearningFree}
         onUpgrade={handleUpgradeClick}
         onExploreCourses={handleExploreCourses}
@@ -134,7 +131,6 @@ const HomePage: React.FC = () => {
             loading={loading}
             error={error}
             currentUser={currentUser}
-            activeTab={activeTab}
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
             onCourseClick={handleCourseClick}

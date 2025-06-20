@@ -12,8 +12,6 @@ interface UserMessage {
 interface HeroSectionProps {
   currentUser: User | null;
   userMessage: UserMessage;
-  activeTab: 'all' | 'premium';
-  setActiveTab: (tab: 'all' | 'premium') => void;
   onStartLearning: () => void;
   onUpgrade: () => void;
   onExploreCourses: () => void;
@@ -22,8 +20,6 @@ interface HeroSectionProps {
 const HeroSection: React.FC<HeroSectionProps> = ({
   currentUser,
   userMessage,
-  activeTab,
-  setActiveTab,
   onStartLearning,
   onUpgrade,
   onExploreCourses
@@ -45,26 +41,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           {userMessage.subtitle}
         </p>
         
-        {/* Course Type Toggle - Only show if user can access premium */}
-        {currentUser?.role === 'premium' && (
-          <div className="flex justify-center mb-10">
-            <div className="hero-pill-toggle rounded-[16px] p-1.5 flex">
-              <PillToggleButton
-                label="All Courses"
-                active={activeTab === 'all'}
-                onClick={() => setActiveTab('all')}
-                className="pill-button"
-              />
-              <PillToggleButton
-                label="Premium Only"
-                active={activeTab === 'premium'}
-                onClick={() => setActiveTab('premium')}
-                className="pill-button"
-              />
-            </div>
-          </div>
-        )}
-
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
           {!currentUser ? (

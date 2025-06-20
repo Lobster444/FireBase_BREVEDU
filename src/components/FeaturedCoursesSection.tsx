@@ -10,7 +10,6 @@ interface FeaturedCoursesSectionProps {
   loading: boolean;
   error: string | null;
   currentUser: User | null;
-  activeTab: 'all' | 'premium';
   selectedCategory: string;
   setSelectedCategory: (category: string) => void;
   onCourseClick: (course: Course) => void;
@@ -24,7 +23,6 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
   loading,
   error,
   currentUser,
-  activeTab,
   selectedCategory,
   setSelectedCategory,
   onCourseClick,
@@ -63,7 +61,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
         <div className="flex flex-col items-center text-center mb-8">
           <div className="mb-6">
             <h2 className="text-3xl font-bold text-gray-900 mb-2">
-              {activeTab === 'premium' ? 'Premium Courses' : 'Featured Courses'}
+              Featured Courses
             </h2>
             {!currentUser && (
               <p className="text-base text-gray-600">
@@ -71,6 +69,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
               </p>
             )}
             {currentUser?.role === 'free' && activeTab === 'all' && (
+            {currentUser?.role === 'free' && (
               <p className="text-base text-gray-600">
                 Upgrade to BrevEdu+ to unlock premium courses and more AI practice sessions
               </p>
@@ -125,18 +124,6 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
                       aria-label="Sign up for free account"
                     >
                       Create Free Account
-                    </AccentButton>
-                  </div>
-                ) : activeTab === 'premium' && currentUser.role !== 'premium' ? (
-                  <div>
-                    <p className="text-lg text-gray-700 mb-4">
-                      Upgrade to BrevEdu+ to access premium courses!
-                    </p>
-                    <AccentButton 
-                      onClick={onExploreCourses}
-                      aria-label="Upgrade to BrevEdu+ premium subscription"
-                    >
-                      Upgrade Now
                     </AccentButton>
                   </div>
                 ) : (
