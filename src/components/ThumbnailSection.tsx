@@ -6,13 +6,15 @@ interface ThumbnailSectionProps {
   courseTitle: string;
   imageError: boolean;
   onImageError: (error: boolean) => void;
+  isModuleCompleted?: boolean;
 }
 
 const ThumbnailSection: React.FC<ThumbnailSectionProps> = ({
   thumbnailUrl,
   courseTitle,
   imageError,
-  onImageError
+  onImageError,
+  isModuleCompleted = false
 }) => {
   const handleImageRetry = () => {
     onImageError(false);
@@ -20,7 +22,7 @@ const ThumbnailSection: React.FC<ThumbnailSectionProps> = ({
 
   return (
     <div>
-      <h3 className="text-lg font-semibold text-gray-900 mb-3">Course Preview</h3>
+      <h3 className="text-lg font-semibold text-gray-900 mb-3">Course Thumbnail</h3>
       <div className="w-full aspect-video bg-gray-100 rounded-headspace-xl overflow-hidden border border-gray-200">
         {imageError ? (
           <div className="w-full h-full flex items-center justify-center text-center p-4">
@@ -45,6 +47,15 @@ const ThumbnailSection: React.FC<ThumbnailSectionProps> = ({
           />
         )}
       </div>
+      
+      {/* Module completion indicator */}
+      {isModuleCompleted && (
+        <div className="mt-3 text-center">
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800">
+            ✅ Module Completed
+          </span>
+        </div>
+      )}
     </div>
   );
 };

@@ -434,13 +434,12 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
 
               {/* Right Column - Thumbnail and Actions */}
               <div className="space-y-6">
-                {/* Course Thumbnail */}
+                {/* Thumbnail */}
                 <ThumbnailSection
                   thumbnailUrl={course.thumbnailUrl}
                   courseTitle={course.title}
                   imageError={imageError}
                   onImageError={setImageError}
-                  isModuleCompleted={courseProgress >= 100}
                 />
 
                 {/* Action Buttons */}
