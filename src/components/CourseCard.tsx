@@ -78,8 +78,9 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
         />
         
         {/* Duration badge - Bottom Right with improved legibility */}
-        <div className="absolute bottom-2 right-2 bg-gray-900/85 backdrop-blur-sm px-2 py-1.5 rounded-headspace-sm text-xs font-semibold text-white flex items-center">
+        <div className="absolute bottom-2 right-2 bg-gray-900/85 backdrop-blur-sm px-3 py-1.5 rounded-headspace-sm text-sm font-semibold text-white flex items-center space-x-1.5">
           <Clock className="h-3.5 w-3.5" />
+          <span>{course.duration}</span>
         </div>
 
         {/* AI Practice badge - Top Right */}
