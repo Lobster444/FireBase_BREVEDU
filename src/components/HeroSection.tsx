@@ -82,7 +82,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           <div className="flex justify-center lg:justify-end">
             <div className="relative max-w-lg w-full px-6 sm:px-8 lg:px-0 mt-8 lg:mt-0">
               <img 
-                src="/image.png"
+                src="/41b02b86-3dc4-46c7-b506-8c61fd37e4b1 copy.png"
                 alt="Interactive learning interface showing mobile app with AI tutor and course content"
                 className="w-full h-auto rounded-headspace-xl shadow-headspace-lg"
                 loading="eager"
