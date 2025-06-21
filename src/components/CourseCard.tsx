@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, MessageCircle, CheckCircle, Lock } from 'lucide-react';
+import { Clock, MessageCircle, CheckCircle } from 'lucide-react';
 import { Course, hasTavusCompletion } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -58,29 +58,15 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
   
   // Check if user has completed Tavus practice for this course
   const tavusCompleted = currentUser && course.id ? hasTavusCompletion(currentUser, course.id) : false;
-
-  // Check if this is a premium course that the user can't access
-  const isPremiumRestricted = course.accessLevel === 'premium' && currentUser?.role === 'free';
   return (
     <div 
-      className={`bg-white rounded-headspace-xl shadow-[0_2px_8px_rgba(0,0,0,0.1)] p-padding-small cursor-pointer group focus:outline-none focus:ring-4 focus:ring-[#FF7A59] focus:ring-opacity-40 focus:ring-offset-2 focus:ring-offset-white hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:-translate-y-1 hover:animate-[card-breathe_3s_infinite] transition-all duration-300 ease-headspace ${
-        isPremiumRestricted ? 'relative' : ''
-      }`}
+      className="bg-white rounded-headspace-xl shadow-[0_2px_8px_rgba(0,0,0,0.1)] p-padding-small cursor-pointer group focus:outline-none focus:ring-4 focus:ring-[#FF7A59] focus:ring-opacity-40 focus:ring-offset-2 focus:ring-offset-white hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:-translate-y-1 hover:animate-[card-breathe_3s_infinite] transition-all duration-300 ease-headspace"
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       tabIndex={0}
       role="button"
       aria-label={`View details for ${course.title}`}
     >
-      {/* Premium Lock Overlay */}
-      {isPremiumRestricted && (
-        <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px] rounded-headspace-xl flex items-center justify-center z-10">
-          <div className="bg-white/95 backdrop-blur-sm rounded-full p-3 shadow-lg">
-            <Lock className="h-6 w-6 text-[#C967D3]" />
-          </div>
-        </div>
-      )}
-      
       {/* Thumbnail */}
       <div className="relative w-full aspect-square bg-neutral-gray/20 rounded-headspace-md overflow-hidden mb-4">
         <img 
@@ -90,8 +76,6 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-headspace"
         />
         
-        {/* AI Practice badge - Top Right */}
-
         {/* Completion badge - Top Left */}
         {tavusCompleted && (
           <div className="absolute top-2 left-2 bg-emerald-500/90 backdrop-blur-sm px-2 py-1 rounded-headspace-sm text-xs font-semibold text-white flex items-center space-x-1">
