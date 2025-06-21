@@ -77,12 +77,6 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-headspace"
         />
         
-        {/* Duration badge - Bottom Right with improved legibility */}
-        <div className="absolute bottom-2 right-2 bg-gray-900/85 backdrop-blur-sm px-3 py-1.5 rounded-headspace-sm text-sm font-semibold text-white flex items-center space-x-1.5">
-          <Clock className="h-3.5 w-3.5" />
-          <span>{course.duration}</span>
-        </div>
-
         {/* AI Practice badge - Top Right */}
 
         {/* Completion badge - Top Left */}
@@ -101,6 +95,20 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
           {course.title}
         </h3>
         
+        {/* Course Info: Topic, Type, Duration */}
+        <div className="flex items-center space-x-2 text-sm text-gray-600 mb-3">
+          <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded-headspace-sm font-medium">
+            {course.category}
+          </span>
+          <span className="text-gray-500">•</span>
+          <span>Video Lesson</span>
+          <span className="text-gray-500">•</span>
+          <div className="flex items-center space-x-1 font-medium text-gray-700">
+            <Clock className="h-3.5 w-3.5" />
+            <span>{course.duration}</span>
+          </div>
+        </div>
+        
         {/* Description */}
         <p className="text-base font-normal text-gray-700 mb-4 line-clamp-3 leading-relaxed">
           {course.description}
@@ -108,13 +116,8 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
         
         {/* Bottom badges row */}
         <div className="mt-auto flex items-center justify-between">
-          {/* Left side - Topic and Access Level badges */}
-          <div className="flex items-center space-x-2">
-            {/* Topic badge */}
-            <span className="bg-gray-100 text-gray-800 px-3 py-1.5 rounded-headspace-md text-sm font-semibold">
-              {course.category}
-            </span>
-            
+          {/* Left side - Access Level badge */}
+          <div className="flex items-center">
             {/* Access level badge */}
             <span className={`${accessBadge.bgColor} ${accessBadge.textColor} px-3 py-1.5 rounded-full text-sm font-medium`}>
               {accessBadge.label}
