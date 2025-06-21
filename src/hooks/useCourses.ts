@@ -6,7 +6,8 @@ import { Course, UserRole, canUserAccessCourse } from '../types';
 export const useCourses = (
   category?: string, 
   isPremiumOnly?: boolean,
-  userRole?: UserRole | null
+  userRole?: UserRole | null,
+  includeRestricted?: boolean
 ) => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
@@ -57,9 +58,9 @@ export const useCourses = (
         querySnapshot.forEach((doc) => {
           const courseData = { id: doc.id, ...doc.data() } as Course;
           
-          // Apply access level filtering based on user role
+          // Apply access level filtering based on user role (unless includeRestricted is true)
           const courseAccessLevel = courseData.accessLevel || 'free';
-          if (canUserAccessCourse(userRole, courseAccessLevel)) {
+          if (includeRestricted || canUserAccessCourse(userRole, courseAccessLevel)) {
             coursesData.push(courseData);
           }
         });
@@ -77,7 +78,7 @@ export const useCourses = (
         setError('Failed to load courses. Please try again.');
         // Fallback to mock data if Firestore fails, but still apply access filtering
         const { mockCourses } = await import('../data/mockCourses');
-        const filteredMockCourses = mockCourses.filter(course => {
+        const filteredMockCourses = includeRestricted ? mockCourses : mockCourses.filter(course => {
           const courseAccessLevel = course.accessLevel || 'free';
           return canUserAccessCourse(userRole, courseAccessLevel);
         });
@@ -88,7 +89,7 @@ export const useCourses = (
     };
 
     fetchCourses();
-  }, [category, isPremiumOnly, userRole]);
+  }, [category, isPremiumOnly, userRole, includeRestricted]);
 
   return { courses, loading, error };
 };

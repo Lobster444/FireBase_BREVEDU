@@ -29,10 +29,19 @@ const HomePage: React.FC = () => {
   const { courses, loading, error } = useCourses(
     selectedCategory, 
     false, // Always show all courses, not just premium
-    currentUser?.role || null
+    currentUser?.role || null,
+    true // Include restricted courses so free users can see premium courses
   );
 
   const handleCourseClick = (course: Course) => {
+    // Check if free user is trying to access premium course
+    if (course.accessLevel === 'premium' && currentUser?.role === 'free') {
+      // For homepage, redirect to upgrade page instead of showing modal
+      navigate('/brevedu-plus');
+      return;
+    }
+    
+    // Normal course access
     setSelectedCourse(course);
     setShowCourseModal(true);
   };
