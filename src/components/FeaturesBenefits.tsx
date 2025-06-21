@@ -21,7 +21,7 @@ const FeaturesBenefits: React.FC = () => {
   ];
 
   return (
-    <section className="px-padding-medium py-16 bg-white relative overflow-hidden section-hover-trigger">
+    <section className="px-padding-medium py-16 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
@@ -64,7 +64,7 @@ const FeaturesBenefits: React.FC = () => {
 
           {/* Floating Hover Image - Desktop Only */}
           <div className="hidden lg:block absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-8 z-20 pointer-events-none">
-            <div className="hover-image opacity-0 scale-95 transition-all duration-300 ease-out">
+            <div className="hover-image opacity-0 scale-95 transition-all duration-500 ease-out">
               <div className="relative">
                 {/* Image Container with Glow Effect */}
                 <div className="relative bg-gradient-to-br from-primary/10 to-accent-yellow/10 rounded-headspace-2xl p-4 shadow-headspace-xl">
@@ -92,7 +92,7 @@ const FeaturesBenefits: React.FC = () => {
 
           {/* Mobile Hover Image - Shows Below Grid */}
           <div className="lg:hidden mt-12">
-            <div className="mobile-hover-image opacity-0 scale-95 transition-all duration-300 ease-out">
+            <div className="mobile-hover-image opacity-0 scale-95 transition-all duration-500 ease-out">
               <div className="text-center">
                 <div className="inline-block relative bg-gradient-to-br from-primary/10 to-accent-yellow/10 rounded-headspace-2xl p-4 shadow-headspace-xl">
                   <img 
@@ -114,14 +114,16 @@ const FeaturesBenefits: React.FC = () => {
 
       {/* Custom Styles for Hover Interaction */}
       <style jsx>{`
-        .section-hover-trigger:hover .hover-image {
-          opacity: 1;
-          transform: translateY(-50%) translateX(2rem) scale(1);
+        .hover-trigger:hover ~ .hover-image,
+        .hover-trigger:hover ~ * .hover-image {
+          opacity: 1 !important;
+          transform: translateY(-50%) translateX(2rem) scale(1) !important;
         }
         
-        .section-hover-trigger:hover .mobile-hover-image {
-          opacity: 1;
-          transform: scale(1);
+        .hover-trigger:hover ~ .mobile-hover-image,
+        .hover-trigger:hover ~ * .mobile-hover-image {
+          opacity: 1 !important;
+          transform: scale(1) !important;
         }
         
         /* Enhanced hover states for better interaction */
@@ -130,9 +132,9 @@ const FeaturesBenefits: React.FC = () => {
         }
         
         @media (max-width: 1023px) {
-          .section-hover-trigger:hover .mobile-hover-image {
-            opacity: 1;
-            transform: scale(1);
+          .hover-trigger:hover ~ .mobile-hover-image {
+            opacity: 1 !important;
+            transform: scale(1) !important;
           }
         }
       `}</style>
