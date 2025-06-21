@@ -21,24 +21,6 @@ const CourseDetailsSection: React.FC<CourseDetailsSectionProps> = ({
         </p>
       </div>
 
-      {/* Course Details */}
-      <div className="bg-gray-50 rounded-headspace-xl p-4">
-        <h3 className="text-lg font-semibold text-gray-900 mb-3">Course Details</h3>
-        <div className="grid grid-cols-2 gap-4 text-base">
-          <div>
-            <span className="text-gray-600">Duration:</span>
-            <span className="text-gray-900 ml-2 font-medium">{course.duration}</span>
-          </div>
-          <div>
-            <span className="text-gray-600">Category:</span>
-            <span className="text-gray-900 ml-2 font-medium">{course.category}</span>
-          </div>
-          <div>
-            <span className="text-gray-600">Format:</span>
-            <span className="text-gray-900 ml-2 font-medium">Video Lesson</span>
-          </div>
-        </div>
-      </div>
 
       {/* Course Stats */}
       <div className="bg-gray-50 rounded-headspace-xl p-4">
