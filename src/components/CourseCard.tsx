@@ -101,8 +101,6 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
             {course.category}
           </span>
           <span className="text-gray-500">•</span>
-          <span>Video Lesson</span>
-          <span className="text-gray-500">•</span>
           <div className="flex items-center space-x-1 font-medium text-gray-700">
             <Clock className="h-3.5 w-3.5" />
             <span>{course.duration}</span>
