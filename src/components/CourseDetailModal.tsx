@@ -7,7 +7,6 @@ import TavusModal from './TavusModal';
 import TavusConfirmationModal from './TavusConfirmationModal';
 import VideoPlayerSection from './VideoPlayerSection';
 import AIPracticeSection from './AIPracticeSection';
-import CourseDetailsSection from './CourseDetailsSection';
 import ActionButtonsSection from './ActionButtonsSection';
 import { 
   createTavusConversation, 
@@ -422,11 +421,6 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                   isVideoLoading={isVideoLoading}
                 />
 
-                {/* Course Details */}
-                <CourseDetailsSection
-                  course={course}
-                  tavusCompleted={tavusCompleted}
-                />
               </div>
 
               {/* Right Column - Thumbnail and Actions */}
