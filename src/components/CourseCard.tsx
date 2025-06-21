@@ -84,12 +84,6 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
         </div>
 
         {/* AI Practice badge - Top Right */}
-        {course.tavusConversationUrl && (
-          <div className="absolute top-2 right-2 bg-[#002fa7]/90 backdrop-blur-sm px-2 py-1 rounded-headspace-sm text-xs font-semibold text-white flex items-center space-x-1">
-            <MessageCircle className="h-3 w-3" />
-            <span>AI</span>
-          </div>
-        )}
 
         {/* Completion badge - Top Left */}
         {tavusCompleted && (
