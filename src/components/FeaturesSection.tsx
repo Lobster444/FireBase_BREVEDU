@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, MessageCircle, Target, ArrowRight } from 'lucide-react';
+import { Clock, Video, Target, ArrowRight, Play, Mic, MicOff, Volume2 } from 'lucide-react';
 import { AccentButton } from './UIButtons';
 import { User } from '../types';
 
@@ -19,14 +19,14 @@ const FeaturesSection: React.FC<FeaturesSectionProps> = ({
       benefit: 'Master new skills during your coffee break'
     },
     {
-      icon: MessageCircle,
+      icon: Video,
       title: 'AI Practice Sessions',
-      benefit: 'Reinforce learning with intelligent conversations'
+      benefit: 'Interactive video tutor powered by Tavus AI'
     },
     {
       icon: Target,
-      title: 'Focused Content',
-      benefit: 'No fluff, just the essentials you need to know'
+      title: 'Real-time Feedback',
+      benefit: 'Real‑time visual & verbal feedback from your AI tutor'
     }
   ];
 
@@ -36,66 +36,95 @@ const FeaturesSection: React.FC<FeaturesSectionProps> = ({
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            What You Gain with BrevEdu
+            AI Practice Sessions
           </h2>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-            Transform how you learn with our bite-sized approach designed for busy professionals
+            Practice what you learn with our AI-powered video tutor for personalized, interactive learning
           </p>
         </div>
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Side - Visual Demo */}
+          {/* Left Side - Tavus Video Interface */}
           <div className="order-2 lg:order-1">
             <div className="relative bg-gradient-to-br from-primary/5 to-accent-yellow/5 rounded-headspace-2xl p-8 border border-gray-100">
-              {/* Mock AI Chat Interface */}
-              <div className="bg-white rounded-headspace-xl shadow-headspace-md p-6 max-w-md mx-auto">
-                <div className="flex items-center space-x-3 mb-4 pb-4 border-b border-gray-100">
-                  <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-                    <MessageCircle className="h-5 w-5 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">AI Practice Tutor</h4>
-                    <p className="text-sm text-gray-600">JavaScript Fundamentals</p>
-                  </div>
-                </div>
-                
-                {/* Chat Messages */}
-                <div className="space-y-3">
-                  <div className="bg-gray-50 rounded-headspace-lg p-3">
-                    <p className="text-sm text-gray-800">
-                      Let's practice variables! Can you explain the difference between let and const?
-                    </p>
-                  </div>
-                  <div className="bg-primary/10 rounded-headspace-lg p-3 ml-4">
-                    <p className="text-sm text-gray-800">
-                      const creates immutable bindings while let allows reassignment...
-                    </p>
-                  </div>
-                  <div className="bg-emerald-50 rounded-headspace-lg p-3">
-                    <p className="text-sm text-emerald-800 font-medium">
-                      ✓ Excellent! You understand the key concepts.
-                    </p>
+              {/* Tavus Video Interface Mockup */}
+              <div className="bg-white rounded-headspace-xl shadow-headspace-lg overflow-hidden max-w-md mx-auto">
+                {/* Video Header */}
+                <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                      <span className="text-sm font-medium text-gray-700">AI Practice Session</span>
+                    </div>
+                    <div className="text-xs text-gray-500">JavaScript Fundamentals</div>
                   </div>
                 </div>
-                
-                {/* Typing Indicator */}
-                <div className="flex items-center space-x-2 mt-4 text-gray-500">
-                  <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+
+                {/* Video Window */}
+                <div className="relative aspect-video bg-gradient-to-br from-blue-50 to-purple-50">
+                  {/* AI Avatar Placeholder */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <img 
+                      src="/image.png" 
+                      alt="AI tutor avatar speaking in video interface"
+                      className="w-full h-full object-cover"
+                      style={{ objectPosition: 'center' }}
+                    />
                   </div>
-                  <span className="text-sm">AI is thinking...</span>
+                  
+                  {/* Video Overlay Elements */}
+                  <div className="absolute top-4 left-4">
+                    <div className="bg-black/70 text-white px-2 py-1 rounded text-xs font-medium">
+                      Live AI Tutor
+                    </div>
+                  </div>
+                  
+                  {/* Speaking Indicator */}
+                  <div className="absolute bottom-4 left-4">
+                    <div className="flex items-center space-x-2 bg-white/90 backdrop-blur-sm rounded-full px-3 py-2">
+                      <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                      <span className="text-xs font-medium text-gray-700">Speaking...</span>
+                    </div>
+                  </div>
+
+                  {/* User Video (Small) */}
+                  <div className="absolute bottom-4 right-4 w-20 h-16 bg-gray-200 rounded-lg border-2 border-white shadow-lg overflow-hidden">
+                    <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                      <div className="w-8 h-8 bg-gray-400 rounded-full"></div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Video Controls */}
+                <div className="bg-gray-50 px-4 py-3 border-t border-gray-200">
+                  <div className="flex items-center justify-center space-x-4">
+                    <button className="p-2 bg-white rounded-full shadow-sm hover:shadow-md transition-shadow">
+                      <Mic className="h-4 w-4 text-gray-600" />
+                    </button>
+                    <button className="p-3 bg-primary rounded-full shadow-md hover:shadow-lg transition-all hover:scale-105">
+                      <Play className="h-5 w-5 text-white ml-0.5" />
+                    </button>
+                    <button className="p-2 bg-white rounded-full shadow-sm hover:shadow-md transition-shadow">
+                      <Volume2 className="h-4 w-4 text-gray-600" />
+                    </button>
+                  </div>
+                  
+                  {/* Session Info */}
+                  <div className="mt-3 text-center">
+                    <p className="text-xs text-gray-600">
+                      "Let's practice JavaScript variables together!"
+                    </p>
+                  </div>
                 </div>
               </div>
               
               {/* Floating Elements */}
               <div className="absolute -top-4 -right-4 bg-accent-yellow rounded-full p-3 shadow-headspace-md">
-                <Target className="h-6 w-6 text-gray-800" />
+                <Video className="h-6 w-6 text-gray-800" />
               </div>
               <div className="absolute -bottom-4 -left-4 bg-primary rounded-full p-3 shadow-headspace-md">
-                <Clock className="h-6 w-6 text-white" />
+                <Target className="h-6 w-6 text-white" />
               </div>
             </div>
           </div>
@@ -128,6 +157,25 @@ const FeaturesSection: React.FC<FeaturesSectionProps> = ({
                     </div>
                   );
                 })}
+              </div>
+
+              {/* Additional Benefits */}
+              <div className="bg-gradient-to-r from-primary/5 to-accent-yellow/5 rounded-headspace-xl p-6 border border-primary/10">
+                <h4 className="font-semibold text-gray-900 mb-3">Powered by Tavus AI</h4>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-center space-x-2">
+                    <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
+                    <span>Interactive video tutor powered by Tavus AI</span>
+                  </li>
+                  <li className="flex items-center space-x-2">
+                    <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
+                    <span>Real‑time visual & verbal feedback</span>
+                  </li>
+                  <li className="flex items-center space-x-2">
+                    <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
+                    <span>Natural conversation with AI digital twin</span>
+                  </li>
+                </ul>
               </div>
 
               {/* CTA Button */}
