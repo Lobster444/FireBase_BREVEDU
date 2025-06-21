@@ -6,7 +6,6 @@ import ProgressBar from './ProgressBar';
 import TavusModal from './TavusModal';
 import TavusConfirmationModal from './TavusConfirmationModal';
 import VideoPlayerSection from './VideoPlayerSection';
-import ThumbnailSection from './ThumbnailSection';
 import AIPracticeSection from './AIPracticeSection';
 import CourseDetailsSection from './CourseDetailsSection';
 import ActionButtonsSection from './ActionButtonsSection';
@@ -37,7 +36,6 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
   const { currentUser } = useAuth();
   const modalRef = useRef<HTMLDivElement>(null);
   const [videoError, setVideoError] = useState(false);
-  const [imageError, setImageError] = useState(false);
   const [isVideoLoading, setIsVideoLoading] = useState(true);
   const [showTavusModal, setShowTavusModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -55,7 +53,6 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
   useEffect(() => {
     if (isOpen && course) {
       setVideoError(false);
-      setImageError(false);
       setIsVideoLoading(true);
       setShowTavusModal(false);
       setShowConfirmationModal(false);
@@ -434,14 +431,6 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
 
               {/* Right Column - Thumbnail and Actions */}
               <div className="space-y-6">
-                {/* Thumbnail */}
-                <ThumbnailSection
-                  thumbnailUrl={course.thumbnailUrl}
-                  courseTitle={course.title}
-                  imageError={imageError}
-                  onImageError={setImageError}
-                />
-
                 {/* Action Buttons */}
                 <div className="space-y-4">
                   {/* AI Practice Button */}
