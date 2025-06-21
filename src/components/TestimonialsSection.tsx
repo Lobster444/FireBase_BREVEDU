@@ -66,24 +66,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
               className="bg-white rounded-[12px] p-padding-medium shadow-[0_2px_8px_rgba(0,0,0,0.1)] border border-gray-100 hover:border-[#FF7A59]/30 transition-all duration-200"
               role="article"
               aria-labelledby={`testimonial-${testimonial.id}-name`}
-            >
-              {/* Quote Icon */}
-              <div className="flex items-center justify-between mb-4">
-                <Quote className="h-6 w-6 text-[#FF7A59] opacity-60" aria-hidden="true" />
-                <div className="flex items-center space-x-1" role="img" aria-label={`${testimonial.rating} out of 5 stars`}>
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 text-[#F5C842] fill-current" aria-hidden="true" />
-                  ))}
                 </div>
-              </div>
-              
-              {/* Quote Text */}
-              <blockquote className="text-base italic mb-4 text-gray-700 leading-relaxed">
-                "{testimonial.quote}"
-              </blockquote>
-              
-              {/* Author Info */}
-              <div className="border-t border-gray-100 pt-4">
                 <cite className="not-italic">
                   <p id={`testimonial-${testimonial.id}-name`} className="text-base font-semibold text-gray-900 mb-1">
                     {testimonial.name}
