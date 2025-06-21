@@ -50,7 +50,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
 
   return (
     <section className="px-padding-medium py-12 bg-gray-50">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-screen-2xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">What Our Learners Say</h2>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">

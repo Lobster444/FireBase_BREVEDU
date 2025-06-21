@@ -116,7 +116,7 @@ const CoursesPage: React.FC = () => {
     <Layout currentPage="courses">
       {/* Header */}
       <section className="px-padding-medium py-8 border-b border-gray-200 bg-white">
-        <div className="max-w-7xl mx-auto"> {/* Already using max-w-7xl - good! */}
+        <div className="max-w-screen-2xl mx-auto">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
             <div>
               <h1 className="text-4xl font-bold text-gray-900 mb-2">All Courses</h1>
@@ -168,7 +168,7 @@ const CoursesPage: React.FC = () => {
 
       {/* Course Grid */}
       <section className="px-padding-medium py-8 bg-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-screen-2xl mx-auto">
           {/* Loading State */}
           {loading && (
             <div className="text-center py-12">

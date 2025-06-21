@@ -57,7 +57,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
 
   return (
     <section className="px-padding-medium pb-12 bg-white">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-screen-2xl mx-auto">
         <div className="flex flex-col items-center text-center mb-8">
           <div className="mb-6">
             <h2 className="text-3xl font-bold text-gray-900 mb-2">

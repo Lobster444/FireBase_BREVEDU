@@ -26,7 +26,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 }) => {
   return (
     <section className="hero-headspace px-padding-medium py-16 sm:py-20 text-center">
-      <div className="hero-content max-w-7xl mx-auto">
+      <div className="hero-content max-w-screen-2xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Text Content */}
           <div className="text-center lg:text-left">

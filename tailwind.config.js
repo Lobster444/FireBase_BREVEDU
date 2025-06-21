@@ -7,8 +7,8 @@ export default {
   theme: {
     container: {
       screens: {
-        xl: '1280px',
-        '2xl': '1280px',
+        xl: '1536px',
+        '2xl': '1536px',
       },
     },
     extend: {

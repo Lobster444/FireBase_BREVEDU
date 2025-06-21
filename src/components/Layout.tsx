@@ -14,7 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
       {/* Main Content Container */}
       <main className="relative">
         {/* Centered Container with Headspace-style spacing */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Optional Page Title Section */}
           {currentPage && currentPage !== 'home' && (
             <div className="py-6 border-b border-gray-100 mb-8">

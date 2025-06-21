@@ -14,7 +14,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
 }) => {
   return (
     <div className="border-b border-gray-200 bg-white">
-      <div className="max-w-7xl mx-auto px-padding-medium py-padding-medium">
+      <div className="max-w-screen-2xl mx-auto px-padding-medium py-padding-medium">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Course Management</h1>
