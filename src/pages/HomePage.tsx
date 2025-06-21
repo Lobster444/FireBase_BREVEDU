@@ -7,6 +7,7 @@ import CourseDetailModal from '../components/CourseDetailModal';
 import AuthModal from '../components/AuthModal';
 import HeroSection from '../components/HeroSection';
 import FeaturedCoursesSection from '../components/FeaturedCoursesSection';
+import FeaturesSection from '../components/FeaturesSection';
 import UpgradePromoSection from '../components/UpgradePromoSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import { PrimaryButton, AccentButton, SecondaryButton, PillToggleButton } from '../components/UIButtons';
@@ -121,6 +122,12 @@ const HomePage: React.FC = () => {
         onStartLearning={handleStartLearningFree}
         onUpgrade={handleUpgradeClick}
         onExploreCourses={handleExploreCourses}
+      />
+
+      {/* Features & Benefits Section */}
+      <FeaturesSection
+        currentUser={currentUser}
+        onStartPracticing={handleStartLearningFree}
       />
 
       {/* Featured Courses Section */}
