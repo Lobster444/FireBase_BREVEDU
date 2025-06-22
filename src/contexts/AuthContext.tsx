@@ -84,8 +84,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       displayName: name
     });
     
-    // Create user document in Firestore (no email verification required)
-    await createUserDocument(result.user, name);
+    // Create user document in Firestore and update local state immediately
+    const userData = await createUserDocument(result.user, name);
+    setCurrentUser(userData);
     
     return result;
   };
