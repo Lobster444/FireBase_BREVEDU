@@ -21,7 +21,7 @@ const FeaturesBenefits: React.FC = () => {
   ];
 
   return (
-    <section className="px-4 sm:px-padding-medium py-6 sm:py-12 lg:py-16 relative overflow-hidden">
+    <section className="px-4 sm:px-padding-medium py-6 sm:py-12 lg:py-16 relative overflow-hidden bg-white border-b border-gray-100">
       <div className="max-w-screen-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8 lg:mb-12">

@@ -19,10 +19,18 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
   ];
 
   return (
-    <section className="px-4 sm:px-padding-medium py-6 sm:py-12 lg:py-16 bg-gray-50">
+    <section className="px-4 sm:px-padding-medium py-8 sm:py-16 lg:py-20 bg-gray-50 relative">
+      {/* Section Divider */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
+      
       <div className="max-w-screen-2xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-6 sm:mb-8 lg:mb-12">
+        <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+          {/* Section Badge */}
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-4 sm:mb-6">
+            <Video className="h-6 w-6 text-primary" />
+          </div>
+          
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2 sm:mb-3 lg:mb-4">
             AI Practice Sessions
           </h2>
