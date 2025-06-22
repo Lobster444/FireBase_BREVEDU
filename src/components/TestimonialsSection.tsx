@@ -53,7 +53,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
       <div className="max-w-screen-2xl mx-auto">
         <div className="text-center mb-6 sm:mb-8 lg:mb-12">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">What Our Learners Say</h2>
-          <p className="text-sm sm:text-base lg:text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Join thousands of learners who are transforming their skills with BrevEdu's 
             bite-sized learning approach and AI-powered practice sessions.
           </p>
