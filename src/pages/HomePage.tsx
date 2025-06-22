@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Layout from '../components/Layout';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import CourseCard from '../components/CourseCard';
 import CourseDetailModal from '../components/CourseDetailModal';
 import AuthModal from '../components/AuthModal';
@@ -126,7 +127,7 @@ const HomePage: React.FC = () => {
   const userMessage = getUserMessage();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-16">
       {/* Header - Full Width */}
       <Header currentPage="home" />
       
@@ -204,6 +205,8 @@ const HomePage: React.FC = () => {
         toastClassName="bg-primary border border-neutral-gray/30 text-text-light font-inter"
         progressClassName="bg-accent-yellow"
       />
+      
+      <Footer />
     </div>
   );
 };

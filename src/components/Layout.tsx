@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from './Header';
+import Footer from './Footer';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -8,7 +9,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-16">
       <Header currentPage={currentPage} />
       
       {/* Main Content Container */}
@@ -30,6 +31,8 @@ const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
           </div>
         </div>
       </main>
+      
+      <Footer />
     </div>
   );
 };
