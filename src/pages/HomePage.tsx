@@ -144,7 +144,7 @@ const HomePage: React.FC = () => {
       />
 
       {/* Featured Courses Section */}
-      <section className="px-padding-medium pb-12 bg-white">
+      <section className="px-padding-medium pb-12">
         <div className="max-w-screen-2xl mx-auto">
           <FeaturedCoursesSection
             courses={courses}
