@@ -271,7 +271,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
               required
               minLength={2}
               icon={<User className="h-5 w-5" />}
-              label="Full Name"
+              label="Name"
               autoCapitalize="words"
             />
           )}
@@ -384,28 +384,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
               {mode === 'login' ? 'Sign Up' : 'Sign In'}
             </button>
           </p>
-        </div>
-
-        {/* Terms & Privacy (Register only) */}
-        {mode === 'register' && (
-          <div className="text-center mt-6 pt-4 border-t border-gray-100">
-            <p className="text-sm text-gray-500 leading-relaxed">
-              By creating an account, you agree to our{' '}
-              <a 
-                href="#" 
-                className="text-primary hover:text-primary-hover underline underline-offset-2 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30 rounded-headspace-sm p-1"
-              >
-                Terms of Service
-              </a>
-              {' '}and{' '}
-              <a 
-                href="#" 
-                className="text-primary hover:text-primary-hover underline underline-offset-2 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30 rounded-headspace-sm p-1"
-              >
-                Privacy Policy
-              </a>
-            </p>
-          </div>
         )}
       </div>
     </div>
