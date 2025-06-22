@@ -95,51 +95,6 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
             </div>
           ))}
         </div>
-        
-        {/* Call to Action */}
-        <div className="text-center mt-6 sm:mt-8 lg:mt-12">
-          <p className="text-sm sm:text-base lg:text-lg text-gray-700 mb-3 sm:mb-4 lg:mb-6">
-            Ready to join our community of successful learners?
-          </p>
-          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 lg:gap-4 justify-center">
-            {!currentUser ? (
-              <>
-                <AccentButton 
-                  className="px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg"
-                  onClick={onStartLearning}
-                  aria-label="Sign up for free account to start learning"
-                >
-                  Start Learning Free
-                </AccentButton>
-                <PrimaryButton 
-                  className="px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 flex items-center justify-center space-x-2 text-sm sm:text-base lg:text-lg"
-                  onClick={onUpgrade}
-                  aria-label="Try BrevEdu+ premium subscription with free trial"
-                >
-                  <Sparkles className="h-5 w-5" />
-                  <span>Try BrevEdu+ Free</span>
-                </PrimaryButton>
-              </>
-            ) : currentUser.role === 'free' ? (
-              <PrimaryButton 
-                className="px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 flex items-center justify-center space-x-2 text-sm sm:text-base lg:text-lg"
-                onClick={onUpgrade}
-                aria-label="Upgrade to BrevEdu+ premium subscription"
-              >
-                <Sparkles className="h-5 w-5" />
-                <span>Upgrade to Premium</span>
-              </PrimaryButton>
-            ) : (
-              <AccentButton 
-                className="px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg"
-                onClick={onExploreCourses}
-                aria-label="Explore more premium courses"
-              >
-                Explore More Courses
-              </AccentButton>
-            )}
-          </div>
-        </div>
       </div>
     </section>
   );
