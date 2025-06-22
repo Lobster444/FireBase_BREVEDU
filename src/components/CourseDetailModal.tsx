@@ -8,6 +8,7 @@ import TavusConfirmationModal from './TavusConfirmationModal';
 import VideoPlayerSection from './VideoPlayerSection';
 import AIPracticeSection from './AIPracticeSection';
 import CourseDetailsSection from './CourseDetailsSection';
+import ActionButtonsSection from './ActionButtonsSection';
 import { 
   createTavusConversation, 
   startTavusSession,
