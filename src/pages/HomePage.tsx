@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Sparkles, ArrowRight, Star, Quote } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import Layout from '../components/Layout';
+import Header from '../components/Header';
 import CourseCard from '../components/CourseCard';
 import CourseDetailModal from '../components/CourseDetailModal';
 import AuthModal from '../components/AuthModal';
