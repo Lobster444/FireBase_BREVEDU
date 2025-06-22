@@ -64,14 +64,6 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                     />
                   </div>
 
-                  {/* User Video (Small) */}
-                  <div className="absolute bottom-4 right-4 w-16 h-12 sm:w-20 sm:h-16 bg-gray-200 rounded-lg border-2 border-white shadow-lg overflow-hidden">
-                    <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-400 rounded-full"></div>
-                    </div>
-                  </div>
-                </div>
-
                 {/* Video Controls */}
                 <div className="bg-gray-50 px-3 sm:px-4 py-2 sm:py-3 border-t border-gray-200">
                   <div className="flex items-center justify-center space-x-3 sm:space-x-4">
