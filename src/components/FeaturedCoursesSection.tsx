@@ -64,7 +64,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
               Featured Courses
             </h2>
             {!currentUser && (
-              <p className="text-sm sm:text-base lg:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                 Sign up for free to access more courses and AI practice sessions
               </p>
             )}
