@@ -128,53 +128,60 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
 
           {/* Right Side - Benefits & CTA */}
           <div className="order-1 lg:order-2">
-            <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+            <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl hover:border-primary/20 transition-all duration-300 group">
               {/* Benefits List */}
               <div>
-                <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-900 mb-3 sm:mb-4 lg:mb-6">
-                  Experience Interactive Learning
+                <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors duration-300">
+                  AI Practice Sessions
                 </h3>
-                <ul className="space-y-2 sm:space-y-3 lg:space-y-4">
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Explore new ideas with our AI-powered video tutor
+                </p>
+                
+                <div className="space-y-3 mb-6">
+                  <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Experience Interactive Learning</h4>
+                  <ul className="space-y-3">
                   {benefits.map((benefit, index) => (
-                    <li key={index} className="flex items-start space-x-3">
-                      <div className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 bg-primary/10 rounded-full flex items-center justify-center mt-0.5">
-                        <div className="w-2 h-2 bg-primary rounded-full"></div>
+                    <li key={index} className="flex items-center space-x-3">
+                      <div className="flex-shrink-0 w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                        <div className="w-2 h-2 bg-white rounded-full"></div>
                       </div>
-                      <span className="text-xs sm:text-sm lg:text-base text-gray-700 leading-relaxed">
+                      <span className="text-sm text-gray-700 font-medium">
                         {benefit}
                       </span>
                     </li>
                   ))}
                 </ul>
+                </div>
               </div>
 
               {/* Tavus Branding */}
-              <div className="bg-gradient-to-r from-primary/5 to-accent-yellow/5 rounded-headspace-xl p-3 sm:p-4 lg:p-6 border border-primary/10">
-                <div className="flex items-center space-x-2 sm:space-x-3 mb-2 sm:mb-3">
-                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-primary rounded-lg flex items-center justify-center">
+              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 border border-blue-100 mb-6">
+                <div className="flex items-center space-x-3 mb-3">
+                  <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                     <Video className="h-4 w-4 text-white" />
                   </div>
-                  <h4 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-900">Powered by Tavus AI</h4>
+                  <h4 className="text-sm font-semibold text-gray-900">Powered by Tavus AI</h4>
                 </div>
-                <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
+                <p className="text-sm text-gray-700 leading-relaxed">
                   Our AI tutors use advanced conversational video technology to provide 
                   natural, engaging practice sessions that adapt to your learning pace.
                 </p>
               </div>
 
               {/* CTA Button */}
-              <div className="pt-1 sm:pt-2 lg:pt-4">
+              <div>
                 <AccentButton 
-                  className="w-full sm:w-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg font-semibold flex items-center justify-center space-x-2 group"
+                  className="w-full px-6 py-4 text-lg font-bold flex items-center justify-center space-x-2 group-hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl"
                   onClick={onStartPracticing}
                   aria-label={currentUser ? "Continue to courses and start practicing" : "Sign up to start practicing with AI"}
                 >
                   <span>Start Practicing Now</span>
-                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </AccentButton>
                 
                 {!currentUser && (
-                  <p className="text-xs sm:text-sm text-gray-600 mt-2 sm:mt-3 text-center sm:text-left">
+                  <p className="text-sm text-gray-500 mt-3 text-center">
                     Free account • No credit card required
                   </p>
                 )}
