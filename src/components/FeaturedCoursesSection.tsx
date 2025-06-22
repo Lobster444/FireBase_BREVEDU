@@ -64,12 +64,12 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
               Featured Courses
             </h2>
             {!currentUser && (
-              <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                 Sign up for free to access more courses and AI practice sessions
               </p>
             )}
             {currentUser?.role === 'free' && (
-              <p className="text-sm sm:text-base lg:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
                 Upgrade to BrevEdu+ to unlock premium courses and more AI practice sessions
               </p>
             )}
@@ -94,14 +94,14 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
         {loading && (
           <div className="text-center py-8 sm:py-12">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A59]"></div>
-            <p className="text-base sm:text-lg text-gray-600 mt-4">Loading courses...</p>
+            <p className="text-lg sm:text-xl text-gray-600 mt-4">Loading courses...</p>
           </div>
         )}
 
         {/* Error State */}
         {error && (
           <div className="text-center py-8 sm:py-12">
-            <p className="text-base sm:text-lg text-red-600 mb-4">{error}</p>
+            <p className="text-lg sm:text-xl text-red-600 mb-4">{error}</p>
             <AccentButton onClick={() => window.location.reload()}>
               Try again
             </AccentButton>
@@ -115,7 +115,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
               <div className="text-center py-8 sm:py-12">
                 {!currentUser ? (
                   <div>
-                    <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-4 sm:mb-6">
+                    <p className="text-lg sm:text-xl text-gray-600 mb-4 sm:mb-6">
                       Sign up for free to access our course library!
                     </p>
                     <AccentButton 
@@ -127,7 +127,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
                   </div>
                 ) : (
                   <div>
-                    <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-4 sm:mb-6">
+                    <p className="text-lg sm:text-xl text-gray-600 mb-4 sm:mb-6">
                       No courses found for this category.
                     </p>
                     {showCategoryFilter && (
@@ -156,7 +156,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
             {featuredCourses.length > 0 && (
               <div className="text-center">
                 <SecondaryButton 
-                  className="inline-flex items-center space-x-2 bg-gray-100 text-gray-800 hover:bg-gray-200 px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg font-medium shadow-sm hover:shadow-md transition-all duration-200"
+                  className="inline-flex items-center space-x-2 bg-gray-100 text-gray-800 hover:bg-gray-200 px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 text-lg sm:text-xl font-medium shadow-sm hover:shadow-md transition-all duration-200"
                   onClick={handleMoreCoursesClick}
                   aria-label="View all courses"
                 >
