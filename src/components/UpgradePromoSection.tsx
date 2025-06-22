@@ -16,7 +16,7 @@ const UpgradePromoSection: React.FC<UpgradePromoSectionProps> = ({
           <div className="max-w-3xl mx-auto">
             <div className="flex items-center justify-center mb-2 sm:mb-3 lg:mb-4">
               <Sparkles className="h-6 w-6 sm:h-8 sm:w-8 text-[#FF7A59] mr-2 sm:mr-3" />
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Upgrade to BrevEdu+</h2>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">Upgrade to BrevEdu+</h2>
             </div>
             
             <p className="text-sm sm:text-base lg:text-lg text-gray-700 mb-3 sm:mb-4 lg:mb-6 leading-relaxed">
