@@ -10,7 +10,7 @@ const FeaturesBenefits: React.FC = () => {
     },
     {
       icon: Target,
-      title: 'Bite-Sized Lessons',
+      title: 'Clean Mini-Learnings',
       benefit: 'Focused content designed for busy professionals'
     },
     {
