@@ -383,7 +383,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
               {mode === 'login' ? 'Sign Up' : 'Sign In'}
             </button>
           </p>
-        )}
+        </div>
       </div>
     </div>
   );
