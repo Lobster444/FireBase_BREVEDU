@@ -56,11 +56,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         createdAt: new Date().toISOString()
       };
 
+      console.log('Creating user document with data:', userData); // Add this
       await setDoc(userRef, userData);
       return userData;
     }
 
-    return userSnap.data() as User;
+    // Document exists - check if we need to update the name
+    const existingData = userSnap.data() as User;
+    if (name && existingData.name !== name) {
+      console.log('Updating existing user document with new name:', name);
+      await updateDoc(userRef, { name });
+      existingData.name = name;
+    }
+    return existingData;
   };
 
   const login = async (email: string, password: string) => {
