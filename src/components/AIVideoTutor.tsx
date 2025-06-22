@@ -118,7 +118,6 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                   </div>
                 </div>
               </div>
-              </div>
               
               {/* Floating Elements */}
               <div className="absolute -top-3 sm:-top-4 -right-3 sm:-right-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full p-3 sm:p-4 shadow-xl">
