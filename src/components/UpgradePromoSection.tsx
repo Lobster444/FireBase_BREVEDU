@@ -16,39 +16,39 @@ const UpgradePromoSection: React.FC<UpgradePromoSectionProps> = ({
           <div className="max-w-3xl mx-auto">
             <div className="flex items-center justify-center mb-2 sm:mb-3 lg:mb-4">
               <Sparkles className="h-6 w-6 sm:h-8 sm:w-8 text-[#FF7A59] mr-2 sm:mr-3" />
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">Upgrade to BrevEdu+</h2>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">Upgrade to BrevEdu+</h2>
             </div>
             
-            <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-6 sm:mb-8">
               Get full access to all courses, AI-powered practice sessions, and exclusive content. 
               Accelerate your learning with premium features designed for serious learners.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 lg:gap-4 justify-center items-center mb-3 sm:mb-4 lg:mb-6">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-6 justify-center items-center mb-4 sm:mb-6 lg:mb-8">
               <div className="flex items-center space-x-2 text-emerald-700">
-                <span className="text-sm sm:text-base">✓</span>
-                <span className="text-xs sm:text-sm lg:text-base font-medium">Unlimited course access</span>
+                <span className="text-base sm:text-lg">✓</span>
+                <span className="text-sm sm:text-base lg:text-lg font-medium">Unlimited course access</span>
               </div>
               <div className="flex items-center space-x-2 text-emerald-700">
-                <span className="text-sm sm:text-base">✓</span>
-                <span className="text-xs sm:text-sm lg:text-base font-medium">3 daily AI practice sessions</span>
+                <span className="text-base sm:text-lg">✓</span>
+                <span className="text-sm sm:text-base lg:text-lg font-medium">3 daily AI practice sessions</span>
               </div>
               <div className="flex items-center space-x-2 text-emerald-700">
-                <span className="text-sm sm:text-base">✓</span>
-                <span className="text-xs sm:text-sm lg:text-base font-medium">Premium-only content</span>
+                <span className="text-base sm:text-lg">✓</span>
+                <span className="text-sm sm:text-base lg:text-lg font-medium">Premium-only content</span>
               </div>
             </div>
             
             <PrimaryButton 
               onClick={onUpgradeClick}
-              className="px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 flex items-center justify-center space-x-2 mx-auto text-sm sm:text-base lg:text-lg"
+              className="px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 flex items-center justify-center space-x-2 mx-auto text-lg sm:text-xl"
               aria-label="Start BrevEdu+ premium subscription"
             >
               <Sparkles className="h-5 w-5" />
               <span>Start BrevEdu+ Today</span>
             </PrimaryButton>
             
-            <p className="text-xs sm:text-sm text-gray-600 mt-2 sm:mt-3 lg:mt-4">
+            <p className="text-sm sm:text-base text-gray-600 mt-3 sm:mt-4 lg:mt-6">
               7-day free trial • Cancel anytime • $3.99/month
             </p>
           </div>

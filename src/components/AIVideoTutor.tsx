@@ -48,7 +48,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
             AI Practice Sessions
           </h2>
-          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Experience the future of learning with our AI-powered video tutor that adapts to your pace and provides personalized feedback
           </p>
         </div>
@@ -65,9 +65,9 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse shadow-lg"></div>
-                      <span className="text-sm sm:text-base font-semibold text-gray-800">AI Practice Session</span>
+                      <span className="text-base sm:text-lg font-semibold text-gray-800">AI Practice Session</span>
                     </div>
-                    <div className="text-xs sm:text-sm text-gray-600 hidden sm:block font-medium">JavaScript Fundamentals</div>
+                    <div className="text-sm sm:text-base text-gray-600 hidden sm:block font-medium">JavaScript Fundamentals</div>
                   </div>
                 </div>
 
@@ -112,7 +112,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                   
                   {/* Session Info */}
                   <div className="mt-3 sm:mt-4 text-center">
-                    <p className="text-sm text-gray-700 hidden sm:block font-medium">
+                    <p className="text-base text-gray-700 hidden sm:block font-medium">
                       "Let's practice JavaScript variables together!"
                     </p>
                   </div>
@@ -137,7 +137,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                 <h3 className="text-2xl font-bold text-gray-900 mb-6 group-hover:text-blue-600 transition-colors duration-300">
                   Experience Interactive Learning
                 </h3>
-                <p className="text-gray-600 mb-8 leading-relaxed text-lg">
+                <p className="text-lg sm:text-xl text-gray-600 mb-8 leading-relaxed">
                   Transform your learning experience with cutting-edge AI technology
                 </p>
                 
@@ -149,8 +149,8 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                         {benefit.icon}
                       </div>
                       <div className="flex-1">
-                        <h5 className="text-base font-semibold text-gray-900 mb-1">{benefit.title}</h5>
-                        <p className="text-sm text-gray-600 leading-relaxed">{benefit.description}</p>
+                        <h5 className="text-lg font-semibold text-gray-900 mb-2">{benefit.title}</h5>
+                        <p className="text-base text-gray-600 leading-relaxed">{benefit.description}</p>
                       </div>
                     </li>
                   ))}
@@ -164,9 +164,9 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                   <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
                     <Video className="h-5 w-5 text-white" />
                   </div>
-                  <h4 className="text-base font-bold text-gray-900">Powered by Tavus AI</h4>
+                  <h4 className="text-lg font-bold text-gray-900">Powered by Tavus AI</h4>
                 </div>
-                <p className="text-base text-gray-700 leading-relaxed">
+                <p className="text-lg text-gray-700 leading-relaxed">
                   Our AI tutors use advanced conversational video technology to provide 
                   natural, engaging practice sessions that adapt to your learning pace.
                 </p>
@@ -175,7 +175,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
               {/* CTA Button */}
               <div>
                 <AccentButton 
-                  className="w-full px-8 py-5 text-xl font-bold flex items-center justify-center space-x-3 group-hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600"
+                  className="w-full px-8 py-5 text-xl sm:text-2xl font-bold flex items-center justify-center space-x-3 group-hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600"
                   onClick={onStartPracticing}
                   aria-label={currentUser ? "Continue to courses and start practicing" : "Sign up to start practicing with AI"}
                 >
@@ -184,7 +184,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                 </AccentButton>
                 
                 {!currentUser && (
-                  <p className="text-base text-gray-500 mt-4 text-center font-medium">
+                  <p className="text-lg text-gray-500 mt-4 text-center font-medium">
                     Free account • No credit card required
                   </p>
                 )}
