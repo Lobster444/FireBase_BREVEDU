@@ -95,11 +95,6 @@ const FeaturesBenefits: React.FC = () => {
             <div className="mobile-hover-image opacity-0 scale-95 transition-all duration-500 ease-out">
               <div className="text-center">
                 <div className="inline-block relative bg-gradient-to-br from-primary/10 to-accent-yellow/10 rounded-headspace-2xl p-4 shadow-headspace-xl">
-                  <img 
-                    src="/41b02b86-3dc4-46c7-b506-8c61fd37e4b1.png"
-                    alt="Interactive learning interface showing mobile app with AI tutor and course content"
-                    className="w-40 sm:w-48 lg:w-64 h-auto mx-auto rounded-headspace-xl shadow-headspace-lg"
-                  />
                   
                   {/* Mobile Badge */}
                   <div className="absolute -top-2 sm:-top-3 left-1/2 transform -translate-x-1/2 bg-accent-yellow rounded-full px-3 sm:px-4 py-1 sm:py-2 shadow-headspace-md">
