@@ -40,8 +40,15 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
 
   const handleLogout = async () => {
     try {
+      console.log('🔄 Starting logout process...');
+      console.log('🔍 Current user before logout:', currentUser?.email);
+      
       await logout();
+      console.log('✅ Firebase logout successful');
+      
       setShowUserMenu(false);
+      console.log('✅ User menu closed');
+      
     } catch (error) {
       console.error('Error logging out:', error);
     }
@@ -306,7 +313,10 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             <button
               onClick={() => {
                 console.log('Mobile Sign Out clicked'); // Debug log
+                console.log('🎯 Mobile Sign Out button clicked');
+                console.log('📱 Current user state:', currentUser?.email);
                 handleLogout();
+                console.log('🔄 handleLogout called');
                 setShowUserMenu(false);
               }}
               className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#002fa7] transition-colors duration-200 ease-out flex items-center space-x-3 focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2 rounded-[10px] mx-2 mt-1"

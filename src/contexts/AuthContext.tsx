@@ -92,7 +92,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = async () => {
+    console.log('🚪 AuthContext logout function called');
+    console.log('🔍 Firebase auth object:', auth);
+    console.log('🔍 Current Firebase user:', auth.currentUser?.email);
+    
     await signOut(auth);
+    console.log('✅ Firebase signOut completed');
   };
 
   const updateUserRole = async (role: UserRole) => {
@@ -188,9 +193,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      console.log('🔄 Auth state changed:', firebaseUser?.email || 'null');
       setFirebaseUser(firebaseUser);
       
       if (firebaseUser) {
+        console.log('👤 User is authenticated:', firebaseUser.email);
         try {
           const userData = await createUserDocument(firebaseUser);
           setCurrentUser(userData);
@@ -199,6 +206,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setCurrentUser(null);
         }
       } else {
+        console.log('🚪 User is signed out');
         setCurrentUser(null);
       }
       
