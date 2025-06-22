@@ -26,11 +26,6 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
       <div className="max-w-screen-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8 sm:mb-12 lg:mb-16">
-          {/* Section Badge */}
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-4 sm:mb-6">
-            <Video className="h-6 w-6 text-primary" />
-          </div>
-          
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2 sm:mb-3 lg:mb-4">
             AI Practice Sessions
           </h2>
