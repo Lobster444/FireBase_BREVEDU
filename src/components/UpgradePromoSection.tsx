@@ -19,7 +19,7 @@ const UpgradePromoSection: React.FC<UpgradePromoSectionProps> = ({
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">Upgrade to BrevEdu+</h2>
             </div>
             
-            <p className="text-sm sm:text-base lg:text-lg text-gray-700 mb-3 sm:mb-4 lg:mb-6 leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Get full access to all courses, AI-powered practice sessions, and exclusive content. 
               Accelerate your learning with premium features designed for serious learners.
             </p>
