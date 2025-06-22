@@ -25,7 +25,7 @@ const FeaturesBenefits: React.FC = () => {
       <div className="max-w-screen-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8 lg:mb-12">
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2 sm:mb-3 lg:mb-4">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
             What You Gain with BrevEdu
           </h2>
           <p className="text-sm sm:text-base lg:text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
