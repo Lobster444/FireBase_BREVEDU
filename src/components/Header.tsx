@@ -295,7 +295,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
 
         {/* Mobile User Menu Dropdown - Only for authenticated users */}
         {currentUser && showUserMenu && (
-          <div className="absolute right-4 top-16 bg-white border border-gray-200 rounded-[16px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] py-3 min-w-[220px] z-50 animate-slide-up">
+          <div ref={userMenuRef} className="absolute right-4 top-16 bg-white border border-gray-200 rounded-[16px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] py-3 min-w-[220px] z-50 animate-slide-up">
             <div className="px-4 py-3 border-b border-gray-100">
               <p className="text-sm font-semibold text-gray-900">{currentUser.name}</p>
               <p className="text-xs text-gray-600">{currentUser.email}</p>
@@ -305,6 +305,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             </div>
             <button
               onClick={() => {
+                console.log('Mobile Sign Out clicked'); // Debug log
                 handleLogout();
                 setShowUserMenu(false);
               }}
