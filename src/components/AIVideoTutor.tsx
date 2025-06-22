@@ -27,7 +27,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
             AI Practice Sessions
           </h2>
           <p className="text-sm sm:text-base lg:text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
-            Practice what you learn with our AI-powered video tutor for personalized, interactive learning
+            Explore new ideas with our AI-powered video tutor
           </p>
         </div>
 
