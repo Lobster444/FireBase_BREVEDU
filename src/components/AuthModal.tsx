@@ -345,7 +345,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
           )}
 
           {/* Submit Button */}
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center mt-12">
             <button
               type="submit"
               disabled={loading}
