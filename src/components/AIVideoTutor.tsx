@@ -19,27 +19,27 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
   ];
 
   return (
-    <section className="px-4 sm:px-padding-medium py-8 sm:py-12 lg:py-16 bg-gray-50">
+    <section className="px-4 sm:px-padding-medium py-6 sm:py-12 lg:py-16 bg-gray-50">
       <div className="max-w-screen-2xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8 sm:mb-12">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
+        <div className="text-center mb-6 sm:mb-8 lg:mb-12">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2 sm:mb-3 lg:mb-4">
             AI Practice Sessions
           </h2>
-          <p className="text-base sm:text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
             Practice what you learn with our AI-powered video tutor for personalized, interactive learning
           </p>
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
           {/* Left Side - Tavus Video Interface */}
           <div className="order-2 lg:order-1">
-            <div className="relative bg-gradient-to-br from-primary/5 to-accent-yellow/5 rounded-headspace-2xl p-4 sm:p-8">
+            <div className="relative bg-gradient-to-br from-primary/5 to-accent-yellow/5 rounded-headspace-2xl p-3 sm:p-4 lg:p-8">
               {/* Tavus Video Interface Mockup */}
-              <div className="bg-white rounded-headspace-xl shadow-headspace-lg overflow-hidden max-w-md mx-auto">
+              <div className="bg-white rounded-headspace-xl shadow-headspace-lg overflow-hidden max-w-xs sm:max-w-md mx-auto">
                 {/* Video Header */}
-                <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
+                <div className="bg-gray-50 px-3 sm:px-4 py-2 sm:py-3 border-b border-gray-200">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
@@ -85,8 +85,8 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                 </div>
 
                 {/* Video Controls */}
-                <div className="bg-gray-50 px-4 py-3 border-t border-gray-200">
-                  <div className="flex items-center justify-center space-x-4">
+                <div className="bg-gray-50 px-3 sm:px-4 py-2 sm:py-3 border-t border-gray-200">
+                  <div className="flex items-center justify-center space-x-3 sm:space-x-4">
                     <button 
                       className="p-2 bg-white rounded-full shadow-sm hover:shadow-md transition-shadow"
                       aria-label="Toggle microphone"
@@ -108,7 +108,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                   </div>
                   
                   {/* Session Info */}
-                  <div className="mt-3 text-center">
+                  <div className="mt-2 sm:mt-3 text-center">
                     <p className="text-xs text-gray-600 hidden sm:block">
                       "Let's practice JavaScript variables together!"
                     </p>
@@ -117,30 +117,30 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
               </div>
               
               {/* Floating Elements */}
-              <div className="absolute -top-4 -right-4 bg-accent-yellow rounded-full p-3 shadow-headspace-md">
-                <Video className="h-6 w-6 text-gray-800" />
+              <div className="absolute -top-2 sm:-top-4 -right-2 sm:-right-4 bg-accent-yellow rounded-full p-2 sm:p-3 shadow-headspace-md">
+                <Video className="h-4 w-4 sm:h-6 sm:w-6 text-gray-800" />
               </div>
-              <div className="absolute -bottom-4 -left-4 bg-primary rounded-full p-3 shadow-headspace-md">
-                <Play className="h-6 w-6 text-white" />
+              <div className="absolute -bottom-2 sm:-bottom-4 -left-2 sm:-left-4 bg-primary rounded-full p-2 sm:p-3 shadow-headspace-md">
+                <Play className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
               </div>
             </div>
           </div>
 
           {/* Right Side - Benefits & CTA */}
           <div className="order-1 lg:order-2">
-            <div className="space-y-6 sm:space-y-8">
+            <div className="space-y-4 sm:space-y-6 lg:space-y-8">
               {/* Benefits List */}
               <div>
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6">
+                <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-900 mb-3 sm:mb-4 lg:mb-6">
                   Experience Interactive Learning
                 </h3>
-                <ul className="space-y-3 sm:space-y-4">
+                <ul className="space-y-2 sm:space-y-3 lg:space-y-4">
                   {benefits.map((benefit, index) => (
                     <li key={index} className="flex items-start space-x-3">
-                      <div className="flex-shrink-0 w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center mt-0.5">
+                      <div className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 bg-primary/10 rounded-full flex items-center justify-center mt-0.5">
                         <div className="w-2 h-2 bg-primary rounded-full"></div>
                       </div>
-                      <span className="text-sm sm:text-base text-gray-700 leading-relaxed">
+                      <span className="text-xs sm:text-sm lg:text-base text-gray-700 leading-relaxed">
                         {benefit}
                       </span>
                     </li>
@@ -149,23 +149,23 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
               </div>
 
               {/* Tavus Branding */}
-              <div className="bg-gradient-to-r from-primary/5 to-accent-yellow/5 rounded-headspace-xl p-4 sm:p-6 border border-primary/10">
-                <div className="flex items-center space-x-3 mb-3">
-                  <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <div className="bg-gradient-to-r from-primary/5 to-accent-yellow/5 rounded-headspace-xl p-3 sm:p-4 lg:p-6 border border-primary/10">
+                <div className="flex items-center space-x-2 sm:space-x-3 mb-2 sm:mb-3">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-primary rounded-lg flex items-center justify-center">
                     <Video className="h-4 w-4 text-white" />
                   </div>
-                  <h4 className="text-sm sm:text-base font-semibold text-gray-900">Powered by Tavus AI</h4>
+                  <h4 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-900">Powered by Tavus AI</h4>
                 </div>
-                <p className="text-sm text-gray-700 leading-relaxed">
+                <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
                   Our AI tutors use advanced conversational video technology to provide 
                   natural, engaging practice sessions that adapt to your learning pace.
                 </p>
               </div>
 
               {/* CTA Button */}
-              <div className="pt-2 sm:pt-4">
+              <div className="pt-1 sm:pt-2 lg:pt-4">
                 <AccentButton 
-                  className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold flex items-center justify-center space-x-2 group"
+                  className="w-full sm:w-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg font-semibold flex items-center justify-center space-x-2 group"
                   onClick={onStartPracticing}
                   aria-label={currentUser ? "Continue to courses and start practicing" : "Sign up to start practicing with AI"}
                 >
@@ -174,7 +174,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                 </AccentButton>
                 
                 {!currentUser && (
-                  <p className="text-sm text-gray-600 mt-3 text-center sm:text-left">
+                  <p className="text-xs sm:text-sm text-gray-600 mt-2 sm:mt-3 text-center sm:text-left">
                     Free account • No credit card required
                   </p>
                 )}

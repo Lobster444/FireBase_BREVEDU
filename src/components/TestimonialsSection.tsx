@@ -49,25 +49,25 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
   ];
 
   return (
-    <section className="px-4 sm:px-padding-medium py-8 sm:py-12">
+    <section className="px-4 sm:px-padding-medium py-6 sm:py-12">
       <div className="max-w-screen-2xl mx-auto">
-        <div className="text-center mb-8 sm:mb-12">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">What Our Learners Say</h2>
-          <p className="text-base sm:text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
+        <div className="text-center mb-6 sm:mb-8 lg:mb-12">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2 sm:mb-3 lg:mb-4">What Our Learners Say</h2>
+          <p className="text-sm sm:text-base lg:text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
             Join thousands of learners who are transforming their skills with BrevEdu's 
             bite-sized learning approach and AI-powered practice sessions.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
           {testimonials.map((testimonial) => (
             <div 
               key={testimonial.id} 
-              className="bg-white rounded-[12px] p-4 sm:p-padding-medium shadow-[0_2px_8px_rgba(0,0,0,0.1)] border border-gray-100 hover:border-[#FF7A59]/30 transition-all duration-200"
+              className="bg-white rounded-[12px] p-3 sm:p-4 lg:p-padding-medium shadow-[0_2px_8px_rgba(0,0,0,0.1)] border border-gray-100 hover:border-[#FF7A59]/30 transition-all duration-200"
               role="article"
               aria-labelledby={`testimonial-${testimonial.id}-name`}
             >
-              <div className="flex items-center mb-3 sm:mb-4">
+              <div className="flex items-center mb-2 sm:mb-3 lg:mb-4">
                 <Quote className="h-5 w-5 text-[#FF7A59] mr-2" />
                 <div className="flex">
                   {[...Array(testimonial.rating)].map((_, i) => (
@@ -76,18 +76,18 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
                 </div>
               </div>
               
-              <blockquote className="mb-4 sm:mb-6">
-                <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+              <blockquote className="mb-3 sm:mb-4 lg:mb-6">
+                <p className="text-xs sm:text-sm lg:text-base text-gray-700 leading-relaxed">
                   "{testimonial.quote}"
                 </p>
               </blockquote>
               
               <div className="mt-auto">
                 <cite className="not-italic">
-                  <p id={`testimonial-${testimonial.id}-name`} className="text-sm sm:text-base font-semibold text-gray-900 mb-1">
+                  <p id={`testimonial-${testimonial.id}-name`} className="text-xs sm:text-sm lg:text-base font-semibold text-gray-900 mb-1">
                     {testimonial.name}
                   </p>
-                  <p className="text-sm text-[#FF7A59] font-medium">
+                  <p className="text-xs sm:text-sm text-[#FF7A59] font-medium">
                     {testimonial.role}
                   </p>
                 </cite>
@@ -97,22 +97,22 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
         </div>
         
         {/* Call to Action */}
-        <div className="text-center mt-8 sm:mt-12">
-          <p className="text-base sm:text-lg text-gray-700 mb-4 sm:mb-6">
+        <div className="text-center mt-6 sm:mt-8 lg:mt-12">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-700 mb-3 sm:mb-4 lg:mb-6">
             Ready to join our community of successful learners?
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 lg:gap-4 justify-center">
             {!currentUser ? (
               <>
                 <AccentButton 
-                  className="px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
+                  className="px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg"
                   onClick={onStartLearning}
                   aria-label="Sign up for free account to start learning"
                 >
                   Start Learning Free
                 </AccentButton>
                 <PrimaryButton 
-                  className="px-6 sm:px-8 py-3 sm:py-4 flex items-center justify-center space-x-2 text-base sm:text-lg"
+                  className="px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 flex items-center justify-center space-x-2 text-sm sm:text-base lg:text-lg"
                   onClick={onUpgrade}
                   aria-label="Try BrevEdu+ premium subscription with free trial"
                 >
@@ -122,7 +122,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
               </>
             ) : currentUser.role === 'free' ? (
               <PrimaryButton 
-                className="px-6 sm:px-8 py-3 sm:py-4 flex items-center justify-center space-x-2 text-base sm:text-lg"
+                className="px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 flex items-center justify-center space-x-2 text-sm sm:text-base lg:text-lg"
                 onClick={onUpgrade}
                 aria-label="Upgrade to BrevEdu+ premium subscription"
               >
@@ -131,7 +131,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
               </PrimaryButton>
             ) : (
               <AccentButton 
-                className="px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
+                className="px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg"
                 onClick={onExploreCourses}
                 aria-label="Explore more premium courses"
               >
