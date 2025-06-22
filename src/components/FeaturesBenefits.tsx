@@ -62,77 +62,8 @@ const FeaturesBenefits: React.FC = () => {
             })}
           </div>
 
-          {/* Floating Hover Image - Desktop Only */}
-          <div className="hidden lg:block absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-8 z-20 pointer-events-none">
-            <div className="hover-image opacity-0 scale-95 transition-all duration-500 ease-out">
-              <div className="relative">
-                {/* Image Container with Glow Effect */}
-                <div className="relative bg-gradient-to-br from-primary/10 to-accent-yellow/10 rounded-headspace-2xl p-4 shadow-headspace-xl">
-                  <img 
-                    src="/41b02b86-3dc4-46c7-b506-8c61fd37e4b1.png"
-                    alt="Interactive learning interface showing mobile app with AI tutor and course content"
-                    className="w-80 h-auto rounded-headspace-xl shadow-headspace-lg"
-                  />
-                  
-                  {/* Floating Badge */}
-                  <div className="absolute -top-3 -right-3 bg-accent-yellow rounded-full px-4 py-2 shadow-headspace-md">
-                    <span className="text-sm font-bold text-gray-800">Interactive Learning</span>
-                  </div>
-                  
-                  {/* Pulse Animation */}
-                  <div className="absolute inset-0 rounded-headspace-2xl bg-primary/5 animate-pulse"></div>
-                </div>
-
-                {/* Decorative Elements */}
-                <div className="absolute -top-4 -left-4 w-8 h-8 bg-primary rounded-full opacity-20 animate-bounce"></div>
-                <div className="absolute -bottom-4 -right-4 w-6 h-6 bg-accent-yellow rounded-full opacity-30 animate-bounce" style={{ animationDelay: '0.5s' }}></div>
-              </div>
-            </div>
-          </div>
-
-          {/* Mobile Hover Image - Shows Below Grid */}
-          <div className="lg:hidden mt-6 sm:mt-8">
-            <div className="mobile-hover-image opacity-0 scale-95 transition-all duration-500 ease-out">
-              <div className="text-center">
-                <div className="inline-block relative bg-gradient-to-br from-primary/10 to-accent-yellow/10 rounded-headspace-2xl p-4 shadow-headspace-xl">
-                  
-                  {/* Mobile Badge */}
-                  <div className="absolute -top-2 sm:-top-3 left-1/2 transform -translate-x-1/2 bg-accent-yellow rounded-full px-3 sm:px-4 py-1 sm:py-2 shadow-headspace-md">
-                    <span className="text-sm font-bold text-gray-800">See It In Action</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
-
-      {/* Custom Styles for Hover Interaction */}
-      <style jsx>{`
-        .hover-trigger:hover ~ .hover-image,
-        .hover-trigger:hover ~ * .hover-image {
-          opacity: 1 !important;
-          transform: translateY(-50%) translateX(2rem) scale(1) !important;
-        }
-        
-        .hover-trigger:hover ~ .mobile-hover-image,
-        .hover-trigger:hover ~ * .mobile-hover-image {
-          opacity: 1 !important;
-          transform: scale(1) !important;
-        }
-        
-        /* Enhanced hover states for better interaction */
-        .hover-trigger:hover {
-          transform: translateY(-4px);
-        }
-        
-        @media (max-width: 1023px) {
-          .hover-trigger:hover ~ .mobile-hover-image {
-            opacity: 1 !important;
-            transform: scale(1) !important;
-          }
-        }
-      `}</style>
     </section>
   );
 };
