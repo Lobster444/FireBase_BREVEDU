@@ -60,7 +60,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
       <div className="max-w-screen-2xl mx-auto">
         <div className="flex flex-col items-center text-center mb-6 sm:mb-8 lg:mb-12">
           <div className="mb-4 sm:mb-6 lg:mb-8">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2 sm:mb-3 lg:mb-4 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
               Featured Courses
             </h2>
             {!currentUser && (
