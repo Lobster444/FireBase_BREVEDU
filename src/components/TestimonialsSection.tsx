@@ -141,3 +141,4 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
           </div>
         </div>
       </div>
+    </section>
