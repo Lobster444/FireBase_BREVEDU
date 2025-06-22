@@ -69,7 +69,7 @@ export const AccentButton: React.FC<BaseButtonProps> = ({
       aria-label={ariaLabel}
       aria-disabled={disabled}
       className={`
-        bg-[#F8DE7E] text-white px-6 py-4 sm:py-3 rounded-headspace-lg font-medium text-base
+        bg-[#F8DE7E] text-gray-900 px-6 py-4 sm:py-3 rounded-headspace-lg font-semibold text-base
         transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out]
         hover:bg-[#F5D65A] hover:shadow-[0_4px_12px_rgba(248,222,126,0.4)] hover:animate-[breathe_2s_infinite]
         active:bg-[#F0D040] active:scale-95

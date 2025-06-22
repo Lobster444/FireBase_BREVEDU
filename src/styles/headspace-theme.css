@@ -585,9 +585,6 @@ img, video {
 /* Headspace Hero Section Styles */
 .hero-headspace {
   background: linear-gradient(135deg, var(--color-headspace-warm-bg) 0%, var(--color-headspace-cream) 100%);
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
   position: relative;
   overflow: hidden;
   width: 100vw;
@@ -619,23 +616,24 @@ img, video {
 }
 
 .hero-subtitle {
-  color: var(--color-headspace-warm-secondary);
+  color: var(--color-neutral-700);
 }
 
 /* Enhanced CTA button for hero section */
 .hero-cta-primary {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+  color: var(--color-neutral-900);
   box-shadow: 
-    0 4px 12px rgba(0, 47, 167, 0.3),
+    0 4px 12px rgba(248, 222, 126, 0.4),
     0 2px 4px rgba(0, 0, 0, 0.1);
   transform: translateY(0);
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .hero-cta-primary:hover {
-  background: linear-gradient(135deg, var(--color-primary-hover) 0%, var(--color-primary) 100%);
+  background: linear-gradient(135deg, var(--color-accent-yellow-hover) 0%, var(--color-accent-yellow) 100%);
   box-shadow: 
-    0 6px 20px rgba(0, 47, 167, 0.4),
+    0 6px 20px rgba(248, 222, 126, 0.5),
     0 4px 8px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
 }

@@ -56,20 +56,20 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
   };
 
   return (
-    <section className="px-padding-medium pb-12">
+    <section className="px-padding-medium py-16 bg-white">
       <div className="max-w-screen-2xl mx-auto">
-        <div className="flex flex-col items-center text-center mb-8">
-          <div className="mb-6">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+        <div className="flex flex-col items-center text-center mb-12">
+          <div className="mb-8">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 tracking-tight">
               Featured Courses
             </h2>
             {!currentUser && (
-              <p className="text-base text-gray-600">
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
                 Sign up for free to access more courses and AI practice sessions
               </p>
             )}
             {currentUser?.role === 'free' && (
-              <p className="text-base text-gray-600">
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
                 Upgrade to BrevEdu+ to unlock premium courses and more AI practice sessions
               </p>
             )}
@@ -94,7 +94,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
         {loading && (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A59]"></div>
-            <p className="text-lg text-gray-700 mt-4">Loading courses...</p>
+            <p className="text-lg text-gray-600 mt-4">Loading courses...</p>
           </div>
         )}
 
@@ -115,7 +115,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
               <div className="text-center py-12">
                 {!currentUser ? (
                   <div>
-                    <p className="text-lg text-gray-700 mb-4">
+                    <p className="text-lg text-gray-600 mb-6">
                       Sign up for free to access our course library!
                     </p>
                     <AccentButton 
@@ -127,7 +127,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
                   </div>
                 ) : (
                   <div>
-                    <p className="text-lg text-gray-700 mb-4">
+                    <p className="text-lg text-gray-600 mb-6">
                       No courses found for this category.
                     </p>
                     {showCategoryFilter && (
@@ -141,7 +141,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
                 )}
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
                 {featuredCourses.map((course) => (
                   <CourseCard 
                     key={course.id} 
@@ -156,7 +156,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
             {featuredCourses.length > 0 && (
               <div className="text-center">
                 <SecondaryButton 
-                  className="inline-flex items-center space-x-2 bg-gray-100 text-gray-800 hover:bg-gray-200"
+                  className="inline-flex items-center space-x-2 bg-gray-100 text-gray-800 hover:bg-gray-200 px-8 py-4 text-lg font-medium shadow-sm hover:shadow-md transition-all duration-200"
                   onClick={handleMoreCoursesClick}
                   aria-label="View all courses"
                 >

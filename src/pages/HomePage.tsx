@@ -139,48 +139,41 @@ const HomePage: React.FC = () => {
         onExploreCourses={handleExploreCourses}
       />
 
-      {/* Main Content Container */}
-      <main className="relative">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Features & Benefits Overview */}
-          <FeaturesBenefits />
+      {/* Features & Benefits Overview */}
+      <FeaturesBenefits />
 
-          {/* AI Video Tutor Demo */}
-          <AIVideoTutor
-            currentUser={currentUser}
-            onStartPracticing={handleStartLearningFree}
-          />
+      {/* AI Video Tutor Demo */}
+      <AIVideoTutor
+        currentUser={currentUser}
+        onStartPracticing={handleStartLearningFree}
+      />
 
-          {/* Featured Courses Section */}
-          <section className="pb-12">
-          <FeaturedCoursesSection
-            courses={courses}
-            loading={loading}
-            error={error}
-            currentUser={currentUser}
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-            onCourseClick={handleCourseClick}
-            onExploreCourses={handleExploreCourses}
-            onAuthPrompt={handleAuthPrompt}
-            showCategoryFilter={false}
-          />
-          </section>
+      {/* Featured Courses Section */}
+      <FeaturedCoursesSection
+        courses={courses}
+        loading={loading}
+        error={error}
+        currentUser={currentUser}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        onCourseClick={handleCourseClick}
+        onExploreCourses={handleExploreCourses}
+        onAuthPrompt={handleAuthPrompt}
+        showCategoryFilter={false}
+      />
 
-          {/* Upgrade Promotional Section - Only for non-premium users */}
-          {currentUser?.role !== 'premium' && (
-            <UpgradePromoSection onUpgradeClick={handleUpgradeClick} />
-          )}
+      {/* Upgrade Promotional Section - Only for non-premium users */}
+      {currentUser?.role !== 'premium' && (
+        <UpgradePromoSection onUpgradeClick={handleUpgradeClick} />
+      )}
 
-          {/* Customer Testimonials Section */}
-          <TestimonialsSection
-            currentUser={currentUser}
-            onStartLearning={handleStartLearningFree}
-            onUpgrade={handleUpgradeClick}
-            onExploreCourses={handleExploreCourses}
-          />
-        </div>
-      </main>
+      {/* Customer Testimonials Section */}
+      <TestimonialsSection
+        currentUser={currentUser}
+        onStartLearning={handleStartLearningFree}
+        onUpgrade={handleUpgradeClick}
+        onExploreCourses={handleExploreCourses}
+      />
 
       {/* Course Detail Modal */}
       <CourseDetailModal
