@@ -27,7 +27,7 @@ const CourseDetailsSection: React.FC<CourseDetailsSectionProps> = ({
         <h4 className="text-base font-semibold text-gray-900 mb-3">Quick Facts</h4>
         <div className="space-y-2 text-sm">
           <div className="flex items-center justify-between">
-            <span className="text-gray-600">Bite-sized learning</span>
+            <span className="text-gray-600">Clean Mini-Learnings</span>
             <span className="text-emerald-600">✓</span>
           </div>
           <div className="flex items-center justify-between">
