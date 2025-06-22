@@ -585,8 +585,14 @@ img, video {
 /* Headspace Hero Section Styles */
 .hero-headspace {
   background: linear-gradient(135deg, var(--color-headspace-warm-bg) 0%, var(--color-headspace-cream) 100%);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   position: relative;
   overflow: hidden;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
 }
 
 .hero-headspace::before {

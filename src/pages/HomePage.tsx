@@ -124,7 +124,10 @@ const HomePage: React.FC = () => {
   const userMessage = getUserMessage();
 
   return (
-    <Layout currentPage="home">
+    <div className="min-h-screen bg-gray-50">
+      {/* Header - Full Width */}
+      <Header currentPage="home" />
+      
       {/* Hero Section */}
       <HeroSection
         currentUser={currentUser}
@@ -134,18 +137,20 @@ const HomePage: React.FC = () => {
         onExploreCourses={handleExploreCourses}
       />
 
-      {/* Features & Benefits Overview */}
-      <FeaturesBenefits />
+      {/* Main Content Container */}
+      <main className="relative">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Features & Benefits Overview */}
+          <FeaturesBenefits />
 
-      {/* AI Video Tutor Demo */}
-      <AIVideoTutor
-        currentUser={currentUser}
-        onStartPracticing={handleStartLearningFree}
-      />
+          {/* AI Video Tutor Demo */}
+          <AIVideoTutor
+            currentUser={currentUser}
+            onStartPracticing={handleStartLearningFree}
+          />
 
-      {/* Featured Courses Section */}
-      <section className="px-padding-medium pb-12">
-        <div className="max-w-screen-2xl mx-auto">
+          {/* Featured Courses Section */}
+          <section className="pb-12">
           <FeaturedCoursesSection
             courses={courses}
             loading={loading}
@@ -158,21 +163,22 @@ const HomePage: React.FC = () => {
             onAuthPrompt={handleAuthPrompt}
             showCategoryFilter={false}
           />
+          </section>
+
+          {/* Upgrade Promotional Section - Only for non-premium users */}
+          {currentUser?.role !== 'premium' && (
+            <UpgradePromoSection onUpgradeClick={handleUpgradeClick} />
+          )}
+
+          {/* Customer Testimonials Section */}
+          <TestimonialsSection
+            currentUser={currentUser}
+            onStartLearning={handleStartLearningFree}
+            onUpgrade={handleUpgradeClick}
+            onExploreCourses={handleExploreCourses}
+          />
         </div>
-      </section>
-
-      {/* Upgrade Promotional Section - Only for non-premium users */}
-      {currentUser?.role !== 'premium' && (
-        <UpgradePromoSection onUpgradeClick={handleUpgradeClick} />
-      )}
-
-      {/* Customer Testimonials Section */}
-      <TestimonialsSection
-        currentUser={currentUser}
-        onStartLearning={handleStartLearningFree}
-        onUpgrade={handleUpgradeClick}
-        onExploreCourses={handleExploreCourses}
-      />
+      </main>
 
       {/* Course Detail Modal */}
       <CourseDetailModal
@@ -187,7 +193,23 @@ const HomePage: React.FC = () => {
         onClose={handleCloseAuthModal}
         initialMode={authMode}
       />
-    </Layout>
+      
+      {/* Toast Container */}
+      <ToastContainer
+        position="top-center"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        toastClassName="bg-primary border border-neutral-gray/30 text-text-light font-inter"
+        progressClassName="bg-accent-yellow"
+      />
+    </div>
   );
 };
 

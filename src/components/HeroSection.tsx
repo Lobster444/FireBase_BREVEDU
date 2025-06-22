@@ -25,11 +25,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   onExploreCourses
 }) => {
   return (
-    <section className="hero-headspace px-6 py-12 sm:px-8 sm:py-16 lg:px-12 lg:py-20 text-center">
-      <div className="hero-content max-w-screen-2xl mx-auto">
+    <section className="hero-headspace w-full py-12 sm:py-16 lg:py-20 text-center relative overflow-hidden">
+      <div className="hero-content max-w-screen-2xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20 items-center">
           {/* Text Content */}
-          <div className="text-center lg:text-left px-4 sm:px-6 lg:px-0">
+          <div className="text-center lg:text-left">
             <h1 className="hero-title text-4xl sm:text-5xl lg:text-6xl font-bold mb-8 lg:mb-10 leading-tight">
               {userMessage.title.includes('Just 5 Minutes') ? (
                 <>
@@ -40,12 +40,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 userMessage.title
               )}
             </h1>
-            <p className="hero-subtitle text-lg sm:text-xl mb-12 lg:mb-14 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium px-2 sm:px-0">
+            <p className="hero-subtitle text-lg sm:text-xl mb-12 lg:mb-14 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
               {userMessage.subtitle}
             </p>
             
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 justify-center lg:justify-start px-4 sm:px-0">
+            <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 justify-center lg:justify-start">
               {!currentUser ? (
                 <>
                   <AccentButton 
@@ -80,7 +80,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
           {/* Hero Image */}
           <div className="flex justify-center lg:justify-end">
-            <div className="relative max-w-lg w-full px-6 sm:px-8 lg:px-0 mt-8 lg:mt-0">
+            <div className="relative max-w-lg w-full mt-8 lg:mt-0">
               <img 
                 src="/41b02b86-3dc4-46c7-b506-8c61fd37e4b1 copy.png"
                 alt="Interactive learning interface showing mobile app with AI tutor and course content"
