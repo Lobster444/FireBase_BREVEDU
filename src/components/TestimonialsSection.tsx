@@ -142,3 +142,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
         </div>
       </div>
     </section>
+  );
+};
+
+export default TestimonialsSection;
