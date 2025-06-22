@@ -46,15 +46,15 @@ const FeaturesBenefits: React.FC = () => {
                   data-feature={index}
                 >
                   {/* Icon */}
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 bg-primary/10 rounded-headspace-xl flex items-center justify-center mx-auto mb-3 sm:mb-4 lg:mb-6 group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-300">
-                    <Icon className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-primary group-hover:scale-110 transition-transform duration-300" />
+                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-all duration-300 shadow-lg">
+                    <Icon className="h-8 w-8 text-white group-hover:scale-110 transition-transform duration-300" />
                   </div>
                   
                   {/* Content */}
-                  <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 mb-1 sm:mb-2 lg:mb-3 group-hover:text-primary transition-colors duration-300">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">
                     {feature.title}
                   </h3>
-                  <p className="text-xs sm:text-sm lg:text-base text-gray-700 leading-relaxed group-hover:text-gray-900 transition-colors duration-300">
+                  <p className="text-base text-gray-600 leading-relaxed group-hover:text-gray-900 transition-colors duration-300">
                     {feature.benefit}
                   </p>
                 </div>
