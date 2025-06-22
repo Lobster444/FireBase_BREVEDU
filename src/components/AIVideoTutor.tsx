@@ -63,13 +63,6 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                       style={{ objectPosition: 'center' }}
                     />
                   </div>
-                  
-                  {/* Video Overlay Elements */}
-                  <div className="absolute top-4 left-4">
-                    <div className="bg-black/70 text-white px-2 py-1 rounded text-xs font-medium">
-                      Live AI Tutor
-                    </div>
-                  </div>
 
                   {/* User Video (Small) */}
                   <div className="absolute bottom-4 right-4 w-16 h-12 sm:w-20 sm:h-16 bg-gray-200 rounded-lg border-2 border-white shadow-lg overflow-hidden">
