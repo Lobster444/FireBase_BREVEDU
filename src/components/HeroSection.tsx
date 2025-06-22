@@ -30,7 +30,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 xl:gap-20 items-center">
           {/* Text Content */}
           <div className="text-center lg:text-left space-y-6 sm:space-y-8">
-            <h1 className="hero-title text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
+            <h1 className="hero-title text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight">
               {userMessage.title.includes('Just 5 Minutes') ? (
                 <>
                   Master New Skills in
@@ -40,16 +40,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 userMessage.title
               )}
             </h1>
-            <p className="hero-subtitle text-base sm:text-lg lg:text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal text-gray-700">
+            <p className="hero-subtitle text-lg sm:text-xl lg:text-2xl max-w-3xl mx-auto lg:mx-0 leading-relaxed font-normal text-gray-700">
               {userMessage.subtitle}
             </p>
             
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start pt-2 sm:pt-4">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center lg:justify-start pt-4 sm:pt-6">
               {!currentUser ? (
                 <>
                   <AccentButton 
-                    className="hero-cta-primary px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold min-w-[180px] sm:min-w-[200px] shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="hero-cta-primary px-8 sm:px-10 py-4 sm:py-5 text-lg sm:text-xl font-semibold min-w-[200px] sm:min-w-[240px] shadow-lg hover:shadow-xl transition-all duration-300"
                     onClick={onStartLearning}
                     aria-label="Sign up for free account to start learning"
                   >
@@ -59,7 +59,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               ) : currentUser.role === 'free' ? (
                 <>
                   <AccentButton 
-                    className="hero-cta-primary px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold min-w-[180px] sm:min-w-[200px] shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="hero-cta-primary px-8 sm:px-10 py-4 sm:py-5 text-lg sm:text-xl font-semibold min-w-[200px] sm:min-w-[240px] shadow-lg hover:shadow-xl transition-all duration-300"
                     onClick={onStartLearning}
                     aria-label="Continue to courses page"
                   >
@@ -68,7 +68,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 </>
               ) : (
                 <AccentButton 
-                  className="hero-cta-primary px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold min-w-[180px] sm:min-w-[200px] shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="hero-cta-primary px-8 sm:px-10 py-4 sm:py-5 text-lg sm:text-xl font-semibold min-w-[200px] sm:min-w-[240px] shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={onExploreCourses}
                   aria-label="Explore premium courses"
                 >
