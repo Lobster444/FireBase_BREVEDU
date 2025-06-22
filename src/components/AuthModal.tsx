@@ -256,7 +256,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
             }
           </p>
         </div>
-        </form>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-0">
