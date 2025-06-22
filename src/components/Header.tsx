@@ -224,22 +224,98 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             </h1>
           </Link>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setShowMobileMenu(!showMobileMenu)}
-            className="icon-button icon-button-gray p-2 rounded-[8px] transition-colors duration-200 ease-out"
-            aria-expanded={showMobileMenu}
-            aria-controls="mobile-menu"
-            aria-label="Toggle mobile menu"
-            style={{ minHeight: '44px', minWidth: '44px' }}
-          >
-            {showMobileMenu ? (
-              <X className="h-6 w-6" />
+          {/* Mobile Actions */}
+          <div className="flex items-center space-x-2">
+            {currentUser ? (
+              /* Authenticated User - Show User Button + Menu */
+              <>
+                <button
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex items-center space-x-2 bg-[#002fa7] text-white px-3 py-2 rounded-[8px] font-medium hover:bg-[#0040d1] transition-all duration-200 ease-out shadow-[0_2px_8px_rgba(0,47,167,0.3)] focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2"
+                  aria-expanded={showUserMenu}
+                  aria-haspopup="true"
+                  aria-label={`User menu for ${currentUser.name}`}
+                  style={{ minHeight: '44px' }}
+                >
+                  <User className="h-4 w-4" />
+                  <span className="max-w-[80px] truncate text-sm">{currentUser.name}</span>
+                </button>
+                <button
+                  onClick={() => setShowMobileMenu(!showMobileMenu)}
+                  className="icon-button icon-button-gray p-2 rounded-[8px] transition-colors duration-200 ease-out"
+                  aria-expanded={showMobileMenu}
+                  aria-controls="mobile-menu"
+                  aria-label="Toggle navigation menu"
+                  style={{ minHeight: '44px', minWidth: '44px' }}
+                >
+                  {showMobileMenu ? (
+                    <X className="h-6 w-6" />
+                  ) : (
+                    <Menu className="h-6 w-6" />
+                  )}
+                </button>
+              </>
             ) : (
-              <Menu className="h-6 w-6" />
+              /* Anonymous User - Show Auth Buttons + Menu */
+              <>
+                <button 
+                  onClick={() => openAuthModal('login')}
+                  className="text-[#002fa7] hover:text-[#0040d1] transition-colors duration-200 ease-out font-medium px-3 py-2 rounded-[8px] focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2 text-sm border border-[#002fa7]/20 hover:border-[#002fa7]/40 hover:bg-[#002fa7]/5"
+                  aria-label="Sign in to your account"
+                  style={{ minHeight: '44px', display: 'flex', alignItems: 'center' }}
+                >
+                  Sign In
+                </button>
+                <button 
+                  onClick={() => openAuthModal('register')}
+                  className="bg-[#002fa7] text-white px-3 py-2 rounded-[8px] font-medium hover:bg-[#0040d1] transition-all duration-200 ease-out shadow-[0_2px_8px_rgba(0,47,167,0.3)] hover:shadow-[0_4px_12px_rgba(0,47,167,0.4)] focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2 text-sm"
+                  aria-label="Create a new account"
+                  style={{ minHeight: '44px' }}
+                >
+                  Sign Up
+                </button>
+                <button
+                  onClick={() => setShowMobileMenu(!showMobileMenu)}
+                  className="icon-button icon-button-gray p-2 rounded-[8px] transition-colors duration-200 ease-out"
+                  aria-expanded={showMobileMenu}
+                  aria-controls="mobile-menu"
+                  aria-label="Toggle navigation menu"
+                  style={{ minHeight: '44px', minWidth: '44px' }}
+                >
+                  {showMobileMenu ? (
+                    <X className="h-6 w-6" />
+                  ) : (
+                    <Menu className="h-6 w-6" />
+                  )}
+                </button>
+              </>
             )}
-          </button>
+          </div>
         </div>
+
+        {/* Mobile User Menu Dropdown - Only for authenticated users */}
+        {currentUser && showUserMenu && (
+          <div className="absolute right-4 top-16 bg-white border border-gray-200 rounded-[12px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] py-3 min-w-[200px] z-50 animate-slide-up">
+            <div className="px-4 py-3 border-b border-gray-100">
+              <p className="text-sm font-semibold text-gray-900">{currentUser.name}</p>
+              <p className="text-xs text-gray-600">{currentUser.email}</p>
+              <p className={`text-xs capitalize mt-1 font-medium ${
+                currentUser.role === 'premium' ? 'text-subscription-premium' : 'text-subscription-free'
+              }`}>{currentUser.role} Plan</p>
+            </div>
+            <button
+              onClick={() => {
+                handleLogout();
+                setShowUserMenu(false);
+              }}
+              className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#002fa7] transition-colors duration-200 ease-out flex items-center space-x-3 focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2 rounded-[8px] mx-2 mt-1"
+              style={{ minHeight: '44px' }}
+            >
+              <LogOut className="h-4 w-4" />
+              <span>Sign Out</span>
+            </button>
+          </div>
+        )}
 
         {/* Mobile Menu Overlay */}
         {showMobileMenu && (
@@ -297,37 +373,19 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
               {/* Mobile User Actions */}
               <div className="border-t border-gray-100 pt-6">
                 {currentUser ? (
-                  <div className="space-y-4">
-                    <div className="bg-gray-50 rounded-[12px] p-4">
-                      <p className="text-base font-semibold text-gray-900">{currentUser.name}</p>
-                      <p className="text-sm text-gray-600">{currentUser.email}</p>
-                      <p className="text-sm text-[#002fa7] capitalize mt-1 font-medium">{currentUser.role} Plan</p>
-                    </div>
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left text-gray-700 font-medium py-3 px-4 rounded-[10px] hover:bg-gray-50 hover:text-[#002fa7] transition-colors duration-200 ease-out flex items-center space-x-3 focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2"
-                      style={{ minHeight: '44px' }}
-                    >
-                      <LogOut className="h-5 w-5" />
-                      <span>Sign Out</span>
-                    </button>
+                  <div className="text-center">
+                    <p className="text-gray-600 text-sm mb-4">
+                      Signed in as <span className="font-medium text-gray-900">{currentUser.name}</span>
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      Use the user menu in the header to sign out
+                    </p>
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    <button 
-                      onClick={() => openAuthModal('login')}
-                      className="w-full text-gray-700 hover:text-[#002fa7] transition-colors duration-200 ease-out font-medium underline underline-offset-4 py-3 px-4 rounded-[8px] focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2"
-                      style={{ minHeight: '44px' }}
-                    >
-                      Sign In
-                    </button>
-                    <button 
-                      onClick={() => openAuthModal('register')}
-                      className="w-full bg-[#002fa7] text-white py-3 px-4 rounded-[10px] font-medium hover:bg-[#0040d1] transition-all duration-200 ease-out shadow-[0_2px_8px_rgba(0,47,167,0.3)] hover:shadow-[0_4px_12px_rgba(0,47,167,0.4)] focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2"
-                      style={{ minHeight: '44px' }}
-                    >
-                      Sign Up
-                    </button>
+                    <p className="text-gray-600 text-sm text-center mb-4">
+                      Use the buttons in the header to sign in or create an account
+                    </p>
                   </div>
                 )}
               </div>
