@@ -1,5 +1,5 @@
 import React from 'react';
-import { Video, Play, Mic, Volume2, ArrowRight } from 'lucide-react';
+import { Video, Play, Mic, Volume2, ArrowRight, MessageCircle } from 'lucide-react';
 import { AccentButton } from './UIButtons';
 import { User } from '../types';
 
