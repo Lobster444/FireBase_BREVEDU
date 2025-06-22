@@ -144,11 +144,6 @@ const HomePage: React.FC = () => {
       <FeaturesBenefits />
 
       {/* AI Video Tutor Demo */}
-      <AIVideoTutor
-        currentUser={currentUser}
-        onStartPracticing={handleStartLearningFree}
-      />
-
       {/* Featured Courses Section */}
       <FeaturedCoursesSection
         courses={courses}
@@ -169,13 +164,6 @@ const HomePage: React.FC = () => {
       )}
 
       {/* Customer Testimonials Section */}
-      <TestimonialsSection
-        currentUser={currentUser}
-        onStartLearning={handleStartLearningFree}
-        onUpgrade={handleUpgradeClick}
-        onExploreCourses={handleExploreCourses}
-      />
-
       {/* Course Detail Modal */}
       <CourseDetailModal
         isOpen={showCourseModal}
