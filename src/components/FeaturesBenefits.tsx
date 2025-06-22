@@ -28,7 +28,7 @@ const FeaturesBenefits: React.FC = () => {
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
             What You Gain with BrevEdu
           </h2>
-          <p className="text-sm sm:text-base lg:text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Transform how you learn with our bite-sized approach designed for busy professionals
           </p>
         </div>
