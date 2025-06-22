@@ -70,14 +70,6 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                       Live AI Tutor
                     </div>
                   </div>
-                  
-                  {/* Speaking Indicator */}
-                  <div className="absolute bottom-4 left-4">
-                    <div className="flex items-center space-x-2 bg-white/90 backdrop-blur-sm rounded-full px-3 py-2">
-                      <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                      <span className="text-xs font-medium text-gray-700">Speaking...</span>
-                    </div>
-                  </div>
 
                   {/* User Video (Small) */}
                   <div className="absolute bottom-4 right-4 w-16 h-12 sm:w-20 sm:h-16 bg-gray-200 rounded-lg border-2 border-white shadow-lg overflow-hidden">
