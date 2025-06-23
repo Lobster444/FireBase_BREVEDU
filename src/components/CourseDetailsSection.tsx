@@ -21,8 +21,8 @@ const CourseDetailsSection: React.FC<CourseDetailsSectionProps> = ({
         </p>
       </div>
 
-      {/* Course Stats */}
-      <div className="bg-gray-50 border border-gray-200 rounded-headspace-xl p-4">
+      {/* Quick Facts - Desktop: normal order, Mobile: moved to bottom */}
+      <div className="bg-gray-50 border border-gray-200 rounded-headspace-xl p-4 order-last lg:order-none">
         <h4 className="text-base font-semibold text-gray-900 mb-3">Quick Facts</h4>
         <div className="space-y-2 text-sm divide-y divide-gray-100">
           <div className="flex items-center justify-between pb-2">
