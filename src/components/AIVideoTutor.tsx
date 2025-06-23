@@ -175,7 +175,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
               {/* CTA Button */}
               <div>
                 <AccentButton 
-                  className="w-full px-8 py-5 text-xl sm:text-2xl font-bold flex items-center justify-center space-x-3 group-hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600"
+                  className="hero-cta-primary w-full px-8 py-5 text-xl sm:text-2xl font-bold flex items-center justify-center space-x-3 group-hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl"
                   onClick={onStartPracticing}
                   aria-label={currentUser ? "Continue to courses and start practicing" : "Sign up to start practicing with AI"}
                 >
