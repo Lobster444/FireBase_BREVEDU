@@ -622,7 +622,7 @@ img, video {
 /* Enhanced CTA button for hero section */
 .hero-cta-primary {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
-  color: var(--color-neutral-900);
+  color: var(--color-white);
   box-shadow: 
     0 4px 12px rgba(248, 222, 126, 0.4),
     0 2px 4px rgba(0, 0, 0, 0.1);
