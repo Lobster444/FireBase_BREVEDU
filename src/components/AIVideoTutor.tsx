@@ -180,7 +180,6 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                   aria-label={currentUser ? "Continue to courses and start practicing" : "Sign up to start practicing with AI"}
                 >
                   <span>Start Practicing Now</span>
-                  <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
                 </AccentButton>
                 
                 {!currentUser && (
