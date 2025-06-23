@@ -127,7 +127,7 @@ const HomePage: React.FC = () => {
   const userMessage = getUserMessage();
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-16">
+    <div className="min-h-screen bg-gray-50">
       {/* Header - Full Width */}
       <Header currentPage="home" />
       
