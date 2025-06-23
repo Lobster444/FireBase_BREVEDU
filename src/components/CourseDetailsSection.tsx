@@ -12,7 +12,7 @@ const CourseDetailsSection: React.FC<CourseDetailsSectionProps> = ({
   tavusCompleted
 }) => {
   return (
-    <>
+    <div className="flex flex-col space-y-6">
       {/* Course Description */}
       <div>
         <h2 className="text-xl font-bold text-gray-900 mb-3">About This Course</h2>
@@ -51,7 +51,7 @@ const CourseDetailsSection: React.FC<CourseDetailsSectionProps> = ({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
