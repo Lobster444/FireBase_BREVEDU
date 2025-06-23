@@ -111,7 +111,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             >
               <BookOpen className="h-8 w-8 text-[#002fa7]" />
               <h1 className="text-2xl font-bold text-gray-900 group-hover:text-[#002fa7] transition-colors duration-300 ease-out">
-                BrevEdu
+                BrevEdu;
               </h1>
             </Link>
 
