@@ -61,7 +61,7 @@ const BrevEduPlusPage: React.FC = () => {
           {currentUser?.role !== 'premium' && (
             <div className="bg-gray-50 rounded-[16px] p-8 mb-8 max-w-md mx-auto border border-gray-200">
               <div className="text-center mb-6">
-                <div className="text-4xl font-bold text-primary mb-2">$3.99</div>
+                <div className="text-4xl font-bold text-primary mb-2">$5.99</div>
                 <div className="text-lg text-gray-700">/month</div>
                 <div className="text-base text-gray-600 mt-2">Cancel anytime</div>
               </div>
@@ -71,7 +71,7 @@ const BrevEduPlusPage: React.FC = () => {
               </PrimaryButton>
               
               <p className="text-sm text-gray-600 text-center">
-                7-day free trial, then $3.99/month. Cancel anytime.
+                7-day free trial, then $5.99/month. Cancel anytime.
               </p>
             </div>
           )}
