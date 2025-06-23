@@ -76,7 +76,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                   {/* AI Avatar */}
                   <div className="absolute inset-0 flex items-center justify-center">
                     <img 
-                      src="/image.png" 
+                      src="/ChatGPT Image Jun 23, 2025, 05_28_21 PM.png" 
                       alt="AI tutor avatar speaking in video interface"
                       className="w-full h-full object-cover rounded-lg"
                       style={{ objectPosition: 'center' }}
