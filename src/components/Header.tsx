@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { BookOpen, User, LogOut, Menu, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import AuthModal from './AuthModal';
+import { trackInteraction } from '../lib/analytics';
 
 interface HeaderProps {
   currentPage?: string;
@@ -62,6 +63,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
   };
 
   const openAuthModal = (mode: 'login' | 'register') => {
+    trackInteraction('auth_modal', 'open', `header_${mode}`);
     setAuthMode(mode);
     setShowAuthModal(true);
     setShowMobileMenu(false);
@@ -69,6 +71,8 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
 
   // Handle navigation with access control
   const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
+    trackInteraction('navigation', 'click', path);
+    
     // If trying to access courses page and user is anonymous, prevent navigation and show auth modal
     if (path === '/courses' && !currentUser) {
       e.preventDefault();

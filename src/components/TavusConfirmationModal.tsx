@@ -4,6 +4,7 @@ import { Course } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { useNetworkStatusWithUtils } from '../hooks/useNetworkStatus';
 import { DAILY_LIMITS } from '../services/tavusUsage';
+import { trackAIPracticeEvent } from '../lib/analytics';
 
 interface TavusConfirmationModalProps {
   isOpen: boolean;
@@ -53,6 +54,13 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
   // UPDATED: Handle confirm start with loading state
   const handleConfirmStart = async () => {
     if (!isOnline || isStarting) return;
+    
+    // Track AI practice start
+    if (course?.id) {
+      trackAIPracticeEvent('ai_practice_start', course.id, {
+        userRole: currentUser?.role
+      });
+    }
     
     setIsStarting(true);
     try {

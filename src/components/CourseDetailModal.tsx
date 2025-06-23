@@ -21,6 +21,7 @@ import {
 } from '../lib/tavusService';
 import { canStartConversation } from '../services/tavusUsage';
 import { notifyError, notifySuccess, notifyLoading, updateToast, notifyWarning } from '../lib/toast';
+import { trackCourseEvent, trackInteraction } from '../lib/analytics';
 
 interface CourseDetailModalProps {
   isOpen: boolean;
@@ -51,6 +52,9 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
   // Reset states when modal opens/closes or course changes
   useEffect(() => {
     if (isOpen && course) {
+      // Track course view
+      trackCourseEvent('course_view', course.id!, course.title);
+      
       setVideoError(false);
       setIsVideoLoading(true);
       setShowTavusModal(false);
@@ -182,6 +186,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
     const status = getAIPracticeStatus();
     if (status.available && course?.id) {
       console.log('🎯 Showing confirmation modal for course:', course.title);
+      trackInteraction('ai_practice_button', 'click', 'course_modal');
       setShowConfirmationModal(true);
     } else {
       console.log('❌ AI practice not available:', status.reason);
@@ -287,6 +292,15 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
 
   const handleTavusCompletion = (completion: any) => {
     console.log('🎉 Tavus practice completed:', completion);
+    
+    // Track AI practice completion
+    if (course?.id) {
+      trackCourseEvent('ai_practice_complete', course.id, course.title, {
+        accuracy_score: completion.accuracyScore,
+        duration: completion.duration
+      });
+    }
+    
     setTavusCompleted(true);
     setTavusAccuracy(completion.accuracyScore);
     setShowTavusModal(false);
@@ -298,6 +312,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
   };
 
   const handleMoreCourses = () => {
+    trackInteraction('more_courses_button', 'click', 'course_modal');
     onClose();
     window.location.href = '/courses';
   };

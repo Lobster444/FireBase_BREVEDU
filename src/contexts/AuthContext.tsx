@@ -11,6 +11,7 @@ import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 import { User, UserRole } from '../types';
 import { getUserUsageStatus } from '../services/tavusUsage';
+import { trackAuthEvent } from '../lib/analytics';
 
 interface AuthContextType {
   currentUser: User | null;
@@ -73,6 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string) => {
     const result = await signInWithEmailAndPassword(auth, email, password);
+    trackAuthEvent('login');
     return result;
   };
 
@@ -88,6 +90,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const userData = await createUserDocument(result.user, name);
     setCurrentUser(userData);
     
+    trackAuthEvent('sign_up');
     return result;
   };
 
@@ -98,6 +101,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     
     await signOut(auth);
     console.log('✅ Firebase signOut completed');
+    trackAuthEvent('logout');
   };
 
   const updateUserRole = async (role: UserRole) => {

@@ -3,6 +3,7 @@ import { Sparkles, Check, Zap, MessageCircle, Star, Crown } from 'lucide-react';
 import Layout from '../components/Layout';
 import { PrimaryButton, AccentButton, OutlineButton } from '../components/UIButtons';
 import { useAuth } from '../contexts/AuthContext';
+import { trackSubscriptionEvent, trackInteraction } from '../lib/analytics';
 
 const BrevEduPlusPage: React.FC = () => {
   const { currentUser } = useAuth();
@@ -41,6 +42,12 @@ const BrevEduPlusPage: React.FC = () => {
     'Certificate of completion'
   ];
 
+  const handleUpgradeClick = () => {
+    trackSubscriptionEvent('upgrade_click', 'premium');
+    trackInteraction('upgrade_button', 'click', 'brevedu_plus_page');
+    // Add your subscription logic here
+  };
+
   return (
     <Layout currentPage="brevedu-plus">
       {/* Hero Section */}
@@ -66,7 +73,10 @@ const BrevEduPlusPage: React.FC = () => {
                 <div className="text-base text-gray-600 mt-2">Cancel anytime</div>
               </div>
               
-              <PrimaryButton className="w-full px-8 py-4 mb-4">
+              <PrimaryButton 
+                className="w-full px-8 py-4 mb-4"
+                onClick={handleUpgradeClick}
+              >
                 Start Free Trial
               </PrimaryButton>
               
@@ -86,7 +96,7 @@ const BrevEduPlusPage: React.FC = () => {
                   Thank you for being a premium subscriber. Enjoy unlimited access to all features.
                 </p>
                 <a href="/courses">
-                  <AccentButton>
+                  <AccentButton onClick={() => trackInteraction('explore_premium_courses', 'click', 'brevedu_plus_page')}>
                     Explore Premium Courses
                   </AccentButton>
                 </a>
@@ -146,13 +156,17 @@ const BrevEduPlusPage: React.FC = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <PrimaryButton className="px-8 py-4 flex items-center justify-center space-x-2">
+              <PrimaryButton 
+                className="px-8 py-4 flex items-center justify-center space-x-2"
+                onClick={handleUpgradeClick}
+              >
                 <Sparkles className="h-5 w-5" />
                 <span>Start Free Trial</span>
               </PrimaryButton>
               <OutlineButton
                 variant="yellow"
                 className="px-8 py-4"
+                onClick={() => trackInteraction('view_free_courses', 'click', 'brevedu_plus_page')}
               >
                 View Free Courses
               </OutlineButton>
