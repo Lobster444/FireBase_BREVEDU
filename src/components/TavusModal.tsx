@@ -178,7 +178,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
         conversationId: conversationUrl
       });
       
-      notifySuccess(`🎉 You completed the AI practice session with ${accuracyScore}% accuracy — course complete!`);
+      notifySuccess(`🎉 AI practice session completed!`);
       
     } catch (error) {
       console.error('❌ Error completing session:', error);

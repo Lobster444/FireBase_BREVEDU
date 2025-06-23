@@ -348,12 +348,6 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                     <span>AI Practice</span>
                   </span>
                 )}
-                {tavusCompleted && (
-                  <span className="text-sm text-emerald-700 bg-emerald-100 px-3 py-1 rounded-headspace-md font-semibold flex items-center space-x-1">
-                    <CheckCircle className="h-3 w-3" />
-                    <span>Completed</span>
-                  </span>
-                )}
               </div>
               <h1 id="course-modal-title" className="text-2xl font-bold text-gray-900 mb-2 leading-tight">
                 {course.title}

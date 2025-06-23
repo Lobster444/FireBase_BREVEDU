@@ -76,13 +76,6 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-headspace"
         />
         
-        {/* Completion badge - Top Left */}
-        {tavusCompleted && (
-          <div className="absolute top-2 left-2 bg-emerald-500/90 backdrop-blur-sm px-2 py-1 rounded-headspace-sm text-xs font-semibold text-white flex items-center space-x-1">
-            <CheckCircle className="h-3 w-3" />
-            <span>Done</span>
-          </div>
-        )}
       </div>
 
       {/* Content */}
