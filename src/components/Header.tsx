@@ -228,8 +228,6 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             <div className="w-5 h-5 bg-[#002fa7] rounded-full flex items-center justify-center">
               <div className="w-3 h-3 bg-white rounded-full"></div>
             </div>
-              <div className="w-6 h-6 bg-white rounded-full"></div>
-            </div>
             <h1 className="text-xl font-bold text-gray-900 group-hover:text-[#002fa7] transition-colors duration-300 ease-out">
               BrevEdu
             </h1>
