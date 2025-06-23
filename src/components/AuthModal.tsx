@@ -289,23 +289,25 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
           />
 
           {/* Password Field */}
-          <InputField
-            id="password"
-            type="password"
-            value={password}
-            onChange={setPassword}
-            placeholder="Enter your password"
-            required
-            minLength={6}
-            icon={<Lock className="h-5 w-5" />}
-            label="Password"
-            aria-describedby={mode === 'register' ? 'password-help' : undefined}
-          />
-          {mode === 'register' && (
-            <p id="password-help" className="mt-1 mb-4 text-sm text-gray-500">
-              Password must be at least 6 characters
-            </p>
-          )}
+          <div className="mb-6">
+            <InputField
+              id="password"
+              type="password"
+              value={password}
+              onChange={setPassword}
+              placeholder="Enter your password"
+              required
+              minLength={6}
+              icon={<Lock className="h-5 w-5" />}
+              label="Password"
+              aria-describedby={mode === 'register' ? 'password-help' : undefined}
+            />
+            {mode === 'register' && (
+              <p id="password-help" className="mt-1 text-sm text-gray-500">
+                Password must be at least 6 characters
+              </p>
+            )}
+          </div>
 
           {/* Confirm Password Field (Register only) */}
           {mode === 'register' && (
