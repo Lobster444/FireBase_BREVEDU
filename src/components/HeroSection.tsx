@@ -49,7 +49,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               {!currentUser ? (
                 <>
                   <AccentButton 
-                    className="hero-cta-primary px-8 sm:px-10 py-4 sm:py-5 text-lg sm:text-xl font-semibold min-w-[200px] sm:min-w-[240px] shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="hero-cta-primary text-white px-8 sm:px-10 py-4 sm:py-5 text-lg sm:text-xl font-semibold min-w-[200px] sm:min-w-[240px] shadow-lg hover:shadow-xl transition-all duration-300"
                     onClick={onStartLearning}
                     aria-label="Sign up for free account to start learning"
                   >
@@ -59,7 +59,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               ) : currentUser.role === 'free' ? (
                 <>
                   <AccentButton 
-                    className="hero-cta-primary px-8 sm:px-10 py-4 sm:py-5 text-lg sm:text-xl font-semibold min-w-[200px] sm:min-w-[240px] shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="hero-cta-primary text-white px-8 sm:px-10 py-4 sm:py-5 text-lg sm:text-xl font-semibold min-w-[200px] sm:min-w-[240px] shadow-lg hover:shadow-xl transition-all duration-300"
                     onClick={onStartLearning}
                     aria-label="Continue to courses page"
                   >
@@ -68,7 +68,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 </>
               ) : (
                 <AccentButton 
-                  className="hero-cta-primary px-8 sm:px-10 py-4 sm:py-5 text-lg sm:text-xl font-semibold min-w-[200px] sm:min-w-[240px] shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="hero-cta-primary text-white px-8 sm:px-10 py-4 sm:py-5 text-lg sm:text-xl font-semibold min-w-[200px] sm:min-w-[240px] shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={onExploreCourses}
                   aria-label="Explore premium courses"
                 >
