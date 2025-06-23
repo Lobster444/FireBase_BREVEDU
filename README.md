@@ -32,8 +32,14 @@ A modern learning platform that delivers focused education through bite-sized vi
 2. **Set up environment variables:**
    ```bash
    cp .env.example .env
-   # Edit .env with your actual values
+   # Edit .env with your Firebase project values
    ```
+   
+   **Important**: Get your Firebase configuration from:
+   - Go to [Firebase Console](https://console.firebase.google.com)
+   - Select your project
+   - Go to Project Settings > General > Your apps
+   - Copy the config values to your `.env` file
 
 3. **Start development server:**
    ```bash
@@ -44,21 +50,29 @@ A modern learning platform that delivers focused education through bite-sized vi
 
 ### Required Variables
 
-Copy `.env.example` to `.env` and configure these essential variables:
+**Step 1**: Copy the environment template:
+```bash
+cp .env.example .env
+```
+
+**Step 2**: Configure Firebase (REQUIRED):
+```bash
+# Get these from Firebase Console > Project Settings > General
+VITE_FIREBASE_API_KEY=your_api_key_here
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
+```
+
+**Step 3**: Configure Tavus AI (Optional):
 
 ```bash
-# Firebase (already configured, but can be overridden)
-VITE_FIREBASE_PROJECT_ID=your_project_id
-
-# Tavus AI Integration
 TAVUS_API_KEY=your_tavus_api_key
 TAVUS_DEFAULT_TTL=3600
 TAVUS_MAX_RETRIES=3
-
-# Feature Flags
-ENABLE_TAVUS_CONFIRMATION=true
-TAVUS_TTL_ENABLED=true
-TAVUS_OFFLINE_QUEUE=true
 ```
 
 ### Environment Files
@@ -66,6 +80,16 @@ TAVUS_OFFLINE_QUEUE=true
 - `.env.example` - Template with all available variables
 - `.env.local.example` - Local development overrides
 - `.env.production.example` - Production configuration
+
+### Security Note
+
+🔒 **Never commit `.env` files to version control!** 
+
+The `.env` file is automatically ignored by Git. Always use environment variables for:
+- API keys
+- Database credentials  
+- Third-party service tokens
+- Any sensitive configuration
 
 ### Tavus AI Setup
 
@@ -128,13 +152,16 @@ src/
 
 ### Production Checklist
 
-- [ ] Configure production environment variables
+- [ ] Set up production Firebase project
+- [ ] Configure production environment variables (never use development keys!)
 - [ ] Set up Tavus AI production credentials
 - [ ] Configure Firebase security rules
 - [ ] Set up monitoring and analytics
 - [ ] Configure CDN for static assets
 - [ ] Set up error tracking (Sentry)
 - [ ] Configure backup strategies
+- [ ] Verify no sensitive data in source control
+- [ ] Test with production environment variables
 
 ## Features Guide
 
@@ -206,6 +233,11 @@ See `src/lib/__tests__/manual-test-guide.md` for comprehensive manual testing pr
 
 ### Common Issues
 
+1. **Firebase Configuration Errors**: 
+   - Verify all `VITE_FIREBASE_*` environment variables are set
+   - Check Firebase project settings match your `.env` file
+   - Ensure Firebase services are enabled (Auth, Firestore, Storage)
+
 1. **Tavus API Errors**: Check API key and network connectivity
 2. **Firebase Errors**: Verify project configuration and security rules
 3. **Build Errors**: Ensure all environment variables are set
@@ -219,6 +251,16 @@ Enable debug mode for detailed logging:
 VITE_DEBUG_MODE=true
 VITE_CONSOLE_LOGGING=true
 ```
+
+### Environment Variable Issues
+
+If you're having issues with environment variables:
+
+1. **Check file naming**: Must be `.env` (not `.env.txt` or similar)
+2. **Restart dev server**: Environment changes require restart
+3. **Verify VITE_ prefix**: Client-side variables must start with `VITE_`
+4. **Check for spaces**: No spaces around the `=` sign
+5. **Quote complex values**: Use quotes for values with spaces or special characters
 
 ## License
 
