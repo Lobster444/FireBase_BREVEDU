@@ -15,13 +15,20 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const userMenuRef = useRef<HTMLDivElement>(null);
+  const userMenuRefDesktop = useRef<HTMLDivElement>(null);
+  const userMenuRefMobile = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   // Close menus when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      if (
+        userMenuRefDesktop.current &&
+        !userMenuRefDesktop.current.contains(target) &&
+        userMenuRefMobile.current &&
+        !userMenuRefMobile.current.contains(target)
+      ) {
         setShowUserMenu(false);
       }
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
@@ -149,7 +156,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             {/* User Actions */}
             <div className="flex items-center space-x-3">
               {currentUser ? (
-                <div className="relative" ref={userMenuRef}>
+                <div className="relative" ref={userMenuRefDesktop}>
                   <button
                     onClick={() => setShowUserMenu(!showUserMenu)}
                     className="flex items-center space-x-3 bg-[#002fa7] text-white px-5 py-3 rounded-[10px] font-medium hover:bg-[#0040d1] transition-all duration-200 ease-out shadow-[0_2px_8px_rgba(0,47,167,0.3)] hover:shadow-[0_4px_12px_rgba(0,47,167,0.4)] hover:animate-[breathe_2s_infinite] focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2"
@@ -304,7 +311,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
 
         {/* Mobile User Menu Dropdown - Only for authenticated users */}
         {currentUser && showUserMenu && (
-          <div ref={userMenuRef} className="absolute right-4 top-16 bg-white border border-gray-200 rounded-[16px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] py-3 min-w-[220px] z-50 animate-slide-up">
+          <div ref={userMenuRefMobile} className="absolute right-4 top-16 bg-white border border-gray-200 rounded-[16px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] py-3 min-w-[220px] z-50 animate-slide-up">
             <div className="px-4 py-3 border-b border-gray-100">
               <p className="text-sm font-semibold text-gray-900">{currentUser.name}</p>
               <p className="text-xs text-gray-600">{currentUser.email}</p>
