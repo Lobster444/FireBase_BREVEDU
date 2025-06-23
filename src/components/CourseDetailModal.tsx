@@ -322,7 +322,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
           {/* Header */}
           <div className="flex items-start justify-between p-padding-medium border-b border-gray-100">
             <div className="flex-1 pr-4">
-              <div className="flex items-center space-x-2 mb-2">
+              <div className="flex items-center flex-wrap gap-2 mb-3">
                 <span className="text-sm text-[#002fa7] bg-[#002fa7]/10 px-3 py-1 rounded-headspace-md font-semibold">
                   {course.category}
                 </span>
@@ -333,7 +333,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                 }`}>
                   {(course.accessLevel || 'free') === 'premium' ? 'Premium' : 'Free'}
                 </span>
-                <div className="flex items-center space-x-1 text-sm text-gray-600">
+                <div className="flex items-center space-x-1 text-sm text-gray-600 whitespace-nowrap">
                   <Clock className="h-4 w-4" />
                   <span>{course.duration}</span>
                 </div>
