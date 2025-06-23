@@ -36,8 +36,8 @@ const CourseDetailsSection: React.FC<CourseDetailsSectionProps> = ({
           </div>
           <div className="flex items-center justify-between">
             <span className="text-gray-600">AI practice available</span>
-            <span className={course.tavusConversationUrl ? "text-emerald-600" : "text-gray-400"}>
-              {course.tavusConversationUrl ? "✓" : "—"}
+            <span className="text-emerald-600">
+              ✓
             </span>
           </div>
           <div className="flex items-center justify-between">
