@@ -8,6 +8,7 @@ import TavusConfirmationModal from './TavusConfirmationModal';
 import VideoPlayerSection from './VideoPlayerSection';
 import AIPracticeSection from './AIPracticeSection';
 import CourseDetailsSection from './CourseDetailsSection';
+import QuickFacts from './QuickFacts';
 import ActionButtonsSection from './ActionButtonsSection';
 import { 
   createTavusConversation, 
@@ -363,7 +364,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
           </div>
 
           <div className="p-padding-medium">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
               {/* Left Column - Video and Description */}
               <div className="lg:col-span-2 flex flex-col space-y-6">
                 {/* Video Player */}
@@ -385,6 +386,13 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                   tavusCompleted={tavusCompleted}
                 />
               </div>
+
+              {/* Quick Facts - Mobile only, appears at bottom */}
+              <QuickFacts 
+                course={course} 
+                tavusCompleted={tavusCompleted} 
+                className="order-last lg:hidden" 
+              />
 
               {/* Right Column - Thumbnail and Actions */}
               <div className="space-y-6">
