@@ -5,8 +5,8 @@ const FeaturesBenefits: React.FC = () => {
   const features = [
     {
       icon: Clock,
-      title: 'Learn in 5 Minutes',
-      benefit: 'Master new skills during your coffee break'
+      title: 'Quick Boosts',
+      benefit: 'Fresh insights in under 5 minutes'
     },
     {
       icon: Target,
