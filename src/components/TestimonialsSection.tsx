@@ -20,7 +20,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
   const testimonials = [
     {
       id: 1,
-      quote: "BrevEdu transformed how I learn! The 5-minute lessons fit perfectly into my busy schedule, and the AI practice sessions really help reinforce what I've learned.",
+      quote: "Skill Boosts helped me retain twice as much in just 5 minutes—without disrupting my workday.",
       name: "Sarah Chen",
       role: "Software Developer",
       rating: 5
