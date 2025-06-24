@@ -122,7 +122,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             >
               <BookOpen className="h-8 w-8 text-[#002fa7]" />
               <h1 className="text-2xl font-bold text-gray-900 group-hover:text-[#002fa7] transition-colors duration-300 ease-out">
-                BrevEdu
+                BreVedu
               </h1>
             </Link>
 
@@ -240,7 +240,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
               <div className="w-3 h-3 bg-white rounded-full"></div>
             </div>
             <h1 className="text-xl font-bold text-gray-900 group-hover:text-[#002fa7] transition-colors duration-300 ease-out">
-              BrevEdu
+              BreVedu
             </h1>
           </Link>
 
