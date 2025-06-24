@@ -112,7 +112,7 @@ const HomePage: React.FC = () => {
     if (currentUser.role === 'premium') {
       return {
         title: `Welcome back, ${currentUser.name}!`,
-        subtitle: "Enjoy unlimited access to all premium courses and AI practice sessions.",
+        subtitle: "Discover fresh Skill Boosts anytime — unlimited content + AI tutor sessions",
         ctaText: "Explore Premium Content"
       };
     }
