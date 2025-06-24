@@ -27,7 +27,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
     },
     {
       id: 2,
-      quote: "I've tried many learning platforms, but BrevEdu's bite-sized approach is genius. I can learn during my commute and actually retain the information.",
+      quote: "Every Skill Boost introduces a fun new insight—this one gave me an interesting industry stat I never knew before.",
       name: "Marcus Rodriguez",
       role: "Product Manager",
       rating: 5
