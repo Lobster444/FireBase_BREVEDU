@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Zap, User, LogOut, Menu, X } from 'lucide-react';
+import { User, LogOut, Menu, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import AuthModal from './AuthModal';
 import { trackInteraction } from '../lib/analytics';
@@ -120,7 +120,9 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
               aria-label="Go to homepage"
               onClick={handleLogoClick}
             >
-              <Zap className="h-8 w-8 text-[#002fa7]" />
+              <div className="w-8 h-8 bg-[#002fa7] rounded-full flex items-center justify-center">
+                <div className="w-5 h-5 bg-white rounded-full"></div>
+              </div>
               <h1 className="text-2xl font-bold text-gray-900 group-hover:text-[#002fa7] transition-colors duration-300 ease-out">
                 BreVedu
               </h1>
@@ -236,8 +238,8 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             aria-label="Go to homepage"
             onClick={handleLogoClick}
           >
-            <div className="w-5 h-5 bg-[#002fa7] rounded-full flex items-center justify-center">
-              <div className="w-3 h-3 bg-white rounded-full"></div>
+            <div className="w-6 h-6 bg-[#002fa7] rounded-full flex items-center justify-center">
+              <div className="w-4 h-4 bg-white rounded-full"></div>
             </div>
             <h1 className="text-xl font-bold text-gray-900 group-hover:text-[#002fa7] transition-colors duration-300 ease-out">
               BreVedu
