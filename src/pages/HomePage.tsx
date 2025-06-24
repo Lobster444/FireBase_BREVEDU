@@ -96,7 +96,7 @@ const HomePage: React.FC = () => {
     if (!currentUser) {
       return {
         title: "Master New Skills in Just 5 Minutes",
-        subtitle: "BrevEdu delivers focused learning through bite-sized video lessons with AI-powered chat practice. Learn faster, practice smarter, and build skills that matter.",
+        subtitle: "Discover fresh Skill Boosts with short AI-powered videos and chat feedback—learn faster, apply smarter, and master what matters",
         ctaText: "Start Learning Free"
       };
     }
