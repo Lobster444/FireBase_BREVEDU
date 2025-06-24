@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BookOpen, User, LogOut, Menu, X } from 'lucide-react';
+import { Zap, User, LogOut, Menu, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import AuthModal from './AuthModal';
 import { trackInteraction } from '../lib/analytics';
@@ -120,7 +120,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
               aria-label="Go to homepage"
               onClick={handleLogoClick}
             >
-              <BookOpen className="h-8 w-8 text-[#002fa7]" />
+              <Zap className="h-8 w-8 text-[#002fa7]" />
               <h1 className="text-2xl font-bold text-gray-900 group-hover:text-[#002fa7] transition-colors duration-300 ease-out">
                 BreVedu
               </h1>
