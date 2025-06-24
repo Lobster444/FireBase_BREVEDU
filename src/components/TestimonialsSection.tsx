@@ -34,14 +34,14 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
     },
     {
       id: 3,
-      quote: "The AI chat practice is incredible! It's like having a personal tutor available 24/7. I've learned more in 3 months than I did in a year elsewhere.",
+      quote: "The AI chat practice is incredible! It's like having a personal tutor available 24/7. I've learned more new things in 2 weeks than I did in a year elsewhere.",
       name: "Emily Johnson",
       role: "UX Designer",
       rating: 5
     },
     {
       id: 4,
-      quote: "As a busy parent, finding time to learn new skills was impossible. BrevEdu's micro-learning approach changed everything for me.",
+      quote: "As a busy guy, finding time to learn new skills was impossible. BrevEdu's micro-learning approach changed everything for me.",
       name: "David Park",
       role: "Marketing Specialist",
       rating: 5
