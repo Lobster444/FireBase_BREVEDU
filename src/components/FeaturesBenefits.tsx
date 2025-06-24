@@ -16,7 +16,7 @@ const FeaturesBenefits: React.FC = () => {
     {
       icon: Zap,
       title: 'Instant Application',
-      benefit: 'Practice immediately with AI-powered sessions'
+      benefit: 'Apply what you learn right after each Skill Boost'
     }
   ];
 
