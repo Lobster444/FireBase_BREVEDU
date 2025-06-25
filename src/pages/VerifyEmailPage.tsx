@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { applyActionCode } from 'firebase/auth';
+import { applyActionCode, reload } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 const VerifyEmailPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { firebaseUser } = useAuth();
   const [status, setStatus] = useState<'verifying' | 'success' | 'error'>('verifying');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -48,12 +50,18 @@ const VerifyEmailPage: React.FC = () => {
         console.log('✅ Found oobCode, attempting email verification');
         // Apply the email verification code
         await applyActionCode(auth, oobCode);
+        
+        // Reload the user to get updated emailVerified status
+        if (auth.currentUser) {
+          await reload(auth.currentUser);
+        }
+        
         console.log('✅ Email verified successfully');
         setStatus('success');
         
-        // Redirect to home page after showing success message briefly
+        // Redirect to courses page after showing success message briefly
         setTimeout(() => {
-          navigate('/', { replace: true });
+          navigate('/courses', { replace: true });
         }, 2000);
       } catch (error: any) {
         console.error('❌ Email verification failed:', error);
@@ -102,7 +110,7 @@ const VerifyEmailPage: React.FC = () => {
               Your email has been successfully verified. You can now sign in to your account.
             </p>
             <p className="text-sm text-gray-500">
-              Redirecting you to the homepage...
+              Redirecting you to your courses...
             </p>
           </>
         )}
@@ -120,16 +128,16 @@ const VerifyEmailPage: React.FC = () => {
             </p>
             <div className="space-y-3">
               <button
-                onClick={() => navigate('/', { replace: true })}
+                onClick={() => navigate('/courses', { replace: true })}
                 className="w-full bg-primary text-white px-6 py-3 rounded-headspace-lg text-base font-medium hover:bg-primary-hover transition-all"
               >
-                Go to Homepage
+                Go to Courses
               </button>
               <button
                 onClick={() => navigate('/', { replace: true })}
                 className="w-full border border-gray-300 text-gray-700 px-6 py-3 rounded-headspace-lg text-base font-medium hover:bg-gray-50 transition-all"
               >
-                Try Signing In
+                Go to Homepage
               </button>
             </div>
           </>

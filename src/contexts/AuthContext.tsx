@@ -108,6 +108,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       displayName: name
     });
     
+    // Create user document in Firestore first
+    await createUserDocument(result.user, name);
+    
     // Send email verification with redirect settings
     const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
     const actionCodeSettings = {
@@ -117,12 +120,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await sendEmailVerification(result.user, actionCodeSettings);
     console.log('✅ Email verification sent to:', email);
     
-    // Create user document in Firestore but don't log user in
-    await createUserDocument(result.user, name);
-    
-    // Sign user out to keep them logged out until email is verified
-    await signOut(auth);
-    console.log('✅ User signed out - email verification required');
+    // Keep user signed in but mark as unverified
+    console.log('✅ User registered and signed in - email verification pending');
     
     trackAuthEvent('sign_up');
     return result;

@@ -158,11 +158,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
       
       if (mode === 'register') {
         await register(email.trim(), password, name.trim());
-        setSuccess('Account created successfully! Please check your email and click the verification link before signing in.');
+        setSuccess('Account created successfully! Please check your email and click the verification link to complete setup.');
         // Close modal after successful registration
         setTimeout(() => {
           onClose();
-        }, 4000); // Longer delay to let user read the verification message
+        }, 3000); // Shorter delay since user stays logged in
       } else {
         await login(email.trim(), password);
         setSuccess('Welcome back! Signing you in...');
