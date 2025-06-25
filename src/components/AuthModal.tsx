@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Filter, Lock, Crown } from 'lucide-react';
+import { Filter, Lock, Crown, AlertTriangle } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Layout from '../components/Layout';
 import CourseCard from '../components/CourseCard';
@@ -176,6 +176,12 @@ const CoursesPage: React.FC = () => {
                 className="text-yellow-800 hover:text-yellow-900 text-sm font-medium underline"
               >
                 Resend Email
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <section className="px-padding-medium py-8 border-b border-gray-200 bg-white">
         <div className="max-w-screen-2xl mx-auto">

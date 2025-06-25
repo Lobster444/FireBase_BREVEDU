@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Filter, Lock, Crown } from 'lucide-react';
+import { Filter, Lock, Crown, AlertTriangle } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Layout from '../components/Layout';
 import CourseCard from '../components/CourseCard';
@@ -10,9 +10,6 @@ import { categories } from '../data/mockCourses';
 import { Course, getAccessLevelRequirement } from '../types';
 import { useCourses } from '../hooks/useCourses';
 import { useAuth } from '../contexts/AuthContext';
-import { sendEmailVerification } from 'firebase/auth';
-import { auth } from '../lib/firebase';
-import { notifyInfo, notifyError } from '../lib/toast';
 import { sendEmailVerification } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { notifyInfo, notifyError } from '../lib/toast';
@@ -29,7 +26,6 @@ const CoursesPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showEmailVerificationBanner, setShowEmailVerificationBanner] = useState(false);
-  const [showEmailVerificationBanner, setShowEmailVerificationBanner] = useState(false);
 
   // Check if user needs email verification
   useEffect(() => {
@@ -39,26 +35,6 @@ const CoursesPage: React.FC = () => {
     } else if (firebaseUser && !firebaseUser.emailVerified) {
       // User is logged in but email not verified
       setShowEmailVerificationBanner(true);
-      // User is logged in but email not verified
-      setShowEmailVerificationBanner(true);
-    }
-  }, [currentUser, firebaseUser, navigate]);
-
-  // Handle resend verification email
-  const handleResendVerification = async () => {
-    if (!firebaseUser) return;
-    
-    try {
-      const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
-      const actionCodeSettings = {
-        url: `${baseUrl}/verify-email`,
-        handleCodeInApp: true,
-      };
-      await sendEmailVerification(firebaseUser, actionCodeSettings);
-      notifyInfo('📧 Verification email sent! Please check your inbox.');
-    } catch (error) {
-      console.error('Error sending verification email:', error);
-      notifyError('Failed to send verification email. Please try again.');
     }
   }, [currentUser, firebaseUser, navigate]);
 
@@ -200,18 +176,12 @@ const CoursesPage: React.FC = () => {
                 className="text-yellow-800 hover:text-yellow-900 text-sm font-medium underline"
               >
                 Resend Email
-      {/* Email Verification Banner */}
-      {showEmailVerificationBanner && (
-        <div className="bg-yellow-50 border-b border-yellow-200 px-padding-medium py-3">
-          <div className="max-w-screen-2xl mx-auto flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                <AlertTriangle className="h-4 w-4 text-yellow-600" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-yellow-800">
-                  Please verify your email address to complete your account setup.
-                </p>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <section className="px-padding-medium py-8 border-b border-gray-200 bg-white">
         <div className="max-w-screen-2xl mx-auto">
