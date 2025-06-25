@@ -158,11 +158,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
       
       if (mode === 'register') {
         await register(email.trim(), password, name.trim());
-        setSuccess('Account created! Please check your email and click the verification link to activate your account.');
+        setSuccess('Account created successfully! Please check your email and click the verification link before signing in.');
         // Close modal after successful registration
         setTimeout(() => {
           onClose();
-        }, 3000); // Longer delay to let user read the verification message
+        }, 4000); // Longer delay to let user read the verification message
       } else {
         await login(email.trim(), password);
         setSuccess('Welcome back! Signing you in...');
@@ -197,6 +197,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
             break;
           case 'auth/invalid-credential':
             errorMessage = 'Invalid email or password. Please check your credentials.';
+            break;
+          case 'auth/user-not-found':
+            errorMessage = 'No account found with this email address.';
+            break;
+          case 'auth/wrong-password':
+            errorMessage = 'Incorrect password. Please try again.';
             break;
           default:
             errorMessage = err.message || errorMessage;

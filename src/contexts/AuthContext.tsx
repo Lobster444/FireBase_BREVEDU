@@ -91,9 +91,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await sendEmailVerification(result.user);
     console.log('✅ Email verification sent to:', email);
     
-    // Create user document in Firestore and update local state immediately
-    const userData = await createUserDocument(result.user, name);
-    setCurrentUser(userData);
+    // Create user document in Firestore but don't log user in
+    await createUserDocument(result.user, name);
+    
+    // Sign user out to keep them logged out until email is verified
+    await signOut(auth);
+    console.log('✅ User signed out - email verification required');
     
     trackAuthEvent('sign_up');
     return result;
@@ -101,6 +104,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = async () => {
     console.log('🚪 AuthContext logout function called');
+    
+    // Check if email is verified
+    if (!result.user.emailVerified) {
+      // Optionally resend verification email
+      await sendEmailVerification(result.user);
+      console.log('✅ Resent email verification to:', email);
+      
+      // Sign user out and throw error
+      await signOut(auth);
+      throw new Error('Please verify your email before logging in. We\'ve sent you a new verification link.');
+    }
+    
     console.log('🔍 Firebase auth object:', auth);
     console.log('🔍 Current Firebase user:', auth.currentUser?.email);
     
