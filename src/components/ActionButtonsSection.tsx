@@ -18,10 +18,9 @@ const ActionButtonsSection: React.FC<ActionButtonsSectionProps> = ({
       {/* More Courses Button */}
       <button
         onClick={onMoreCourses}
-        className="w-full bg-[#F8DE7E] text-gray-900 px-6 py-3 rounded-headspace-lg text-lg font-medium hover:bg-[#F5D65A] transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex items-center justify-center space-x-2"
+        className="w-full border-2 border-gray-400 bg-gray-100 text-gray-800 px-6 py-3 rounded-headspace-lg text-lg font-medium hover:bg-gray-200 hover:border-gray-500 transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex items-center justify-center"
       >
-        <span>More Courses</span>
-        <ArrowRight className="h-4 w-4" />
+        More Courses
       </button>
 
       {/* Upgrade Prompt for Free Users */}
