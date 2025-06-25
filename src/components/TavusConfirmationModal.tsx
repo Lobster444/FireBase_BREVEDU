@@ -137,10 +137,10 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
     >
       <div 
         ref={modalRef}
-        className="bg-white rounded-headspace-2xl w-full max-w-md shadow-[0_8px_32px_rgba(0,0,0,0.15)] overflow-hidden"
+        className="bg-white rounded-headspace-2xl w-full max-w-sm sm:max-w-md lg:max-w-lg shadow-[0_8px_32px_rgba(0,0,0,0.15)] overflow-hidden mx-4"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-padding-medium border-b border-gray-100">
+        <div className="flex items-center justify-between p-4 sm:p-padding-medium border-b border-gray-100">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-[#002fa7] rounded-full flex items-center justify-center text-white">
               <MessageCircle className="h-5 w-5 text-white" />
@@ -149,7 +149,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
               <h2 id="confirm-modal-title" className="text-xl font-bold text-gray-900">
                 Start AI Practice?
               </h2>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 hidden sm:block">
                 {course.title}
               </p>
             </div>
@@ -164,37 +164,44 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
         </div>
 
         {/* Content */}
-        <div className="p-padding-medium">
+        <div className="p-4 sm:p-padding-medium">
           <div id="confirm-modal-description" className="space-y-4">
+            {/* Course Title - Mobile Only */}
+            <div className="sm:hidden">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                {course.title}
+              </h3>
+            </div>
+            
             {/* Main Message */}
             <div className="text-center">
               <div className="w-16 h-16 bg-[#002fa7]/10 rounded-full flex items-center justify-center mx-auto mb-4 text-[#002fa7]">
                 <Play className="h-8 w-8 text-[#002fa7]" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
                 Ready to Practice with AI?
               </h3>
-              <p className="text-base text-gray-700 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
                 You're about to start an interactive AI conversation to practice what you learned. 
                 This session will last up to 3 minutes and count as one of your daily practice sessions.
               </p>
             </div>
 
             {/* Session Info */}
-            <div className="bg-blue-50 border border-blue-200 rounded-headspace-lg p-4 text-blue-900">
+            <div className="bg-blue-50 border border-blue-200 rounded-headspace-lg p-3 sm:p-4 text-blue-900">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-blue-900">Account Type:</span>
-                <span className="text-sm text-blue-800">{sessionInfo.sessionType}</span>
+                <span className="text-xs sm:text-sm font-medium text-blue-900">Account Type:</span>
+                <span className="text-xs sm:text-sm text-blue-800">{sessionInfo.sessionType}</span>
               </div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-blue-900">Sessions Available:</span>
-                <span className="text-sm text-blue-800">
+                <span className="text-xs sm:text-sm font-medium text-blue-900">Sessions Available:</span>
+                <span className="text-xs sm:text-sm text-blue-800">
                   {sessionInfo.sessionsAvailable} of {sessionInfo.dailyLimit} today
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-blue-900">Session Duration:</span>
-                <span className="text-sm text-blue-800 flex items-center space-x-1">
+                <span className="text-xs sm:text-sm font-medium text-blue-900">Session Duration:</span>
+                <span className="text-xs sm:text-sm text-blue-800 flex items-center space-x-1">
                   <Clock className="h-3 w-3" />
                   <span>3 minutes max</span>
                 </span>
@@ -202,9 +209,9 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
             </div>
 
             {/* Tips */}
-            <div className="bg-gray-50 rounded-headspace-lg p-4">
-              <h4 className="text-sm font-semibold text-gray-900 mb-2">💡 Practice Tips:</h4>
-              <ul className="text-sm text-gray-700 space-y-1">
+            <div className="bg-gray-50 rounded-headspace-lg p-3 sm:p-4">
+              <h4 className="text-xs sm:text-sm font-semibold text-gray-900 mb-2">💡 Practice Tips:</h4>
+              <ul className="text-xs sm:text-sm text-gray-700 space-y-1">
                 <li>• Make sure you have a stable internet connection</li>
                 <li>• Find a quiet place to focus</li>
                 <li>• Session will automatically end after 3 minutes</li>
@@ -214,12 +221,12 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
 
             {/* Offline Warning */}
             {!isOnline && (
-              <div className="bg-yellow-50 border border-yellow-200 rounded-headspace-lg p-4">
+              <div className="bg-yellow-50 border border-yellow-200 rounded-headspace-lg p-3 sm:p-4">
                 <div className="flex items-center space-x-2 text-yellow-800">
                   <WifiOff className="h-5 w-5" />
-                  <span className="text-sm font-medium">You're currently offline</span>
+                  <span className="text-xs sm:text-sm font-medium">You're currently offline</span>
                 </div>
-                <p className="text-sm text-yellow-700 mt-1">
+                <p className="text-xs sm:text-sm text-yellow-700 mt-1">
                   Please check your internet connection to start the AI practice session.
                 </p>
               </div>
@@ -227,12 +234,12 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
 
             {/* No Sessions Warning */}
             {isOnline && sessionInfo.sessionsAvailable === 0 && (
-              <div className="bg-red-50 border border-red-200 rounded-headspace-lg p-4">
+              <div className="bg-red-50 border border-red-200 rounded-headspace-lg p-3 sm:p-4">
                 <div className="flex items-center space-x-2 text-red-800">
                   <AlertTriangle className="h-5 w-5" />
-                  <span className="text-sm font-medium">No sessions available</span>
+                  <span className="text-xs sm:text-sm font-medium">No sessions available</span>
                 </div>
-                <p className="text-sm text-red-700 mt-1">
+                <p className="text-xs sm:text-sm text-red-700 mt-1">
                   {currentUser?.role === 'free' 
                     ? 'You\'ve used your daily practice session. Upgrade to BrevEdu+ for more sessions!'
                     : 'You\'ve used all your daily practice sessions. More sessions available tomorrow!'
@@ -243,17 +250,17 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
           </div>
 
           {/* Action Buttons */}
-          <div className="flex space-x-3 mt-6">
+          <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mt-6">
             <button
               onClick={onClose}
-              className="flex-1 border border-gray-300 text-gray-700 px-4 py-3 rounded-headspace-lg text-base font-medium hover:bg-gray-50 transition-all"
+              className="flex-1 border border-gray-300 text-gray-700 px-4 py-3 rounded-headspace-lg text-sm sm:text-base font-medium hover:bg-gray-50 transition-all min-h-[44px]"
             >
               Cancel
             </button>
             <button
               onClick={handleConfirmStart}
               disabled={!canStart}
-              className={`flex-1 px-4 py-3 rounded-headspace-lg text-base font-medium transition-all flex items-center justify-center space-x-2 text-white ${
+              className={`flex-1 px-4 py-3 rounded-headspace-lg text-sm sm:text-base font-medium transition-all flex items-center justify-center space-x-2 text-white min-h-[44px] ${
                 canStart
                   ? 'bg-[#002fa7] text-white hover:bg-[#0040d1] shadow-[0_2px_8px_rgba(0,47,167,0.3)]'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
@@ -275,13 +282,13 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
 
           {/* Upgrade Prompt for Free Users */}
           {currentUser?.role === 'free' && (
-            <div className="mt-4 text-center">
-              <p className="text-sm text-gray-600 mb-2">
+            <div className="mt-3 sm:mt-4 text-center">
+              <p className="text-xs sm:text-sm text-gray-600 mb-2">
                 Want more practice sessions?
               </p>
               <a
                 href="/brevedu-plus"
-               className="text-[#002fa7] hover:text-[#0040d1] transition-colors text-sm font-medium underline"
+               className="text-[#002fa7] hover:text-[#0040d1] transition-colors text-xs sm:text-sm font-medium underline"
                 onClick={onClose}
               >
                 Upgrade to BrevEdu+ for 3 daily sessions
