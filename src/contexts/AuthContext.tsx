@@ -105,17 +105,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = async () => {
     console.log('🚪 AuthContext logout function called');
     
-    // Check if email is verified
-    if (!result.user.emailVerified) {
-      // Optionally resend verification email
-      await sendEmailVerification(result.user);
-      console.log('✅ Resent email verification to:', email);
-      
-      // Sign user out and throw error
-      await signOut(auth);
-      throw new Error('Please verify your email before logging in. We\'ve sent you a new verification link.');
-    }
-    
     console.log('🔍 Firebase auth object:', auth);
     console.log('🔍 Current Firebase user:', auth.currentUser?.email);
     
