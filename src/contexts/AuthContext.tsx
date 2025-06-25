@@ -87,8 +87,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       displayName: name
     });
     
-    // Send email verification
-    await sendEmailVerification(result.user);
+    // Send email verification with redirect settings
+    const actionCodeSettings = {
+      url: `${window.location.origin}/verify-email`,
+      handleCodeInApp: true,
+    };
+    await sendEmailVerification(result.user, actionCodeSettings);
     console.log('✅ Email verification sent to:', email);
     
     // Create user document in Firestore but don't log user in
