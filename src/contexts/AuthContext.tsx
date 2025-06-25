@@ -6,7 +6,9 @@ import {
   signOut,
   onAuthStateChanged,
   updateProfile,
-  sendEmailVerification
+  sendEmailVerification,
+  GoogleAuthProvider,
+  signInWithPopup
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
@@ -20,6 +22,7 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string, name: string) => Promise<void>;
+  signInWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
   updateUserRole: (role: UserRole) => Promise<void>;
   incrementAIChatsUsed: () => Promise<void>;
@@ -126,6 +129,52 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return result;
   };
 
+  const signInWithGoogle = async () => {
+    try {
+      console.log('🔄 Starting Google Sign-In...');
+      
+      const provider = new GoogleAuthProvider();
+      // Add additional scopes if needed
+      provider.addScope('email');
+      provider.addScope('profile');
+      
+      // Configure provider settings
+      provider.setCustomParameters({
+        prompt: 'select_account'
+      });
+      
+      const result = await signInWithPopup(auth, provider);
+      console.log('✅ Google Sign-In successful:', result.user.email);
+      
+      // Extract user information from Google
+      const { user } = result;
+      const displayName = user.displayName || 'Google User';
+      const email = user.email || '';
+      
+      // Create or update user document in Firestore
+      await createUserDocument(user, displayName);
+      
+      console.log('✅ User document created/updated for Google user');
+      trackAuthEvent('login', 'google');
+      
+      return result;
+    } catch (error: any) {
+      console.error('❌ Google Sign-In failed:', error);
+      
+      // Handle specific Google Sign-In errors
+      if (error.code === 'auth/popup-closed-by-user') {
+        throw new Error('Sign-in was cancelled. Please try again.');
+      } else if (error.code === 'auth/popup-blocked') {
+        throw new Error('Pop-up was blocked by your browser. Please allow pop-ups and try again.');
+      } else if (error.code === 'auth/account-exists-with-different-credential') {
+        throw new Error('An account already exists with the same email address but different sign-in credentials.');
+      } else if (error.code === 'auth/cancelled-popup-request') {
+        throw new Error('Sign-in was cancelled. Please try again.');
+      } else {
+        throw new Error(error.message || 'Failed to sign in with Google. Please try again.');
+      }
+    }
+  };
   const logout = async () => {
     console.log('🚪 AuthContext logout function called');
     
@@ -259,6 +308,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     loading,
     login,
     register,
+    signInWithGoogle,
     logout,
     updateUserRole,
     incrementAIChatsUsed,
