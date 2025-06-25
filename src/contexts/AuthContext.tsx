@@ -8,7 +8,8 @@ import {
   updateProfile,
   sendEmailVerification,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithRedirect,
+  getRedirectResult
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
@@ -143,31 +144,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         prompt: 'select_account'
       });
       
-      const result = await signInWithPopup(auth, provider);
-      console.log('✅ Google Sign-In successful:', result.user.email);
-      
-      // Extract user information from Google
-      const { user } = result;
-      const displayName = user.displayName || 'Google User';
-      const email = user.email || '';
-      
-      // Create or update user document in Firestore
-      await createUserDocument(user, displayName);
-      
-      console.log('✅ User document created/updated for Google user');
-      trackAuthEvent('login', 'google');
-      
-      return result;
+      await signInWithRedirect(auth, provider);
+      // Note: signInWithRedirect doesn't return a result immediately
+      // The result will be handled by getRedirectResult in the auth state listener
+      return;
     } catch (error: any) {
       // Handle specific Google Sign-In errors
-      if (error.code === 'auth/popup-closed-by-user') {
-        throw new Error('Sign-in was cancelled. Please try again.');
-      } else if (error.code === 'auth/popup-blocked') {
-        throw new Error('Pop-up was blocked by your browser. Please allow pop-ups and try again.');
-      } else if (error.code === 'auth/account-exists-with-different-credential') {
+      if (error.code === 'auth/account-exists-with-different-credential') {
         throw new Error('An account already exists with the same email address but different sign-in credentials.');
-      } else if (error.code === 'auth/cancelled-popup-request') {
-        throw new Error('Sign-in was cancelled. Please try again.');
       } else {
         throw new Error(error.message || 'Failed to sign in with Google. Please try again.');
       }
@@ -283,6 +267,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (firebaseUser) {
         console.log('👤 User is authenticated:', firebaseUser.email);
         try {
+          // Check if this is a result from Google Sign-In redirect
+          const redirectResult = await getRedirectResult(auth);
+          if (redirectResult) {
+            console.log('✅ Google Sign-In redirect successful:', redirectResult.user.email);
+            const { user } = redirectResult;
+            const displayName = user.displayName || 'Google User';
+            
+            // Create or update user document in Firestore
+            await createUserDocument(user, displayName);
+            console.log('✅ User document created/updated for Google user');
+            trackAuthEvent('login', 'google');
+          }
+          
           const userData = await createUserDocument(firebaseUser);
           setCurrentUser(userData);
         } catch (error) {
