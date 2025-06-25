@@ -89,9 +89,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     
     // Send email verification with redirect settings
     const actionCodeSettings = {
-      url: import.meta.env.DEV 
-        ? 'http://localhost/verify-email'
-        : `${window.location.origin}/verify-email`,
+      url: `${window.location.origin}/verify-email`,
       handleCodeInApp: true,
     };
     await sendEmailVerification(result.user, actionCodeSettings);
