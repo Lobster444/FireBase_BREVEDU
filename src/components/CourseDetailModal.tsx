@@ -140,7 +140,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
     if (!isTavusEnabled) {
       return { 
         available: false, 
-        reason: 'Temporarily disabled by administrator',
+        reason: 'We’re currently working on this issue and will have it resolved shortly',
         isDisabledByAdmin: true
       };
     }
