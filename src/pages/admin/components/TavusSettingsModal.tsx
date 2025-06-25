@@ -11,7 +11,8 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
   const [settings, setSettings] = useState({
     replica_id: '',
     persona_id: '',
-    api_key: ''
+    api_key: '',
+    enabled: true
   });
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -37,7 +38,8 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
         setSettings({
           replica_id: data.replica_id || '',
           persona_id: data.persona_id || '',
-          api_key: data.api_key || ''
+          api_key: data.api_key || '',
+          enabled: data.enabled !== undefined ? data.enabled : true
         });
       }
     } catch (error) {
@@ -61,6 +63,7 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
         replica_id: settings.replica_id.trim(),
         persona_id: settings.persona_id.trim(),
         api_key: settings.api_key.trim(),
+        enabled: settings.enabled,
         updatedAt: new Date().toISOString()
       });
       
@@ -148,6 +151,23 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
               </p>
             </div>
 
+            <div className="border-t border-gray-200 pt-4">
+              <label className="flex items-center space-x-3">
+                <input
+                  type="checkbox"
+                  checked={settings.enabled}
+                  onChange={(e) => setSettings(prev => ({ ...prev, enabled: e.target.checked }))}
+                  className="w-5 h-5 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-600/20 focus:ring-2"
+                />
+                <div>
+                  <span className="text-base font-semibold text-gray-900">Enable AI Conversations</span>
+                  <p className="text-sm text-gray-600">
+                    When disabled, users will see "temporarily unavailable" message
+                  </p>
+                </div>
+              </label>
+            </div>
+
             <div className="flex space-x-3 pt-4">
               <button
                 onClick={onClose}
@@ -158,7 +178,7 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
               </button>
               <button
                 onClick={saveTavusSettings}
-                disabled={saving || !settings.replica_id || !settings.persona_id || !settings.api_key}
+                disabled={saving || (settings.enabled && (!settings.replica_id || !settings.persona_id || !settings.api_key))}
                 className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-headspace-lg hover:bg-blue-700 transition-all disabled:opacity-50 flex items-center justify-center space-x-2"
               >
                 {saving ? (

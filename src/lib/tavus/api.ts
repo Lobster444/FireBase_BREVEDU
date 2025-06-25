@@ -287,6 +287,11 @@ const getTavusSettings = async (): Promise<TavusSettings | null> => {
 
     const data = settingsSnap.data();
     
+    // Check if AI conversations are disabled by admin
+    if (data.enabled === false) {
+      throw new TavusConfigError('AI conversations are temporarily disabled by the administrator');
+    }
+    
     // Validate required fields
     if (!data.replica_id || !data.persona_id || !data.api_key) {
       console.error('❌ Incomplete Tavus settings:', {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageCircle, CheckCircle, RotateCcw } from 'lucide-react';
+import { MessageCircle, CheckCircle, RotateCcw, AlertTriangle } from 'lucide-react';
 import { Course, User } from '../types';
 
 interface AIPracticeStatus {
@@ -7,6 +7,7 @@ interface AIPracticeStatus {
   reason: string;
   isCompleted?: boolean;
   isLimitReached?: boolean;
+  isDisabledByAdmin?: boolean;
 }
 
 interface AIPracticeSectionProps {
@@ -47,7 +48,14 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
       
       {/* Status Messages */}
       <div className="mt-2 text-center">
-        {aiPracticeStatus.isLimitReached ? (
+        {aiPracticeStatus.isDisabledByAdmin ? (
+          <div className="flex items-center justify-center space-x-2 text-orange-600">
+            <AlertTriangle className="h-4 w-4" />
+            <p className="text-sm font-medium">
+              {aiPracticeStatus.reason}
+            </p>
+          </div>
+        ) : aiPracticeStatus.isLimitReached ? (
           <p className="text-sm text-red-600 font-medium">
             ❌ {aiPracticeStatus.reason}
           </p>

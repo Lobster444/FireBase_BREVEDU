@@ -10,6 +10,8 @@ import AIPracticeSection from './AIPracticeSection';
 import CourseDetailsSection from './CourseDetailsSection';
 import QuickFacts from './QuickFacts';
 import ActionButtonsSection from './ActionButtonsSection';
+import TavusUnavailableModal from './TavusUnavailableModal';
+import { useTavusSettings } from '../hooks/useTavusSettings';
 import { 
   createTavusConversation, 
   startTavusSession,
@@ -48,6 +50,10 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
   // Store session and conversation IDs for timeout handling
   const [sessionId, setSessionId] = useState<string>('');
   const [tavusConversationId, setTavusConversationId] = useState<string>('');
+  
+  // Tavus settings and unavailable modal
+  const { isEnabled: isTavusEnabled } = useTavusSettings();
+  const [showUnavailableModal, setShowUnavailableModal] = useState(false);
 
   // Reset states when modal opens/closes or course changes
   useEffect(() => {
@@ -130,6 +136,15 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
 
   // Get AI practice availability based on user type
   const getAIPracticeStatus = () => {
+    // Check if Tavus is disabled by admin first
+    if (!isTavusEnabled) {
+      return { 
+        available: false, 
+        reason: 'Temporarily disabled by administrator',
+        isDisabledByAdmin: true
+      };
+    }
+    
     if (!currentUser) {
       return { available: false, reason: 'Sign in required' };
     }
@@ -184,6 +199,13 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
   // Show confirmation modal for AI practice
   const handleAIPractice = () => {
     const status = getAIPracticeStatus();
+    
+    // Check if disabled by admin
+    if (status.isDisabledByAdmin) {
+      setShowUnavailableModal(true);
+      return;
+    }
+    
     if (status.available && course?.id) {
       console.log('🎯 Showing confirmation modal for course:', course.title);
       trackInteraction('ai_practice_button', 'click', 'course_modal');
@@ -248,6 +270,9 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
       if (error instanceof TavusConfigError) {
         if (error.message.includes('settings not configured')) {
           errorMessage = 'AI practice is not configured. Please contact support.';
+          shouldShowRetry = false;
+        } else if (error.message.includes('temporarily disabled by the administrator')) {
+          errorMessage = 'AI conversations are temporarily unavailable. Please try again later.';
           shouldShowRetry = false;
         } else if (error.message.includes('conversational context')) {
           errorMessage = 'This course is not set up for AI practice yet.';
@@ -454,6 +479,12 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
         conversationUrl={tavusConversationUrl} // Pass the dynamically created URL
         sessionId={sessionId} // Pass session ID for timeout handling
         tavusConversationId={tavusConversationId} // Pass Tavus conversation ID for API calls
+      />
+      
+      {/* Tavus Unavailable Modal */}
+      <TavusUnavailableModal
+        isOpen={showUnavailableModal}
+        onClose={() => setShowUnavailableModal(false)}
       />
     </>
   );
