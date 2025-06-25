@@ -85,8 +85,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.log('❌ User email not verified, sending verification email and signing out');
       
       // Send verification email again
+      const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
       const actionCodeSettings = {
-        url: `${window.location.origin}/verify-email`,
+        url: `${baseUrl}/verify-email`,
         handleCodeInApp: true,
       };
       await sendEmailVerification(result.user, actionCodeSettings);
@@ -112,8 +113,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
     
     // Send email verification with redirect settings
+    const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
     const actionCodeSettings = {
-      url: `${window.location.origin}/verify-email`,
+      url: `${baseUrl}/verify-email`,
       handleCodeInApp: true,
     };
     await sendEmailVerification(result.user, actionCodeSettings);

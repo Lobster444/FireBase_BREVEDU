@@ -12,15 +12,40 @@ const VerifyEmailPage: React.FC = () => {
 
   useEffect(() => {
     const verifyEmail = async () => {
-      const oobCode = searchParams.get('oobCode');
+      // First try to get oobCode from URL search parameters
+      let oobCode = searchParams.get('oobCode');
+      
+      // If not found in search params, check the URL hash fragment
+      if (!oobCode) {
+        const hash = window.location.hash;
+        if (hash) {
+          // Parse hash manually to look for oobCode
+          const hashParams = new URLSearchParams(hash.substring(1)); // Remove the # character
+          oobCode = hashParams.get('oobCode');
+          
+          // Also try parsing as key=value pairs separated by &
+          if (!oobCode) {
+            const hashPairs = hash.substring(1).split('&');
+            for (const pair of hashPairs) {
+              const [key, value] = pair.split('=');
+              if (key === 'oobCode') {
+                oobCode = decodeURIComponent(value);
+                break;
+              }
+            }
+          }
+        }
+      }
       
       if (!oobCode) {
+        console.error('❌ No oobCode found in URL parameters or hash fragment');
         setStatus('error');
-        setErrorMessage('Invalid verification link. Please try registering again.');
+        setErrorMessage('Invalid verification link. The verification code is missing. Please try registering again or check if the link was copied completely.');
         return;
       }
 
       try {
+        console.log('✅ Found oobCode, attempting email verification');
         // Apply the email verification code
         await applyActionCode(auth, oobCode);
         console.log('✅ Email verified successfully');
@@ -36,11 +61,11 @@ const VerifyEmailPage: React.FC = () => {
         
         // Handle specific Firebase errors
         if (error.code === 'auth/invalid-action-code') {
-          setErrorMessage('This verification link has expired or has already been used.');
+          setErrorMessage('This verification link has expired or has already been used. Please try registering again to get a new verification link.');
         } else if (error.code === 'auth/expired-action-code') {
-          setErrorMessage('This verification link has expired. Please request a new one.');
+          setErrorMessage('This verification link has expired. Please register again to receive a new verification email.');
         } else {
-          setErrorMessage('Failed to verify email. Please try again or contact support.');
+          setErrorMessage('Failed to verify email. Please try again or contact support if the problem persists.');
         }
       }
     };
