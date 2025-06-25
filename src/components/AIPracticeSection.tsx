@@ -42,7 +42,7 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
             : 'bg-gray-200 text-gray-500 cursor-not-allowed opacity-60'
         }`}
       >
-        {!aiPracticeStatus.isDisabledByAdmin && <MessageCircle className="h-5 w-5" />}
+        <MessageCircle className="h-5 w-5" />
         <span>Practice with AI</span>
       </button>
       
