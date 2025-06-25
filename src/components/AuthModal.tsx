@@ -56,12 +56,7 @@ const InputField: React.FC<InputFieldProps> = ({
           </span>
         )}
         <input
-          peer
-          type={type}
-          id={id}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className={`w-full bg-white border rounded-headspace-lg py-3 sm:py-2 px-4 text-gray-900 font-normal placeholder-gray-400
+          className={`peer w-full bg-white border rounded-headspace-lg py-3 sm:py-2 px-4 text-gray-900 font-normal placeholder-gray-400
             transition-[border-color_0.3s_ease-out,box-shadow_0.3s_ease-out]
             hover:border-[#ccc] hover:animate-[breathe_2s_infinite]
             focus:outline-none focus:border-[#002fa7] focus:border-3 focus:animate-[breathe_2s_infinite]
@@ -72,6 +67,10 @@ const InputField: React.FC<InputFieldProps> = ({
               : 'border-[#e0e0e0]'
             }
           `}
+          type={type}
+          id={id}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           required={required}
           minLength={minLength}
