@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Mail, Lock, User, AlertCircle, CheckCircle, Chrome } from 'lucide-react';
+import { X, Mail, Lock, User, AlertCircle, CheckCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 interface AuthModalProps {
@@ -105,7 +105,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const { login, register, signInWithGoogle } = useAuth();
+  const { login, register } = useAuth();
 
   // Sync mode with initialMode when modal opens or initialMode changes
   useEffect(() => {
@@ -207,26 +207,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
       }
       
       setError(errorMessage);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGoogleSignIn = async () => {
-    setError('');
-    setSuccess('');
-    setLoading(true);
-
-    try {
-      await signInWithGoogle();
-      setSuccess('Welcome! Signing you in...');
-      // Close modal after successful Google sign-in
-      setTimeout(() => {
-        onClose();
-      }, 1000);
-    } catch (err: any) {
-      console.error('Google Sign-In error:', err);
-      setError(err.message || 'Failed to sign in with Google. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -395,35 +375,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
             </button>
           </div>
         </form>
-
-        {/* Divider */}
-        <div className="flex items-center my-6">
-          <div className="flex-1 border-t border-gray-300"></div>
-          <span className="px-4 text-sm text-gray-500 bg-white">or</span>
-          <div className="flex-1 border-t border-gray-300"></div>
-        </div>
-
-        {/* Google Sign-In Button */}
-        <div className="mb-6">
-          <button
-            onClick={handleGoogleSignIn}
-            disabled={loading}
-            className="w-full bg-white border-2 border-gray-300 text-gray-700 py-3 px-6 rounded-headspace-lg font-medium
-              transition-[background-color_0.3s_ease-out,transform_0.2s_ease-out,box-shadow_0.3s_ease-out,border-color_0.3s_ease-out]
-              hover:bg-gray-50 hover:border-gray-400 hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)] hover:animate-[breathe_2s_infinite]
-              active:bg-gray-100 active:scale-95
-              disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-100 disabled:hover:shadow-none disabled:active:scale-100 disabled:hover:animate-none
-              focus:outline-none focus:ring-2 focus:ring-[rgba(0,47,167,0.5)] focus:ring-offset-2 focus:animate-[breathe_2s_infinite]
-              flex items-center justify-center space-x-3"
-            style={{
-              minHeight: '44px',
-              animationTimingFunction: 'ease-in-out'
-            }}
-          >
-            <Chrome className="h-5 w-5 text-blue-500" />
-            <span>{mode === 'login' ? 'Sign in with Google' : 'Sign up with Google'}</span>
-          </button>
-        </div>
 
         {/* Switch Mode */}
         <div className="text-center mt-6">

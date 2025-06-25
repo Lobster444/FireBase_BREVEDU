@@ -6,10 +6,7 @@ import {
   signOut,
   onAuthStateChanged,
   updateProfile,
-  sendEmailVerification,
-  GoogleAuthProvider,
-  signInWithRedirect,
-  getRedirectResult
+  sendEmailVerification
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
@@ -23,7 +20,6 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string, name: string) => Promise<void>;
-  signInWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
   updateUserRole: (role: UserRole) => Promise<void>;
   incrementAIChatsUsed: () => Promise<void>;
@@ -130,34 +126,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     
     trackAuthEvent('sign_up');
     return result;
-  };
-
-  const signInWithGoogle = async () => {
-    try {
-      console.log('🔄 Starting Google Sign-In...');
-      
-      const provider = new GoogleAuthProvider();
-      // Add additional scopes if needed
-      provider.addScope('email');
-      provider.addScope('profile');
-      
-      // Configure provider settings
-      provider.setCustomParameters({
-        prompt: 'select_account'
-      });
-      
-      await signInWithRedirect(auth, provider);
-      // Note: signInWithRedirect doesn't return a result immediately
-      // The result will be handled by getRedirectResult in the auth state listener
-      return;
-    } catch (error: any) {
-      // Handle specific Google Sign-In errors
-      if (error.code === 'auth/account-exists-with-different-credential') {
-        throw new Error('An account already exists with the same email address but different sign-in credentials.');
-      } else {
-        throw new Error(error.message || 'Failed to sign in with Google. Please try again.');
-      }
-    }
   };
   const logout = async () => {
     console.log('🚪 AuthContext logout function called');
@@ -269,19 +237,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (firebaseUser) {
         console.log('👤 User is authenticated:', firebaseUser.email);
         try {
-          // Check if this is a result from Google Sign-In redirect
-          const redirectResult = await getRedirectResult(auth);
-          if (redirectResult) {
-            console.log('✅ Google Sign-In redirect successful:', redirectResult.user.email);
-            const { user } = redirectResult;
-            const displayName = user.displayName || 'Google User';
-            
-            // Create or update user document in Firestore
-            await createUserDocument(user, displayName);
-            console.log('✅ User document created/updated for Google user');
-            trackAuthEvent('login', 'google');
-          }
-          
           const userData = await createUserDocument(firebaseUser);
           setCurrentUser(userData);
         } catch (error) {
@@ -305,7 +260,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     loading,
     login,
     register,
-    signInWithGoogle,
     logout,
     updateUserRole,
     incrementAIChatsUsed,
