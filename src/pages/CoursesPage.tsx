@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Filter, Lock, Crown } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Layout from '../components/Layout';
 import CourseCard from '../components/CourseCard';
 import CourseDetailModal from '../components/CourseDetailModal';
@@ -21,6 +21,7 @@ const CoursesPage: React.FC = () => {
   const [restrictedCourse, setRestrictedCourse] = useState<Course | null>(null);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Redirect anonymous users to home page with auth prompt
   useEffect(() => {
@@ -73,6 +74,11 @@ const CoursesPage: React.FC = () => {
 
   const clearAllFilters = () => {
     setSelectedCategory('All');
+    // Use navigation state to prevent scroll to top when changing filters
+    navigate(location.pathname, { 
+      state: { disableScroll: true },
+      replace: true 
+    });
   };
 
   // Get user access level display

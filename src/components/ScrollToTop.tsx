@@ -2,11 +2,14 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const location = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    // Skip scrolling if navigation specifies disableScroll
+    if (!location.state?.disableScroll) {
+      window.scrollTo(0, 0);
+    }
+  }, [location]);
 
   return null;
 };
