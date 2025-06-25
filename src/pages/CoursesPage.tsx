@@ -13,7 +13,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { sendEmailVerification } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { notifyInfo, notifyError } from '../lib/toast';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle, X } from 'lucide-react';
 
 const CoursesPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -164,7 +164,17 @@ const CoursesPage: React.FC = () => {
               </div>
               <div>
                 <p className="text-sm font-medium text-yellow-800">
-              </button>
+                  Please verify your email address to complete your account setup.
+                </p>
+                <button
+                  onClick={handleResendVerification}
+                  className="text-sm text-yellow-700 hover:text-yellow-800 underline"
+                >
+                  Resend verification email
+                </button>
+              </div>
+            </div>
+            <div>
               <button
                 onClick={() => setShowEmailVerificationBanner(false)}
                 className="text-yellow-600 hover:text-yellow-700"
@@ -176,8 +186,6 @@ const CoursesPage: React.FC = () => {
         </div>
       )}
 
-                  Please verify your email address to complete your account setup.
-                </p>
       {/* Header */}
       <section className="px-padding-medium py-8 border-b border-gray-200 bg-white">
         <div className="max-w-screen-2xl mx-auto">
