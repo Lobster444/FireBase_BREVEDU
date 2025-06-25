@@ -49,7 +49,7 @@ const UpgradePromoSection: React.FC<UpgradePromoSectionProps> = ({
             </PrimaryButton>
             
             <p className="text-sm sm:text-base text-gray-600 mt-3 sm:mt-4 lg:mt-6">
-              7-day free trial • Cancel anytime • $3.99/month
+              7-day free trial • Cancel anytime • $5.99/month
             </p>
           </div>
         </div>
