@@ -51,7 +51,7 @@ const InputField: React.FC<InputFieldProps> = ({
       </label>
       <div className="relative group">
         {icon && (
-          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 peer-focus:text-gray-400 pointer-events-none">
+          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 peer-focus:!text-gray-400 peer-hover:!text-gray-400 peer-active:!text-gray-400 pointer-events-none">
             {icon}
           </span>
         )}
