@@ -1,337 +1,422 @@
-# BrevEdu Platform
-
-A modern learning platform that delivers focused education through bite-sized video lessons with AI-powered practice sessions.
-
-## Features
-
-- 🎯 **5-Minute Lessons**: Bite-sized video content designed for busy professionals
-- 🤖 **AI Practice Sessions**: Interactive conversations powered by Tavus AI
-- 📱 **Mobile-First Design**: Responsive design optimized for all devices
-- 🔐 **User Management**: Firebase Authentication with role-based access
-- 💎 **Subscription Tiers**: Free and Premium access levels
-- 📊 **Analytics**: Comprehensive tracking with Firebase Analytics
-- 🎨 **Modern UI**: Beautiful, production-ready design with Tailwind CSS
-
-## Quick Start
-
-### Prerequisites
-
-- Node.js 18+ and npm
-- Firebase project with Authentication, Firestore, and Storage enabled
-- Tavus AI account (for AI practice features)
-
-### Installation
-
-1. **Clone and install dependencies:**
-   ```bash
-   git clone <your-repo-url>
-   cd brevedu-platform
-   npm install
-   ```
-
-2. **Set up environment variables:**
-   ```bash
-   cp .env.example .env
-   # Edit .env with your Firebase project values
-   ```
-   
-   **Important**: Get your Firebase configuration from:
-   - Go to [Firebase Console](https://console.firebase.google.com)
-   - Select your project
-   - Go to Project Settings > General > Your apps
-   - Copy the config values to your `.env` file
-
-3. **Start development server:**
-   ```bash
-   npm run dev
-   ```
-
-## Environment Configuration
-
-### Critical: Email Verification Setup
-
-**⚠️ IMPORTANT**: For email verification to work properly, you MUST configure the `VITE_APP_URL` environment variable and whitelist your domain in Firebase.
-
-#### Required Steps:
-
-1. **Set VITE_APP_URL in your environment file:**
-   ```bash
-   # In your .env file
-   VITE_APP_URL=https://your-domain.com
-   # For local development:
-   VITE_APP_URL=http://localhost:5173
-   ```
-
-2. **Whitelist your domain in Firebase Console:**
-   - Go to [Firebase Console](https://console.firebase.google.com)
-   - Select your project
-   - Navigate to **Authentication > Settings > Authorized Domains**
-   - Add your domain (e.g., `your-domain.com` or `localhost` for development)
-   - **Without this step, verification emails will redirect to an unauthorized page**
-
-3. **How it works:**
-   - When users register, `sendEmailVerification` creates a link using `VITE_APP_URL/verify-email`
-   - The verification email contains this link with an `oobCode` parameter
-   - Users click the link and are redirected to your `/verify-email` page
-   - The page extracts the `oobCode` and calls Firebase to verify the email
-
-#### Troubleshooting Email Verification:
-
-- **"Invalid verification link" error**: Check that `VITE_APP_URL` is set correctly
-- **Blank page after clicking email link**: Your domain is not whitelisted in Firebase Authorized Domains
-- **404 error on verification**: The `VITE_APP_URL` doesn't match your actual domain
-- **Link doesn't work**: Ensure the verification link wasn't truncated in the email client
-
-### Required Variables
-
-**Step 1**: Copy the environment template:
-```bash
-cp .env.example .env
-```
-
-**Step 2**: Configure Firebase (REQUIRED):
-```bash
-# Get these from Firebase Console > Project Settings > General
-VITE_FIREBASE_API_KEY=your_api_key_here
-VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
-VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
-
-# CRITICAL: Set this to your actual domain for email verification
-VITE_APP_URL=https://your-domain.com
-```
-
-**Step 3**: Configure Tavus AI (Optional):
-
-```bash
-TAVUS_API_KEY=your_tavus_api_key
-TAVUS_DEFAULT_TTL=3600
-TAVUS_MAX_RETRIES=3
-```
-
-### Environment Files
-
-- `.env.example` - Template with all available variables
-- `.env.local.example` - Local development overrides
-- `.env.production.example` - Production configuration
-
-### Security Note
-
-🔒 **Never commit `.env` files to version control!** 
-
-The `.env` file is automatically ignored by Git. Always use environment variables for:
-- API keys
-- Database credentials  
-- Third-party service tokens
-- Any sensitive configuration
-
-### Tavus AI Setup
-
-1. **Create Tavus Account**: Sign up at [Tavus.io](https://tavus.io)
-2. **Get API Key**: Generate an API key from your Tavus dashboard
-3. **Configure Settings**: In the admin panel, go to AI Settings and configure:
-   - Replica ID
-   - Persona ID
-   - API Key
-
-## Development
-
-### Available Scripts
-
-```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run preview      # Preview production build
-npm run lint         # Run ESLint
-npm run test         # Run unit tests
-npm run test:ui      # Run tests with UI
-npm run test:coverage # Run tests with coverage
-```
-
-### Project Structure
-
-```
-src/
-├── components/          # Reusable UI components
-├── contexts/           # React contexts (Auth, etc.)
-├── hooks/              # Custom React hooks
-├── lib/                # Utilities and services
-├── pages/              # Page components
-├── services/           # Business logic services
-├── styles/             # CSS and styling
-└── types/              # TypeScript type definitions
-```
-
-### Key Technologies
-
-- **Frontend**: React 18, TypeScript, Tailwind CSS
-- **Backend**: Firebase (Auth, Firestore, Storage, Analytics)
-- **AI Integration**: Tavus AI for conversational practice
-- **Video**: Plyr for video playback
-- **Icons**: Lucide React
-- **Testing**: Vitest, Testing Library
-
-## Deployment
-
-### Firebase Setup
-
-1. **Create Firebase Project**
-2. **Enable Services**:
-   - Authentication (Email/Password)
-   - Firestore Database
-   - Storage
-   - Analytics
-3. **Configure Security Rules**
-4. **Deploy using Firebase Hosting or your preferred platform**
-
-### Production Checklist
-
-- [ ] Set up production Firebase project
-- [ ] Configure production environment variables (never use development keys!)
-- [ ] Set `VITE_APP_URL` to your production domain
-- [ ] Add your production domain to Firebase Authorized Domains
-- [ ] Set up Tavus AI production credentials
-- [ ] Configure Firebase security rules
-- [ ] Set up monitoring and analytics
-- [ ] Configure CDN for static assets
-- [ ] Set up error tracking (Sentry)
-- [ ] Configure backup strategies
-- [ ] Verify no sensitive data in source control
-- [ ] Test with production environment variables
-
-### Email Verification Flow
-
-The platform implements a secure email verification process:
-
-1. **Registration**: User creates account with email/password
-2. **Verification Email**: System sends verification email using `VITE_APP_URL/verify-email`
-3. **Email Verification**: User clicks link, system verifies email with Firebase
-4. **Login**: Only verified users can sign in
-
-**Key Implementation Details:**
-- Registration creates account but immediately signs user out
-- Login checks `emailVerified` status and blocks unverified users
-- Verification page handles both URL parameters and hash fragments for `oobCode`
-- Failed verification provides clear error messages and recovery options
-
-## Features Guide
-
-### User Roles
-
-- **Anonymous**: Can view anonymous-level courses
-- **Free**: Access to free courses + 1 daily AI practice session
-- **Premium**: Access to all courses + 3 daily AI practice sessions
-- **Admin**: Full access + course management
-
-### AI Practice Sessions
-
-- Powered by Tavus AI for natural conversations
-- 3-minute session limit with TTL enforcement
-- Offline queue support for poor connections
-- Usage tracking and daily limits
-- Completion scoring and progress tracking
-
-### Course Management
-
-- Admin panel for course creation/editing
-- Support for YouTube nocookie embeds
-- AI conversation context configuration
-- Access level controls
-- Draft/published states
-
-## API Reference
-
-### Tavus Integration
-
-The platform integrates with Tavus AI for conversational practice:
-
-- **Session Creation**: Dynamic conversation generation
-- **Context Management**: Course-specific AI behavior
-- **Usage Tracking**: Daily limits and analytics
-- **Offline Support**: Queue operations when offline
-
-### Firebase Services
-
-- **Authentication**: User management and roles
-- **Firestore**: Course data and user progress
-- **Storage**: Image uploads and assets
-- **Analytics**: User behavior and engagement
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new functionality
-5. Submit a pull request
-
-## Testing
-
-### Running Tests
-
-```bash
-npm run test              # Unit tests
-npm run test:ui           # Interactive test UI
-npm run test:coverage     # Coverage report
-npm run test:integration  # Integration tests
-```
-
-### Manual Testing
-
-See `src/lib/__tests__/manual-test-guide.md` for comprehensive manual testing procedures.
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Email Verification Problems**:
-   - **Issue**: "Invalid verification link" or blank page after clicking email
-   - **Solution**: 
-     - Verify `VITE_APP_URL` is set correctly in your environment
-     - Check that your domain is added to Firebase Authorized Domains
-     - Ensure the verification link wasn't truncated in the email
-
-1. **Firebase Configuration Errors**: 
-   - Verify all `VITE_FIREBASE_*` environment variables are set
-   - Check Firebase project settings match your `.env` file
-   - Ensure Firebase services are enabled (Auth, Firestore, Storage)
-
-2. **Tavus API Errors**: Check API key and network connectivity
-2. **Firebase Errors**: Verify project configuration and security rules
-3. **Build Errors**: Ensure all environment variables are set
-4. **Video Playback**: Confirm YouTube nocookie URLs are used
-
-### Debug Mode
-
-Enable debug mode for detailed logging:
-
-```bash
-VITE_DEBUG_MODE=true
-VITE_CONSOLE_LOGGING=true
-```
-
-### Environment Variable Issues
-
-If you're having issues with environment variables:
-
-1. **Check file naming**: Must be `.env` (not `.env.txt` or similar)
-2. **Restart dev server**: Environment changes require restart
-3. **Verify VITE_ prefix**: Client-side variables must start with `VITE_`
-4. **Check for spaces**: No spaces around the `=` sign
-5. **Quote complex values**: Use quotes for values with spaces or special characters
-6. **Domain authorization**: For email verification, ensure your domain is whitelisted in Firebase
-
-## License
-
-This project is licensed under the MIT License.
-
-## Support
-
-For support and questions:
-- Check the documentation
-- Review the troubleshooting guide
-- Open an issue on GitHub
-- Contact support@brevedu.com
+import React, { useState, useEffect } from 'react';
+import { Filter, Lock, Crown } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import Layout from '../components/Layout';
+import CourseCard from '../components/CourseCard';
+import CourseDetailModal from '../components/CourseDetailModal';
+import AuthModal from '../components/AuthModal';
+import { AccentButton, PrimaryButton, PillToggleButton, LinkButton } from '../components/UIButtons';
+import { categories } from '../data/mockCourses';
+import { Course, getAccessLevelRequirement } from '../types';
+import { useCourses } from '../hooks/useCourses';
+import { useAuth } from '../contexts/AuthContext';
+import { sendEmailVerification } from 'firebase/auth';
+import { auth } from '../lib/firebase';
+import { notifyInfo, notifyError } from '../lib/toast';
+import { sendEmailVerification } from 'firebase/auth';
+import { auth } from '../lib/firebase';
+import { notifyInfo, notifyError } from '../lib/toast';
+
+const CoursesPage: React.FC = () => {
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [showCourseModal, setShowCourseModal] = useState(false);
+  const [showAccessModal, setShowAccessModal] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('register');
+  const [restrictedCourse, setRestrictedCourse] = useState<Course | null>(null);
+  const { currentUser, firebaseUser } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [showEmailVerificationBanner, setShowEmailVerificationBanner] = useState(false);
+  const [showEmailVerificationBanner, setShowEmailVerificationBanner] = useState(false);
+
+  // Check if user needs email verification
+  useEffect(() => {
+    if (!currentUser) {
+      // Anonymous user trying to access courses page - redirect to home and show auth modal
+      navigate('/', { replace: true });
+    } else if (firebaseUser && !firebaseUser.emailVerified) {
+      // User is logged in but email not verified
+      setShowEmailVerificationBanner(true);
+      // User is logged in but email not verified
+      setShowEmailVerificationBanner(true);
+    }
+  }, [currentUser, firebaseUser, navigate]);
+
+  // Handle resend verification email
+  const handleResendVerification = async () => {
+    if (!firebaseUser) return;
+    
+    try {
+      const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
+      const actionCodeSettings = {
+        url: `${baseUrl}/verify-email`,
+        handleCodeInApp: true,
+      };
+      await sendEmailVerification(firebaseUser, actionCodeSettings);
+      notifyInfo('📧 Verification email sent! Please check your inbox.');
+    } catch (error) {
+      console.error('Error sending verification email:', error);
+      notifyError('Failed to send verification email. Please try again.');
+    }
+  }, [currentUser, firebaseUser, navigate]);
+
+  // Handle resend verification email
+  const handleResendVerification = async () => {
+    if (!firebaseUser) return;
+    
+    try {
+      const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
+      const actionCodeSettings = {
+        url: `${baseUrl}/verify-email`,
+        handleCodeInApp: true,
+      };
+      await sendEmailVerification(firebaseUser, actionCodeSettings);
+      notifyInfo('📧 Verification email sent! Please check your inbox.');
+    } catch (error) {
+      console.error('Error sending verification email:', error);
+      notifyError('Failed to send verification email. Please try again.');
+    }
+  };
+
+  // Pass user role to filter courses based on access level
+  const { courses, loading, error } = useCourses(
+    selectedCategory,
+    false, // Not filtering for premium only
+    currentUser?.role || null,
+    true // Include restricted courses so free users can see premium courses
+  );
+
+  const handleCourseClick = (course: Course) => {
+    // Check if free user is trying to access premium course
+    if (course.accessLevel === 'premium' && currentUser?.role === 'free') {
+      setRestrictedCourse(course);
+      setShowAccessModal(true);
+      return;
+    }
+    
+    // Normal course access
+    setSelectedCourse(course);
+    setShowCourseModal(true);
+  };
+
+  const handleCloseCourseModal = () => {
+    setShowCourseModal(false);
+    setSelectedCourse(null);
+  };
+
+  const handleCloseAccessModal = () => {
+    setShowAccessModal(false);
+    setRestrictedCourse(null);
+  };
+
+  const handleCloseAuthModal = () => {
+    setShowAuthModal(false);
+  };
+
+  const handleAuthPrompt = (mode: 'login' | 'register' = 'register') => {
+    setAuthMode(mode);
+    setShowAuthModal(true);
+  };
+
+  const clearAllFilters = () => {
+    setSelectedCategory('All');
+    // Use navigation state to prevent scroll to top when changing filters
+    navigate(location.pathname, { 
+      state: { disableScroll: true },
+      replace: true 
+    });
+  };
+
+  // Get user access level display
+  const getUserAccessInfo = () => {
+    if (!currentUser) {
+      return {
+        level: 'Anonymous',
+        description: 'Sign up for free to access more courses',
+        color: 'text-gray-600'
+      };
+    }
+    
+    switch (currentUser.role) {
+      case 'free':
+        return {
+          level: 'Free Account',
+          description: 'Upgrade to BrevEdu+ for premium courses',
+          color: 'text-subscription-free'
+        };
+      case 'premium':
+        return {
+          level: 'BrevEdu+ Member',
+          description: 'You have access to all courses',
+          color: 'text-subscription-premium'
+        };
+      default:
+        return {
+          level: 'Anonymous',
+          description: 'Sign up for free to access more courses',
+          color: 'text-gray-600'
+        };
+    }
+  };
+
+  const userAccessInfo = getUserAccessInfo();
+
+  // Don't render the page content for anonymous users (they'll be redirected)
+  if (!currentUser) {
+    return (
+      <Layout currentPage="courses">
+        <div className="text-center py-12">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A59]"></div>
+          <p className="text-lg text-gray-700 mt-4">Redirecting...</p>
+        </div>
+      </Layout>
+    );
+  }
+
+  return (
+    <Layout currentPage="courses">
+      {/* Email Verification Banner */}
+      {showEmailVerificationBanner && (
+        <div className="bg-yellow-50 border-b border-yellow-200 px-padding-medium py-3">
+          <div className="max-w-screen-2xl mx-auto flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                <AlertTriangle className="h-4 w-4 text-yellow-600" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-yellow-800">
+                  Please verify your email address to complete your account setup.
+                </p>
+                <p className="text-xs text-yellow-700">
+                  Check your inbox for a verification link, or click below to resend.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={handleResendVerification}
+                className="text-yellow-800 hover:text-yellow-900 text-sm font-medium underline"
+              >
+                Resend Email
+      {/* Email Verification Banner */}
+      {showEmailVerificationBanner && (
+        <div className="bg-yellow-50 border-b border-yellow-200 px-padding-medium py-3">
+          <div className="max-w-screen-2xl mx-auto flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                <AlertTriangle className="h-4 w-4 text-yellow-600" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-yellow-800">
+                  Please verify your email address to complete your account setup.
+                </p>
+      {/* Header */}
+      <section className="px-padding-medium py-8 border-b border-gray-200 bg-white">
+        <div className="max-w-screen-2xl mx-auto">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4">
+            <div>
+              <h1 className="text-4xl font-bold text-gray-900 mb-2">All Courses</h1>
+              <p className="text-lg text-gray-700">
+                Explore our complete library of bite-sized video lessons
+              </p>
+            </div>
+            
+            {/* User Access Level Info - Hide upgrade prompts for premium users */}
+            {currentUser?.role !== 'premium' && (
+              <div className="mt-3 lg:mt-0">
+                <div className="bg-gray-50 rounded-[12px] p-4 text-center lg:text-right border border-gray-200">
+                  <div className={`text-lg font-semibold ${userAccessInfo.color}`}>
+                    {userAccessInfo.level}
+                  </div>
+                  <div className="text-base text-gray-600">
+                    {userAccessInfo.description}
+                  </div>
+                  {currentUser?.role === 'free' && (
+                    <a
+                      href="/brevedu-plus"
+                      className="inline-flex items-center space-x-1 text-[#002fa7] hover:text-[#0040d1] transition-colors text-base mt-2 font-medium"
+                    >
+                      <Crown className="h-4 w-4" />
+                      <span>Upgrade Now</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Filters */}
+          <div className="flex flex-col items-center gap-4">
+            {/* Category Filter */}
+            <div className="flex flex-wrap justify-center gap-2">
+              {categories.map((category) => (
+                <PillToggleButton
+                  key={category}
+                  label={category}
+                  active={selectedCategory === category}
+                  onClick={() => setSelectedCategory(category)}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Course Grid */}
+      <section className="px-padding-medium py-8 bg-white">
+        <div className="max-w-screen-2xl mx-auto">
+          {/* Loading State */}
+          {loading && (
+            <div className="text-center py-12">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A59]"></div>
+              <p className="text-lg text-gray-700 mt-4">Loading courses...</p>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && (
+            <div className="text-center py-12">
+              <p className="text-lg text-red-600 mb-4">{error}</p>
+              <AccentButton onClick={() => window.location.reload()}>
+                Try again
+              </AccentButton>
+            </div>
+          )}
+
+          {/* Results */}
+          {!loading && !error && (
+            <>
+              {courses.length === 0 ? (
+                <div className="text-center py-12">
+                  {courses.length === 0 ? (
+                    <div>
+                      {currentUser.role === 'free' ? (
+                        <>
+                          <Crown className="h-12 w-12 text-[#FF7A59] mx-auto mb-4" />
+                          <p className="text-lg text-gray-700 mb-4">
+                            No courses available for your current access level in this category.
+                          </p>
+                          <div className="space-y-3">
+                            <PillToggleButton
+                              label="View all available courses"
+                              active={false}
+                              onClick={() => setSelectedCategory('All')}
+                            />
+                            <div>
+                              <a href="/brevedu-plus">
+                                <PrimaryButton>
+                                  Upgrade for Premium Courses
+                                </PrimaryButton>
+                              </a>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-lg text-gray-700 mb-4">
+                            No courses found for this category.
+                          </p>
+                          <PillToggleButton
+                            label="View all courses"
+                            active={false}
+                            onClick={() => setSelectedCategory('All')}
+                          />
+                        </>
+                      )}
+                    </div>
+                  ) : (
+                    <div>
+                      <p className="text-lg text-gray-700 mb-4">
+                        No courses found matching your filter criteria.
+                      </p>
+                      <PillToggleButton
+                        label="Clear all filters"
+                        active={false}
+                        onClick={clearAllFilters}
+                      />
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <div className="flex items-center justify-between mb-6">
+                    <p className="text-lg text-gray-700">
+                      Showing {courses.length} courses
+                      {currentUser?.role === 'premium' ? ' (full access)' : ' available to you'}
+                    </p>
+                    {/* Hide "Unlock All Courses" link for premium users */}
+                    {currentUser?.role !== 'premium' && (
+                      <a
+                        href="/brevedu-plus"
+                        className="text-[#002fa7] hover:text-[#0040d1] transition-colors text-base flex items-center space-x-1 font-medium"
+                      >
+                        <Crown className="h-4 w-4" />
+                        <span>Unlock All Courses</span>
+                      </a>
+                    )}
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {courses.map((course) => (
+                      <CourseCard key={course.id} course={course} onClick={handleCourseClick} />
+                    ))}
+                  </div>
+                </>
+              )}
+            </>
+          )}
+        </div>
+      </section>
+
+      {/* Course Detail Modal */}
+      <CourseDetailModal
+        isOpen={showCourseModal}
+        course={selectedCourse}
+        onClose={handleCloseCourseModal}
+      />
+
+      {/* Access Restricted Modal */}
+      {showAccessModal && restrictedCourse && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white border border-gray-200 rounded-[16px] w-full max-w-md p-6">
+            <div className="text-center">
+              <Lock className="h-12 w-12 text-[#002fa7] mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Access Restricted</h3>
+              <p className="text-lg text-gray-700 mb-4">
+                This course requires: {getAccessLevelRequirement(restrictedCourse.accessLevel)}
+              </p>
+              
+              <div className="space-y-3">
+                {currentUser.role === 'free' && restrictedCourse.accessLevel === 'premium' ? (
+                  <a href="/brevedu-plus" className="block">
+                    <PrimaryButton className="w-full">
+                      Upgrade to BrevEdu+
+                    </PrimaryButton>
+                  </a>
+                ) : null}
+                
+                <button
+                  onClick={handleCloseAccessModal}
+                  className="w-full border border-gray-300 text-gray-700 px-6 py-3 rounded-[10px] text-lg font-medium hover:bg-gray-50 transition-all"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={handleCloseAuthModal}
+        initialMode={authMode}
+      />
+    </Layout>
+  );
+};
+
+export default CoursesPage;
