@@ -10,10 +10,6 @@ import { categories } from '../data/mockCourses';
 import { Course, getAccessLevelRequirement } from '../types';
 import { useCourses } from '../hooks/useCourses';
 import { useAuth } from '../contexts/AuthContext';
-import { sendEmailVerification } from 'firebase/auth';
-import { auth } from '../lib/firebase';
-import { notifyInfo, notifyError } from '../lib/toast';
-import { AlertTriangle, X } from 'lucide-react';
 
 const CoursesPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -26,36 +22,14 @@ const CoursesPage: React.FC = () => {
   const { currentUser, firebaseUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [showEmailVerificationBanner, setShowEmailVerificationBanner] = useState(false);
 
   // Check if user needs email verification
   useEffect(() => {
     if (!currentUser) {
       // Anonymous user trying to access courses page - redirect to home and show auth modal
       navigate('/', { replace: true });
-    } else if (firebaseUser && !firebaseUser.emailVerified) {
-      // User is logged in but email not verified
-      setShowEmailVerificationBanner(true);
     }
-  }, [currentUser, firebaseUser, navigate]);
-
-  // Handle resend verification email
-  const handleResendVerification = async () => {
-    if (!firebaseUser) return;
-    
-    try {
-      const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
-      const actionCodeSettings = {
-        url: `${baseUrl}/verify-email`,
-        handleCodeInApp: true,
-      };
-      await sendEmailVerification(firebaseUser, actionCodeSettings);
-      notifyInfo('📧 Verification email sent! Please check your inbox.');
-    } catch (error) {
-      console.error('Error sending verification email:', error);
-      notifyError('Failed to send verification email. Please try again.');
-    }
-  };
+  }, [currentUser, navigate]);
 
   // Pass user role to filter courses based on access level
   const { courses, loading, error } = useCourses(
@@ -154,38 +128,6 @@ const CoursesPage: React.FC = () => {
 
   return (
     <Layout currentPage="courses">
-      {/* Email Verification Banner */}
-      {showEmailVerificationBanner && (
-        <div className="bg-yellow-50 border-b border-yellow-200 px-padding-medium py-3">
-          <div className="max-w-screen-2xl mx-auto flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                <AlertTriangle className="h-4 w-4 text-yellow-600" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-yellow-800">
-                  Please verify your email address to complete your account setup.
-                </p>
-                <button
-                  onClick={handleResendVerification}
-                  className="text-sm text-yellow-700 hover:text-yellow-800 underline"
-                >
-                  Resend verification email
-                </button>
-              </div>
-            </div>
-            <div>
-              <button
-                onClick={() => setShowEmailVerificationBanner(false)}
-                className="text-yellow-600 hover:text-yellow-700"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Header */}
       <section className="px-padding-medium py-8 border-b border-gray-200 bg-white">
         <div className="max-w-screen-2xl mx-auto">

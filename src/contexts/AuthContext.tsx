@@ -112,14 +112,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Update Firebase profile
     await updateProfile(user, { displayName });
     
-    // Send email verification
-    const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
-    const actionCodeSettings = {
-      url: `${baseUrl}/verify-email`,
-      handleCodeInApp: true,
-    };
-    await sendEmailVerification(user, actionCodeSettings);
-    
     // Create user document in Firestore
     const newUser: User = {
       id: user.uid,
@@ -127,7 +119,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       displayName,
       role: 'free',
       createdAt: new Date(),
-      emailVerified: false
+      emailVerified: true
     };
     
     await setDoc(doc(db, 'users', user.uid), {
