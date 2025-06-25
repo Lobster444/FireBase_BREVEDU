@@ -158,11 +158,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
       
       if (mode === 'register') {
         await register(email.trim(), password, name.trim());
-        setSuccess('Account created successfully! Welcome to BrevEdu!');
+        setSuccess('Account created! Please check your email and click the verification link to activate your account.');
         // Close modal after successful registration
         setTimeout(() => {
           onClose();
-        }, 1500);
+        }, 3000); // Longer delay to let user read the verification message
       } else {
         await login(email.trim(), password);
         setSuccess('Welcome back! Signing you in...');

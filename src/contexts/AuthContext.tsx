@@ -5,7 +5,8 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  updateProfile
+  updateProfile,
+  sendEmailVerification
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
@@ -85,6 +86,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await updateProfile(result.user, {
       displayName: name
     });
+    
+    // Send email verification
+    await sendEmailVerification(result.user);
+    console.log('✅ Email verification sent to:', email);
     
     // Create user document in Firestore and update local state immediately
     const userData = await createUserDocument(result.user, name);
