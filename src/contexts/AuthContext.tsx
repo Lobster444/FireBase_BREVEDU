@@ -75,6 +75,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string) => {
     const result = await signInWithEmailAndPassword(auth, email, password);
+    
+    // Check if email is verified
+    if (!result.user.emailVerified) {
+      console.log('❌ User email not verified, sending verification email and signing out');
+      
+      // Send verification email again
+      const actionCodeSettings = {
+        url: `${window.location.origin}/verify-email`,
+        handleCodeInApp: true,
+      };
+      await sendEmailVerification(result.user, actionCodeSettings);
+      
+      // Sign out the user
+      await signOut(auth);
+      
+      // Throw error to be caught by the login form
+      throw new Error('Please verify your email before logging in. We\'ve sent you a new verification link.');
+    }
+    
+    console.log('✅ User email verified, login successful');
     trackAuthEvent('login');
     return result;
   };

@@ -183,6 +183,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
           case 'auth/wrong-password':
             errorMessage = 'Incorrect password. Please try again.';
             break;
+          case 'auth/invalid-credential':
+            errorMessage = 'Invalid email or password. Please check your credentials.';
+            break;
           case 'auth/email-already-in-use':
             errorMessage = 'An account with this email already exists.';
             break;
@@ -195,19 +198,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
           case 'auth/too-many-requests':
             errorMessage = 'Too many failed attempts. Please try again later.';
             break;
-          case 'auth/invalid-credential':
-            errorMessage = 'Invalid email or password. Please check your credentials.';
-            break;
-          case 'auth/user-not-found':
-            errorMessage = 'No account found with this email address.';
-            break;
-          case 'auth/wrong-password':
-            errorMessage = 'Incorrect password. Please try again.';
-            break;
           default:
             errorMessage = err.message || errorMessage;
         }
       } else {
+        // Handle custom error messages (like email verification)
         errorMessage = err.message || errorMessage;
       }
       
