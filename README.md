@@ -48,6 +48,40 @@ A modern learning platform that delivers focused education through bite-sized vi
 
 ## Environment Configuration
 
+### Critical: Email Verification Setup
+
+**⚠️ IMPORTANT**: For email verification to work properly, you MUST configure the `VITE_APP_URL` environment variable and whitelist your domain in Firebase.
+
+#### Required Steps:
+
+1. **Set VITE_APP_URL in your environment file:**
+   ```bash
+   # In your .env file
+   VITE_APP_URL=https://your-domain.com
+   # For local development:
+   VITE_APP_URL=http://localhost:5173
+   ```
+
+2. **Whitelist your domain in Firebase Console:**
+   - Go to [Firebase Console](https://console.firebase.google.com)
+   - Select your project
+   - Navigate to **Authentication > Settings > Authorized Domains**
+   - Add your domain (e.g., `your-domain.com` or `localhost` for development)
+   - **Without this step, verification emails will redirect to an unauthorized page**
+
+3. **How it works:**
+   - When users register, `sendEmailVerification` creates a link using `VITE_APP_URL/verify-email`
+   - The verification email contains this link with an `oobCode` parameter
+   - Users click the link and are redirected to your `/verify-email` page
+   - The page extracts the `oobCode` and calls Firebase to verify the email
+
+#### Troubleshooting Email Verification:
+
+- **"Invalid verification link" error**: Check that `VITE_APP_URL` is set correctly
+- **Blank page after clicking email link**: Your domain is not whitelisted in Firebase Authorized Domains
+- **404 error on verification**: The `VITE_APP_URL` doesn't match your actual domain
+- **Link doesn't work**: Ensure the verification link wasn't truncated in the email client
+
 ### Required Variables
 
 **Step 1**: Copy the environment template:
@@ -65,6 +99,9 @@ VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
 VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
 VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
+
+# CRITICAL: Set this to your actual domain for email verification
+VITE_APP_URL=https://your-domain.com
 ```
 
 **Step 3**: Configure Tavus AI (Optional):
@@ -154,6 +191,8 @@ src/
 
 - [ ] Set up production Firebase project
 - [ ] Configure production environment variables (never use development keys!)
+- [ ] Set `VITE_APP_URL` to your production domain
+- [ ] Add your production domain to Firebase Authorized Domains
 - [ ] Set up Tavus AI production credentials
 - [ ] Configure Firebase security rules
 - [ ] Set up monitoring and analytics
@@ -162,6 +201,21 @@ src/
 - [ ] Configure backup strategies
 - [ ] Verify no sensitive data in source control
 - [ ] Test with production environment variables
+
+### Email Verification Flow
+
+The platform implements a secure email verification process:
+
+1. **Registration**: User creates account with email/password
+2. **Verification Email**: System sends verification email using `VITE_APP_URL/verify-email`
+3. **Email Verification**: User clicks link, system verifies email with Firebase
+4. **Login**: Only verified users can sign in
+
+**Key Implementation Details:**
+- Registration creates account but immediately signs user out
+- Login checks `emailVerified` status and blocks unverified users
+- Verification page handles both URL parameters and hash fragments for `oobCode`
+- Failed verification provides clear error messages and recovery options
 
 ## Features Guide
 
@@ -233,12 +287,19 @@ See `src/lib/__tests__/manual-test-guide.md` for comprehensive manual testing pr
 
 ### Common Issues
 
+1. **Email Verification Problems**:
+   - **Issue**: "Invalid verification link" or blank page after clicking email
+   - **Solution**: 
+     - Verify `VITE_APP_URL` is set correctly in your environment
+     - Check that your domain is added to Firebase Authorized Domains
+     - Ensure the verification link wasn't truncated in the email
+
 1. **Firebase Configuration Errors**: 
    - Verify all `VITE_FIREBASE_*` environment variables are set
    - Check Firebase project settings match your `.env` file
    - Ensure Firebase services are enabled (Auth, Firestore, Storage)
 
-1. **Tavus API Errors**: Check API key and network connectivity
+2. **Tavus API Errors**: Check API key and network connectivity
 2. **Firebase Errors**: Verify project configuration and security rules
 3. **Build Errors**: Ensure all environment variables are set
 4. **Video Playback**: Confirm YouTube nocookie URLs are used
@@ -261,6 +322,7 @@ If you're having issues with environment variables:
 3. **Verify VITE_ prefix**: Client-side variables must start with `VITE_`
 4. **Check for spaces**: No spaces around the `=` sign
 5. **Quote complex values**: Use quotes for values with spaces or special characters
+6. **Domain authorization**: For email verification, ensure your domain is whitelisted in Firebase
 
 ## License
 
