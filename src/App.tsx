@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from './contexts/AuthContext';
 import { useAnalytics } from './hooks/useAnalytics';
+import ScrollToTop from './components/ScrollToTop';
 import HomePage from './pages/HomePage';
 import CoursesPage from './pages/CoursesPage';
 import BrevEduPlusPage from './pages/BrevEduPlusPage';
@@ -19,6 +20,7 @@ function App() {
     <div className="font-inter antialiased font-feature-default">
       <AuthProvider>
         <Router>
+          <ScrollToTop />
           <AnalyticsWrapper>
           <Routes>
             <Route path="/" element={<HomePage />} />
