@@ -126,7 +126,7 @@ const CoursesPage: React.FC = () => {
       {/* Header */}
       <section className="px-padding-medium py-8 border-b border-gray-200 bg-white">
         <div className="max-w-screen-2xl mx-auto">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4">
             <div>
               <h1 className="text-4xl font-bold text-gray-900 mb-2">All Courses</h1>
               <p className="text-lg text-gray-700">
@@ -136,7 +136,7 @@ const CoursesPage: React.FC = () => {
             
             {/* User Access Level Info - Hide upgrade prompts for premium users */}
             {currentUser?.role !== 'premium' && (
-              <div className="mt-4 lg:mt-0">
+              <div className="mt-3 lg:mt-0">
                 <div className="bg-gray-50 rounded-[12px] p-4 text-center lg:text-right border border-gray-200">
                   <div className={`text-lg font-semibold ${userAccessInfo.color}`}>
                     {userAccessInfo.level}
@@ -159,7 +159,7 @@ const CoursesPage: React.FC = () => {
           </div>
 
           {/* Filters */}
-          <div className="flex flex-col items-center gap-6">
+          <div className="flex flex-col items-center gap-4">
             {/* Category Filter */}
             <div className="flex flex-wrap justify-center gap-2">
               {categories.map((category) => (
