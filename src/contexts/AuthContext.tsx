@@ -159,8 +159,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       return result;
     } catch (error: any) {
-      console.error('❌ Google Sign-In failed:', error);
-      
       // Handle specific Google Sign-In errors
       if (error.code === 'auth/popup-closed-by-user') {
         throw new Error('Sign-in was cancelled. Please try again.');
