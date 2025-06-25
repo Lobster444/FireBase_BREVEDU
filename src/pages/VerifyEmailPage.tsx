@@ -26,10 +26,8 @@ const VerifyEmailPage: React.FC = () => {
         console.log('✅ Email verified successfully');
         setStatus('success');
         
-        // Redirect to home page after 3 seconds
-        setTimeout(() => {
-          navigate('/', { replace: true });
-        }, 3000);
+        // Redirect to home page immediately
+        navigate('/', { replace: true });
       } catch (error: any) {
         console.error('❌ Email verification failed:', error);
         setStatus('error');
