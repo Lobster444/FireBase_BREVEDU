@@ -18,7 +18,7 @@ const ActionButtonsSection: React.FC<ActionButtonsSectionProps> = ({
       {/* More Courses Button */}
       <button
         onClick={onMoreCourses}
-        className="w-full border-2 border-gray-400 bg-gray-100 text-gray-800 px-6 py-3 rounded-headspace-lg text-lg font-medium hover:bg-gray-200 hover:border-gray-500 transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex items-center justify-center"
+        className="w-full border-2 border-blue-600 bg-white text-blue-600 px-6 py-3 rounded-full text-lg font-medium hover:bg-blue-50 hover:border-blue-700 transition-all flex items-center justify-center"
       >
         More Courses
       </button>
