@@ -4,9 +4,11 @@ import Layout from '../components/Layout';
 import { PrimaryButton, AccentButton, OutlineButton } from '../components/UIButtons';
 import { useAuth } from '../contexts/AuthContext';
 import { trackSubscriptionEvent, trackInteraction } from '../lib/analytics';
+import ComingSoonModal from '../components/ComingSoonModal';
 
 const BrevEduPlusPage: React.FC = () => {
   const { currentUser } = useAuth();
+  const [showComingSoonModal, setShowComingSoonModal] = React.useState(false);
 
   const features = [
     {
@@ -45,7 +47,7 @@ const BrevEduPlusPage: React.FC = () => {
   const handleUpgradeClick = () => {
     trackSubscriptionEvent('upgrade_click', 'premium');
     trackInteraction('upgrade_button', 'click', 'brevedu_plus_page');
-    // Add your subscription logic here
+    setShowComingSoonModal(true);
   };
 
   return (
@@ -194,6 +196,12 @@ const BrevEduPlusPage: React.FC = () => {
           </div>
         </section>
       )}
+      
+      {/* Coming Soon Modal */}
+      <ComingSoonModal
+        isOpen={showComingSoonModal}
+        onClose={() => setShowComingSoonModal(false)}
+      />
     </Layout>
   );
 };
