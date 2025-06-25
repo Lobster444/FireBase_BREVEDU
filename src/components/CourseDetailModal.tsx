@@ -338,8 +338,8 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
 
   const handleMoreCourses = () => {
     trackInteraction('more_courses_button', 'click', 'course_modal');
-    onClose();
-    window.location.href = '/courses';
+    // The ActionButtonsSection component now handles navigation internally
+    // This function is kept for compatibility but may not be used
   };
 
   if (!isOpen || !course) return null;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, Star, MessageCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { User } from '../types';
 
 interface ActionButtonsSectionProps {
@@ -13,11 +14,18 @@ const ActionButtonsSection: React.FC<ActionButtonsSectionProps> = ({
   onMoreCourses,
   onClose
 }) => {
+  const navigate = useNavigate();
+
+  const handleMoreCoursesClick = () => {
+    onClose(); // Close the modal first
+    navigate('/courses'); // Use React Router navigation
+  };
+
   return (
     <div className="space-y-4">
       {/* More Courses Button */}
       <button
-        onClick={onMoreCourses}
+        onClick={handleMoreCoursesClick}
         className="w-full border-2 border-gray-400 bg-gray-100 text-gray-800 px-6 py-3 rounded-headspace-lg text-lg font-medium hover:bg-gray-200 hover:border-gray-500 transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex items-center justify-center"
       >
         More Courses
@@ -53,8 +61,7 @@ const ActionButtonsSection: React.FC<ActionButtonsSectionProps> = ({
             className="inline-block bg-white text-subscription-free px-4 py-2 rounded-headspace-md text-base font-semibold hover:bg-gray-100 transition-all"
             onClick={() => {
               onClose();
-              // TODO: Open auth modal
-              console.log('Open auth modal');
+              navigate('/');
             }}
           >
             Sign In
