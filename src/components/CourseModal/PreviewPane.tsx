@@ -149,12 +149,18 @@ const PreviewPane: React.FC<PreviewPaneProps> = ({
         <div className="mb-6">
           <h4 className="text-lg font-semibold text-gray-900 mb-2">Video</h4>
           <div className="w-full aspect-video bg-gray-100 rounded-[12px] overflow-hidden border border-gray-200 max-w-[640px]">
-            {formData.videoUrl && formData.videoUrl.includes('youtube-nocookie.com') && videoId ? (
+            {formData.videoUrl && formData.videoUrl.includes('youtube-nocookie.com') && videoId && !previewError ? (
               <div className="relative w-full h-auto">
                 <Plyr
+                  key={videoId || 'no-video'}
                   source={plyrSource}
                   options={plyrOptions}
                   aria-label="Course video preview"
+                  onReady={() => onPreviewErrorChange('')}
+                  onError={(error) => {
+                    console.error('Plyr error:', error);
+                    onPreviewErrorChange('Failed to load video preview. Check URL format.');
+                  }}
                 />
               </div>
             ) : (
