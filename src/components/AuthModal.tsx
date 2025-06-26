@@ -1,30 +1,47 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Play, MessageCircle, Clock, WifiOff, AlertTriangle } from 'lucide-react';
-import { Course } from '../types';
+import { X, User, Mail, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { useNetworkStatusWithUtils } from '../hooks/useNetworkStatus';
-import { useViewport } from '../hooks/useViewport';
-import { DAILY_LIMITS } from '../services/tavusUsage';
-import { trackAIPracticeEvent } from '../lib/analytics';
+import { notifySuccess, notifyError } from '../lib/toast';
 
-interface TavusConfirmationModalProps {
+interface AuthModalProps {
   isOpen: boolean;
-  course: Course | null;
   onClose: () => void;
-  onConfirmStart: () => void;
+  initialMode?: 'login' | 'register';
 }
 
-const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
+const AuthModal: React.FC<AuthModalProps> = ({
   isOpen,
-  course,
   onClose,
-  onConfirmStart
+  initialMode = 'login'
 }) => {
-  const { currentUser } = useAuth();
-  const { isOnline } = useNetworkStatusWithUtils();
-  const { isMobile } = useViewport();
+  const [mode, setMode] = useState<'login' | 'register'>(initialMode);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const modalRef = useRef<HTMLDivElement>(null);
-  const [isStarting, setIsStarting] = useState(false);
+  const firstInputRef = useRef<HTMLInputElement>(null);
+
+  const { login, register } = useAuth();
+
+  // Reset form when modal opens/closes or mode changes
+  useEffect(() => {
+    if (isOpen) {
+      setName('');
+      setEmail('');
+      setPassword('');
+      setShowPassword(false);
+      setErrors({});
+      setMode(initialMode);
+      
+      // Focus first input after modal opens
+      setTimeout(() => {
+        firstInputRef.current?.focus();
+      }, 100);
+    }
+  }, [isOpen, initialMode]);
 
   // Keyboard event handling
   useEffect(() => {
@@ -35,16 +52,11 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
         event.preventDefault();
         onClose();
       }
-
-      if (event.key === 'Enter' && isOnline && !isStarting) {
-        event.preventDefault();
-        handleConfirmStart();
-      }
     };
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, isOnline, isStarting, onClose]);
+  }, [isOpen, onClose]);
 
   // Handle backdrop click
   const handleBackdropClick = (event: React.MouseEvent) => {
@@ -53,265 +65,270 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
     }
   };
 
-  // UPDATED: Handle confirm start with loading state
-  const handleConfirmStart = async () => {
-    if (!isOnline || isStarting) return;
-    
-    // Track AI practice start
-    if (course?.id) {
-      trackAIPracticeEvent('ai_practice_start', course.id, {
-        userRole: currentUser?.role
-      });
+  // Validation
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+
+    if (mode === 'register' && !name.trim()) {
+      newErrors.name = 'Name is required';
     }
+
+    if (!email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    if (!password) {
+      newErrors.password = 'Password is required';
+    } else if (password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Handle form submission
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     
-    setIsStarting(true);
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsLoading(true);
+    setErrors({});
+
     try {
-      // Small delay to show loading state
-      await new Promise(resolve => setTimeout(resolve, 500));
+      if (mode === 'login') {
+        await login(email.trim(), password);
+        notifySuccess('Welcome back!');
+      } else {
+        await register(email.trim(), password, name.trim());
+        notifySuccess('Account created successfully! Welcome to BrevEdu!');
+      }
+      onClose();
+    } catch (error: any) {
+      console.error('Auth error:', error);
       
-      // Call the parent handler which will now create Tavus conversation via API
-      onConfirmStart();
+      let errorMessage = `Failed to ${mode}. Please try again.`;
+      
+      // Handle specific Firebase auth errors
+      if (error.code) {
+        switch (error.code) {
+          case 'auth/invalid-credential':
+            errorMessage = 'Invalid email or password. Please check your credentials and try again.';
+            break;
+          case 'auth/user-not-found':
+            errorMessage = 'No account found with this email address.';
+            break;
+          case 'auth/wrong-password':
+            errorMessage = 'Incorrect password. Please try again.';
+            break;
+          case 'auth/email-already-in-use':
+            errorMessage = 'An account with this email already exists. Please sign in instead.';
+            break;
+          case 'auth/weak-password':
+            errorMessage = 'Password is too weak. Please choose a stronger password.';
+            break;
+          case 'auth/invalid-email':
+            errorMessage = 'Please enter a valid email address.';
+            break;
+          case 'auth/too-many-requests':
+            errorMessage = 'Too many failed attempts. Please try again later.';
+            break;
+          case 'auth/network-request-failed':
+            errorMessage = 'Network error. Please check your connection and try again.';
+            break;
+          default:
+            errorMessage = error.message || errorMessage;
+            break;
+        }
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      notifyError(errorMessage);
     } finally {
-      setIsStarting(false);
+      setIsLoading(false);
     }
   };
 
-  // Get AI practice session info
-  const getSessionInfo = () => {
-    if (!currentUser) {
-      return {
-        sessionsAvailable: 0,
-        sessionType: 'Sign in required',
-        dailyLimit: 0
-      };
-    }
-
-    if (currentUser.role === 'free') {
-      const dailyLimit = DAILY_LIMITS.free;
-      const used = currentUser.aiChatsUsed || 0;
-      const today = new Date().toISOString().split('T')[0];
-      const lastReset = currentUser.lastChatReset || '';
-      
-      const sessionsAvailable = lastReset !== today ? dailyLimit : Math.max(0, dailyLimit - used);
-      
-      return {
-        sessionsAvailable,
-        sessionType: 'Free Account',
-        dailyLimit
-      };
-    }
-
-    if (currentUser.role === 'premium') {
-      const dailyLimit = DAILY_LIMITS.premium;
-      const used = currentUser.aiChatsUsed || 0;
-      const today = new Date().toISOString().split('T')[0];
-      const lastReset = currentUser.lastChatReset || '';
-      
-      const sessionsAvailable = lastReset !== today ? dailyLimit : Math.max(0, dailyLimit - used);
-      
-      return {
-        sessionsAvailable,
-        sessionType: 'BrevEdu+ Member',
-        dailyLimit
-      };
-    }
-
-    return {
-      sessionsAvailable: 0,
-      sessionType: 'Unknown',
-      dailyLimit: 0
-    };
-  };
-
-  if (!isOpen || !course) return null;
-
-  const sessionInfo = getSessionInfo();
-  const canStart = isOnline && sessionInfo.sessionsAvailable > 0 && !isStarting;
-
-  // Use full-screen on mobile, modal on desktop
-  const wrapperClasses = isMobile
-    ? "fixed inset-0 bg-white z-50 overflow-y-auto"
-    : "fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4";
-
-  const modalClasses = isMobile
-    ? ""
-    : "bg-white rounded-headspace-2xl w-full max-w-sm sm:max-w-md lg:max-w-lg shadow-[0_8px_32px_rgba(0,0,0,0.15)] overflow-hidden mx-4";
-
+  if (!isOpen) return null;
 
   return (
     <div 
-      className={wrapperClasses}
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
       onClick={handleBackdropClick}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="auth-modal-title"
     >
-      <div
+      <div 
         ref={modalRef}
-        className={modalClasses}
-        onClick={(e) => e.stopPropagation()} // Prevent backdrop click when clicking inside modal
-    >
+        className="bg-white rounded-headspace-2xl w-full max-w-md shadow-[0_8px_32px_rgba(0,0,0,0.15)] overflow-hidden"
+      >
         {/* Header */}
-        <div className={`flex items-center justify-between border-b border-gray-100 ${
-          isMobile ? 'p-4 bg-white sticky top-0 z-10' : 'p-4 sm:p-padding-medium'
-        }`}>
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-[#002fa7] rounded-full flex items-center justify-center text-white">
-              <MessageCircle className="h-5 w-5 text-white" />
-            </div>
-            <div>
-              <h2 id="confirm-modal-title" className="text-xl font-bold text-gray-900">
-                Start AI Practice?
-              </h2>
-              <p className="text-sm text-gray-600 hidden sm:block">
-                {course.title}
-              </p>
-            </div>
-          </div>
+        <div className="flex items-center justify-between p-padding-medium border-b border-gray-100">
+          <h2 id="auth-modal-title" className="text-xl font-bold text-gray-900">
+            {mode === 'login' ? 'Sign In' : 'Create Account'}
+          </h2>
           <button
             onClick={onClose}
             className="icon-button icon-button-gray p-2 rounded-headspace-md"
-            aria-label="Close confirmation dialog"
+            aria-label="Close modal"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Content */}
-        <div className={isMobile ? "p-4 pb-20" : "p-4 sm:p-padding-medium"}>
-          <div id="confirm-modal-description" className="space-y-4">
-            {/* Course Title - Mobile Only */}
-            <div className="sm:hidden">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {course.title}
-              </h3>
-            </div>
-            
-            {/* Main Message */}
-            <div className={`text-center ${isMobile ? 'py-6' : ''}`}>
-              <div className="w-16 h-16 bg-[#002fa7]/10 rounded-full flex items-center justify-center mx-auto mb-4 text-[#002fa7]">
-                <Play className="h-8 w-8 text-[#002fa7]" />
-              </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
-                Ready to Practice with AI?
-              </h3>
-              <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                You're about to start an interactive AI conversation to practice what you learned.{' '}
-                This session will last up to 2 minutes and count as one of your daily practice sessions.
-              </p>
-            </div>
-
-            {/* Session Info */}
-            <div className="bg-blue-50 border border-blue-200 rounded-headspace-lg p-3 sm:p-4 text-blue-900">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs sm:text-sm font-medium text-blue-900">Account Type:</span>
-                <span className="text-xs sm:text-sm text-blue-800">{sessionInfo.sessionType}</span>
-              </div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs sm:text-sm font-medium text-blue-900">Sessions Available:</span>
-                <span className="text-xs sm:text-sm text-blue-800">
-                  {sessionInfo.sessionsAvailable} of {sessionInfo.dailyLimit} today
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-xs sm:text-sm font-medium text-blue-900">Session Duration:</span>
-                <span className="text-xs sm:text-sm text-blue-800 flex items-center space-x-1">
-                  <Clock className="h-3 w-3" />
-                  <span>2 minutes max</span>
-                </span>
-              </div>
-            </div>
-
-            {/* Tips */}
-            <div className="bg-gray-50 rounded-headspace-lg p-3 sm:p-4">
-              <h4 className="text-xs sm:text-sm font-semibold text-gray-900 mb-2">💡 Practice Tips:</h4>
-              <ul className="text-xs sm:text-sm text-gray-700 space-y-1">
-                <li>• Make sure you have a stable internet connection</li>
-                <li>• Find a quiet place to focus</li>
-                <li>• Session will automatically end after 2 minutes</li>
-                <li>• Speak clearly and engage with the AI</li>
-              </ul>
-            </div>
-
-            {/* Offline Warning */}
-            {!isOnline && (
-              <div className="bg-yellow-50 border border-yellow-200 rounded-headspace-lg p-3 sm:p-4">
-                <div className="flex items-center space-x-2 text-yellow-800">
-                  <WifiOff className="h-5 w-5" />
-                  <span className="text-xs sm:text-sm font-medium">You're currently offline</span>
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="p-padding-medium">
+          <div className="space-y-4">
+            {/* Name field - only for register */}
+            {mode === 'register' && (
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-900 mb-2">
+                  Full Name
+                </label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                  <input
+                    ref={firstInputRef}
+                    type="text"
+                    id="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className={`w-full pl-10 pr-4 py-3 bg-white border rounded-headspace-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition-colors ${
+                      errors.name 
+                        ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
+                        : 'border-gray-300 focus:border-[#002fa7] focus:ring-[#002fa7]/20'
+                    }`}
+                    placeholder="Enter your full name"
+                    required
+                    disabled={isLoading}
+                  />
                 </div>
-                <p className="text-xs sm:text-sm text-yellow-700 mt-1">
-                  Please check your internet connection to start the AI practice session.
-                </p>
+                {errors.name && (
+                  <p className="mt-1 text-sm text-red-600 flex items-center space-x-1">
+                    <AlertCircle className="h-4 w-4" />
+                    <span>{errors.name}</span>
+                  </p>
+                )}
               </div>
             )}
 
-            {/* No Sessions Warning */}
-            {isOnline && sessionInfo.sessionsAvailable === 0 && (
-              <div className="bg-red-50 border border-red-200 rounded-headspace-lg p-3 sm:p-4">
-                <div className="flex items-center space-x-2 text-red-800">
-                  <AlertTriangle className="h-5 w-5" />
-                  <span className="text-xs sm:text-sm font-medium">No sessions available</span>
-                </div>
-                <p className="text-xs sm:text-sm text-red-700 mt-1">
-                  {currentUser?.role === 'free' 
-                    ? 'You\'ve used your daily practice session. Upgrade to BrevEdu+ for more sessions!'
-                    : 'You\'ve used all your daily practice sessions. More sessions available tomorrow!'
-                  }
-                </p>
+            {/* Email field */}
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-900 mb-2">
+                Email Address
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <input
+                  ref={mode === 'login' ? firstInputRef : undefined}
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className={`w-full pl-10 pr-4 py-3 bg-white border rounded-headspace-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition-colors ${
+                    errors.email 
+                      ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
+                      : 'border-gray-300 focus:border-[#002fa7] focus:ring-[#002fa7]/20'
+                  }`}
+                  placeholder="Enter your email address"
+                  required
+                  disabled={isLoading}
+                />
               </div>
-            )}
-          </div>
-
-          {/* Action Buttons */}
-          <div className={`flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mt-6 ${
-            isMobile ? 'fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200' : ''
-          }`}>
-            <button
-              onClick={onClose}
-              className="flex-1 border border-gray-300 text-gray-700 px-4 py-3 rounded-headspace-lg text-sm sm:text-base font-medium hover:bg-gray-50 transition-all min-h-[44px]"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleConfirmStart}
-              disabled={!canStart}
-              className={`flex-1 px-4 py-3 rounded-headspace-lg text-sm sm:text-base font-medium transition-all flex items-center justify-center space-x-2 text-white min-h-[44px] ${
-                canStart
-                  ? 'bg-[#002fa7] text-white hover:bg-[#0040d1] shadow-[0_2px_8px_rgba(0,47,167,0.3)]'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              {isStarting ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  <span>Creating Session...</span>
-                </>
-              ) : (
-                <>
-                  <Play className="h-4 w-4" />
-                  <span>Start Practice</span>
-                </>
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-600 flex items-center space-x-1">
+                  <AlertCircle className="h-4 w-4" />
+                  <span>{errors.email}</span>
+                </p>
               )}
-            </button>
+            </div>
+
+            {/* Password field */}
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-900 mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={`w-full pl-10 pr-12 py-3 bg-white border rounded-headspace-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition-colors ${
+                    errors.password 
+                      ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
+                      : 'border-gray-300 focus:border-[#002fa7] focus:ring-[#002fa7]/20'
+                  }`}
+                  placeholder="Enter your password"
+                  required
+                  disabled={isLoading}
+                  minLength={6}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  disabled={isLoading}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="mt-1 text-sm text-red-600 flex items-center space-x-1">
+                  <AlertCircle className="h-4 w-4" />
+                  <span>{errors.password}</span>
+                </p>
+              )}
+            </div>
           </div>
 
-          {/* Upgrade Prompt for Free Users */}
-          {currentUser?.role === 'free' && (
-            <div className={`mt-3 sm:mt-4 text-center ${isMobile ? 'pb-4' : ''}`}>
-              <p className="text-xs sm:text-sm text-gray-600 mb-2">
-                Want more practice sessions?
-              </p>
-              <a
-                href="/brevedu-plus"
-               className="text-[#002fa7] hover:text-[#0040d1] transition-colors text-xs sm:text-sm font-medium underline"
-                onClick={onClose}
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full bg-[#002fa7] text-white px-6 py-4 rounded-full text-lg font-semibold hover:bg-[#0040d1] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 mt-6 min-h-[56px]"
+          >
+            {isLoading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <span>{mode === 'login' ? 'Signing In...' : 'Creating Account...'}</span>
+              </>
+            ) : (
+              <span>{mode === 'login' ? 'Sign In' : 'Create Account'}</span>
+            )}
+          </button>
+
+          {/* Mode Toggle */}
+          <div className="mt-4 text-center">
+            <p className="text-sm text-gray-600">
+              {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}
+              {' '}
+              <button
+                type="button"
+                onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
+                className="text-[#002fa7] hover:text-[#0040d1] transition-colors font-medium"
+                disabled={isLoading}
               >
-                Upgrade to BrevEdu+ for 3 daily sessions
-              </a>
-            </div>
-          )}
-        </div>
+                {mode === 'login' ? 'Sign up' : 'Sign in'}
+              </button>
+            </p>
+          </div>
+        </form>
       </div>
     </div>
   );
 };
 
-export default TavusConfirmationModal;
+export default AuthModal;

@@ -1,317 +1,343 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { X, Play, MessageCircle, Clock, WifiOff, AlertTriangle } from 'lucide-react';
-import { Course } from '../types';
+import React, { useState, useEffect } from 'react';
+import { Filter, Lock, Crown } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import PageTransition from '../components/PageTransition';
+import Layout from '../components/Layout';
+import CourseCard from '../components/CourseCard';
+import CourseDetailModal from '../components/CourseDetailModal';
+import AuthModal from '../components/AuthModal';
+import { AccentButton, PrimaryButton, PillToggleButton, LinkButton } from '../components/UIButtons';
+import { categories } from '../data/mockCourses';
+import { Course, getAccessLevelRequirement } from '../types';
+import { useCourses } from '../hooks/useCourses';
 import { useAuth } from '../contexts/AuthContext';
-import { useNetworkStatusWithUtils } from '../hooks/useNetworkStatus';
-import { useViewport } from '../hooks/useViewport';
-import { DAILY_LIMITS } from '../services/tavusUsage';
-import { trackAIPracticeEvent } from '../lib/analytics';
 
-interface TavusConfirmationModalProps {
-  isOpen: boolean;
-  course: Course | null;
-  onClose: () => void;
-  onConfirmStart: () => void;
-}
+const CoursesPage: React.FC = () => {
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [showCourseModal, setShowCourseModal] = useState(false);
+  const [showAccessModal, setShowAccessModal] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('register');
+  const [restrictedCourse, setRestrictedCourse] = useState<Course | null>(null);
+  const { currentUser, firebaseUser } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
-  isOpen,
-  course,
-  onClose,
-  onConfirmStart
-}) => {
-  const { currentUser } = useAuth();
-  const { isOnline } = useNetworkStatusWithUtils();
-  const { isMobile } = useViewport();
-  const modalRef = useRef<HTMLDivElement>(null);
-  const [isStarting, setIsStarting] = useState(false);
-
-  // Keyboard event handling
+  // Check if user needs email verification
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (!isOpen) return;
-
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        onClose();
-      }
-
-      if (event.key === 'Enter' && isOnline && !isStarting) {
-        event.preventDefault();
-        handleConfirmStart();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, isOnline, isStarting, onClose]);
-
-  // Handle backdrop click
-  const handleBackdropClick = (event: React.MouseEvent) => {
-    if (event.target === event.currentTarget) {
-      onClose();
+    if (!currentUser) {
+      // Anonymous user trying to access courses page - redirect to home and show auth modal
+      navigate('/', { replace: true });
     }
-  };
+  }, [currentUser, navigate]);
 
-  // UPDATED: Handle confirm start with loading state
-  const handleConfirmStart = async () => {
-    if (!isOnline || isStarting) return;
-    
-    // Track AI practice start
-    if (course?.id) {
-      trackAIPracticeEvent('ai_practice_start', course.id, {
-        userRole: currentUser?.role
-      });
+  // Pass user role to filter courses based on access level
+  const { courses, loading, error } = useCourses(
+    selectedCategory,
+    false, // Not filtering for premium only
+    currentUser?.role || null,
+    true // Include restricted courses so free users can see premium courses
+  );
+
+  const handleCourseClick = (course: Course) => {
+    // Check if free user is trying to access premium course
+    if (course.accessLevel === 'premium' && currentUser?.role === 'free') {
+      setRestrictedCourse(course);
+      setShowAccessModal(true);
+      return;
     }
     
-    setIsStarting(true);
-    try {
-      // Small delay to show loading state
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      // Call the parent handler which will now create Tavus conversation via API
-      onConfirmStart();
-    } finally {
-      setIsStarting(false);
-    }
+    // Normal course access
+    setSelectedCourse(course);
+    setShowCourseModal(true);
   };
 
-  // Get AI practice session info
-  const getSessionInfo = () => {
+  const handleCloseCourseModal = () => {
+    setShowCourseModal(false);
+    setSelectedCourse(null);
+  };
+
+  const handleCloseAccessModal = () => {
+    setShowAccessModal(false);
+    setRestrictedCourse(null);
+  };
+
+  const handleCloseAuthModal = () => {
+    setShowAuthModal(false);
+  };
+
+  const handleAuthPrompt = (mode: 'login' | 'register' = 'register') => {
+    setAuthMode(mode);
+    setShowAuthModal(true);
+  };
+
+  const clearAllFilters = () => {
+    setSelectedCategory('All');
+    // Use navigation state to prevent scroll to top when changing filters
+    navigate(location.pathname, { 
+      state: { disableScroll: true },
+      replace: true 
+    });
+  };
+
+  // Get user access level display
+  const getUserAccessInfo = () => {
     if (!currentUser) {
       return {
-        sessionsAvailable: 0,
-        sessionType: 'Sign in required',
-        dailyLimit: 0
+        level: 'Anonymous',
+        description: 'Sign up for free to access more courses',
+        color: 'text-gray-600'
       };
     }
-
-    if (currentUser.role === 'free') {
-      const dailyLimit = DAILY_LIMITS.free;
-      const used = currentUser.aiChatsUsed || 0;
-      const today = new Date().toISOString().split('T')[0];
-      const lastReset = currentUser.lastChatReset || '';
-      
-      const sessionsAvailable = lastReset !== today ? dailyLimit : Math.max(0, dailyLimit - used);
-      
-      return {
-        sessionsAvailable,
-        sessionType: 'Free Account',
-        dailyLimit
-      };
+    
+    switch (currentUser.role) {
+      case 'free':
+        return {
+          level: 'Free Account',
+          description: 'Upgrade to BrevEdu+ for premium courses',
+          color: 'text-subscription-free'
+        };
+      case 'premium':
+        return {
+          level: 'BrevEdu+ Member',
+          description: 'You have access to all courses',
+          color: 'text-subscription-premium'
+        };
+      default:
+        return {
+          level: 'Anonymous',
+          description: 'Sign up for free to access more courses',
+          color: 'text-gray-600'
+        };
     }
-
-    if (currentUser.role === 'premium') {
-      const dailyLimit = DAILY_LIMITS.premium;
-      const used = currentUser.aiChatsUsed || 0;
-      const today = new Date().toISOString().split('T')[0];
-      const lastReset = currentUser.lastChatReset || '';
-      
-      const sessionsAvailable = lastReset !== today ? dailyLimit : Math.max(0, dailyLimit - used);
-      
-      return {
-        sessionsAvailable,
-        sessionType: 'BrevEdu+ Member',
-        dailyLimit
-      };
-    }
-
-    return {
-      sessionsAvailable: 0,
-      sessionType: 'Unknown',
-      dailyLimit: 0
-    };
   };
 
-  if (!isOpen || !course) return null;
+  const userAccessInfo = getUserAccessInfo();
 
-  const sessionInfo = getSessionInfo();
-  const canStart = isOnline && sessionInfo.sessionsAvailable > 0 && !isStarting;
-
-  // Use full-screen on mobile, modal on desktop
-  const wrapperClasses = isMobile
-    ? "fixed inset-0 bg-white z-50 overflow-y-auto"
-    : "fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4";
-
-  const modalClasses = isMobile
-    ? ""
-    : "bg-white rounded-headspace-2xl w-full max-w-sm sm:max-w-md lg:max-w-lg shadow-[0_8px_32px_rgba(0,0,0,0.15)] overflow-hidden mx-4";
-
+  // Don't render the page content for anonymous users (they'll be redirected)
+  if (!currentUser) {
+    return (
+      <PageTransition type="fade">
+        <Layout currentPage="courses">
+          <div className="text-center py-12">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#002fa7]"></div>
+            <p className="text-lg text-gray-700 mt-4">Redirecting...</p>
+          </div>
+        </Layout>
+      </PageTransition>
+    );
+  }
 
   return (
-    <div 
-      className={wrapperClasses}
-      onClick={handleBackdropClick}
-    >
-      <div
-        ref={modalRef}
-        className={modalClasses}
-        onClick={(e) => e.stopPropagation()} // Prevent backdrop click when clicking inside modal
-      >
+    <PageTransition type="slide">
+      <Layout currentPage="courses">
         {/* Header */}
-        <div className={`flex items-center justify-between border-b border-gray-100 ${
-          isMobile ? 'p-4 bg-white sticky top-0 z-10' : 'p-4 sm:p-padding-medium'
-        }`}>
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-[#002fa7] rounded-full flex items-center justify-center text-white">
-              <MessageCircle className="h-5 w-5 text-white" />
-            </div>
-            <div>
-              <h2 id="confirm-modal-title" className="text-xl font-bold text-gray-900">
-                Start AI Practice?
-              </h2>
-              <p className="text-sm text-gray-600 hidden sm:block">
-                {course.title}
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={onClose}
-            className="icon-button icon-button-gray p-2 rounded-headspace-md"
-            aria-label="Close confirmation dialog"
-          >
-            <X className="h-5 w-5" />
-          </button>
-        </div>
-
-        {/* Content */}
-        <div className={isMobile ? "p-4 pb-20" : "p-4 sm:p-padding-medium"}>
-          <div id="confirm-modal-description" className="space-y-4">
-            {/* Course Title - Mobile Only */}
-            <div className="sm:hidden">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {course.title}
-              </h3>
-            </div>
-            
-            {/* Main Message */}
-            <div className={`text-center ${isMobile ? 'py-6' : ''}`}>
-              <div className="w-16 h-16 bg-[#002fa7]/10 rounded-full flex items-center justify-center mx-auto mb-4 text-[#002fa7]">
-                <Play className="h-8 w-8 text-[#002fa7]" />
-              </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
-                Ready to Practice with AI?
-              </h3>
-              <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                You're about to start an interactive AI conversation to practice what you learned.{' '}
-                This session will last up to 2 minutes and count as one of your daily practice sessions.
-              </p>
-            </div>
-
-            {/* Session Info */}
-            <div className="bg-blue-50 border border-blue-200 rounded-headspace-lg p-3 sm:p-4 text-blue-900">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs sm:text-sm font-medium text-blue-900">Account Type:</span>
-                <span className="text-xs sm:text-sm text-blue-800">{sessionInfo.sessionType}</span>
-              </div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs sm:text-sm font-medium text-blue-900">Sessions Available:</span>
-                <span className="text-xs sm:text-sm text-blue-800">
-                  {sessionInfo.sessionsAvailable} of {sessionInfo.dailyLimit} today
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-xs sm:text-sm font-medium text-blue-900">Session Duration:</span>
-                <span className="text-xs sm:text-sm text-blue-800 flex items-center space-x-1">
-                  <Clock className="h-3 w-3" />
-                  <span>2 minutes max</span>
-                </span>
-              </div>
-            </div>
-
-            {/* Tips */}
-            <div className="bg-gray-50 rounded-headspace-lg p-3 sm:p-4">
-              <h4 className="text-xs sm:text-sm font-semibold text-gray-900 mb-2">💡 Practice Tips:</h4>
-              <ul className="text-xs sm:text-sm text-gray-700 space-y-1">
-                <li>• Make sure you have a stable internet connection</li>
-                <li>• Find a quiet place to focus</li>
-                <li>• Session will automatically end after 2 minutes</li>
-                <li>• Speak clearly and engage with the AI</li>
-              </ul>
-            </div>
-
-            {/* Offline Warning */}
-            {!isOnline && (
-              <div className="bg-yellow-50 border border-yellow-200 rounded-headspace-lg p-3 sm:p-4">
-                <div className="flex items-center space-x-2 text-yellow-800">
-                  <WifiOff className="h-5 w-5" />
-                  <span className="text-xs sm:text-sm font-medium">You're currently offline</span>
-                </div>
-                <p className="text-xs sm:text-sm text-yellow-700 mt-1">
-                  Please check your internet connection to start the AI practice session.
+        <section className="px-padding-medium py-8 border-b border-gray-200 bg-white">
+          <div className="max-w-screen-2xl mx-auto">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4">
+              <div>
+                <h1 className="text-4xl font-bold text-gray-900 mb-2">All Courses</h1>
+                <p className="text-lg text-gray-700">
+                  Explore our complete library of bite-sized video lessons
                 </p>
               </div>
-            )}
-
-            {/* No Sessions Warning */}
-            {isOnline && sessionInfo.sessionsAvailable === 0 && (
-              <div className="bg-red-50 border border-red-200 rounded-headspace-lg p-3 sm:p-4">
-                <div className="flex items-center space-x-2 text-red-800">
-                  <AlertTriangle className="h-5 w-5" />
-                  <span className="text-xs sm:text-sm font-medium">No sessions available</span>
+              
+              {/* User Access Level Info - Hide upgrade prompts for premium users */}
+              {currentUser?.role !== 'premium' && (
+                <div className="mt-3 lg:mt-0">
+                  <div className="bg-gray-50 rounded-[12px] p-4 text-center lg:text-right border border-gray-200">
+                    <div className={`text-lg font-semibold ${userAccessInfo.color}`}>
+                      {userAccessInfo.level}
+                    </div>
+                    <div className="text-base text-gray-600">
+                      {userAccessInfo.description}
+                    </div>
+                    {currentUser?.role === 'free' && (
+                      <a
+                        href="/brevedu-plus"
+                        className="inline-flex items-center space-x-1 text-[#002fa7] hover:text-[#0040d1] transition-colors text-base mt-2 font-medium"
+                      >
+                        <Crown className="h-4 w-4" />
+                        <span>Upgrade Now</span>
+                      </a>
+                    )}
+                  </div>
                 </div>
-                <p className="text-xs sm:text-sm text-red-700 mt-1">
-                  {currentUser?.role === 'free' 
-                    ? 'You\'ve used your daily practice session. Upgrade to BrevEdu+ for more sessions!'
-                    : 'You\'ve used all your daily practice sessions. More sessions available tomorrow!'
-                  }
-                </p>
-              </div>
-            )}
-          </div>
-
-          {/* Action Buttons */}
-          <div className={`flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mt-6 ${
-            isMobile ? 'fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200' : ''
-          }`}>
-            <button
-              onClick={onClose}
-              className="flex-1 border border-gray-300 text-gray-700 px-4 py-3 rounded-headspace-lg text-sm sm:text-base font-medium hover:bg-gray-50 transition-all min-h-[44px]"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleConfirmStart}
-              disabled={!canStart}
-              className={`flex-1 px-4 py-3 rounded-headspace-lg text-sm sm:text-base font-medium transition-all flex items-center justify-center space-x-2 text-white min-h-[44px] ${
-                canStart
-                  ? 'bg-[#002fa7] text-white hover:bg-[#0040d1] shadow-[0_2px_8px_rgba(0,47,167,0.3)]'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              {isStarting ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  <span>Creating Session...</span>
-                </>
-              ) : (
-                <>
-                  <Play className="h-4 w-4" />
-                  <span>Start Practice</span>
-                </>
               )}
-            </button>
-          </div>
-
-          {/* Upgrade Prompt for Free Users */}
-          {currentUser?.role === 'free' && (
-            <div className={`mt-3 sm:mt-4 text-center ${isMobile ? 'pb-4' : ''}`}>
-              <p className="text-xs sm:text-sm text-gray-600 mb-2">
-                Want more practice sessions?
-              </p>
-              <a
-                href="/brevedu-plus"
-                className="text-[#002fa7] hover:text-[#0040d1] transition-colors text-xs sm:text-sm font-medium underline"
-                onClick={onClose}
-              >
-                Upgrade to BrevEdu+ for 3 daily sessions
-              </a>
             </div>
-          )}
-        </div>
-      </div>
-    </div>
+
+            {/* Filters */}
+            <div className="flex flex-col items-center gap-4">
+              {/* Category Filter */}
+              <div className="flex flex-wrap justify-center gap-2">
+                {categories.map((category) => (
+                  <PillToggleButton
+                    key={category}
+                    label={category}
+                    active={selectedCategory === category}
+                    onClick={() => setSelectedCategory(category)}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Course Grid */}
+        <section className="px-padding-medium py-8 bg-white">
+          <div className="max-w-screen-2xl mx-auto">
+            {/* Loading State */}
+            {loading && (
+              <div className="text-center py-12">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#002fa7]"></div>
+                <p className="text-lg text-gray-700 mt-4">Loading courses...</p>
+              </div>
+            )}
+
+            {/* Error State */}
+            {error && (
+              <div className="text-center py-12">
+                <p className="text-lg text-red-600 mb-4">{error}</p>
+                <AccentButton onClick={() => window.location.reload()}>
+                  Try again
+                </AccentButton>
+              </div>
+            )}
+
+            {/* Results */}
+            {!loading && !error && (
+              <>
+                {courses.length === 0 ? (
+                  <div className="text-center py-12">
+                    {courses.length === 0 ? (
+                      <div>
+                        {currentUser.role === 'free' ? (
+                          <>
+                            <Crown className="h-12 w-12 text-[#002fa7] mx-auto mb-4" />
+                            <p className="text-lg text-gray-700 mb-4">
+                              No courses available for your current access level in this category.
+                            </p>
+                            <div className="space-y-3">
+                              <PillToggleButton
+                                label="View all available courses"
+                                active={false}
+                                onClick={() => setSelectedCategory('All')}
+                              />
+                              <div>
+                                <a href="/brevedu-plus">
+                                  <PrimaryButton>
+                                    Upgrade for Premium Courses
+                                  </PrimaryButton>
+                                </a>
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <p className="text-lg text-gray-700 mb-4">
+                              No courses found for this category.
+                            </p>
+                            <PillToggleButton
+                              label="View all courses"
+                              active={false}
+                              onClick={() => setSelectedCategory('All')}
+                            />
+                          </>
+                        )}
+                      </div>
+                    ) : (
+                      <div>
+                        <p className="text-lg text-gray-700 mb-4">
+                          No courses found matching your filter criteria.
+                        </p>
+                        <PillToggleButton
+                          label="Clear all filters"
+                          active={false}
+                          onClick={clearAllFilters}
+                        />
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <>
+                    <div className="flex items-center justify-between mb-6">
+                      <p className="text-lg text-gray-700">
+                        Showing {courses.length} courses
+                        {currentUser?.role === 'premium' ? ' (full access)' : ' available to you'}
+                      </p>
+                      {/* Hide "Unlock All Courses" link for premium users */}
+                      {currentUser?.role !== 'premium' && (
+                        <a
+                          href="/brevedu-plus"
+                          className="text-[#002fa7] hover:text-[#0040d1] transition-colors text-base flex items-center space-x-1 font-medium"
+                        >
+                          <Crown className="h-4 w-4" />
+                          <span>Unlock All Courses</span>
+                        </a>
+                      )}
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {courses.map((course) => (
+                        <CourseCard key={course.id} course={course} onClick={handleCourseClick} />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </>
+            )}
+          </div>
+        </section>
+
+        {/* Course Detail Modal */}
+        <CourseDetailModal
+          isOpen={showCourseModal}
+          course={selectedCourse}
+          onClose={handleCloseCourseModal}
+        />
+
+        {/* Access Restricted Modal */}
+        {showAccessModal && restrictedCourse && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white border border-gray-200 rounded-[16px] w-full max-w-md p-6">
+              <div className="text-center">
+                <Lock className="h-12 w-12 text-[#002fa7] mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Access Restricted</h3>
+                <p className="text-lg text-gray-700 mb-4">
+                  This course requires: {getAccessLevelRequirement(restrictedCourse.accessLevel)}
+                </p>
+                
+                <div className="space-y-3">
+                  {currentUser.role === 'free' && restrictedCourse.accessLevel === 'premium' ? (
+                    <a href="/brevedu-plus" className="block">
+                      <PrimaryButton className="w-full">
+                        Upgrade to BrevEdu+
+                      </PrimaryButton>
+                    </a>
+                  ) : null}
+                  
+                  <button
+                    onClick={handleCloseAccessModal}
+                    className="w-full border border-gray-300 text-gray-700 px-6 py-3 rounded-[10px] text-lg font-medium hover:bg-gray-50 transition-all"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Auth Modal */}
+        <AuthModal 
+          isOpen={showAuthModal} 
+          onClose={handleCloseAuthModal}
+          initialMode={authMode}
+        />
+      </Layout>
+    </PageTransition>
   );
 };
 
-export default TavusConfirmationModal;
+export default CoursesPage;
