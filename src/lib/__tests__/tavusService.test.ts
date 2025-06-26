@@ -393,7 +393,7 @@ describe('TavusService', () => {
 
     it('should set correct expiration time', async () => {
       const beforeTime = Date.now();
-      await startTavusSession(mockUserId, mockCourseId, 180);
+      await startTavusSession(mockUserId, mockCourseId, 120);
       const afterTime = Date.now();
 
       const { addDoc } = require('firebase/firestore');
