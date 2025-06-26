@@ -61,7 +61,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
       console.log('⏰ Starting 2-minute timer for Tavus session');
       hasStartedRef.current = true;
       setHasStarted(true);
-      setTimeRemaining(180);
+      setTimeRemaining(120);
       
       // Update session status to started
       if (sessionId) {
