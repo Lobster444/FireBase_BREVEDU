@@ -116,7 +116,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
           className={`w-full px-4 py-3 bg-white border rounded-[10px] text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition-colors ${
             errors.videoUrl 
               ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
-              : 'border-gray-300 focus:border-[#FF7A59] focus:ring-[#FF7A59]/20'
+              : 'border-gray-300 focus:border-[#002fa7] focus:ring-[#002fa7]/20'
           }`}
           placeholder="https://www.youtube-nocookie.com/embed/VIDEO_ID"
           pattern=".*youtube-nocookie\.com.*"
