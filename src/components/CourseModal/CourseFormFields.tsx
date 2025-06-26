@@ -298,7 +298,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
             type="checkbox"
             checked={formData.published}
             onChange={(e) => handleInputChange('published', e.target.checked)}
-            className="w-5 h-5 text-[#FF7A59] bg-white border-gray-300 rounded focus:ring-[#FF7A59]/20 focus:ring-2"
+            className="w-5 h-5 text-[#FF7A59] bg-white border-gray-300 rounded focus:ring-[#002fa7]/20 focus:ring-2"
           />
           <div>
             <span className="text-lg font-semibold text-gray-900">Publish Course</span>
