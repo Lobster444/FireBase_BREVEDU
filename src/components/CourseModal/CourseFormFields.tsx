@@ -204,8 +204,8 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
           value={formData.thumbnailUrl}
           onChange={(url) => handleInputChange('thumbnailUrl', url)}
           error={errors.thumbnailUrl}
-          label="Thumbnail Image"
-          required
+          label="Thumbnail Image (Optional)"
+          required={false}
         />
       </div>
 
