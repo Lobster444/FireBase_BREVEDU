@@ -149,7 +149,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
           className={`w-full px-4 py-3 bg-white border rounded-[10px] text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition-colors resize-vertical ${
             errors.conversationalContext 
               ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
-              : 'border-gray-300 focus:border-[#FF7A59] focus:ring-[#FF7A59]/20'
+              : 'border-gray-300 focus:border-[#002fa7] focus:ring-[#002fa7]/20'
           }`}
           placeholder="Define how the AI should behave and what topics to focus on during practice conversations. Example: 'You are a JavaScript tutor. Help students practice variables, functions, and basic concepts. Ask questions to test their understanding and provide helpful explanations.'"
           maxLength={1000}
