@@ -181,7 +181,7 @@ describe('Tavus Integration Tests', () => {
       await user.click(practiceButton);
 
       expect(screen.getByText(/make sure you have a stable internet connection/i)).toBeInTheDocument();
-      expect(screen.getByText(/session will automatically end after 3 minutes/i)).toBeInTheDocument();
+      expect(screen.getByText(/session will automatically end after 2 minutes/i)).toBeInTheDocument();
     });
   });
 
