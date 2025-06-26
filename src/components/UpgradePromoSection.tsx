@@ -12,7 +12,7 @@ const UpgradePromoSection: React.FC<UpgradePromoSectionProps> = ({
   return (
     <section className="px-4 sm:px-padding-medium py-6 sm:py-12 bg-white">
       <div className="max-w-screen-2xl mx-auto">
-        <div className="bg-gradient-to-r from-[#FF7A59]/10 to-[#F5C842]/10 rounded-[16px] p-4 sm:p-6 lg:p-padding-large text-center border border-[#FF7A59]/20">
+        <div className="bg-gradient-to-r from-[#002fa7]/10 to-[#F5C842]/10 rounded-[16px] p-4 sm:p-6 lg:p-padding-large text-center border border-[#FF7A59]/20">
           <div className="max-w-3xl mx-auto">
             <div className="flex items-center justify-center mb-2 sm:mb-3 lg:mb-4">
               <Sparkles className="h-6 w-6 sm:h-8 sm:w-8 text-[#FF7A59] mr-2 sm:mr-3" />
