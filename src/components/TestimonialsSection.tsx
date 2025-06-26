@@ -68,7 +68,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
               aria-labelledby={`testimonial-${testimonial.id}-name`}
             >
               <div className="flex items-center mb-2 sm:mb-3 lg:mb-4">
-                <Quote className="h-5 w-5 text-[#FF7A59] mr-2" />
+                <Quote className="h-5 w-5 text-[#002fa7] mr-2" />
                 <div className="flex">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
