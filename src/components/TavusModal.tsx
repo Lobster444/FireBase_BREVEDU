@@ -130,7 +130,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
         });
       }
       
-      notifyError('⏰ Practice session timed out after 3 minutes');
+      notifyError('⏰ Practice session timed out after 2 minutes');
       
       // Close modal after a brief delay
       setTimeout(() => {
