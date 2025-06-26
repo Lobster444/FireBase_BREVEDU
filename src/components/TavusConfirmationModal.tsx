@@ -203,7 +203,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
                 <span className="text-xs sm:text-sm font-medium text-blue-900">Session Duration:</span>
                 <span className="text-xs sm:text-sm text-blue-800 flex items-center space-x-1">
                   <Clock className="h-3 w-3" />
-                  <span>3 minutes max</span>
+                  <span>2 minutes max</span>
                 </span>
               </div>
             </div>
