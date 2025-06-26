@@ -151,34 +151,29 @@ const PreviewPane: React.FC<PreviewPaneProps> = ({
         <div className="mb-6">
           <h4 className="text-lg font-semibold text-gray-900 mb-2">Video</h4>
           <div className="w-full aspect-video bg-gray-100 rounded-[12px] overflow-hidden border border-gray-200 max-w-[640px]">
-            {formData.videoUrl && formData.videoUrl.includes('youtube-nocookie.com') && hasValidVideoId && !previewError ? (
-              <div className="relative w-full h-auto">
-                <Plyr
-                  key={`video-${videoId}`}
-                  source={plyrSource}
-                  options={plyrOptions}
-                  aria-label="Course video preview"
-                  onReady={() => onPreviewErrorChange('')}
-                  onError={(error) => {
-                    console.error('Plyr error:', error);
-                    onPreviewErrorChange('Failed to load video preview. Check URL format.');
-                  }}
-                />
-              </div>
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-gray-500">
-                <div className="text-center">
-                  <Eye className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                  <p className="text-base">Video preview</p>
-                  {formData.videoUrl && !hasValidVideoId && (
-                    <p className="text-sm mt-1 text-red-500">Invalid YouTube video ID</p>
-                  )}
-                  {!formData.videoUrl && (
-                    <p className="text-sm mt-1">Enter a valid YouTube nocookie URL</p>
-                  )}
+            <div className="relative w-full h-auto">
+              <Plyr
+                source={hasValidVideoId ? plyrSource : undefined}
+                options={plyrOptions}
+                aria-label="Course video preview"
+                onReady={() => onPreviewErrorChange('')}
+                onError={() => onPreviewErrorChange('Failed to load video preview. Check URL format.')}
+              />
+              {!hasValidVideoId && (
+                <div className="absolute inset-0 flex items-center justify-center text-gray-500 bg-gray-100">
+                  <div className="text-center">
+                    <Eye className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                    <p className="text-base">Video preview</p>
+                    {formData.videoUrl && formData.videoUrl.includes('youtube-nocookie.com') && (
+                      <p className="text-sm mt-1 text-red-500">Invalid YouTube video ID</p>
+                    )}
+                    {!formData.videoUrl && (
+                      <p className="text-sm mt-1">Enter a valid YouTube nocookie URL</p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
 
