@@ -225,9 +225,9 @@ export const addCourse = async (
       // Ensure accessLevel is set, default to 'free' if not provided
       accessLevel: course.accessLevel || 'free',
       // Include Tavus conversation URL if provided
-      tavusConversationUrl: course.tavusConversationUrl || undefined,
+      tavusConversationUrl: course.tavusConversationUrl || null,
       // NEW: Include conversational context if provided
-      conversationalContext: course.conversationalContext?.trim() || undefined,
+      conversationalContext: course.conversationalContext?.trim() || null,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
     };

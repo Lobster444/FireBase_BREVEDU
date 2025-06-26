@@ -258,9 +258,9 @@ const CourseModal: React.FC<CourseModalProps> = ({
           accessLevel: formData.accessLevel,
           published: formData.published,
           // Include Tavus conversation URL if provided
-          tavusConversationUrl: formData.tavusConversationUrl.trim() || undefined,
+          tavusConversationUrl: formData.tavusConversationUrl.trim() || null,
           // NEW: Include conversational context for AI practice
-          conversationalContext: formData.conversationalContext.trim() || undefined
+          conversationalContext: formData.conversationalContext.trim() || null
         };
 
         if (mode === 'add') {
