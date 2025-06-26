@@ -138,7 +138,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
       {/* NEW: AI Conversational Context */}
       <div>
         <label htmlFor="conversationalContext" className="block text-base font-semibold text-gray-900 mb-2 flex items-center space-x-2">
-          <MessageCircle className="h-5 w-5 text-[#FF7A59]" />
+          <MessageCircle className="h-5 w-5 text-[#002fa7]" />
           <span>AI Conversation Context ({formData.conversationalContext.length}/1000)</span>
         </label>
         <textarea
