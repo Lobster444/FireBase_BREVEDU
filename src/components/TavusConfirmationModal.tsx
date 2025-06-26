@@ -3,6 +3,7 @@ import { X, Play, MessageCircle, Clock, WifiOff, AlertTriangle } from 'lucide-re
 import { Course } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { useNetworkStatusWithUtils } from '../hooks/useNetworkStatus';
+import { useViewport } from '../hooks/useViewport';
 import { DAILY_LIMITS } from '../services/tavusUsage';
 import { trackAIPracticeEvent } from '../lib/analytics';
 
@@ -21,6 +22,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
 }) => {
   const { currentUser } = useAuth();
   const { isOnline } = useNetworkStatusWithUtils();
+  const { isMobile } = useViewport();
   const modalRef = useRef<HTMLDivElement>(null);
   const [isStarting, setIsStarting] = useState(false);
 
@@ -126,21 +128,36 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
   const sessionInfo = getSessionInfo();
   const canStart = isOnline && sessionInfo.sessionsAvailable > 0 && !isStarting;
 
+  // Use full-screen on mobile, modal on desktop
+  const containerClasses = isMobile 
+    ? "fixed inset-0 bg-white z-50 overflow-y-auto"
+    : "bg-white rounded-headspace-2xl w-full max-w-sm sm:max-w-md lg:max-w-lg shadow-[0_8px_32px_rgba(0,0,0,0.15)] overflow-hidden mx-4";
   return (
-    <div 
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-      onClick={handleBackdropClick}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="confirm-modal-title"
-      aria-describedby="confirm-modal-description"
-    >
+    <>
+      {/* Desktop backdrop */}
+      {!isMobile && (
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          onClick={handleBackdropClick}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="confirm-modal-title"
+          aria-describedby="confirm-modal-description"
+        />
+      )}
+      
       <div 
         ref={modalRef}
-        className="bg-white rounded-headspace-2xl w-full max-w-sm sm:max-w-md lg:max-w-lg shadow-[0_8px_32px_rgba(0,0,0,0.15)] overflow-hidden mx-4"
+        className={containerClasses}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="confirm-modal-title"
+        aria-describedby="confirm-modal-description"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 sm:p-padding-medium border-b border-gray-100">
+        <div className={`flex items-center justify-between border-b border-gray-100 ${
+          isMobile ? 'p-4 bg-white sticky top-0 z-10' : 'p-4 sm:p-padding-medium'
+        }`}>
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-[#002fa7] rounded-full flex items-center justify-center text-white">
               <MessageCircle className="h-5 w-5 text-white" />
@@ -164,7 +181,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
         </div>
 
         {/* Content */}
-        <div className="p-4 sm:p-padding-medium">
+        <div className={isMobile ? "p-4 pb-20" : "p-4 sm:p-padding-medium"}>
           <div id="confirm-modal-description" className="space-y-4">
             {/* Course Title - Mobile Only */}
             <div className="sm:hidden">
@@ -174,7 +191,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
             </div>
             
             {/* Main Message */}
-            <div className="text-center">
+            <div className={`text-center ${isMobile ? 'py-6' : ''}`}>
               <div className="w-16 h-16 bg-[#002fa7]/10 rounded-full flex items-center justify-center mx-auto mb-4 text-[#002fa7]">
                 <Play className="h-8 w-8 text-[#002fa7]" />
               </div>
@@ -182,7 +199,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
                 Ready to Practice with AI?
               </h3>
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                You're about to start an interactive AI conversation to practice what you learned. 
+                You're about to start an interactive AI conversation to practice what you learned.{' '}
                 This session will last up to 2 minutes and count as one of your daily practice sessions.
               </p>
             </div>
@@ -250,7 +267,9 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mt-6">
+          <div className={`flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mt-6 ${
+            isMobile ? 'fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200' : ''
+          }`}>
             <button
               onClick={onClose}
               className="flex-1 border border-gray-300 text-gray-700 px-4 py-3 rounded-headspace-lg text-sm sm:text-base font-medium hover:bg-gray-50 transition-all min-h-[44px]"
@@ -282,7 +301,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
 
           {/* Upgrade Prompt for Free Users */}
           {currentUser?.role === 'free' && (
-            <div className="mt-3 sm:mt-4 text-center">
+            <div className={`mt-3 sm:mt-4 text-center ${isMobile ? 'pb-4' : ''}`}>
               <p className="text-xs sm:text-sm text-gray-600 mb-2">
                 Want more practice sessions?
               </p>
@@ -297,7 +316,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
