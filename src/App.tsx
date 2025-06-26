@@ -9,7 +9,6 @@ import HomePage from './pages/HomePage';
 import CoursesPage from './pages/CoursesPage';
 import BrevEduPlusPage from './pages/BrevEduPlusPage';
 import AdminCoursesPage from './pages/AdminCoursesPage';
-import VerifyEmailPage from './pages/VerifyEmailPage';
 
 // Analytics wrapper component
 const AnalyticsWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -28,7 +27,6 @@ function App() {
             <Route path="/courses" element={<CoursesPage />} />
             <Route path="/brevedu-plus" element={<BrevEduPlusPage />} />
             <Route path="/admin/courses" element={<AdminCoursesPage />} />
-            <Route path="/verify-email" element={<VerifyEmailPage />} />
           </Routes>
           </AnalyticsWrapper>
           

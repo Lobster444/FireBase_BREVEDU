@@ -6,8 +6,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   sendPasswordResetEmail,
-  updateProfile,
-  sendEmailVerification
+  updateProfile
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, Timestamp } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
@@ -110,16 +109,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const result = await signInWithEmailAndPassword(auth, email, password);
-    
-    // Check if email is verified
-    if (!result.user.emailVerified) {
-      // Send verification email
-      await sendEmailVerification(result.user);
-      // Sign out the user
-      await signOut(auth);
-      throw new Error('Please verify your email before logging in. A new verification email has been sent.');
-    }
+    await signInWithEmailAndPassword(auth, email, password);
   };
 
   const register = async (email: string, password: string, name: string) => {
@@ -128,9 +118,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Update Firebase profile
     await updateProfile(user, { displayName: name });
     
-    // Send email verification
-    await sendEmailVerification(user);
-    
     // Create user document in Firestore
     const newUser: User = {
       uid: user.uid,
@@ -138,16 +125,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       name,
       role: 'free',
       createdAt: new Date(),
-      emailVerified: user.emailVerified
+      isAdmin: false
     };
     
     await setDoc(doc(db, 'users', user.uid), {
       ...newUser,
       createdAt: new Date()
     });
-    
-    // Sign out the user to force email verification
-    await signOut(auth);
   };
 
   const logout = async () => {
