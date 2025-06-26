@@ -381,7 +381,7 @@ describe('TavusService', () => {
       await expect(startTavusSession('', mockCourseId, 120))
         .rejects.toThrow(TavusConfigError);
 
-      await expect(startTavusSession(mockUserId, '', 180))
+      await expect(startTavusSession(mockUserId, '', 120))
         .rejects.toThrow(TavusConfigError);
 
       await expect(startTavusSession(mockUserId, mockCourseId, 0))
