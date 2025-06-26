@@ -34,10 +34,11 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
   ];
 
   const handleClick = () => {
-    if (onStartPracticing) {
-      onStartPracticing();
+    if (!currentUser) {
+      onStartPracticing();       // opens sign-up form
+    } else {
+      navigate('/courses');      // logged-in user continues to courses
     }
-    navigate('/courses');
   };
 
   return (
