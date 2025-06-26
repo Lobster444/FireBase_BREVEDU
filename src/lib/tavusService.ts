@@ -9,7 +9,8 @@ export {
   TavusNetworkError,
   TavusConfigError,
   TavusAPIError,
-  TavusTimeoutError
+  TavusTimeoutError,
+  TavusLimitError
 } from './tavus/errors';
 
 // Export offline queue

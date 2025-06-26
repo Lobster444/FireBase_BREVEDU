@@ -19,7 +19,8 @@ import {
   TavusNetworkError,
   TavusConfigError,
   TavusAPIError,
-  TavusTimeoutError
+  TavusTimeoutError,
+  TavusLimitError
 } from '../lib/tavusService';
 import { canStartConversation } from '../services/tavusUsage';
 import { notifyError, notifySuccess, notifyLoading, updateToast, notifyWarning } from '../lib/toast';
@@ -281,6 +282,10 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
           errorMessage = 'AI practice configuration issue. Please contact support.';
           shouldShowRetry = false;
         }
+      } else if (error instanceof TavusLimitError) {
+        // Handle usage limits as warnings, not errors
+        updateToast(toastId, `⚠️ ${error.message}`, 'warning');
+        return; // Exit early to avoid showing error styling
       } else if (error instanceof TavusNetworkError) {
         errorMessage = 'Network connection issue. Please check your internet and try again.';
         notifyWarning('📡 You can try again when your connection is stable.');

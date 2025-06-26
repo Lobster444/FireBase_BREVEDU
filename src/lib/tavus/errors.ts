@@ -57,3 +57,12 @@ export class TavusTimeoutError extends TavusError {
     this.name = 'TavusTimeoutError';
   }
 }
+/**
+ * Usage limit-related errors (daily limits reached, quota exceeded, etc.)
+ */
+export class TavusLimitError extends TavusError {
+  constructor(message: string, details?: any) {
+    super(message, 'LIMIT_ERROR', details, false);
+    this.name = 'TavusLimitError';
+  }
+}

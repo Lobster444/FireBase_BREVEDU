@@ -1,6 +1,7 @@
 import { User } from '../types';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import { TavusLimitError } from '../lib/tavus/errors';
 
 /**
  * Tavus Usage Service
@@ -125,7 +126,7 @@ export const canStartConversation = async (user: User | null): Promise<boolean> 
         ? `Daily limit of ${dailyLimit} AI practice session reached. Upgrade to BrevEdu+ for more sessions!`
         : `Daily limit of ${dailyLimit} AI practice sessions reached. More sessions available tomorrow!`;
       
-      throw new Error(errorMessage);
+      throw new TavusLimitError(errorMessage);
     }
 
     // Increment count before allowing conversation
