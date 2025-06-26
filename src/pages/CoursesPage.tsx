@@ -210,7 +210,7 @@ const CoursesPage: React.FC = () => {
                     <div>
                       {currentUser.role === 'free' ? (
                         <>
-                          <Crown className="h-12 w-12 text-[#FF7A59] mx-auto mb-4" />
+                          <Crown className="h-12 w-12 text-[#002fa7] mx-auto mb-4" />
                           <p className="text-lg text-gray-700 mb-4">
                             No courses available for your current access level in this category.
                           </p>
