@@ -261,7 +261,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-[#FF7A59] text-white px-6 py-3 rounded-headspace-lg text-base font-medium hover:bg-[#FF8A6B] transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 mt-6"
+            className="w-full bg-[#002fa7] text-white px-6 py-4 rounded-full text-lg font-semibold hover:bg-[#0040d1] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 mt-6 min-h-[56px]"
           >
             {isLoading ? (
               <>
@@ -281,7 +281,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
               <button
                 type="button"
                 onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
-                className="text-[#FF7A59] hover:text-[#FF8A6B] transition-colors font-medium"
+                className="text-[#002fa7] hover:text-[#0040d1] transition-colors font-medium"
                 disabled={isLoading}
               >
                 {mode === 'login' ? 'Sign up' : 'Sign in'}
