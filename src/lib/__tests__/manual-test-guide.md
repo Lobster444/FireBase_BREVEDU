@@ -49,7 +49,7 @@ Before starting manual testing, ensure:
 
 ### 2. Session Timeout Handling
 
-**Objective**: Verify 3-minute timeout works correctly.
+**Objective**: Verify 2-minute timeout works correctly.
 
 **Steps**:
 1. Start an AI practice session
@@ -353,7 +353,7 @@ If issues persist:
 ## Test Completion Checklist
 
 - [ ] Basic AI practice flow works end-to-end
-- [ ] 3-minute timeout enforces correctly
+- [ ] 2-minute timeout enforces correctly
 - [ ] Error handling works for all scenarios
 - [ ] Session limits enforced properly
 - [ ] Offline support functions correctly
