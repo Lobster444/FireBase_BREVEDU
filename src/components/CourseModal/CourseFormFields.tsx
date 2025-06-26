@@ -170,7 +170,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
       {/* Tavus AI Conversation URL - Updated placeholder and help text */}
       <div>
         <label htmlFor="tavusConversationUrl" className="block text-base font-semibold text-gray-900 mb-2 flex items-center space-x-2">
-          <MessageCircle className="h-5 w-5 text-[#FF7A59]" />
+          <MessageCircle className="h-5 w-5 text-[#002fa7]" />
           <span>Legacy Tavus URL (Optional)</span>
         </label>
         <input
