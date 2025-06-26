@@ -361,7 +361,7 @@ describe('TavusService', () => {
     });
 
     it('should create session with correct data', async () => {
-      const sessionId = await startTavusSession(mockUserId, mockCourseId, 180);
+      const sessionId = await startTavusSession(mockUserId, mockCourseId, 120);
 
       expect(sessionId).toBe('session-123');
 
@@ -378,7 +378,7 @@ describe('TavusService', () => {
     });
 
     it('should validate input parameters', async () => {
-      await expect(startTavusSession('', mockCourseId, 180))
+      await expect(startTavusSession('', mockCourseId, 120))
         .rejects.toThrow(TavusConfigError);
 
       await expect(startTavusSession(mockUserId, '', 180))
