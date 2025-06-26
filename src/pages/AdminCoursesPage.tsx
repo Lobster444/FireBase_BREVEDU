@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AlertCircle } from 'lucide-react';
+import PageTransition from '../components/PageTransition';
 import AdminRoute from '../components/AdminRoute';
 import OfflineBanner from '../components/OfflineBanner';
 import CourseModal from '../components/CourseModal';
@@ -110,125 +111,127 @@ const AdminCoursesPage: React.FC = () => {
   };
 
   return (
-    <AdminRoute>
-      <div className="min-h-screen bg-gray-50">
-        {/* Offline Banner */}
-        <OfflineBanner isVisible={!isOnline} />
-        
-        {/* Header */}
-        <div className={!isOnline ? 'mt-16' : ''}>
-          <AdminHeader
-            isOnline={isOnline}
-            onNewCourse={handleNewCourse}
-            onTavusSettings={handleTavusSettings}
-          />
-        </div>
+    <PageTransition type="slide">
+      <AdminRoute>
+        <div className="min-h-screen bg-gray-50">
+          {/* Offline Banner */}
+          <OfflineBanner isVisible={!isOnline} />
+          
+          {/* Header */}
+          <div className={!isOnline ? 'mt-16' : ''}>
+            <AdminHeader
+              isOnline={isOnline}
+              onNewCourse={handleNewCourse}
+              onTavusSettings={handleTavusSettings}
+            />
+          </div>
 
-        {/* Main Content */}
-        <div className="max-w-screen-2xl mx-auto px-padding-medium py-padding-medium">
-          {/* Filters */}
-          <CourseFilters
-            searchQuery={searchQuery}
-            selectedCategory={selectedCategory}
-            selectedAccessLevel={selectedAccessLevel}
-            showPublishedOnly={showPublishedOnly}
-            onSearchChange={setSearchQuery}
-            onCategoryChange={setSelectedCategory}
-            onAccessLevelChange={setSelectedAccessLevel}
-            onPublishedOnlyChange={setShowPublishedOnly}
-          />
+          {/* Main Content */}
+          <div className="max-w-screen-2xl mx-auto px-padding-medium py-padding-medium">
+            {/* Filters */}
+            <CourseFilters
+              searchQuery={searchQuery}
+              selectedCategory={selectedCategory}
+              selectedAccessLevel={selectedAccessLevel}
+              showPublishedOnly={showPublishedOnly}
+              onSearchChange={setSearchQuery}
+              onCategoryChange={setSelectedCategory}
+              onAccessLevelChange={setSelectedAccessLevel}
+              onPublishedOnlyChange={setShowPublishedOnly}
+            />
 
-          {/* Stats */}
-          <CourseStats stats={stats} />
+            {/* Stats */}
+            <CourseStats stats={stats} />
 
-          {/* Loading State */}
-          {loading && (
-            <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A59] mb-4"></div>
-              <p className="text-lg text-gray-600">Loading courses...</p>
-            </div>
-          )}
-
-          {/* Error State */}
-          {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-              <div className="flex items-center space-x-2 text-red-700">
-                <AlertCircle className="h-5 w-5" />
-                <span className="text-base">{error}</span>
+            {/* Loading State */}
+            {loading && (
+              <div className="text-center py-12">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A59] mb-4"></div>
+                <p className="text-lg text-gray-600">Loading courses...</p>
               </div>
-            </div>
-          )}
+            )}
 
-          {/* Course List */}
-          {!loading && !error && (
-            <>
-              {filteredCourses.length === 0 ? (
-                <div className="text-center py-12">
-                  <p className="text-lg text-gray-600 mb-4">
-                    {courses.length === 0 ? 'No courses found.' : 'No courses match your current filters.'}
-                  </p>
-                  {courses.length > 0 && (
-                    <button
-                      onClick={clearAllFilters}
-                      className="text-[#FF7A59] hover:text-[#FF8A6B] transition-colors underline"
-                    >
-                      Clear all filters
-                    </button>
-                  )}
+            {/* Error State */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                <div className="flex items-center space-x-2 text-red-700">
+                  <AlertCircle className="h-5 w-5" />
+                  <span className="text-base">{error}</span>
                 </div>
-              ) : (
-                <>
-                  {/* Results Count */}
-                  <div className="flex items-center justify-between mb-4">
-                    <p className="text-lg text-gray-600">
-                      Showing {filteredCourses.length} of {courses.length} courses
+              </div>
+            )}
+
+            {/* Course List */}
+            {!loading && !error && (
+              <>
+                {filteredCourses.length === 0 ? (
+                  <div className="text-center py-12">
+                    <p className="text-lg text-gray-600 mb-4">
+                      {courses.length === 0 ? 'No courses found.' : 'No courses match your current filters.'}
                     </p>
+                    {courses.length > 0 && (
+                      <button
+                        onClick={clearAllFilters}
+                        className="text-[#FF7A59] hover:text-[#FF8A6B] transition-colors underline"
+                      >
+                        Clear all filters
+                      </button>
+                    )}
                   </div>
+                ) : (
+                  <>
+                    {/* Results Count */}
+                    <div className="flex items-center justify-between mb-4">
+                      <p className="text-lg text-gray-600">
+                        Showing {filteredCourses.length} of {courses.length} courses
+                      </p>
+                    </div>
 
-                  {/* Desktop Table */}
-                  <CourseTable
-                    courses={filteredCourses}
-                    isOnline={isOnline}
-                    onEditCourse={handleEditCourse}
-                    onDeleteCourse={setDeleteConfirm}
-                  />
+                    {/* Desktop Table */}
+                    <CourseTable
+                      courses={filteredCourses}
+                      isOnline={isOnline}
+                      onEditCourse={handleEditCourse}
+                      onDeleteCourse={setDeleteConfirm}
+                    />
 
-                  {/* Mobile Grid */}
-                  <CourseMobileGrid
-                    courses={filteredCourses}
-                    isOnline={isOnline}
-                    onEditCourse={handleEditCourse}
-                    onDeleteCourse={setDeleteConfirm}
-                  />
-                </>
-              )}
-            </>
-          )}
+                    {/* Mobile Grid */}
+                    <CourseMobileGrid
+                      courses={filteredCourses}
+                      isOnline={isOnline}
+                      onEditCourse={handleEditCourse}
+                      onDeleteCourse={setDeleteConfirm}
+                    />
+                  </>
+                )}
+              </>
+            )}
+          </div>
+
+          {/* Modals */}
+          <DeleteConfirmationModal
+            isOpen={!!deleteConfirm}
+            isDeleting={isDeleting}
+            isOnline={isOnline}
+            onConfirm={() => deleteConfirm && handleDeleteCourse(deleteConfirm)}
+            onCancel={() => setDeleteConfirm(null)}
+          />
+
+          <CourseModal
+            isOpen={showCourseModal}
+            mode={modalMode}
+            course={selectedCourse}
+            onClose={() => setShowCourseModal(false)}
+            onSave={handleSaveCourse}
+          />
+
+          <TavusSettingsModal
+            isOpen={showTavusSettings}
+            onClose={() => setShowTavusSettings(false)}
+          />
         </div>
-
-        {/* Modals */}
-        <DeleteConfirmationModal
-          isOpen={!!deleteConfirm}
-          isDeleting={isDeleting}
-          isOnline={isOnline}
-          onConfirm={() => deleteConfirm && handleDeleteCourse(deleteConfirm)}
-          onCancel={() => setDeleteConfirm(null)}
-        />
-
-        <CourseModal
-          isOpen={showCourseModal}
-          mode={modalMode}
-          course={selectedCourse}
-          onClose={() => setShowCourseModal(false)}
-          onSave={handleSaveCourse}
-        />
-
-        <TavusSettingsModal
-          isOpen={showTavusSettings}
-          onClose={() => setShowTavusSettings(false)}
-        />
-      </div>
-    </AdminRoute>
+      </AdminRoute>
+    </PageTransition>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles, ArrowRight, Star, Quote } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import PageTransition from '../components/PageTransition';
 import Layout from '../components/Layout';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -126,71 +127,73 @@ const HomePage: React.FC = () => {
   const userMessage = getUserMessage();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header - Full Width */}
-      <Header currentPage="home" />
-      
-      {/* Hero Section */}
-      <HeroSection
-        currentUser={currentUser}
-        userMessage={userMessage}
-        onStartLearning={handleStartLearningFree}
-        onUpgrade={handleUpgradeClick}
-        onExploreCourses={handleExploreCourses}
-      />
+    <PageTransition type="fade">
+      <div className="min-h-screen bg-gray-50">
+        {/* Header - Full Width */}
+        <Header currentPage="home" />
+        
+        {/* Hero Section */}
+        <HeroSection
+          currentUser={currentUser}
+          userMessage={userMessage}
+          onStartLearning={handleStartLearningFree}
+          onUpgrade={handleUpgradeClick}
+          onExploreCourses={handleExploreCourses}
+        />
 
-      {/* Features & Benefits Overview */}
-      <FeaturesBenefits />
+        {/* Features & Benefits Overview */}
+        <FeaturesBenefits />
 
-      {/* AI Video Tutor Demo */}
-      <AIVideoTutor
-        currentUser={currentUser}
-        onStartPracticing={handleStartLearningFree}
-      />
+        {/* AI Video Tutor Demo */}
+        <AIVideoTutor
+          currentUser={currentUser}
+          onStartPracticing={handleStartLearningFree}
+        />
 
-      {/* Featured Courses Section */}
-      <FeaturedCoursesSection
-        courses={courses}
-        loading={loading}
-        error={error}
-        currentUser={currentUser}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-        onCourseClick={handleCourseClick}
-        onExploreCourses={handleExploreCourses}
-        onAuthPrompt={handleAuthPrompt}
-        showCategoryFilter={false}
-      />
+        {/* Featured Courses Section */}
+        <FeaturedCoursesSection
+          courses={courses}
+          loading={loading}
+          error={error}
+          currentUser={currentUser}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          onCourseClick={handleCourseClick}
+          onExploreCourses={handleExploreCourses}
+          onAuthPrompt={handleAuthPrompt}
+          showCategoryFilter={false}
+        />
 
-      {/* Upgrade Promotional Section - Only for non-premium users */}
-      {currentUser?.role !== 'premium' && (
-        <UpgradePromoSection onUpgradeClick={handleUpgradeClick} />
-      )}
+        {/* Upgrade Promotional Section - Only for non-premium users */}
+        {currentUser?.role !== 'premium' && (
+          <UpgradePromoSection onUpgradeClick={handleUpgradeClick} />
+        )}
 
-      {/* Customer Testimonials Section */}
-      <TestimonialsSection
-        currentUser={currentUser}
-        onStartLearning={handleStartLearningFree}
-        onUpgrade={handleUpgradeClick}
-        onExploreCourses={handleExploreCourses}
-      />
+        {/* Customer Testimonials Section */}
+        <TestimonialsSection
+          currentUser={currentUser}
+          onStartLearning={handleStartLearningFree}
+          onUpgrade={handleUpgradeClick}
+          onExploreCourses={handleExploreCourses}
+        />
 
-      {/* Course Detail Modal */}
-      <CourseDetailModal
-        isOpen={showCourseModal}
-        course={selectedCourse}
-        onClose={handleCloseCourseModal}
-      />
+        {/* Course Detail Modal */}
+        <CourseDetailModal
+          isOpen={showCourseModal}
+          course={selectedCourse}
+          onClose={handleCloseCourseModal}
+        />
 
-      {/* Auth Modal */}
-      <AuthModal 
-        isOpen={showAuthModal} 
-        onClose={handleCloseAuthModal}
-        initialMode={authMode}
-      />
-      
-      <Footer />
-    </div>
+        {/* Auth Modal */}
+        <AuthModal 
+          isOpen={showAuthModal} 
+          onClose={handleCloseAuthModal}
+          initialMode={authMode}
+        />
+        
+        <Footer />
+      </div>
+    </PageTransition>
   );
 };
 
