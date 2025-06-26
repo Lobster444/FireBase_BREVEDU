@@ -31,7 +31,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
   const iframeRef = useRef<HTMLIFrameElement>(null);
   
   // Timer state
-  const [timeRemaining, setTimeRemaining] = useState(180); // 3 minutes in seconds
+  const [timeRemaining, setTimeRemaining] = useState(120); // 2 minutes in seconds
   const [isTimedOut, setIsTimedOut] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [isCompleting, setIsCompleting] = useState(false);
