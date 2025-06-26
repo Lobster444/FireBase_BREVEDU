@@ -129,30 +129,27 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
   const canStart = isOnline && sessionInfo.sessionsAvailable > 0 && !isStarting;
 
   // Use full-screen on mobile, modal on desktop
-  const containerClasses = isMobile 
+  const wrapperClasses = isMobile
     ? "fixed inset-0 bg-white z-50 overflow-y-auto"
+    : "fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4";
+
+  const modalClasses = isMobile
+    ? ""
     : "bg-white rounded-headspace-2xl w-full max-w-sm sm:max-w-md lg:max-w-lg shadow-[0_8px_32px_rgba(0,0,0,0.15)] overflow-hidden mx-4";
+
   return (
-    <>
-      {/* Desktop backdrop */}
-      {!isMobile && (
-        <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-          onClick={handleBackdropClick}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="confirm-modal-title"
-          aria-describedby="confirm-modal-description"
-        />
-      )}
-      
+    <div 
+      className={wrapperClasses}
+      onClick={isMobile ? undefined : handleBackdropClick}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="confirm-modal-title"
+      aria-describedby="confirm-modal-description"
+    >
       <div 
         ref={modalRef}
-        className={containerClasses}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="confirm-modal-title"
-        aria-describedby="confirm-modal-description"
+        className={modalClasses}
+        onClick={(e) => e.stopPropagation()} // Prevent backdrop click when clicking inside modal
       >
         {/* Header */}
         <div className={`flex items-center justify-between border-b border-gray-100 ${
@@ -316,7 +313,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
