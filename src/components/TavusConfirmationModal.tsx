@@ -133,24 +133,21 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
     ? "fixed inset-0 bg-white z-50 overflow-y-auto"
     : "fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4";
 
+  const wrapperClasses = isMobile
+    ? "fixed inset-0 bg-white z-50 overflow-y-auto"
+    : "fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4";
+
   const modalClasses = isMobile
     ? ""
     : "bg-white rounded-headspace-2xl w-full max-w-sm sm:max-w-md lg:max-w-lg shadow-[0_8px_32px_rgba(0,0,0,0.15)] overflow-hidden mx-4";
 
+
   return (
     <div 
       className={wrapperClasses}
-      onClick={isMobile ? undefined : handleBackdropClick}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="confirm-modal-title"
-      aria-describedby="confirm-modal-description"
-    >
-      <div 
-        ref={modalRef}
         className={modalClasses}
         onClick={(e) => e.stopPropagation()} // Prevent backdrop click when clicking inside modal
-      >
+    >
         {/* Header */}
         <div className={`flex items-center justify-between border-b border-gray-100 ${
           isMobile ? 'p-4 bg-white sticky top-0 z-10' : 'p-4 sm:p-padding-medium'
@@ -313,7 +310,6 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
           )}
         </div>
       </div>
-    </div>
   );
 };
 
