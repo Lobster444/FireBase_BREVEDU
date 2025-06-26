@@ -12,6 +12,7 @@ import QuickFacts from './QuickFacts';
 import ActionButtonsSection from './ActionButtonsSection';
 import TavusUnavailableModal from './TavusUnavailableModal';
 import { useTavusSettings } from '../hooks/useTavusSettings';
+import { getUserUsageStatus } from '../services/tavusUsage';
 import { 
   createTavusConversation, 
   startTavusSession,
@@ -55,6 +56,17 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
   // Tavus settings and unavailable modal
   const { isEnabled: isTavusEnabled } = useTavusSettings();
   const [showUnavailableModal, setShowUnavailableModal] = useState(false);
+  
+  // Usage tracking state
+  const [usageStatus, setUsageStatus] = useState<{
+    canStart: boolean;
+    used: number;
+    limit: number;
+    remaining: number;
+    tier: string;
+    resetTime: string;
+  } | null>(null);
+  const [loadingUsage, setLoadingUsage] = useState(false);
 
   // Reset states when modal opens/closes or course changes
   useEffect(() => {
@@ -92,6 +104,26 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
       document.body.style.overflow = 'unset';
     };
   }, [isOpen, course, currentUser]);
+  
+  // Fetch usage status when modal opens and user changes
+  useEffect(() => {
+    if (isOpen && currentUser) {
+      setLoadingUsage(true);
+      getUserUsageStatus(currentUser)
+        .then(status => {
+          setUsageStatus(status);
+        })
+        .catch(error => {
+          console.error('Error fetching usage status:', error);
+          setUsageStatus(null);
+        })
+        .finally(() => {
+          setLoadingUsage(false);
+        });
+    } else {
+      setUsageStatus(null);
+    }
+  }, [isOpen, currentUser]);
 
   // Keyboard event handling
   useEffect(() => {
@@ -160,41 +192,31 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
       return { available: false, reason: 'Create account to practice' };
     }
 
-    if (currentUser.role === 'free') {
-      const dailyLimit = 1;
-      const used = currentUser.aiChatsUsed || 0;
-      const today = new Date().toISOString().split('T')[0];
-      const lastReset = currentUser.lastChatReset || '';
-      
-      if (lastReset !== today) {
-        return { available: true, reason: `${dailyLimit} practice session available today` };
-      }
-      
-      if (used >= dailyLimit) {
-        return { available: false, reason: 'Daily limit reached. Upgrade for more!' };
-      }
-      
-      return { available: true, reason: `${dailyLimit - used} practice session remaining today` };
+    // Use real-time usage status from Firestore
+    if (loadingUsage) {
+      return { available: false, reason: 'Checking availability...' };
     }
-
-    if (currentUser.role === 'premium') {
-      const dailyLimit = 3;
-      const used = currentUser.aiChatsUsed || 0;
-      const today = new Date().toISOString().split('T')[0];
-      const lastReset = currentUser.lastChatReset || '';
-      
-      if (lastReset !== today) {
-        return { available: true, reason: `${dailyLimit} practice sessions available today` };
-      }
-      
-      if (used >= dailyLimit) {
-        return { available: false, reason: 'Daily limit reached. More sessions tomorrow!' };
-      }
-      
-      return { available: true, reason: `${dailyLimit - used} practice sessions remaining today` };
+    
+    if (!usageStatus) {
+      return { available: false, reason: 'Unable to check session availability' };
     }
-
-    return { available: false, reason: 'Unknown user type' };
+    
+    if (usageStatus.remaining === 0) {
+      const upgradeMessage = currentUser.role === 'free' 
+        ? 'Daily limit reached. Upgrade for more!'
+        : 'Daily limit reached. More sessions tomorrow!';
+      return { 
+        available: false, 
+        reason: upgradeMessage,
+        isLimitReached: true
+      };
+    }
+    
+    const sessionText = usageStatus.remaining === 1 ? 'session' : 'sessions';
+    return { 
+      available: true, 
+      reason: `${usageStatus.remaining} practice ${sessionText} remaining today` 
+    };
   };
 
   // Show confirmation modal for AI practice

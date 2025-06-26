@@ -72,7 +72,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               role: userData.role || 'free',
               createdAt: createdAtDate,
               emailVerified: firebaseUser.emailVerified,
-              isAdmin: userData.isAdmin || false
+              isAdmin: userData.isAdmin || false,
+              // Include legacy fields if present for backward compatibility
+              aiChatsUsed: userData.aiChatsUsed,
+              lastChatReset: userData.lastChatReset,
+              tavusCompletions: userData.tavusCompletions
             });
           } else {
             // Create user document if it doesn't exist

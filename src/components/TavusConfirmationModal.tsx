@@ -4,7 +4,7 @@ import { Course } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { useNetworkStatusWithUtils } from '../hooks/useNetworkStatus';
 import { useViewport } from '../hooks/useViewport';
-import { DAILY_LIMITS } from '../services/tavusUsage';
+import { getUserUsageStatus } from '../services/tavusUsage';
 import { trackAIPracticeEvent } from '../lib/analytics';
 
 interface TavusConfirmationModalProps {
@@ -25,6 +25,37 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
   const { isMobile } = useViewport();
   const modalRef = useRef<HTMLDivElement>(null);
   const [isStarting, setIsStarting] = useState(false);
+
+  // Usage tracking state
+  const [usageStatus, setUsageStatus] = useState<{
+    canStart: boolean;
+    used: number;
+    limit: number;
+    remaining: number;
+    tier: string;
+    resetTime: string;
+  } | null>(null);
+  const [loadingUsage, setLoadingUsage] = useState(false);
+
+  // Fetch usage status when modal opens
+  useEffect(() => {
+    if (isOpen && currentUser) {
+      setLoadingUsage(true);
+      getUserUsageStatus(currentUser)
+        .then(status => {
+          setUsageStatus(status);
+        })
+        .catch(error => {
+          console.error('Error fetching usage status:', error);
+          setUsageStatus(null);
+        })
+        .finally(() => {
+          setLoadingUsage(false);
+        });
+    } else {
+      setUsageStatus(null);
+    }
+  }, [isOpen, currentUser]);
 
   // Keyboard event handling
   useEffect(() => {
@@ -86,47 +117,27 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
       };
     }
 
-    if (currentUser.role === 'free') {
-      const dailyLimit = DAILY_LIMITS.free;
-      const used = currentUser.aiChatsUsed || 0;
-      const today = new Date().toISOString().split('T')[0];
-      const lastReset = currentUser.lastChatReset || '';
-      
-      const sessionsAvailable = lastReset !== today ? dailyLimit : Math.max(0, dailyLimit - used);
-      
+    if (loadingUsage || !usageStatus) {
       return {
-        sessionsAvailable,
-        sessionType: 'Free Account',
-        dailyLimit
+        sessionsAvailable: 0,
+        sessionType: loadingUsage ? 'Loading...' : 'Unable to load',
+        dailyLimit: 0
       };
     }
 
-    if (currentUser.role === 'premium') {
-      const dailyLimit = DAILY_LIMITS.premium;
-      const used = currentUser.aiChatsUsed || 0;
-      const today = new Date().toISOString().split('T')[0];
-      const lastReset = currentUser.lastChatReset || '';
-      
-      const sessionsAvailable = lastReset !== today ? dailyLimit : Math.max(0, dailyLimit - used);
-      
-      return {
-        sessionsAvailable,
-        sessionType: 'BrevEdu+ Member',
-        dailyLimit
-      };
-    }
-
+    const sessionType = currentUser.role === 'premium' ? 'BrevEdu+ Member' : 'Free Account';
+    
     return {
-      sessionsAvailable: 0,
-      sessionType: 'Unknown',
-      dailyLimit: 0
+      sessionsAvailable: usageStatus.remaining,
+      sessionType,
+      dailyLimit: usageStatus.limit
     };
   };
 
   if (!isOpen || !course) return null;
 
   const sessionInfo = getSessionInfo();
-  const canStart = isOnline && sessionInfo.sessionsAvailable > 0 && !isStarting;
+  const canStart = isOnline && sessionInfo.sessionsAvailable > 0 && !isStarting && !loadingUsage;
 
   // Use full-screen on mobile, modal on desktop
   const containerClasses = isMobile 
@@ -262,6 +273,16 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
                     : 'You\'ve used all your daily practice sessions. More sessions available tomorrow!'
                   }
                 </p>
+              </div>
+            )}
+            
+            {/* Loading Usage Status */}
+            {loadingUsage && (
+              <div className="bg-blue-50 border border-blue-200 rounded-headspace-lg p-3 sm:p-4">
+                <div className="flex items-center space-x-2 text-blue-800">
+                  <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                  <span className="text-xs sm:text-sm font-medium">Checking session availability...</span>
+                </div>
               </div>
             )}
           </div>
