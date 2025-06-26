@@ -44,8 +44,8 @@ Before starting manual testing, ensure:
 - ✅ Confirmation modal shows correct information
 - ✅ API calls succeed (check Network tab)
 - ✅ Tavus conversation loads in iframe
-- ✅ Timer counts down from 3:00 to 0:00
-- ✅ Session ends automatically after 3 minutes
+- ✅ Timer counts down from 2:00 to 0:00
+- ✅ Session ends automatically after 2 minutes
 
 ### 2. Session Timeout Handling
 
@@ -53,11 +53,11 @@ Before starting manual testing, ensure:
 
 **Steps**:
 1. Start an AI practice session
-2. Wait for 2:30 (30 seconds remaining)
+2. Wait for 1:30 (30 seconds remaining)
 3. Verify warning notification appears
-4. Wait for 2:50 (10 seconds remaining)  
+4. Wait for 1:50 (10 seconds remaining)  
 5. Verify final warning appears
-6. Wait for full 3:00 timeout
+6. Wait for full 2:00 timeout
 7. Verify conversation ends automatically
 8. Verify session marked as "expired" in Firestore
 
