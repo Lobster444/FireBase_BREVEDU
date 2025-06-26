@@ -170,7 +170,7 @@ describe('Tavus Integration Tests', () => {
       await user.click(practiceButton);
 
       expect(screen.getByText(mockCourse.title)).toBeInTheDocument();
-      expect(screen.getByText(/3 minutes max/i)).toBeInTheDocument();
+      expect(screen.getByText(/2 minutes max/i)).toBeInTheDocument();
     });
 
     it('should show practice tips in confirmation modal', async () => {
