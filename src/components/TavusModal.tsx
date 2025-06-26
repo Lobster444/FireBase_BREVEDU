@@ -58,7 +58,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
   // Start timer when modal opens and conversation URL is available
   useEffect(() => {
     if (isOpen && conversationUrl && !isTimedOut && !hasStartedRef.current) {
-      console.log('⏰ Starting 3-minute timer for Tavus session');
+      console.log('⏰ Starting 2-minute timer for Tavus session');
       hasStartedRef.current = true;
       setHasStarted(true);
       setTimeRemaining(180);
