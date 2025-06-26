@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Video, Play, Mic, Volume2, ArrowRight, MessageCircle } from 'lucide-react';
 import { AccentButton } from './UIButtons';
 import { User } from '../types';
@@ -12,6 +13,8 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
   currentUser,
   onStartPracticing
 }) => {
+  const navigate = useNavigate();
+
   const benefits = [
     {
       icon: '🤖',
@@ -29,6 +32,13 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
       description: 'Engage in natural conversation with AI'
     }
   ];
+
+  const handleClick = () => {
+    if (onStartPracticing) {
+      onStartPracticing();
+    }
+    navigate('/courses');
+  };
 
   return (
     <section className="px-4 sm:px-padding-medium py-12 sm:py-20 lg:py-24 bg-gradient-to-br from-blue-50 via-white to-purple-50 relative overflow-hidden">
@@ -176,7 +186,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
               <div>
                 <AccentButton 
                   className="hero-cta-primary text-white w-full px-8 py-5 text-xl sm:text-2xl font-bold flex items-center justify-center space-x-3 group-hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl"
-                  onClick={onStartPracticing}
+                  onClick={handleClick}
                   aria-label={currentUser ? "Continue to courses and start practicing" : "Sign up to start practicing with AI"}
                 >
                   <span>Start Practicing Now</span>
