@@ -90,7 +90,7 @@ const CourseCardPreview: React.FC<CourseCardPreviewProps> = ({
           {accessLevelInfo.description}
         </p>
         {formData.accessLevel === 'premium' && (
-          <p className="text-sm text-[#FF7A59] mt-2">
+          <p className="text-sm text-[#002fa7] mt-2">
             💎 This course will only be visible to BrevEdu+ subscribers
           </p>
         )}
