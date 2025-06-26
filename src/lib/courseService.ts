@@ -158,6 +158,8 @@ const getCourse = async (id: string): Promise<Course | null> => {
         tavusConversationUrl: data.tavusConversationUrl || undefined,
         // NEW: Include conversational context for AI practice
         conversationalContext: data.conversationalContext || undefined,
+      }
+    }
     if (formData.thumbnailUrl.trim()) {
       console.log('No course found with ID:', id);
       return null;
