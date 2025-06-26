@@ -265,7 +265,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
                   className={`w-full pl-10 pr-12 py-3 bg-white border rounded-headspace-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition-colors ${
                     errors.password 
                       ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
-                      : 'border-gray-300 focus:border-[#FF7A59] focus:ring-[#FF7A59]/20'
+                      : 'border-gray-300 focus:border-[#002fa7] focus:ring-[#002fa7]/20'
                   }`}
                   placeholder="Enter your password"
                   required
