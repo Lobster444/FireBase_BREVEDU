@@ -11,22 +11,14 @@ import {
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, Timestamp } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
-
-export interface User {
-  id: string;
-  email: string;
-  displayName: string;
-  role: 'free' | 'premium';
-  createdAt: Date;
-  emailVerified: boolean;
-}
+import { User } from '../types';
 
 interface AuthContextType {
   currentUser: User | null;
   firebaseUser: FirebaseUser | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, displayName: string) => Promise<void>;
+  register: (email: string, password: string, name: string) => Promise<void>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   updateUserProfile: (updates: Partial<User>) => Promise<void>;
@@ -75,9 +67,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             }
             
             setCurrentUser({
-              id: firebaseUser.uid,
+              uid: firebaseUser.uid,
               email: firebaseUser.email!,
-              displayName: userData.displayName || firebaseUser.displayName || '',
+              name: userData.name || userData.displayName || firebaseUser.displayName || '',
               role: userData.role || 'free',
               createdAt: createdAtDate,
               emailVerified: firebaseUser.emailVerified,
@@ -86,9 +78,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           } else {
             // Create user document if it doesn't exist
             const newUser: User = {
-              id: firebaseUser.uid,
+              uid: firebaseUser.uid,
               email: firebaseUser.email!,
-              displayName: firebaseUser.displayName || '',
+              name: firebaseUser.displayName || '',
               role: 'free',
               createdAt: new Date(),
               emailVerified: firebaseUser.emailVerified,
@@ -121,17 +113,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     await signInWithEmailAndPassword(auth, email, password);
   };
 
-  const register = async (email: string, password: string, displayName: string) => {
+  const register = async (email: string, password: string, name: string) => {
     const { user } = await createUserWithEmailAndPassword(auth, email, password);
     
     // Update Firebase profile
-    await updateProfile(user, { displayName });
+    await updateProfile(user, { displayName: name });
     
     // Create user document in Firestore
     const newUser: User = {
-      id: user.uid,
+      uid: user.uid,
       email: user.email!,
-      displayName,
+      name,
       role: 'free',
       createdAt: new Date(),
       emailVerified: true
@@ -155,7 +147,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (!currentUser) throw new Error('No user logged in');
     
     // Update Firestore document
-    await updateDoc(doc(db, 'users', currentUser.id), updates);
+    await updateDoc(doc(db, 'users', currentUser.uid), updates);
     
     // Update local state
     setCurrentUser(prev => prev ? { ...prev, ...updates } : null);
