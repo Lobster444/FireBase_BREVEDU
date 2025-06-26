@@ -401,7 +401,7 @@ describe('TavusService', () => {
       const expiresAt = new Date(sessionData.expiresAt).getTime();
 
       expect(expiresAt).toBeGreaterThanOrEqual(beforeTime + 120000);
-      expect(expiresAt).toBeLessThanOrEqual(afterTime + 180000);
+      expect(expiresAt).toBeLessThanOrEqual(afterTime + 120000);
     });
   });
 
