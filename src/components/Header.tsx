@@ -301,7 +301,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
               </p>
               <a
                 href="/brevedu-plus"
-               className="text-[#002fa7] hover:text-[#0040d1] transition-colors text-xs sm:text-sm font-medium underline"
+                className="text-[#002fa7] hover:text-[#0040d1] transition-colors text-xs sm:text-sm font-medium underline"
                 onClick={onClose}
               >
                 Upgrade to BrevEdu+ for 3 daily sessions
