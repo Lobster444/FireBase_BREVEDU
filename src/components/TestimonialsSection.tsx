@@ -87,7 +87,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
                   <p id={`testimonial-${testimonial.id}-name`} className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 mb-1">
                     {testimonial.name}
                   </p>
-                  <p className="text-sm sm:text-base text-[#FF7A59] font-medium">
+                  <p className="text-sm sm:text-base text-[#002fa7] font-medium">
                     {testimonial.role}
                   </p>
                 </cite>
