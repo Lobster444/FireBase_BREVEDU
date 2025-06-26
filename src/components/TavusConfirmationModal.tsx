@@ -214,7 +214,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
               <ul className="text-xs sm:text-sm text-gray-700 space-y-1">
                 <li>• Make sure you have a stable internet connection</li>
                 <li>• Find a quiet place to focus</li>
-                <li>• Session will automatically end after 3 minutes</li>
+                <li>• Session will automatically end after 2 minutes</li>
                 <li>• Speak clearly and engage with the AI</li>
               </ul>
             </div>
