@@ -31,12 +31,12 @@ Before starting manual testing, ensure:
 3. Verify confirmation modal appears with:
    - Course title and information
    - Session availability (e.g., "1 practice session available today")
-   - 3-minute duration notice
+   - 2-minute duration notice
    - Practice tips
 4. Click "Start Practice Session"
 5. Verify loading state shows "Creating Session..."
 6. Verify Tavus modal opens with conversation iframe
-7. Verify 3-minute countdown timer appears
+7. Verify 2-minute countdown timer appears
 8. Interact with AI conversation
 9. Verify session completes or times out after 2 minutes
 
