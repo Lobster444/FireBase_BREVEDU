@@ -158,7 +158,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
       }
       
       // Calculate completion data
-      const duration = 180 - timeRemaining;
+      const duration = 120 - timeRemaining;
       const accuracyScore = Math.floor(Math.random() * 30) + 70; // Mock score 70-100%
       
       // Complete the session
