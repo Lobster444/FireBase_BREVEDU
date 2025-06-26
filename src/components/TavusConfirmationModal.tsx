@@ -183,7 +183,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
               </h3>
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
                 You're about to start an interactive AI conversation to practice what you learned. 
-                This session will last up to 3 minutes and count as one of your daily practice sessions.
+                This session will last up to 2 minutes and count as one of your daily practice sessions.
               </p>
             </div>
 
