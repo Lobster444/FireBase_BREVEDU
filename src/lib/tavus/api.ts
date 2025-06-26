@@ -488,7 +488,7 @@ export const endTavusConversation = async (conversationId: string): Promise<void
 export const startTavusSession = async (
   userId: string,
   courseId: string,
-  ttl: number = 180
+  ttl: number = 120
 ): Promise<string> => {
   try {
     if (!userId || !courseId) {
