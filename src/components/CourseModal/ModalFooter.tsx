@@ -28,7 +28,7 @@ const ModalFooter: React.FC<ModalFooterProps> = ({
         type="submit"
         disabled={isSubmitting}
         onClick={onSubmit}
-        className="bg-[#FF7A59] text-white px-6 py-3 rounded-[10px] text-lg font-medium hover:bg-[#FF8A6B] transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] disabled:opacity-50 flex items-center space-x-2"
+        className="bg-[#002fa7] text-white px-6 py-3 rounded-[10px] text-lg font-medium hover:bg-[#FF8A6B] transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] disabled:opacity-50 flex items-center space-x-2"
       >
         {isSubmitting ? (
           <>
