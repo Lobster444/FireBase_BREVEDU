@@ -372,7 +372,7 @@ describe('TavusService', () => {
           userId: mockUserId,
           courseId: mockCourseId,
           status: 'confirmed',
-          ttl: 180
+          ttl: 120
         })
       );
     });
