@@ -133,10 +133,6 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
     ? "fixed inset-0 bg-white z-50 overflow-y-auto"
     : "fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4";
 
-  const wrapperClasses = isMobile
-    ? "fixed inset-0 bg-white z-50 overflow-y-auto"
-    : "fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4";
-
   const modalClasses = isMobile
     ? ""
     : "bg-white rounded-headspace-2xl w-full max-w-sm sm:max-w-md lg:max-w-lg shadow-[0_8px_32px_rgba(0,0,0,0.15)] overflow-hidden mx-4";
@@ -145,9 +141,13 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
   return (
     <div 
       className={wrapperClasses}
+      onClick={handleBackdropClick}
+    >
+      <div
+        ref={modalRef}
         className={modalClasses}
         onClick={(e) => e.stopPropagation()} // Prevent backdrop click when clicking inside modal
-    >
+      >
         {/* Header */}
         <div className={`flex items-center justify-between border-b border-gray-100 ${
           isMobile ? 'p-4 bg-white sticky top-0 z-10' : 'p-4 sm:p-padding-medium'
@@ -301,7 +301,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
               </p>
               <a
                 href="/brevedu-plus"
-               className="text-[#002fa7] hover:text-[#0040d1] transition-colors text-xs sm:text-sm font-medium underline"
+                className="text-[#002fa7] hover:text-[#0040d1] transition-colors text-xs sm:text-sm font-medium underline"
                 onClick={onClose}
               >
                 Upgrade to BrevEdu+ for 3 daily sessions
@@ -310,6 +310,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
           )}
         </div>
       </div>
+    </div>
   );
 };
 

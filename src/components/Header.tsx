@@ -137,16 +137,13 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
     ? ""
     : "bg-white rounded-headspace-2xl w-full max-w-sm sm:max-w-md lg:max-w-lg shadow-[0_8px_32px_rgba(0,0,0,0.15)] overflow-hidden mx-4";
 
+
   return (
     <div 
       className={wrapperClasses}
-      onClick={isMobile ? undefined : handleBackdropClick}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="confirm-modal-title"
-      aria-describedby="confirm-modal-description"
+      onClick={handleBackdropClick}
     >
-      <div 
+      <div
         ref={modalRef}
         className={modalClasses}
         onClick={(e) => e.stopPropagation()} // Prevent backdrop click when clicking inside modal
