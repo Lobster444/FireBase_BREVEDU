@@ -375,7 +375,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
                 <AlertTriangle className="h-12 w-12 text-red-500 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Session Timed Out</h3>
                 <p className="text-gray-600 mb-4">
-                  Your 3-minute practice session has ended.
+                  Your 2-minute practice session has ended.
                 </p>
                 {isCompleting && (
                   <div className="flex items-center justify-center space-x-2 text-gray-600">
