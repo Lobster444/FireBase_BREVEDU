@@ -242,7 +242,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
 
     try {
       // Step 1: Create session in Firestore
-      const newSessionId = await startTavusSession(currentUser.uid, course.id, 180); // 3 minutes
+      const newSessionId = await startTavusSession(currentUser.uid, course.id, 120); // 2 minutes
       console.log('📝 Created session:', newSessionId);
       setSessionId(newSessionId);
 
