@@ -109,11 +109,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const login = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
+    const result = await signInWithEmailAndPassword(auth, email, password);
+    return result;
   };
 
   const register = async (email: string, password: string, name: string) => {
-    const { user } = await createUserWithEmailAndPassword(auth, email, password);
+    const result = await createUserWithEmailAndPassword(auth, email, password);
+    const { user } = result;
     
     // Update Firebase profile
     await updateProfile(user, { displayName: name });
@@ -132,6 +134,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       ...newUser,
       createdAt: new Date()
     });
+    
+    // Immediately update the local state with the new user data
+    setCurrentUser(newUser);
+    
+    return result;
   };
 
   const logout = async () => {
