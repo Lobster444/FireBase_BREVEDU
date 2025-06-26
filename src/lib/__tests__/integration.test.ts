@@ -288,7 +288,7 @@ describe('Tavus Integration Tests', () => {
         expect(startTavusSession).toHaveBeenCalledWith(
           mockUser.uid,
           mockCourse.id,
-          180
+          120
         );
       });
 
