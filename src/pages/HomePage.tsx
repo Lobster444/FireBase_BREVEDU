@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Sparkles, ArrowRight, Star, Quote } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import Layout from '../components/Layout';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -188,22 +187,6 @@ const HomePage: React.FC = () => {
         isOpen={showAuthModal} 
         onClose={handleCloseAuthModal}
         initialMode={authMode}
-      />
-      
-      {/* Toast Container */}
-      <ToastContainer
-        position="top-center"
-        autoClose={4000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        toastClassName="bg-primary border border-neutral-gray/30 text-text-light font-inter"
-        progressClassName="bg-accent-yellow"
       />
       
       <Footer />
