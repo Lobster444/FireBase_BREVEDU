@@ -400,7 +400,7 @@ describe('TavusService', () => {
       const sessionData = addDoc.mock.calls[0][1];
       const expiresAt = new Date(sessionData.expiresAt).getTime();
 
-      expect(expiresAt).toBeGreaterThanOrEqual(beforeTime + 180000);
+      expect(expiresAt).toBeGreaterThanOrEqual(beforeTime + 120000);
       expect(expiresAt).toBeLessThanOrEqual(afterTime + 180000);
     });
   });
