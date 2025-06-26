@@ -111,7 +111,44 @@ const AuthModal: React.FC<AuthModalProps> = ({
       onClose();
     } catch (error: any) {
       console.error('Auth error:', error);
-      const errorMessage = error.message || `Failed to ${mode}. Please try again.`;
+      
+      let errorMessage = `Failed to ${mode}. Please try again.`;
+      
+      // Handle specific Firebase auth errors
+      if (error.code) {
+        switch (error.code) {
+          case 'auth/invalid-credential':
+            errorMessage = 'Invalid email or password. Please check your credentials and try again.';
+            break;
+          case 'auth/user-not-found':
+            errorMessage = 'No account found with this email address.';
+            break;
+          case 'auth/wrong-password':
+            errorMessage = 'Incorrect password. Please try again.';
+            break;
+          case 'auth/email-already-in-use':
+            errorMessage = 'An account with this email already exists. Please sign in instead.';
+            break;
+          case 'auth/weak-password':
+            errorMessage = 'Password is too weak. Please choose a stronger password.';
+            break;
+          case 'auth/invalid-email':
+            errorMessage = 'Please enter a valid email address.';
+            break;
+          case 'auth/too-many-requests':
+            errorMessage = 'Too many failed attempts. Please try again later.';
+            break;
+          case 'auth/network-request-failed':
+            errorMessage = 'Network error. Please check your connection and try again.';
+            break;
+          default:
+            errorMessage = error.message || errorMessage;
+            break;
+        }
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       notifyError(errorMessage);
     } finally {
       setIsLoading(false);
