@@ -411,7 +411,7 @@ describe('Tavus Integration Tests', () => {
   });
 
   describe('Session Timeout Handling', () => {
-    it('should show 3-minute timer when conversation starts', () => {
+    it('should show 2-minute timer when conversation starts', () => {
       // This would require mocking the TavusModal component
       // and testing the timer functionality
       expect(true).toBe(true); // Placeholder for timer tests
