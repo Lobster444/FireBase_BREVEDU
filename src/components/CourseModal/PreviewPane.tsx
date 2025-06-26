@@ -31,18 +31,20 @@ const PreviewPane: React.FC<PreviewPaneProps> = ({
 
   // Get YouTube video ID from URL
   const getYouTubeVideoId = (url: string): string | null => {
-    const match = url.match(/\/embed\/([^?&]+)/);
+    // Only match valid 11-character YouTube video IDs
+    const match = url.match(/\/embed\/([\w-]{11})(?:\?|$)/);
     return match ? match[1] : null;
   };
 
   const videoId = getYouTubeVideoId(formData.videoUrl);
+  const hasValidVideoId = videoId && videoId.length === 11;
 
   // Plyr video source configuration for preview
   const plyrSource = {
     type: 'video' as const,
     sources: [
       {
-        src: videoId || '',
+        src: hasValidVideoId ? videoId : '',
         provider: 'youtube' as const,
       },
     ],
@@ -149,10 +151,10 @@ const PreviewPane: React.FC<PreviewPaneProps> = ({
         <div className="mb-6">
           <h4 className="text-lg font-semibold text-gray-900 mb-2">Video</h4>
           <div className="w-full aspect-video bg-gray-100 rounded-[12px] overflow-hidden border border-gray-200 max-w-[640px]">
-            {formData.videoUrl && formData.videoUrl.includes('youtube-nocookie.com') && videoId && !previewError ? (
+            {formData.videoUrl && formData.videoUrl.includes('youtube-nocookie.com') && hasValidVideoId && !previewError ? (
               <div className="relative w-full h-auto">
                 <Plyr
-                  key={videoId || 'no-video'}
+                  key={`video-${videoId}`}
                   source={plyrSource}
                   options={plyrOptions}
                   aria-label="Course video preview"
@@ -168,7 +170,12 @@ const PreviewPane: React.FC<PreviewPaneProps> = ({
                 <div className="text-center">
                   <Eye className="h-8 w-8 mx-auto mb-2 opacity-50" />
                   <p className="text-base">Video preview</p>
-                  <p className="text-sm mt-1">Enter a valid YouTube nocookie URL</p>
+                  {formData.videoUrl && !hasValidVideoId && (
+                    <p className="text-sm mt-1 text-red-500">Invalid YouTube video ID</p>
+                  )}
+                  {!formData.videoUrl && (
+                    <p className="text-sm mt-1">Enter a valid YouTube nocookie URL</p>
+                  )}
                 </div>
               </div>
             )}
