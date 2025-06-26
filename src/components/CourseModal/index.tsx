@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { X, Play, MessageCircle, Clock, WifiOff, AlertTriangle } from 'lucide-react';
-import { Course } from '../types';
-import { useAuth } from '../contexts/AuthContext';
-import { useNetworkStatusWithUtils } from '../hooks/useNetworkStatus';
-import { useViewport } from '../hooks/useViewport';
-import { DAILY_LIMITS } from '../services/tavusUsage';
-import { trackAIPracticeEvent } from '../lib/analytics';
+import { Course } from '../../types';
+import { useAuth } from '../../contexts/AuthContext';
+import { useNetworkStatusWithUtils } from '../../hooks/useNetworkStatus';
+import { useViewport } from '../../hooks/useViewport';
+import { DAILY_LIMITS } from '../../services/tavusUsage';
+import { trackAIPracticeEvent } from '../../lib/analytics';
 
 interface TavusConfirmationModalProps {
   isOpen: boolean;
