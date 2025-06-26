@@ -422,7 +422,7 @@ describe('Tavus Integration Tests', () => {
       expect(true).toBe(true); // Placeholder
     });
 
-    it('should automatically end conversation after 3 minutes', () => {
+    it('should automatically end conversation after 2 minutes', () => {
       // Auto-end test
       expect(true).toBe(true); // Placeholder
     });
