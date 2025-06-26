@@ -38,7 +38,7 @@ Before starting manual testing, ensure:
 6. Verify Tavus modal opens with conversation iframe
 7. Verify 3-minute countdown timer appears
 8. Interact with AI conversation
-9. Verify session completes or times out after 3 minutes
+9. Verify session completes or times out after 2 minutes
 
 **Expected Results**:
 - ✅ Confirmation modal shows correct information
