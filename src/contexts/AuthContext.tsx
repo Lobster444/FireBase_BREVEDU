@@ -80,7 +80,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               displayName: userData.displayName || firebaseUser.displayName || '',
               role: userData.role || 'free',
               createdAt: createdAtDate,
-              emailVerified: firebaseUser.emailVerified
+              emailVerified: firebaseUser.emailVerified,
+              isAdmin: userData.isAdmin || false
             });
           } else {
             // Create user document if it doesn't exist
@@ -90,12 +91,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               displayName: firebaseUser.displayName || '',
               role: 'free',
               createdAt: new Date(),
-              emailVerified: firebaseUser.emailVerified
+              emailVerified: firebaseUser.emailVerified,
+              isAdmin: false
             };
             
             await setDoc(doc(db, 'users', firebaseUser.uid), {
               ...newUser,
-              createdAt: new Date()
+              createdAt: new Date(),
+              isAdmin: false
             });
             
             setCurrentUser(newUser);
