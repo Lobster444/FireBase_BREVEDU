@@ -9,7 +9,7 @@ import {
   updateProfile,
   sendEmailVerification
 } from 'firebase/auth';
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, Timestamp } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 
 export interface User {
@@ -62,12 +62,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           
           if (userDoc.exists()) {
             const userData = userDoc.data();
+            
+            // Safely convert createdAt to Date object
+            let createdAtDate: Date;
+            if (userData.createdAt instanceof Timestamp) {
+              createdAtDate = userData.createdAt.toDate();
+            } else if (userData.createdAt) {
+              // Handle string dates or other formats
+              createdAtDate = new Date(userData.createdAt);
+            } else {
+              createdAtDate = new Date();
+            }
+            
             setCurrentUser({
               id: firebaseUser.uid,
               email: firebaseUser.email!,
               displayName: userData.displayName || firebaseUser.displayName || '',
               role: userData.role || 'free',
-              createdAt: userData.createdAt?.toDate() || new Date(),
+              createdAt: createdAtDate,
               emailVerified: firebaseUser.emailVerified
             });
           } else {
