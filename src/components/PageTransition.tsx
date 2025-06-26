@@ -14,12 +14,12 @@ const PageTransition: React.FC<PageTransitionProps> = ({
   const getAnimationClass = () => {
     switch (type) {
       case 'slide':
-        return 'animate-slide-up';
+        return 'animate-page-slide-up';
       case 'scale':
-        return 'animate-scale-in';
+        return 'animate-page-scale-in';
       case 'fade':
       default:
-        return 'animate-fade-in';
+        return 'animate-page-fade-in';
     }
   };
 
