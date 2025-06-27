@@ -33,6 +33,7 @@ export const getCourses = (
   try {
     let coursesQuery = query(
       collection(db, COURSES_COLLECTION),
+      orderBy('displayOrder', 'asc'),
       orderBy('createdAt', 'desc')
     );
 
@@ -40,6 +41,7 @@ export const getCourses = (
       coursesQuery = query(
         collection(db, COURSES_COLLECTION),
         where('published', '==', true),
+        orderBy('displayOrder', 'asc'),
         orderBy('createdAt', 'desc')
       );
     }
@@ -92,6 +94,7 @@ export const getCoursesByCategory = (
     let coursesQuery = query(
       collection(db, COURSES_COLLECTION),
       where('category', '==', category),
+      orderBy('displayOrder', 'asc'),
       orderBy('createdAt', 'desc')
     );
 
@@ -100,6 +103,7 @@ export const getCoursesByCategory = (
         collection(db, COURSES_COLLECTION),
         where('category', '==', category),
         where('published', '==', true),
+        orderBy('displayOrder', 'asc'),
         orderBy('createdAt', 'desc')
       );
     }
@@ -228,6 +232,8 @@ export const addCourse = async (
       tavusConversationUrl: course.tavusConversationUrl || null,
       // NEW: Include conversational context if provided
       conversationalContext: course.conversationalContext?.trim() || null,
+      // Set display order for new courses
+      displayOrder: await getNextDisplayOrder(),
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
     };

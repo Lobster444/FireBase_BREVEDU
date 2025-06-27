@@ -28,6 +28,7 @@ interface FormData {
   published: boolean;
   tavusConversationUrl: string;
   conversationalContext: string; // NEW: AI conversation context
+  displayOrder?: number; // NEW: Display order field
 }
 
 interface FormErrors {
@@ -67,6 +68,7 @@ const CourseModal: React.FC<CourseModalProps> = ({
     published: false,
     tavusConversationUrl: '',
     conversationalContext: '' // NEW: Initialize AI context
+    displayOrder: undefined // NEW: Initialize display order
   });
 
   // Initialize form data when modal opens or course changes
@@ -84,6 +86,7 @@ const CourseModal: React.FC<CourseModalProps> = ({
           published: course.published,
           tavusConversationUrl: course.tavusConversationUrl || '',
           conversationalContext: course.conversationalContext || course.tavusConversationalContext || '' // NEW: Load AI context
+          displayOrder: course.displayOrder // NEW: Load display order
         });
       } else {
         // Reset form for add mode
@@ -98,6 +101,7 @@ const CourseModal: React.FC<CourseModalProps> = ({
           published: false,
           tavusConversationUrl: '',
           conversationalContext: '' // NEW: Reset AI context
+          displayOrder: undefined // NEW: Reset display order
         });
       }
       setErrors({});
@@ -261,6 +265,9 @@ const CourseModal: React.FC<CourseModalProps> = ({
           tavusConversationUrl: formData.tavusConversationUrl.trim() || null,
           // NEW: Include conversational context for AI practice
           conversationalContext: formData.conversationalContext.trim() || null
+          // Note: displayOrder is handled automatically by the service for new courses
+          // For existing courses, preserve the current displayOrder
+          ...(mode === 'edit' && formData.displayOrder !== undefined && { displayOrder: formData.displayOrder })
         };
 
         if (mode === 'add') {
