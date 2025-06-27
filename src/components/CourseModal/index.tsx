@@ -67,7 +67,7 @@ const CourseModal: React.FC<CourseModalProps> = ({
     accessLevel: 'free',
     published: false,
     tavusConversationUrl: '',
-    conversationalContext: '' // NEW: Initialize AI context
+    conversationalContext: '', // NEW: Initialize AI context
     displayOrder: undefined // NEW: Initialize display order
   });
 
@@ -85,7 +85,7 @@ const CourseModal: React.FC<CourseModalProps> = ({
           accessLevel: course.accessLevel || 'free',
           published: course.published,
           tavusConversationUrl: course.tavusConversationUrl || '',
-          conversationalContext: course.conversationalContext || course.tavusConversationalContext || '' // NEW: Load AI context
+          conversationalContext: course.conversationalContext || course.tavusConversationalContext || '', // NEW: Load AI context
           displayOrder: course.displayOrder // NEW: Load display order
         });
       } else {
@@ -100,7 +100,7 @@ const CourseModal: React.FC<CourseModalProps> = ({
           accessLevel: 'free',
           published: false,
           tavusConversationUrl: '',
-          conversationalContext: '' // NEW: Reset AI context
+          conversationalContext: '', // NEW: Reset AI context
           displayOrder: undefined // NEW: Reset display order
         });
       }
@@ -264,7 +264,7 @@ const CourseModal: React.FC<CourseModalProps> = ({
           // Include Tavus conversation URL if provided
           tavusConversationUrl: formData.tavusConversationUrl.trim() || null,
           // NEW: Include conversational context for AI practice
-          conversationalContext: formData.conversationalContext.trim() || null
+          conversationalContext: formData.conversationalContext.trim() || null,
           // Note: displayOrder is handled automatically by the service for new courses
           // For existing courses, preserve the current displayOrder
           ...(mode === 'edit' && formData.displayOrder !== undefined && { displayOrder: formData.displayOrder })
