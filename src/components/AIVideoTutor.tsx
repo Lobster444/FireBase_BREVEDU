@@ -124,7 +124,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                   {/* Session Info */}
                   <div className="mt-3 sm:mt-4 text-center">
                     <p className="text-base text-gray-700 hidden sm:block font-medium">
-                      "Let's practice JavaScript variables together!"
+                      "Let's practice together!"
                     </p>
                   </div>
                 </div>
