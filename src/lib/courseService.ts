@@ -13,8 +13,7 @@ import {
   serverTimestamp,
   Timestamp,
   QuerySnapshot,
-  DocumentData,
-  writeBatch
+  DocumentData
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { Course } from '../types';
@@ -331,44 +330,6 @@ export const deleteCourse = async (id: string): Promise<void> => {
     console.log('Course deleted:', id);
   } catch (error) {
     console.error('Error deleting course:', error);
-    throw error;
-  }
-};
-
-/**
- * Update the display order of multiple courses
- * @param courseOrders - Array of objects containing course id and displayOrder
- * @returns Promise<void>
- */
-export const updateCourseOrder = async (
-  courseOrders: Array<{ id: string; displayOrder: number }>
-): Promise<void> => {
-  try {
-    if (!courseOrders || courseOrders.length === 0) {
-      throw new Error('Course orders array is required');
-    }
-
-    // Validate that all items have required fields
-    for (const item of courseOrders) {
-      if (!item.id || typeof item.displayOrder !== 'number') {
-        throw new Error('Each course order item must have id and displayOrder');
-      }
-    }
-
-    const batch = writeBatch(db);
-
-    courseOrders.forEach(({ id, displayOrder }) => {
-      const courseRef = doc(db, COURSES_COLLECTION, id);
-      batch.update(courseRef, {
-        displayOrder,
-        updatedAt: serverTimestamp()
-      });
-    });
-
-    await batch.commit();
-    console.log('Course order updated for', courseOrders.length, 'courses');
-  } catch (error) {
-    console.error('Error updating course order:', error);
     throw error;
   }
 };
