@@ -3,6 +3,7 @@ import { X, Clock, AlertTriangle, CheckCircle, WifiOff } from 'lucide-react';
 import { Course } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { useNetworkStatusWithUtils } from '../hooks/useNetworkStatus';
+import { useViewport } from '../hooks/useViewport';
 import { endTavusConversation, completeTavusSession, updateTavusSession } from '../lib/tavusService';
 import { notifySuccess, notifyError, notifyWarning, notifyInfo } from '../lib/toast';
 
@@ -27,6 +28,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
 }) => {
   const { currentUser } = useAuth();
   const { isOnline } = useNetworkStatusWithUtils();
+  const { isMobile } = useViewport();
   const modalRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   
@@ -294,10 +296,17 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
   if (!isOpen || !course) return null;
 
+  // Use full-screen on mobile, modal on desktop
+  const containerClasses = isMobile 
+    ? "fixed inset-0 bg-white z-50 overflow-y-auto"
+    : "fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4";
+
+  const modalContentClasses = "bg-white rounded-headspace-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.15)]";
+
   return (
     <div 
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-      onClick={handleBackdropClick}
+      className={containerClasses}
+      onClick={isMobile ? undefined : handleBackdropClick}
       role="dialog"
       aria-modal="true"
       aria-labelledby="tavus-modal-title"
@@ -305,10 +314,13 @@ const TavusModal: React.FC<TavusModalProps> = ({
     >
       <div 
         ref={modalRef}
-        className="bg-white rounded-headspace-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.15)]"
+        className={isMobile ? "" : modalContentClasses}
+        onClick={isMobile ? undefined : (e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-padding-small border-b border-gray-100 bg-gray-50">
+        <div className={`flex items-center justify-between border-b border-gray-100 bg-gray-50 ${
+          isMobile ? 'p-4 sticky top-0 z-10' : 'p-padding-small'
+        }`}>
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
               <Clock className="h-5 w-5 text-white" />
@@ -355,10 +367,10 @@ const TavusModal: React.FC<TavusModalProps> = ({
         </div>
 
         {/* Content */}
-        <div className="relative">
+        <div className={`relative ${isMobile ? 'pb-20' : ''}`}>
           {/* Tavus Iframe */}
           {conversationUrl && !isTimedOut ? (
-            <div className="w-full h-[500px] bg-gray-100">
+            <div className={`w-full bg-gray-100 ${isMobile ? 'h-[calc(100vh-140px)]' : 'h-[500px]'}`}>
               <iframe
                 ref={iframeRef}
                 src={conversationUrl}
@@ -370,7 +382,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
               />
             </div>
           ) : isTimedOut ? (
-            <div className="w-full h-[500px] flex items-center justify-center bg-gray-50">
+            <div className={`w-full flex items-center justify-center bg-gray-50 ${isMobile ? 'h-[calc(100vh-140px)]' : 'h-[500px]'}`}>
               <div className="text-center">
                 <AlertTriangle className="h-12 w-12 text-red-500 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Session Timed Out</h3>
@@ -386,7 +398,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
               </div>
             </div>
           ) : (
-            <div className="w-full h-[500px] flex items-center justify-center bg-gray-50">
+            <div className={`w-full flex items-center justify-center bg-gray-50 ${isMobile ? 'h-[calc(100vh-140px)]' : 'h-[500px]'}`}>
               <div className="text-center">
                 <div className="w-8 h-8 border-2 border-[#FF7A59] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">Connecting to AI...</h3>
@@ -409,7 +421,9 @@ const TavusModal: React.FC<TavusModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between p-padding-small border-t border-gray-100 bg-gray-50">
+        <div className={`flex items-center justify-between border-t border-gray-100 bg-gray-50 ${
+          isMobile ? 'fixed bottom-0 left-0 right-0 p-4' : 'p-padding-small'
+        }`}>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2 text-sm text-gray-600">
               <div className={`w-2 h-2 rounded-full ${isOnline ? 'bg-green-500' : 'bg-red-500'}`}></div>
