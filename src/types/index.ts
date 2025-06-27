@@ -11,7 +11,6 @@ export interface Course {
   tavusConversationUrl?: string;  // Legacy: Static Tavus conversation URL
   conversationalContext?: string; // NEW: AI conversation context for dynamic conversations
   tavusConversationalContext?: string; // Legacy field name support
-  displayOrder?: number;     // NEW: Order for displaying courses
   createdAt?: any;  // Firestore Timestamp
   updatedAt?: any;  // Firestore Timestamp
 }

@@ -14,7 +14,6 @@ interface FormData {
   published: boolean;
   tavusConversationUrl: string;
   conversationalContext: string; // NEW: AI conversation context
-  displayOrder?: number; // NEW: Display order field
 }
 
 interface FormErrors {

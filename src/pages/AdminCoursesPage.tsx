@@ -7,13 +7,13 @@ import CourseModal from '../components/CourseModal';
 import AdminHeader from './admin/components/AdminHeader';
 import CourseFilters from './admin/components/CourseFilters';
 import CourseStats from './admin/components/CourseStats';
-import DragDropCourseTable from './admin/components/DragDropCourseTable';
-import DragDropCourseMobileGrid from './admin/components/DragDropCourseMobileGrid';
+import CourseTable from './admin/components/CourseTable';
+import CourseMobileGrid from './admin/components/CourseMobileGrid';
 import DeleteConfirmationModal from './admin/components/DeleteConfirmationModal';
 import TavusSettingsModal from './admin/components/TavusSettingsModal';
 import { useFirestoreCourses } from '../hooks/useFirestoreCourses';
 import { useNetworkStatusWithUtils } from '../hooks/useNetworkStatus';
-import { deleteCourse, updateCourseOrder } from '../lib/courseService';
+import { deleteCourse } from '../lib/courseService';
 import { notifySuccess, notifyError, notifyLoading, updateToast } from '../lib/toast';
 import { Course } from '../types';
 import { filterCourses, calculateCourseStats } from './admin/utils/courseHelpers';
@@ -103,26 +103,6 @@ const AdminCoursesPage: React.FC = () => {
     console.log('Course saved:', course.title);
   };
 
-  const handleReorderCourses = async (reorderedCourses: Course[]) => {
-    executeIfOnline(async () => {
-      const toastId = notifyLoading('Updating course order...');
-      
-      try {
-        // Prepare updates with new display order
-        const courseUpdates = reorderedCourses.map((course, index) => ({
-          id: course.id!,
-          displayOrder: index + 1
-        }));
-        
-        await updateCourseOrder(courseUpdates);
-        updateToast(toastId, '✅ Course order updated successfully!', 'success');
-      } catch (error: any) {
-        console.error('Error updating course order:', error);
-        const errorMessage = error.message || 'Failed to update course order. Please try again.';
-        updateToast(toastId, `❌ ${errorMessage}`, 'error');
-      }
-    }, 'Cannot reorder courses while offline. Please check your connection.');
-  };
   const clearAllFilters = () => {
     setSelectedCategory('All');
     setSelectedAccessLevel('All');
@@ -208,21 +188,19 @@ const AdminCoursesPage: React.FC = () => {
                     </div>
 
                     {/* Desktop Table */}
-                    <DragDropCourseTable
+                    <CourseTable
                       courses={filteredCourses}
                       isOnline={isOnline}
                       onEditCourse={handleEditCourse}
                       onDeleteCourse={setDeleteConfirm}
-                      onReorderCourses={handleReorderCourses}
                     />
 
                     {/* Mobile Grid */}
-                    <DragDropCourseMobileGrid
+                    <CourseMobileGrid
                       courses={filteredCourses}
                       isOnline={isOnline}
                       onEditCourse={handleEditCourse}
                       onDeleteCourse={setDeleteConfirm}
-                      onReorderCourses={handleReorderCourses}
                     />
                   </>
                 )}
