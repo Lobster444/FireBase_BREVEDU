@@ -421,8 +421,10 @@ const TavusModal: React.FC<TavusModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className={`flex items-center justify-between border-t border-gray-100 bg-gray-50 ${
-          isMobile ? 'fixed bottom-0 left-0 right-0 p-4 pb-6' : 'p-padding-small'
+        <div className={`border-t border-gray-100 bg-gray-50 ${
+          isMobile 
+            ? 'fixed bottom-0 left-0 right-0 p-4 pb-6 flex flex-col space-y-3'
+            : 'p-padding-small flex items-center justify-between'
         }`}>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2 text-sm text-gray-600">
@@ -437,7 +439,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
             )}
           </div>
           
-          <div className="flex items-center space-x-3">
+          <div className={`flex items-center space-x-3 ${isMobile ? 'justify-center' : ''}`}>
             {!isTimedOut && (
               <button
                 onClick={handleComplete}
