@@ -367,10 +367,10 @@ const TavusModal: React.FC<TavusModalProps> = ({
         </div>
 
         {/* Content */}
-        <div className={`relative ${isMobile ? 'pb-20' : ''}`}>
+        <div className={`relative ${isMobile ? 'pb-24' : ''}`}>
           {/* Tavus Iframe */}
           {conversationUrl && !isTimedOut ? (
-            <div className={`w-full bg-gray-100 ${isMobile ? 'h-[calc(100vh-140px)]' : 'h-[500px]'}`}>
+            <div className={`w-full bg-gray-100 ${isMobile ? 'h-[calc(100vh-180px)]' : 'h-[500px]'}`}>
               <iframe
                 ref={iframeRef}
                 src={conversationUrl}
@@ -382,7 +382,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
               />
             </div>
           ) : isTimedOut ? (
-            <div className={`w-full flex items-center justify-center bg-gray-50 ${isMobile ? 'h-[calc(100vh-140px)]' : 'h-[500px]'}`}>
+            <div className={`w-full flex items-center justify-center bg-gray-50 ${isMobile ? 'h-[calc(100vh-180px)]' : 'h-[500px]'}`}>
               <div className="text-center">
                 <AlertTriangle className="h-12 w-12 text-red-500 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Session Timed Out</h3>
@@ -398,7 +398,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
               </div>
             </div>
           ) : (
-            <div className={`w-full flex items-center justify-center bg-gray-50 ${isMobile ? 'h-[calc(100vh-140px)]' : 'h-[500px]'}`}>
+            <div className={`w-full flex items-center justify-center bg-gray-50 ${isMobile ? 'h-[calc(100vh-180px)]' : 'h-[500px]'}`}>
               <div className="text-center">
                 <div className="w-8 h-8 border-2 border-[#FF7A59] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">Connecting to AI...</h3>
@@ -422,7 +422,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
         {/* Footer */}
         <div className={`flex items-center justify-between border-t border-gray-100 bg-gray-50 ${
-          isMobile ? 'fixed bottom-0 left-0 right-0 p-4' : 'p-padding-small'
+          isMobile ? 'fixed bottom-0 left-0 right-0 p-4 pb-6' : 'p-padding-small'
         }`}>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2 text-sm text-gray-600">
@@ -442,7 +442,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
               <button
                 onClick={handleComplete}
                 disabled={isCompleting || !hasStarted}
-                className={`px-4 py-2 rounded-headspace-lg text-sm font-medium transition-all flex items-center space-x-2 ${
+                className={`px-4 py-2 rounded-headspace-lg text-sm font-medium transition-all flex items-center space-x-2 min-h-[44px] ${
                   isCompleting || !hasStarted
                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     : 'bg-emerald-600 text-white hover:bg-emerald-700'
@@ -465,7 +465,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
             <button
               onClick={handleClose}
               disabled={isCompleting}
-              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-headspace-lg text-sm font-medium hover:bg-gray-50 transition-all disabled:opacity-50"
+              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-headspace-lg text-sm font-medium hover:bg-gray-50 transition-all disabled:opacity-50 min-h-[44px]"
             >
               {isTimedOut ? 'Close' : 'Exit Practice'}
             </button>
