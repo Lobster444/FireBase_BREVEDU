@@ -22,7 +22,7 @@ const CourseFilters: React.FC<CourseFiltersProps> = ({
   onAccessLevelChange,
   onPublishedOnlyChange
 }) => {
-  const categories = ['All', 'Tech', 'Business', 'Health', 'Personal', 'Creative'];
+  const categories = ['All', 'Society & Culture', 'Personal Development', 'Science & Technology'];
 
   return (
     <div className="bg-white rounded-headspace-lg p-padding-medium mb-6 border border-gray-200">

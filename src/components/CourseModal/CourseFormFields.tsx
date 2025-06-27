@@ -253,11 +253,9 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
             onChange={(e) => handleInputChange('category', e.target.value as Course['category'])}
             className="w-full px-4 py-3 bg-white border border-gray-300 rounded-[10px] text-gray-900 focus:outline-none focus:border-[#FF7A59] focus:ring-2 focus:ring-[#002fa7]/20"
           >
-            <option value="Tech">Tech</option>
-            <option value="Business">Business</option>
-            <option value="Health">Health</option>
-            <option value="Personal">Personal</option>
-            <option value="Creative">Creative</option>
+            <option value="Society & Culture">Society & Culture</option>
+            <option value="Personal Development">Personal Development</option>
+            <option value="Science & Technology">Science & Technology</option>
           </select>
         </div>
 

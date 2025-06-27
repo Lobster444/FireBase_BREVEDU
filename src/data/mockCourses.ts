@@ -8,7 +8,7 @@ export const mockCourses: Course[] = [
     description: 'Learn the core concepts of JavaScript including variables, functions, and control structures in just 5 minutes.',
     thumbnailUrl: 'https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg?auto=compress&cs=tinysrgb&w=320&h=180&fit=crop',
     duration: '5m',
-    category: 'Tech',
+    category: 'Science & Technology',
     published: true,
     videoUrl: 'https://www.youtube-nocookie.com/embed/PkZNo7MFNFg'
   },
@@ -18,7 +18,7 @@ export const mockCourses: Course[] = [
     description: 'Master CSS Grid with practical examples and create responsive layouts that work on any device.',
     thumbnailUrl: 'https://images.pexels.com/photos/11035471/pexels-photo-11035471.jpeg?auto=compress&cs=tinysrgb&w=320&h=180&fit=crop',
     duration: '7m',
-    category: 'Tech',
+    category: 'Science & Technology',
     published: true,
     videoUrl: 'https://www.youtube-nocookie.com/embed/jV8B24rSN5o'
   },
@@ -28,7 +28,7 @@ export const mockCourses: Course[] = [
     description: 'Understand useState, useEffect, and custom hooks with real-world examples and best practices.',
     thumbnailUrl: 'https://images.pexels.com/photos/11035540/pexels-photo-11035540.jpeg?auto=compress&cs=tinysrgb&w=320&h=180&fit=crop',
     duration: '8m',
-    category: 'Tech',
+    category: 'Science & Technology',
     published: true,
     videoUrl: 'https://www.youtube-nocookie.com/embed/O6P86uwfdR0'
   },
@@ -38,7 +38,7 @@ export const mockCourses: Course[] = [
     description: 'Learn proven techniques to boost productivity and manage your time effectively.',
     thumbnailUrl: 'https://images.pexels.com/photos/267669/pexels-photo-267669.jpeg?auto=compress&cs=tinysrgb&w=320&h=180&fit=crop',
     duration: '6m',
-    category: 'Personal',
+    category: 'Personal Development',
     published: true,
     videoUrl: 'https://www.youtube-nocookie.com/embed/sByzHoiYFX0'
   },
@@ -48,7 +48,7 @@ export const mockCourses: Course[] = [
     description: 'Master the basics of digital marketing including SEO, social media, and content strategy.',
     thumbnailUrl: 'https://images.pexels.com/photos/11035382/pexels-photo-11035382.jpeg?auto=compress&cs=tinysrgb&w=320&h=180&fit=crop',
     duration: '9m',
-    category: 'Business',
+    category: 'Society & Culture',
     published: true,
     videoUrl: 'https://www.youtube-nocookie.com/embed/cuEtnrL9-H0'
   },
@@ -58,10 +58,10 @@ export const mockCourses: Course[] = [
     description: 'Discover simple mindfulness techniques to reduce stress and improve mental well-being.',
     thumbnailUrl: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=320&h=180&fit=crop',
     duration: '5m',
-    category: 'Health',
+    category: 'Personal Development',
     published: true,
     videoUrl: 'https://www.youtube-nocookie.com/embed/Ovj4hFxko7c'
   }
 ];
 
-export const categories = ['All', 'Tech', 'Business', 'Health', 'Personal', 'Creative'];
+export const categories = ['All', 'Society & Culture', 'Personal Development', 'Science & Technology'];
