@@ -66,7 +66,7 @@ const CourseModal: React.FC<CourseModalProps> = ({
     accessLevel: 'free',
     published: false,
     tavusConversationUrl: '',
-    conversationalContext: '' // NEW: Initialize AI context
+    conversationalContext: '', // NEW: Initialize AI context
   });
 
   // Initialize form data when modal opens or course changes
