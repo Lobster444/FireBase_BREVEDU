@@ -78,7 +78,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                       <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse shadow-lg"></div>
                       <span className="text-base sm:text-lg font-semibold text-gray-800">AI Practice Session</span>
                     </div>
-                    <div className="text-sm sm:text-base text-gray-600 hidden sm:block font-medium">How AIs, like ChatGPT, Learn</div>
+                    <div className="text-sm sm:text-base text-gray-600 hidden sm:block font-medium">How AIs, like ChatGPT Learn</div>
                   </div>
                 </div>
 
