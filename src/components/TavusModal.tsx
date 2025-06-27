@@ -301,7 +301,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
     ? "fixed inset-0 bg-white z-50 overflow-y-auto"
     : "fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4";
 
-  const modalContentClasses = "bg-white rounded-headspace-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.15)]";
+  const modalContentClasses = "bg-white rounded-[16px] w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.15)]";
 
   return (
     <div 
