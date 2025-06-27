@@ -189,7 +189,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
           </div>
 
           {/* Content */}
-          <div className={isMobile ? "p-4 pb-20" : "p-4 sm:p-padding-medium"}>
+          <div className={isMobile ? "p-4 pb-36" : "p-4 sm:p-padding-medium"}>
             <div id="confirm-modal-description" className="space-y-4">
               {/* Course Title - Mobile Only */}
               <div className="sm:hidden">
