@@ -238,7 +238,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
                       ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
                       : 'border-gray-300 focus:border-cobalt focus:ring-cobalt/20'
                   }`}
-                  placeholder="Enter your email address"
+                  placeholder="Enter your email"
                   required
                   disabled={isLoading}
                 />
@@ -268,7 +268,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
                       ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
                       : 'border-gray-300 focus:border-cobalt focus:ring-cobalt/20'
                   }`}
-                  placeholder="Enter your password"
+                  placeholder="Enter password"
                   required
                   disabled={isLoading}
                   minLength={6}
