@@ -321,12 +321,26 @@
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.12) 1px, transparent 0), 
                     linear-gradient(180deg, rgba(0, 0, 0, 0.12) 1px, transparent 0);
   background-size: 33.5vw 33.5vw;
-  background-position: 50%;
+  background-position: center;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
 }
 
 .bg-grid-pattern-white {
   background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 0), 
                     linear-gradient(180deg, rgba(255, 255, 255, 0.12) 1px, transparent 0);
+}
+
+/* Animated grid pattern */
+@keyframes grid-float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-10px) translateX(5px);
+  }
 }
 
 .bg-grid-pattern-card {

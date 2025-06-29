@@ -43,7 +43,10 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
   ];
 
   return (
-    <section className="px-4 sm:px-8 md:px-12 py-12 sm:py-16 lg:py-24 bg-white">
+    <section className="px-4 sm:px-8 md:px-12 py-12 sm:py-16 lg:py-24 bg-white relative overflow-hidden">
+      {/* Subtle animated grid background */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-[0.05] animate-grid-pan-slow"></div>
+      
       <div className="max-w-screen-2xl mx-auto">
         <div className="text-center mb-10 sm:mb-14 lg:mb-16">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-6 sm:mb-8">What Our Learners Say</h2>
@@ -57,10 +60,13 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
           {testimonials.map((testimonial) => (
             <div 
               key={testimonial.id} 
-              className="bg-grey rounded-[1.2rem] p-6 sm:p-7 lg:p-8 shadow-md border border-black/5 hover:border-cobalt/20 hover:shadow-lg transition-all duration-300"
+              className="bg-grey rounded-[1.2rem] p-6 sm:p-7 lg:p-8 shadow-md border border-black/5 hover:border-cobalt/20 hover:shadow-lg transition-all duration-300 relative overflow-hidden group"
               role="article"
               aria-labelledby={`testimonial-${testimonial.id}-name`}
             >
+              {/* Subtle grid pattern that appears on hover */}
+              <div className="absolute inset-0 bg-grid-pattern opacity-0 group-hover:opacity-[0.07] transition-opacity duration-500"></div>
+              
               <div className="flex items-center mb-4 sm:mb-5 lg:mb-6">
                 <Quotes className="h-6 w-6 text-cobalt mr-3" />
                 <div className="flex">

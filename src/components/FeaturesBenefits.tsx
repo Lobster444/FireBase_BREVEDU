@@ -22,6 +22,9 @@ const FeaturesBenefits: React.FC = () => {
 
   return (
     <section className="px-4 sm:px-8 md:px-12 py-12 sm:py-16 lg:py-24 relative overflow-hidden bg-white border-b border-black/10">
+      {/* Animated grid background */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-[0.07] animate-grid-pan-slow"></div>
+      
       <div className="max-w-screen-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10 sm:mb-14 lg:mb-16">
@@ -34,7 +37,7 @@ const FeaturesBenefits: React.FC = () => {
         </div>
 
         {/* Features Grid with Hover Image */}
-        <div className="relative">
+        <div className="relative z-10">
           {/* Features Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 relative z-10">
             {features.map((feature, index) => {
