@@ -194,6 +194,11 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                       >
                         <span>Sign Out</span>
                       </Button>
+                      className="w-full text-left px-4 mt-3 justify-start"
+                      icon={SignOut}
+                    >
+                      <span>Sign Out</span>
+                    </Button>
                     </div>
                   )}
                 </div>
@@ -294,6 +299,11 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                   aria-controls="mobile-menu"
                   aria-label="Toggle navigation menu"
                 />
+                  className="w-full text-left px-4 mt-3 justify-start"
+                  icon={SignOut} 
+                >
+                  <span>Sign Out</span>
+                </Button>
               </>
             )}
           </div>
