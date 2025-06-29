@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Clock, AlertTriangle, CheckCircle, WifiOff } from 'lucide-react';
+import { X, Clock, Warning, CheckCircle, WifiSlash } from '@phosphor-icons/react';
 import { Course } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { useNetworkStatusWithUtils } from '../hooks/useNetworkStatus';
@@ -349,7 +349,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
             {/* Network Status */}
             {!isOnline && (
               <div className="flex items-center space-x-1 text-yellow-600">
-                <WifiOff className="h-4 w-4" />
+                <WifiSlash className="h-4 w-4" />
                 <span className="text-sm">Offline</span>
               </div>
             )}
@@ -384,7 +384,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
           ) : isTimedOut ? (
             <div className={`w-full flex items-center justify-center bg-gray-50 ${isMobile ? 'h-[calc(100vh-180px)]' : 'h-[500px]'}`}>
               <div className="text-center">
-                <AlertTriangle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+                <Warning className="h-12 w-12 text-red-500 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Session Timed Out</h3>
                 <p className="text-gray-600 mb-4">
                   Your 2-minute practice session has ended.
@@ -412,7 +412,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
           {/* Warning Overlay */}
           {showWarning && timeRemaining <= 30 && timeRemaining > 0 && (
             <div className="absolute top-4 left-4 right-4 bg-yellow-100 border border-yellow-300 rounded-[1.2rem] p-3 flex items-center space-x-2">
-              <AlertTriangle className="h-5 w-5 text-yellow-600" />
+              <Warning className="h-5 w-5 text-yellow-600" />
               <span className="text-yellow-800 font-medium">
                 {timeRemaining} seconds remaining
               </span>

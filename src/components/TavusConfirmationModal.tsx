@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Play, MessageCircle, Clock, WifiOff, AlertTriangle } from 'lucide-react';
+import { X, Play, ChatCircle, Clock, WifiSlash, Warning } from '@phosphor-icons/react';
 import { Course } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { useNetworkStatusWithUtils } from '../hooks/useNetworkStatus';
@@ -168,7 +168,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
           }`}>
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-cobalt rounded-full flex items-center justify-center text-white">
-                <MessageCircle className="h-5 w-5 text-white" />
+                <ChatCircle className="h-5 w-5 text-white" />
               </div>
               <div>
                 <h2 id="confirm-modal-title" className="text-xl font-bold text-gray-900">
@@ -248,7 +248,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
               {!isOnline && (
                 <div className="bg-yellow-50 border border-yellow-200 rounded-[1.2rem] p-3 sm:p-4">
                   <div className="flex items-center space-x-2 text-yellow-800">
-                    <WifiOff className="h-5 w-5" />
+                    <WifiSlash className="h-5 w-5" />
                     <span className="text-xs sm:text-sm font-medium">You're currently offline</span>
                   </div>
                   <p className="text-xs sm:text-sm text-yellow-700 mt-1">
@@ -261,7 +261,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
               {isOnline && sessionInfo.sessionsAvailable === 0 && (
                 <div className="bg-red-50 border border-red-200 rounded-[1.2rem] p-3 sm:p-4">
                   <div className="flex items-center space-x-2 text-red-800">
-                    <AlertTriangle className="h-5 w-5" />
+                    <Warning className="h-5 w-5" />
                     <span className="text-xs sm:text-sm font-medium">No sessions available</span>
                   </div>
                   <p className="text-xs sm:text-sm text-red-700 mt-1">

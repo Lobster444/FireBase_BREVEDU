@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Filter, Shield } from 'lucide-react';
+import { MagnifyingGlass, Funnel, Shield } from '@phosphor-icons/react';
 
 interface CourseFiltersProps {
   searchQuery: string;
@@ -28,7 +28,7 @@ const CourseFilters: React.FC<CourseFiltersProps> = ({
     <div className="bg-white rounded-[1.2rem] p-6 mb-6 border border-gray-200">
       {/* Search Bar */}
       <div className="relative mb-4">
-        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+        <MagnifyingGlass className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
         <input
           type="text"
           placeholder="Search courses by title or description..."

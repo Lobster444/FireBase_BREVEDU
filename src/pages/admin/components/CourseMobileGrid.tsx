@@ -1,5 +1,5 @@
 import React from 'react';
-import { Edit, Trash2, Eye, EyeOff } from 'lucide-react';
+import { PencilSimple, Trash, Eye, EyeSlash } from '@phosphor-icons/react';
 import { Course } from '../../../types';
 import { getAccessLevelInfo, getAIPracticeStatus } from '../utils/courseHelpers';
 
@@ -62,7 +62,7 @@ const CourseMobileGrid: React.FC<CourseMobileGridProps> = ({
                     </span>
                   ) : (
                     <span className="text-xs text-purple-600 bg-purple-50 px-2 py-1 rounded flex items-center space-x-1">
-                      <EyeOff className="h-3 w-3" />
+                      <EyeSlash className="h-3 w-3" />
                       <span>Draft</span>
                     </span>
                   )}
@@ -80,7 +80,7 @@ const CourseMobileGrid: React.FC<CourseMobileGridProps> = ({
                     : 'text-gray-400 cursor-not-allowed opacity-50'
                 }`}
               >
-                <Edit className="h-4 w-4" />
+                <PencilSimple className="h-4 w-4" />
               </button>
               <button 
                 onClick={() => onDeleteCourse(course.id!)}
@@ -91,7 +91,7 @@ const CourseMobileGrid: React.FC<CourseMobileGridProps> = ({
                     : 'text-gray-400 cursor-not-allowed opacity-50'
                 }`}
               >
-                <Trash2 className="h-4 w-4" />
+                <Trash className="h-4 w-4" />
               </button>
             </div>
           </div>

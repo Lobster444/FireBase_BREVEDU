@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Filter, Lock, Crown } from 'lucide-react';
+import { Funnel, Lock, Crown } from '@phosphor-icons/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import PageTransition from '../components/PageTransition';
 import Layout from '../components/Layout';

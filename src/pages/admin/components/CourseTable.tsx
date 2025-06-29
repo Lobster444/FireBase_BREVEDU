@@ -1,5 +1,5 @@
 import React from 'react';
-import { Edit, Trash2, Eye, EyeOff } from 'lucide-react';
+import { PencilSimple, Trash, Eye, EyeSlash } from '@phosphor-icons/react';
 import { Course } from '../../../types';
 import { getAccessLevelInfo, getAIPracticeStatus, formatDate } from '../utils/courseHelpers';
 
@@ -83,7 +83,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                       </>
                     ) : (
                       <>
-                        <EyeOff className="h-4 w-4 text-purple-600" />
+                        <EyeSlash className="h-4 w-4 text-purple-600" />
                         <span className="text-sm text-purple-600">Draft</span>
                       </>
                     )}
@@ -105,7 +105,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                           : 'text-gray-400 cursor-not-allowed opacity-50'
                       }`}
                     >
-                      <Edit className="h-4 w-4" />
+                      <PencilSimple className="h-4 w-4" />
                     </button>
                     <button 
                       onClick={() => onDeleteCourse(course.id!)}
@@ -116,7 +116,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                           : 'text-gray-400 cursor-not-allowed opacity-50'
                       }`}
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash className="h-4 w-4" />
                     </button>
                   </div>
                 </td>

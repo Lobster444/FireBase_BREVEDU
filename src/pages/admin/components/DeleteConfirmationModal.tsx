@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trash2 } from 'lucide-react';
+import { Trash } from '@phosphor-icons/react';
 
 interface DeleteConfirmationModalProps {
   isOpen: boolean;
@@ -23,7 +23,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
       <div className="bg-white rounded-[1.6rem] w-full max-w-md p-6">
         <div className="text-center mb-6">
           <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Trash2 className="h-6 w-6 text-red-600" />
+            <Trash className="h-6 w-6 text-red-600" />
           </div>
           <h3 className="text-xl font-bold text-gray-900 mb-2">Delete Course</h3>
           <p className="text-base text-gray-600">

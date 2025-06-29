@@ -1,5 +1,5 @@
 import React from 'react';
-import { Plus, Settings } from 'lucide-react';
+import { Plus, Gear } from '@phosphor-icons/react';
 
 interface AdminHeaderProps {
   isOnline: boolean;
@@ -34,7 +34,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-50'
               }`}
             >
-              <Settings className="h-5 w-5" />
+              <Gear className="h-5 w-5" />
               <span>AI Settings</span>
             </button>
 

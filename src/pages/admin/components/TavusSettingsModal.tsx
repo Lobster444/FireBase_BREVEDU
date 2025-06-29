@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Settings, X } from 'lucide-react';
+import { Gear, X } from '@phosphor-icons/react';
 import { notifyLoading, updateToast, notifyError } from '../../../lib/toast';
 
 interface TavusSettingsModalProps {
@@ -84,7 +84,7 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
       <div className="bg-white rounded-[1.6rem] w-full max-w-md p-6">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl font-bold text-gray-900 flex items-center space-x-2">
-            <Settings className="h-6 w-6 text-cobalt" />
+            <Gear className="h-6 w-6 text-cobalt" />
             <span>Tavus AI Settings</span>
           </h3>
           <button

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AlertCircle } from 'lucide-react';
+import { WarningCircle } from '@phosphor-icons/react';
 import PageTransition from '../components/PageTransition';
 import AdminRoute from '../components/AdminRoute';
 import OfflineBanner from '../components/OfflineBanner';
@@ -155,7 +155,7 @@ const AdminCoursesPage: React.FC = () => {
             {error && (
               <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
                 <div className="flex items-center space-x-2 text-red-700">
-                  <AlertCircle className="h-5 w-5" />
+                  <WarningCircle className="h-5 w-5" />
                   <span className="text-base">{error}</span>
                 </div>
               </div>
