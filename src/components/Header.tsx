@@ -259,7 +259,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                   icon={showMobileMenu ? X : List}
                   onClick={() => setShowMobileMenu(!showMobileMenu)}
                   variant="gray"
-                  size="sm"
+                  size="md"
                   aria-expanded={showMobileMenu}
                   aria-controls="mobile-menu"
                   aria-label="Toggle navigation menu"
@@ -289,7 +289,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                   icon={showMobileMenu ? X : List}
                   onClick={() => setShowMobileMenu(!showMobileMenu)}
                   variant="gray"
-                  size="sm"
+                  size="md"
                   aria-expanded={showMobileMenu}
                   aria-controls="mobile-menu"
                   aria-label="Toggle navigation menu"
