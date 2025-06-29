@@ -188,7 +188,7 @@ const CoursesPage: React.FC = () => {
         </section>
 
         {/* Course Grid */}
-        <section className="px-padding-medium py-4 sm:py-6 bg-white border-t border-black/5">
+        <section className="px-padding-medium py-2 sm:py-3 bg-white">
           <div className="max-w-screen-2xl mx-auto">
             {/* Loading State */}
             {loading && (
