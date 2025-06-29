@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sparkle } from '@phosphor-icons/react';
 import { PrimaryButton } from './UIButtons';
+import './upgradePromo.css';
 
 interface UpgradePromoSectionProps {
   onUpgradeClick: () => void;
@@ -24,18 +25,20 @@ const UpgradePromoSection: React.FC<UpgradePromoSectionProps> = ({
               Accelerate your learning with premium features designed for serious learners.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 lg:gap-8 justify-center items-center mb-8 sm:mb-10 lg:mb-12 bg-grey p-6 rounded-[1.2rem]">
-              <div className="flex items-center space-x-3 text-kelp">
-                <span className="text-lg sm:text-xl">✓</span>
-                <span className="text-base sm:text-lg lg:text-xl font-medium">Unlimited course access</span>
-              </div>
-              <div className="flex items-center space-x-3 text-kelp">
-                <span className="text-lg sm:text-xl">✓</span>
-                <span className="text-base sm:text-lg lg:text-xl font-medium">3 daily AI practice sessions</span>
-              </div>
-              <div className="flex items-center space-x-3 text-kelp">
-                <span className="text-lg sm:text-xl">✓</span>
-                <span className="text-base sm:text-lg lg:text-xl font-medium">Premium-only content</span>
+            <div className="benefits-container bg-grey p-6 rounded-[1.2rem] mb-8 sm:mb-10 lg:mb-12">
+              <div className="benefits-grid">
+                <div className="benefit-item">
+                  <span className="benefit-check">✓</span>
+                  <span className="benefit-text">Unlimited course access</span>
+                </div>
+                <div className="benefit-item">
+                  <span className="benefit-check">✓</span>
+                  <span className="benefit-text">3 daily AI practice sessions</span>
+                </div>
+                <div className="benefit-item">
+                  <span className="benefit-check">✓</span>
+                  <span className="benefit-text">Premium-only content</span>
+                </div>
               </div>
             </div>
             
