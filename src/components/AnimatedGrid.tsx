@@ -13,7 +13,7 @@ interface AnimatedGridProps {
 
 const AnimatedGrid = ({
   className = "absolute inset-0",
-  opacity = 0.3,
+  opacity = 0.15,
   gridSize = 60,
   strokeColor = "rgba(0,0,0,0.15)",
   strokeWidth = 1,
