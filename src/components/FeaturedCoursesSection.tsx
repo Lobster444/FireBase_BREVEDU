@@ -80,15 +80,18 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
           
           {/* Category Filter - Only show when showCategoryFilter is true */}
           {showCategoryFilter && (
-            <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+            <div className="w-full overflow-x-auto scrollbar-hide">
+              <div className="flex gap-2 sm:gap-3 pb-2 min-w-max px-4 sm:px-0">
               {categories.map((category) => (
                 <PillToggleButton
                   key={category}
                   label={category}
                   active={selectedCategory === category}
                   onClick={() => setSelectedCategory(category)}
+                  className="flex-shrink-0"
                 />
               ))}
+              </div>
             </div>
           )}
         </div>

@@ -170,15 +170,18 @@ const CoursesPage: React.FC = () => {
             {/* Filters */}
             <div className="flex flex-col items-center gap-4 mt-6">
               {/* Category Filter */}
-              <div className="flex flex-wrap justify-center gap-2">
+              <div className="w-full overflow-x-auto scrollbar-hide">
+                <div className="flex gap-2 pb-2 min-w-max px-4 sm:px-0">
                 {categories.map((category) => (
                   <PillToggleButton
                     key={category}
                     label={category}
                     active={selectedCategory === category}
                     onClick={() => setSelectedCategory(category)}
+                    className="flex-shrink-0"
                   />
                 ))}
+                </div>
               </div>
             </div>
           </div>
