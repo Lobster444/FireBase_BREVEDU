@@ -164,10 +164,10 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
         >
           {/* Header */}
           <div className={`flex items-center justify-between border-b border-gray-100 ${
-            isMobile ? 'p-4 bg-white sticky top-0 z-10' : 'p-4 sm:p-padding-medium'
+            isMobile ? 'p-4 bg-white sticky top-0 z-10' : 'p-4 sm:p-6'
           }`}>
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-[#002fa7] rounded-full flex items-center justify-center text-white">
+              <div className="w-10 h-10 bg-cobalt rounded-full flex items-center justify-center text-white">
                 <MessageCircle className="h-5 w-5 text-white" />
               </div>
               <div>
@@ -181,7 +181,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
             </div>
             <button
               onClick={onClose}
-              className="icon-button icon-button-gray p-2 rounded-headspace-md"
+              className="icon-button icon-button-gray p-2 rounded-[0.8rem]"
               aria-label="Close confirmation dialog"
             >
               <X className="h-5 w-5" />
@@ -200,8 +200,8 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
               
               {/* Main Message */}
               <div className={`text-center ${isMobile ? 'py-6' : ''}`}>
-                <div className="w-16 h-16 bg-[#002fa7]/10 rounded-full flex items-center justify-center mx-auto mb-4 text-[#002fa7]">
-                  <Play className="h-8 w-8 text-[#002fa7]" />
+                <div className="w-16 h-16 bg-cobalt/10 rounded-full flex items-center justify-center mx-auto mb-4 text-cobalt">
+                  <Play className="h-8 w-8 text-cobalt" />
                 </div>
                 <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
                   Ready to Practice with AI?
@@ -234,7 +234,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
               </div>
 
               {/* Tips */}
-              <div className="bg-gray-50 rounded-headspace-lg p-3 sm:p-4">
+              <div className="bg-gray-50 rounded-[1.2rem] p-3 sm:p-4">
                 <h4 className="text-xs sm:text-sm font-semibold text-gray-900 mb-2">💡 Practice Tips:</h4>
                 <ul className="text-xs sm:text-sm text-gray-700 space-y-1">
                   <li>• Make sure you have a stable internet connection</li>
@@ -246,7 +246,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
 
               {/* Offline Warning */}
               {!isOnline && (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-headspace-lg p-3 sm:p-4">
+                <div className="bg-yellow-50 border border-yellow-200 rounded-[1.2rem] p-3 sm:p-4">
                   <div className="flex items-center space-x-2 text-yellow-800">
                     <WifiOff className="h-5 w-5" />
                     <span className="text-xs sm:text-sm font-medium">You're currently offline</span>
@@ -259,7 +259,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
 
               {/* No Sessions Warning */}
               {isOnline && sessionInfo.sessionsAvailable === 0 && (
-                <div className="bg-red-50 border border-red-200 rounded-headspace-lg p-3 sm:p-4">
+                <div className="bg-red-50 border border-red-200 rounded-[1.2rem] p-3 sm:p-4">
                   <div className="flex items-center space-x-2 text-red-800">
                     <AlertTriangle className="h-5 w-5" />
                     <span className="text-xs sm:text-sm font-medium">No sessions available</span>
@@ -275,7 +275,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
               
               {/* Loading Usage Status */}
               {loadingUsage && (
-                <div className="bg-blue-50 border border-blue-200 rounded-headspace-lg p-3 sm:p-4">
+               <div className="bg-blue-50 border border-blue-200 rounded-[1.2rem] p-3 sm:p-4">
                   <div className="flex items-center space-x-2 text-blue-800">
                     <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
                     <span className="text-xs sm:text-sm font-medium">Checking session availability...</span>
@@ -290,16 +290,16 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
             }`}>
               <button
                 onClick={onClose}
-                className="flex-1 border border-gray-300 text-gray-700 px-4 py-3 rounded-headspace-lg text-sm sm:text-base font-medium hover:bg-gray-50 transition-all min-h-[44px]"
+                className="flex-1 border border-gray-300 text-gray-700 px-4 py-3 rounded-[1.2rem] text-sm sm:text-base font-medium hover:bg-gray-50 transition-all min-h-[44px]"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirmStart}
                 disabled={!canStart}
-                className={`flex-1 px-4 py-3 rounded-headspace-lg text-sm sm:text-base font-medium transition-all flex items-center justify-center space-x-2 text-white min-h-[44px] ${
+                className={`flex-1 px-4 py-3 rounded-[1.2rem] text-sm sm:text-base font-medium transition-all flex items-center justify-center space-x-2 text-white min-h-[44px] ${
                   canStart
-                    ? 'bg-[#002fa7] text-white hover:bg-[#0040d1] shadow-[0_2px_8px_rgba(0,47,167,0.3)]'
+                    ? 'bg-cobalt text-white hover:bg-[#4a4fd9] shadow-[0_2px_8px_rgba(59,66,196,0.3)]'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >
@@ -325,7 +325,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
                 </p>
                 <a
                   href="/brevedu-plus"
-                 className="text-[#002fa7] hover:text-[#0040d1] transition-colors text-xs sm:text-sm font-medium underline"
+                 className="text-cobalt hover:text-[#4a4fd9] transition-colors text-xs sm:text-sm font-medium underline"
                   onClick={onClose}
                 >
                   Upgrade to BrevEdu+ for 3 daily sessions

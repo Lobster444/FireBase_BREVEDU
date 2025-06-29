@@ -81,15 +81,15 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-headspace-2xl w-full max-w-md p-6">
+      <div className="bg-white rounded-[1.6rem] w-full max-w-md p-6">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl font-bold text-gray-900 flex items-center space-x-2">
-            <Settings className="h-6 w-6 text-blue-600" />
+            <Settings className="h-6 w-6 text-cobalt" />
             <span>Tavus AI Settings</span>
           </h3>
           <button
             onClick={onClose}
-            className="icon-button icon-button-gray p-2 rounded-headspace-lg"
+            className="icon-button icon-button-gray p-2 rounded-[0.8rem]"
           >
             <X className="h-5 w-5" />
           </button>
@@ -97,7 +97,7 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
 
         {loading ? (
           <div className="text-center py-8">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mb-4"></div>
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-cobalt mb-4"></div>
             <p className="text-gray-600">Loading settings...</p>
           </div>
         ) : (
@@ -110,7 +110,7 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
                 type="text"
                 value={settings.replica_id}
                 onChange={(e) => setSettings(prev => ({ ...prev, replica_id: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-headspace-lg focus:outline-none focus:border-blue-600"
+                className="w-full px-3 py-2 border border-gray-300 rounded-[1.2rem] focus:outline-none focus:border-cobalt"
                 placeholder="Enter Tavus replica ID"
                 required
               />
@@ -124,7 +124,7 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
                 type="text"
                 value={settings.persona_id}
                 onChange={(e) => setSettings(prev => ({ ...prev, persona_id: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-headspace-lg focus:outline-none focus:border-blue-600"
+                className="w-full px-3 py-2 border border-gray-300 rounded-[1.2rem] focus:outline-none focus:border-cobalt"
                 placeholder="Enter Tavus persona ID"
                 required
               />
@@ -138,14 +138,14 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
                 type="password"
                 value={settings.api_key}
                 onChange={(e) => setSettings(prev => ({ ...prev, api_key: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-headspace-lg focus:outline-none focus:border-blue-600"
+                className="w-full px-3 py-2 border border-gray-300 rounded-[1.2rem] focus:outline-none focus:border-cobalt"
                 placeholder="Enter Tavus API key"
                 required
               />
             </div>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-headspace-lg p-4">
-              <p className="text-sm text-blue-800">
+            <div className="bg-cobalt/10 border border-cobalt/20 rounded-[1.2rem] p-4">
+              <p className="text-sm text-cobalt">
                 <strong>Note:</strong> These settings are used for all dynamic AI conversations. 
                 Make sure to use valid Tavus credentials.
               </p>
@@ -157,7 +157,7 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
                   type="checkbox"
                   checked={settings.enabled}
                   onChange={(e) => setSettings(prev => ({ ...prev, enabled: e.target.checked }))}
-                  className="w-5 h-5 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-600/20 focus:ring-2"
+                  className="w-5 h-5 text-cobalt bg-white border-gray-300 rounded focus:ring-cobalt/20 focus:ring-2"
                 />
                 <div>
                   <span className="text-base font-semibold text-gray-900">Enable AI Conversations</span>
@@ -172,14 +172,14 @@ const TavusSettingsModal: React.FC<TavusSettingsModalProps> = ({ isOpen, onClose
               <button
                 onClick={onClose}
                 disabled={saving}
-                className="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-headspace-lg hover:bg-gray-50 transition-all disabled:opacity-50"
+                className="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-[1.2rem] hover:bg-gray-50 transition-all disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 onClick={saveTavusSettings}
                 disabled={saving || (settings.enabled && (!settings.replica_id || !settings.persona_id || !settings.api_key))}
-                className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-headspace-lg hover:bg-blue-700 transition-all disabled:opacity-50 flex items-center justify-center space-x-2"
+                className="flex-1 bg-cobalt text-white px-4 py-2 rounded-[1.2rem] hover:bg-[#4a4fd9] transition-all disabled:opacity-50 flex items-center justify-center space-x-2"
               >
                 {saving ? (
                   <>

@@ -318,11 +318,11 @@ const TavusModal: React.FC<TavusModalProps> = ({
         onClick={isMobile ? undefined : (e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className={`flex items-center justify-between border-b border-gray-100 bg-gray-50 ${
-          isMobile ? 'p-4 sticky top-0 z-10' : 'p-padding-small'
+        <div className={`flex items-center justify-between border-b border-black/5 bg-grey ${
+          isMobile ? 'p-4 sticky top-0 z-10' : 'p-6'
         }`}>
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+            <div className="w-10 h-10 bg-cobalt rounded-full flex items-center justify-center text-white">
               <Clock className="h-5 w-5 text-white" />
             </div>
             <div>
@@ -335,7 +335,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
           
           <div className="flex items-center space-x-4">
             {/* Timer Display */}
-            <div className={`flex items-center space-x-2 px-3 py-2 rounded-headspace-lg ${
+            <div className={`flex items-center space-x-2 px-3 py-2 rounded-[0.8rem] ${
               timeRemaining <= 30 ? 'bg-red-100 text-red-800' : 
               timeRemaining <= 60 ? 'bg-yellow-100 text-yellow-800' : 
               'bg-blue-100 text-blue-800'
@@ -358,7 +358,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
             <button
               onClick={handleClose}
               disabled={isCompleting}
-              className="icon-button icon-button-gray p-2 rounded-headspace-md disabled:opacity-50"
+              className="icon-button icon-button-gray p-2 rounded-[0.8rem] disabled:opacity-50"
               aria-label="Close AI practice session"
             >
               <X className="h-5 w-5" />
@@ -411,7 +411,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
 
           {/* Warning Overlay */}
           {showWarning && timeRemaining <= 30 && timeRemaining > 0 && (
-            <div className="absolute top-4 left-4 right-4 bg-yellow-100 border border-yellow-300 rounded-headspace-lg p-3 flex items-center space-x-2">
+            <div className="absolute top-4 left-4 right-4 bg-yellow-100 border border-yellow-300 rounded-[1.2rem] p-3 flex items-center space-x-2">
               <AlertTriangle className="h-5 w-5 text-yellow-600" />
               <span className="text-yellow-800 font-medium">
                 {timeRemaining} seconds remaining
@@ -421,10 +421,10 @@ const TavusModal: React.FC<TavusModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className={`border-t border-gray-100 bg-gray-50 ${
+        <div className={`border-t border-black/5 bg-grey ${
           isMobile 
             ? 'fixed bottom-0 left-0 right-0 p-4 pb-6 flex flex-col space-y-3'
-            : 'p-padding-small flex items-center justify-between'
+            : 'p-6 flex items-center justify-between'
         }`}>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2 text-sm text-gray-600">
@@ -444,7 +444,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
               <button
                 onClick={handleComplete}
                 disabled={isCompleting || !hasStarted}
-                className={`px-4 py-2 rounded-headspace-lg text-sm font-medium transition-all flex items-center space-x-2 min-h-[44px] ${
+                className={`px-4 py-2 rounded-[1.2rem] text-sm font-medium transition-all flex items-center space-x-2 min-h-[44px] ${
                   isCompleting || !hasStarted
                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     : 'bg-emerald-600 text-white hover:bg-emerald-700'
@@ -467,7 +467,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
             <button
               onClick={handleClose}
               disabled={isCompleting}
-              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-headspace-lg text-sm font-medium hover:bg-gray-50 transition-all disabled:opacity-50 min-h-[44px]"
+              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-[1.2rem] text-sm font-medium hover:bg-gray-50 transition-all disabled:opacity-50 min-h-[44px]"
             >
               {isTimedOut ? 'Close' : 'Exit Practice'}
             </button>

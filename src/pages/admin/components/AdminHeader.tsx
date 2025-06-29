@@ -28,9 +28,9 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
             <button 
               onClick={onTavusSettings}
               disabled={!isOnline}
-              className={`px-4 py-3 rounded-lg text-base font-medium transition-all shadow-sm flex items-center space-x-2 ${
+              className={`px-4 py-3 rounded-[1.2rem] text-base font-medium transition-all shadow-sm flex items-center space-x-2 ${
                 isOnline 
-                  ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                  ? 'bg-cobalt text-white hover:bg-[#4a4fd9]' 
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-50'
               }`}
             >
@@ -41,9 +41,9 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
             <button 
               onClick={onNewCourse}
               disabled={!isOnline}
-              className={`px-6 py-3 rounded-lg text-base font-medium transition-all shadow-sm flex items-center space-x-2 ${
+              className={`px-6 py-3 rounded-[1.2rem] text-base font-medium transition-all shadow-sm flex items-center space-x-2 ${
                 isOnline 
-                  ? 'bg-[#FF7A59] text-white hover:bg-[#FF8A6B]' 
+                  ? 'bg-hyper-yellow text-black hover:bg-[#ffed4d]' 
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-50'
               }`}
             >

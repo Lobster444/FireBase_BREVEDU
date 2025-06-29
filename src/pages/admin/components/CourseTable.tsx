@@ -17,7 +17,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
   onDeleteCourse
 }) => {
   return (
-    <div className="hidden lg:block bg-white rounded-headspace-lg overflow-hidden border border-gray-200">
+    <div className="hidden lg:block bg-white rounded-[1.2rem] overflow-hidden border border-gray-200">
       <table className="w-full">
         <thead className="bg-gray-50">
           <tr>
@@ -99,7 +99,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                     <button 
                       onClick={() => onEditCourse(course)}
                       disabled={!isOnline}
-                      className={`icon-button p-2 rounded-headspace-lg transition-colors ${
+                      className={`icon-button p-2 rounded-[1.2rem] transition-colors ${
                         isOnline 
                           ? 'icon-button-primary' 
                           : 'text-gray-400 cursor-not-allowed opacity-50'
@@ -110,7 +110,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                     <button 
                       onClick={() => onDeleteCourse(course.id!)}
                       disabled={!isOnline}
-                      className={`icon-button p-2 rounded-headspace-lg transition-colors ${
+                      className={`icon-button p-2 rounded-[1.2rem] transition-colors ${
                         isOnline 
                           ? 'text-red-500 hover:bg-red-50' 
                           : 'text-gray-400 cursor-not-allowed opacity-50'

@@ -127,7 +127,7 @@ const AdminCoursesPage: React.FC = () => {
           </div>
 
           {/* Main Content */}
-          <div className="max-w-screen-2xl mx-auto px-padding-medium py-padding-medium">
+          <div className="max-w-screen-2xl mx-auto px-6 py-6">
             {/* Filters */}
             <CourseFilters
               searchQuery={searchQuery}
@@ -172,7 +172,7 @@ const AdminCoursesPage: React.FC = () => {
                     {courses.length > 0 && (
                       <button
                         onClick={clearAllFilters}
-                        className="text-[#FF7A59] hover:text-[#FF8A6B] transition-colors underline"
+                        className="text-cobalt hover:text-[#4a4fd9] transition-colors underline"
                       >
                         Clear all filters
                       </button>

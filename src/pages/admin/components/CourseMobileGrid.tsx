@@ -22,7 +22,7 @@ const CourseMobileGrid: React.FC<CourseMobileGridProps> = ({
         const accessInfo = getAccessLevelInfo(course.accessLevel);
         const aiPracticeInfo = getAIPracticeStatus(course);
         return (
-          <div key={course.id} className="bg-white rounded-headspace-lg p-4 border border-gray-200">
+          <div key={course.id} className="bg-white rounded-[1.2rem] p-4 border border-gray-200">
             <div className="flex items-start space-x-3 mb-3">
               <img
                 src={course.thumbnailUrl}
@@ -74,7 +74,7 @@ const CourseMobileGrid: React.FC<CourseMobileGridProps> = ({
               <button 
                 onClick={() => onEditCourse(course)}
                 disabled={!isOnline}
-                className={`icon-button p-2 rounded-headspace-lg transition-colors ${
+                className={`icon-button p-2 rounded-[1.2rem] transition-colors ${
                   isOnline 
                     ? 'icon-button-primary' 
                     : 'text-gray-400 cursor-not-allowed opacity-50'
@@ -85,7 +85,7 @@ const CourseMobileGrid: React.FC<CourseMobileGridProps> = ({
               <button 
                 onClick={() => onDeleteCourse(course.id!)}
                 disabled={!isOnline}
-                className={`icon-button p-2 rounded-headspace-lg transition-colors ${
+                className={`icon-button p-2 rounded-[1.2rem] transition-colors ${
                   isOnline 
                     ? 'text-red-500 hover:bg-red-50' 
                     : 'text-gray-400 cursor-not-allowed opacity-50'
