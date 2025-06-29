@@ -330,7 +330,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
 
         {/* Mobile Menu Overlay */}
         {showMobileMenu && (
-          <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40" onClick={() => setShowMobileMenu(false)} />
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-40" onClick={() => setShowMobileMenu(false)} />
         )}
 
         {/* Mobile Menu Drawer */}
@@ -338,9 +338,9 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
           <div 
             ref={mobileMenuRef}
             id="mobile-menu"
-            className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-[0_8px_32px_rgba(0,0,0,0.12)] z-50 transform transition-transform duration-300 ease-out"
+            className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-[0_8px_32px_rgba(0,0,0,0.25)] z-50 transform transition-transform duration-300 ease-out"
           >
-            <div className="p-6">
+            <div className="p-6 bg-white">
               {/* Mobile Menu Header */}
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-xl font-bold text-gray-900">Menu</h2>
