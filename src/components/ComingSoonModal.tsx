@@ -138,9 +138,9 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
         <div className="p-8">
           {isSuccess ? (
             // Success State
-                <div className="bg-red-50 border border-red-200 rounded-[1.2rem] p-3">
-              <div className="w-16 h-16 bg-hazel/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="h-10 w-10 text-kelp" />
+            <div className="text-center">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="h-10 w-10 text-green-600" />
               </div>
               <h3 className="text-xl font-semibold text-black mb-3">
                 Thanks, we'll let you know!
@@ -148,13 +148,13 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
               <p className="text-base text-gray-700">
                 You'll be among the first to know when BrevEdu+ launches.
               </p>
-              <div className="text-center">
-                <div className="w-12 h-12 bg-cobalt/10 rounded-full flex items-center justify-center mx-auto mb-3 text-cobalt">
-                  <Envelope className="h-6 w-6 text-cobalt" />
+            </div>
+          ) : (
+            // Form State
             <div className="space-y-4">
               <div className="text-center mb-8">
-                <div className="w-20 h-20 bg-cobalt/10 rounded-full flex items-center justify-center mx-auto mb-6">
-               <div className="bg-blue-50 border border-blue-200 rounded-[1.2rem] p-3">
+                <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Envelope className="h-10 w-10 text-blue-600" />
                 </div>
                 <p className="text-base text-gray-700 leading-relaxed">
                   This feature is currently in development. Leave your email and we'll notify you when it's available.
@@ -164,7 +164,7 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Email Input */}
                 <div>
-            <div className={`flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mt-4 ${
+                  <label htmlFor="waitlist-email" className="block text-sm font-medium text-gray-700 mb-2">
                     Email Address
                   </label>
                   <div className="relative">
@@ -175,10 +175,8 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
                       id="waitlist-email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-10 pr-4 py-4 bg-white border border-gray-300 rounded-[1.2rem] text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:border-cobalt focus:ring-2 focus:ring-cobalt/20 transition-all"
+                      className="w-full pl-10 pr-4 py-4 bg-white border border-gray-300 rounded-[1.2rem] text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 transition-all"
                       placeholder="Enter your email address"
-                }
-              <div className="bg-blue-50 border border-blue-200 rounded-[1.2rem] p-3 text-blue-900">
                       disabled={isSubmitting}
                     />
                   </div>
@@ -186,7 +184,7 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
 
                 {/* Error Message */}
                 {error && (
-                  <div className="flex items-center space-x-2 text-red text-sm">
+                  <div className="flex items-center space-x-2 text-red-600 text-sm">
                     <WarningCircle className="h-4 w-4 flex-shrink-0" />
                     <span>{error}</span>
                   </div>
@@ -199,10 +197,9 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
                   fullWidth
                   type="submit"
                   disabled={isSubmitting || !email.trim()}
-              <div className={`mt-2 text-center ${isMobile ? 'pb-4' : ''}`}>
                 >
                   {isSubmitting ? 'Submitting...' : 'Submit'}
-              <div className="bg-gray-50 rounded-[1.2rem] p-3">
+                </Button>
               </form>
 
               {/* Additional Info */}
@@ -212,14 +209,11 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
                 </p>
               </div>
             </div>
-          )
           )}
         </div>
       </div>
     </div>
-  )
   );
 };
 
 export default ComingSoonModal;
-                <div className="bg-yellow-50 border border-yellow-200 rounded-[1.2rem] p-3">
