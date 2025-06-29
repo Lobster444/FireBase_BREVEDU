@@ -1,21 +1,26 @@
 /* Styles for the upgrade promo section */
 
 .benefits-container {
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; 
 }
 
 .benefits-grid {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
 }
 
 .benefit-item {
   display: flex;
   align-items: center;
+  justify-content: center;
   color: var(--kelp, #007232);
+  white-space: nowrap;
 }
 
 .benefit-check {
@@ -30,13 +35,6 @@
 
 /* Responsive styles */
 @media (min-width: 640px) {
-  .benefits-grid {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5rem;
-  }
-  
   .benefit-check {
     font-size: 1.5rem;
   }
@@ -48,15 +46,12 @@
 
 @media (min-width: 1024px) {
   .benefits-grid {
-    flex-direction: row;
-    justify-content: space-between;
     flex-wrap: nowrap;
-    gap: 2rem;
+    justify-content: space-around;
   }
   
   .benefit-item {
-    flex: 1;
-    justify-content: center;
+    flex: 0 1 auto;
   }
   
   .benefit-text {
