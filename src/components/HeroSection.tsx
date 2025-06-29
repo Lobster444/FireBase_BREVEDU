@@ -31,24 +31,26 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
       
       {/* Animated Grid Background */}
-      <AnimatedGrid 
-        className="absolute inset-0 z-0" 
-        opacity={0.15}
-        gridSize={160}
-        strokeColor="rgba(59, 66, 196, 0.4)"
-        strokeWidth={1}
-        dotColor="rgba(59, 66, 196, 0.5)"
-        dotRadius={2}
-      />
+      <div className="absolute inset-0 z-5">
+        <AnimatedGrid 
+          className="absolute inset-0" 
+          opacity={0.3}
+          gridSize={160}
+          strokeColor="rgba(59, 66, 196, 0.4)"
+          strokeWidth={1}
+          dotColor="rgba(59, 66, 196, 0.5)"
+          dotRadius={2}
+        />
+      </div>
       
       {/* Background decorative elements */}
       <div className="absolute top-10 left-10 w-20 h-20 bg-blue-100 rounded-full opacity-50 blur-xl"></div>
       <div className="absolute bottom-10 right-10 w-32 h-32 bg-purple-100 rounded-full opacity-40 blur-xl"></div>
       
-      <div className="max-w-screen-2xl mx-auto px-6 sm:px-12 lg:px-16 relative z-10">
+      <div className="max-w-screen-2xl mx-auto px-6 sm:px-12 lg:px-16 relative z-10 pointer-events-none">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16 lg:gap-20 xl:gap-24 items-center">
           {/* Text Content */}
-          <div className="text-center lg:text-left space-y-8 sm:space-y-10 relative z-10">
+          <div className="text-center lg:text-left space-y-8 sm:space-y-10 relative z-10 pointer-events-auto">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
               {userMessage.title.includes('Just 5 Minutes') ? (
                 <>
@@ -98,12 +100,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
 
           {/* Hero Image */}
-          <div className="flex justify-center lg:justify-end relative z-20">
-            <div className="relative max-w-sm sm:max-w-lg w-full transform hover:scale-105 transition-transform duration-500 mt-8 lg:mt-0">
+          <div className="flex justify-center lg:justify-end relative z-20 pointer-events-auto">
+            <div className="relative max-w-sm sm:max-w-lg w-full transform hover:scale-105 transition-transform duration-500 mt-8 lg:mt-0 shadow-xl">
               <img 
                 src="/41b02b86-3dc4-46c7-b506-8c61fd37e4b1 copy.png"
                 alt="Interactive learning interface showing mobile app with AI tutor and course content"
-                className="w-full h-auto rounded-[1.2rem] sm:rounded-[1.6rem] shadow-xl"
+                className="w-full h-auto rounded-[1.2rem] sm:rounded-[1.6rem]"
                 loading="eager"
               />
             </div>

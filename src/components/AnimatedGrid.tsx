@@ -21,7 +21,7 @@ const AnimatedGrid = ({
   dotRadius = 2
 }: AnimatedGridProps) => {
   return (
-    <div className={className} style={{ opacity, zIndex: 5 }}>
+    <div className={className} style={{ opacity }}>
       <svg
         className="w-full h-full"
         viewBox="0 0 1200 800"
