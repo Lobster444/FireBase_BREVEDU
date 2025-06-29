@@ -34,7 +34,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="absolute bottom-10 right-10 w-32 h-32 bg-purple-100 rounded-full opacity-40 blur-xl"></div>
       
       <div className="max-w-screen-2xl mx-auto px-6 sm:px-12 lg:px-16 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16 lg:gap-20 xl:gap-24 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 xl:gap-16 items-center relative">
           {/* Text Content */}
           <div className="text-center lg:text-left space-y-8 sm:space-y-10">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
@@ -87,7 +87,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
           {/* Hero Image */}
           <div className="flex justify-center lg:justify-end">
-            <div className="relative max-w-sm sm:max-w-lg w-full transform hover:scale-105 transition-transform duration-500 mt-8 lg:mt-0">
+            <div className="relative max-w-sm sm:max-w-lg w-full transform hover:scale-105 transition-transform duration-500 mt-6 lg:mt-0">
               <img 
                 src="/41b02b86-3dc4-46c7-b506-8c61fd37e4b1 copy.png"
                 alt="Interactive learning interface showing mobile app with AI tutor and course content"
