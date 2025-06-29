@@ -201,7 +201,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
                     id="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className={`w-full pl-10 pr-4 py-2.5 bg-white border rounded-[1.2rem] text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition-colors ${
+                    className={`w-full pl-10 pr-4 py-1.5 bg-white border rounded-[1.2rem] text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition-colors ${
                       errors.name 
                         ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
                         : 'border-gray-300 focus:border-cobalt focus:ring-cobalt/20'
