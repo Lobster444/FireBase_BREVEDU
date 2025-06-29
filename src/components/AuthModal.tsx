@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { X, User, Mail, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { notifySuccess, notifyError } from '../lib/toast';
+import { Button, IconButton } from './Button';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -174,13 +175,13 @@ const AuthModal: React.FC<AuthModalProps> = ({
           <h2 id="auth-modal-title" className="text-xl font-bold text-gray-900">
             {mode === 'login' ? 'Sign In' : 'Create Account'}
           </h2>
-          <button
+          <IconButton
+            icon={X}
             onClick={onClose}
-            className="icon-button icon-button-gray p-2 rounded-[0.8rem]"
+            variant="gray"
+            size="md"
             aria-label="Close modal"
-          >
-            <X className="h-5 w-5" />
-          </button>
+          />
         </div>
 
         {/* Form */}
@@ -295,34 +296,35 @@ const AuthModal: React.FC<AuthModalProps> = ({
           </div>
 
           {/* Submit Button */}
-          <button
+          <Button
+            variant="primary"
+            size="lg"
+            fullWidth
             type="submit"
             disabled={isLoading}
-            className="w-full bg-cobalt text-white px-6 py-4 rounded-full text-lg font-semibold hover:bg-[#4a4fd9] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 mt-6 min-h-[56px]"
+            loading={isLoading}
+            className="mt-6"
           >
-            {isLoading ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                <span>{mode === 'login' ? 'Signing In...' : 'Creating Account...'}</span>
-              </>
-            ) : (
-              <span>{mode === 'login' ? 'Sign In' : 'Create Account'}</span>
-            )}
-          </button>
+            {isLoading 
+              ? (mode === 'login' ? 'Signing In...' : 'Creating Account...')
+              : (mode === 'login' ? 'Sign In' : 'Create Account')
+            }
+          </Button>
 
           {/* Mode Toggle */}
           <div className="mt-4 text-center">
             <p className="text-sm text-gray-600">
               {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}
               {' '}
-              <button
+              <Button
+                variant="ghost"
                 type="button"
                 onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
-                className="text-cobalt hover:text-[#4a4fd9] transition-colors font-medium"
+                className="p-0 h-auto min-h-0 text-cobalt hover:text-[#4a4fd9] underline"
                 disabled={isLoading}
               >
                 {mode === 'login' ? 'Sign up' : 'Sign in'}
-              </button>
+              </Button>
             </p>
           </div>
         </form>

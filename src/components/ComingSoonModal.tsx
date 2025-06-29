@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { X, Mail, CheckCircle, AlertCircle } from 'lucide-react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import { Button, IconButton } from './Button';
 
 interface ComingSoonModalProps {
   isOpen: boolean;
@@ -124,13 +125,13 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
           <h2 id="coming-soon-title" className="text-2xl font-bold text-black">
             Coming Soon
           </h2>
-          <button
+          <IconButton
+            icon={X}
             onClick={onClose}
-            className="icon-button icon-button-gray p-2 rounded-[0.8rem]"
+            variant="gray"
+            size="md"
             aria-label="Close modal"
-          >
-            <X className="h-5 w-5" />
-          </button>
+          />
         </div>
 
         {/* Content */}
@@ -191,20 +192,16 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
                 )}
 
                 {/* Submit Button */}
-                <button
+                <Button
+                  variant="primary"
+                  size="md"
+                  fullWidth
                   type="submit"
                   disabled={isSubmitting || !email.trim()}
-                  className="w-full bg-cobalt text-white px-6 py-4 rounded-[1.2rem] text-lg font-medium hover:bg-[#4a4fd9] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                  loading={isSubmitting}
                 >
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                      <span>Submitting...</span>
-                    </>
-                  ) : (
-                    'Submit'
-                  )}
-                </button>
+                  {isSubmitting ? 'Submitting...' : 'Submit'}
+                </Button>
               </form>
 
               {/* Additional Info */}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, MessageCircle, AlertTriangle } from 'lucide-react';
+import { Button, IconButton } from './Button';
 
 interface TavusUnavailableModalProps {
   isOpen: boolean;
@@ -27,13 +28,13 @@ const TavusUnavailableModal: React.FC<TavusUnavailableModalProps> = ({
               </h2>
             </div>
           </div>
-          <button
+          <IconButton
+            icon={X}
             onClick={onClose}
-            className="icon-button icon-button-gray p-2 rounded-[0.8rem]"
+            variant="gray"
+            size="md"
             aria-label="Close dialog"
-          >
-            <X className="h-5 w-5" />
-          </button>
+          />
         </div>
 
         {/* Content */}
@@ -61,12 +62,15 @@ const TavusUnavailableModal: React.FC<TavusUnavailableModalProps> = ({
               </ul>
             </div>
 
-            <button
+            <Button
+              variant="accent"
+              size="lg"
+              fullWidth
               onClick={onClose}
-              className="w-full bg-gold text-white px-6 py-4 rounded-[1.2rem] text-lg font-medium hover:bg-[#a87600] transition-all"
+              className="bg-gold text-white hover:bg-[#a87600]"
             >
               Continue Learning
-            </button>
+            </Button>
           </div>
         </div>
       </div>
