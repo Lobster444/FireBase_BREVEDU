@@ -2,76 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  @font-face {
-    font-family: Rooftop;
-    src: url("https://mccdn.me/martcdn/fonts/Rooftop-Regular.woff2") format("woff2"), 
-         url("https://mccdn.me/martcdn/fonts/Rooftop-Regular.woff") format("woff");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-  
-  @font-face {
-    font-family: Rooftop;
-    src: url("https://mccdn.me/martcdn/fonts/Rooftop-Bold.woff2") format("woff2"), 
-         url("https://mccdn.me/martcdn/fonts/Rooftop-Bold.woff") format("woff");
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-  }
-  
-  @font-face {
-    font-family: ManyChatGravity;
-    src: url("https://mccdn.me/martcdn/fonts/ManyChatGravity-Normal.woff2") format("woff2"), 
-         url("https://mccdn.me/martcdn/fonts/ManyChatGravity-Normal.woff") format("woff");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-  
-  @font-face {
-    font-family: 'CoFo Sans Mono';
-    src: url("https://mccdn.me/martcdn/fonts/CoFoSansMono-Regular.woff2") format("woff2"), 
-         url("https://mccdn.me/martcdn/fonts/CoFoSansMono-Regular.woff") format("woff");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-  
-  html {
-    height: 100%;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.05);
-  }
-  
-  body {
-    height: 100%;
-    position: relative;
-    background: var(--white);
-    color: var(--black);
-    font-size: 1.5rem;
-    font-family: Rooftop, sans-serif;
-    font-feature-settings: "ss02" 1;
-    line-height: 1.3;
-  }
-  
-  body.no-scroll,
-  body.prevent-scroll {
-    overflow: hidden !important;
-  }
-  
-  @media (max-width: 1023px) {
-    body.no-scroll,
-    body.prevent-scroll {
-      position: fixed;
-      top: 0;
-      left: 0;
-      overflow: hidden !important;
-      width: 100%;
-      height: 100% !important;
-    }
-  }
-}
+/* Font definitions moved to tailwind.config.js */
 
 /* Accessibility: Respect user motion preferences */
 @media (prefers-reduced-motion: reduce) {
@@ -83,240 +14,7 @@
   }
 }
 
-/* ManyChat typography classes */
-.mc-text-h1 {
-  font-family: ManyChatGravity, sans-serif;
-  font-feature-settings: "ss02" 0;
-  font-size: 4.4rem;
-  line-height: 0.82;
-  letter-spacing: -0.02em;
-  font-weight: 400;
-}
-
-@media (min-width: 768px) {
-  .mc-text-h1 {
-    font-size: 5.6rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .mc-text-h1 {
-    font-size: 7.2rem;
-  }
-}
-
-@media (min-width: 1512px) {
-  .mc-text-h1 {
-    font-size: 8.8rem;
-  }
-}
-
-.mc-text-h2 {
-  font-family: ManyChatGravity, sans-serif;
-  font-feature-settings: "ss02" 0;
-  font-size: 3.2rem;
-  line-height: 0.82;
-  letter-spacing: -0.02em;
-  font-weight: 400;
-}
-
-@media (min-width: 768px) {
-  .mc-text-h2 {
-    font-size: 4rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .mc-text-h2 {
-    font-size: 5.6rem;
-  }
-}
-
-@media (min-width: 1512px) {
-  .mc-text-h2 {
-    font-size: 6.4rem;
-  }
-}
-
-.mc-text-h3 {
-  font-family: Rooftop, sans-serif;
-  font-size: 2.4rem;
-  line-height: 1.08;
-  letter-spacing: -0.04em;
-  font-weight: 600;
-}
-
-@media (min-width: 1024px) {
-  .mc-text-h3 {
-    font-size: 3.6rem;
-  }
-}
-
-@media (min-width: 1512px) {
-  .mc-text-h3 {
-    font-size: 4rem;
-  }
-}
-
-.mc-text-h3-regular {
-  font-family: Rooftop, sans-serif;
-  font-size: 2.4rem;
-  line-height: 1.08;
-  letter-spacing: -0.04em;
-  font-weight: 400;
-}
-
-@media (min-width: 1024px) {
-  .mc-text-h3-regular {
-    font-size: 3.6rem;
-  }
-}
-
-@media (min-width: 1512px) {
-  .mc-text-h3-regular {
-    font-size: 4rem;
-  }
-}
-
-.mc-text-h4 {
-  font-family: Rooftop, sans-serif;
-  font-size: 2.4rem;
-  line-height: 1.08;
-  letter-spacing: -0.04em;
-  font-weight: 400;
-}
-
-@media (min-width: 1024px) {
-  .mc-text-h4 {
-    font-size: 2.8rem;
-  }
-}
-
-@media (min-width: 1512px) {
-  .mc-text-h4 {
-    font-size: 3.2rem;
-  }
-}
-
-.mc-text-h5 {
-  font-family: Rooftop, sans-serif;
-  font-size: 2rem;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  font-weight: 600;
-}
-
-@media (min-width: 1024px) {
-  .mc-text-h5 {
-    font-size: 2.4rem;
-  }
-}
-
-.mc-text-h6 {
-  font-family: Rooftop, sans-serif;
-  font-size: 1.4rem;
-  line-height: 1.4;
-  letter-spacing: -0.01em;
-  font-weight: 600;
-}
-
-@media (min-width: 768px) {
-  .mc-text-h6 {
-    font-size: 1.6rem;
-    letter-spacing: -0.02em;
-  }
-}
-
-@media (min-width: 1024px) {
-  .mc-text-h6 {
-    font-size: 2rem;
-  }
-}
-
-.mc-text-body {
-  font-family: Rooftop, sans-serif;
-  font-size: 1.4rem;
-  line-height: 1.4;
-  letter-spacing: 0.01em;
-  font-weight: 400;
-}
-
-@media (min-width: 768px) {
-  .mc-text-body {
-    font-size: 1.6rem;
-    letter-spacing: 0;
-  }
-}
-
-@media (min-width: 1024px) {
-  .mc-text-body {
-    font-size: 2rem;
-  }
-}
-
-.mc-text-caption {
-  font-family: Rooftop, sans-serif;
-  font-size: 1.2rem;
-  line-height: 1.4;
-  letter-spacing: 0.01em;
-  font-weight: 400;
-}
-
-@media (min-width: 1024px) {
-  .mc-text-caption {
-    font-size: 1.4rem;
-  }
-}
-
-.mc-text-label {
-  font-family: CoFo Sans Mono, sans-serif;
-  font-size: 1.2rem;
-  line-height: 1.36;
-  letter-spacing: 0.01em;
-  font-weight: 400;
-}
-
-@media (min-width: 1512px) {
-  .mc-text-label {
-    font-size: 1.4rem;
-    line-height: 1.4;
-  }
-}
-
-.text-label {
-  font-size: 1.2rem;
-  line-height: 1.36;
-  letter-spacing: 0.01em;
-  font-weight: 400;
-}
-
-/* ManyChat layout classes */
-.mx-mc-layout {
-  margin-left: 1.6rem;
-  margin-right: 1.6rem;
-}
-
-.w-mc-layout,
-.w-mc-layout-wide {
-  width: calc(100% - 3.2rem);
-}
-
-.mt-mc-content {
-  margin-top: 6rem;
-}
-
-.pt-mc-section {
-  padding-top: 8rem;
-}
-
-.pb-mc-section {
-  padding-bottom: 6rem;
-}
-
-.pb-mc-section-lg {
-  padding-bottom: 8rem;
-}
-
+/* Utility classes */
 .bg-grid-pattern {
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.12) 1px, transparent 0), 
                     linear-gradient(180deg, rgba(0, 0, 0, 0.12) 1px, transparent 0);
@@ -352,129 +50,6 @@
                     linear-gradient(180deg, rgba(0, 0, 0, 0.12) 1px, transparent 0);
   background-size: calc(100% / var(--num-cols)) calc(100% / var(--num-cols) / 2);
   background-position: -1px -1px;
-}
-
-.bg-grid-pattern-card-white::before {
-  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 0), 
-                    linear-gradient(180deg, rgba(255, 255, 255, 0.12) 1px, transparent 0);
-}
-
-.max-h-popup {
-  max-height: calc(100svh - 16rem);
-}
-
-.rounded-mc {
-  border-radius: 1.2rem;
-}
-
-@media (min-width: 768px) {
-  .mx-mc-layout {
-    margin-left: 3.2rem;
-    margin-right: 3.2rem;
-  }
-  
-  .w-mc-layout,
-  .w-mc-layout-wide {
-    width: calc(100% - 6.4rem);
-  }
-  
-  .mt-mc-content {
-    margin-top: 8rem;
-  }
-  
-  .pt-mc-section {
-    padding-top: 12rem;
-  }
-  
-  .pb-mc-section {
-    padding-bottom: 8rem;
-  }
-  
-  .pb-mc-section-lg {
-    padding-bottom: 12rem;
-  }
-  
-  .bg-grid-pattern {
-    background-size: 16.667vw 16.667vw;
-    background-position: -1px;
-  }
-  
-  .max-h-popup {
-    max-height: calc(100svh - 20rem);
-  }
-  
-  .rounded-mc {
-    border-radius: 1.6rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .mx-mc-layout {
-    margin-left: 8rem;
-    margin-right: 8rem;
-  }
-  
-  .w-mc-layout {
-    width: calc(100% - 16rem);
-  }
-  
-  .w-mc-layout-wide {
-    width: calc(100% - 8rem);
-  }
-  
-  .mt-mc-content {
-    margin-top: 10rem;
-  }
-  
-  .pt-mc-section {
-    padding-top: 16rem;
-  }
-  
-  .pb-mc-section {
-    padding-bottom: 10rem;
-  }
-  
-  .pb-mc-section-lg {
-    padding-bottom: 16rem;
-  }
-  
-  .bg-grid-pattern {
-    background-size: 12.5vw 12.5vw;
-  }
-}
-  
-::-moz-selection {
-  background-color: var(--text-selection-transparent);
-}
-
-::selection {
-  background-color: var(--text-selection-transparent);
-}
-
-/* Basic element styles */
-a {
-  display: inline-block;
-  outline: 0;
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-hr {
-  margin: 0.5rem 0;
-  width: 100%;
-  height: 1px;
-  border: none;
-  background: #000;
-}
-
-[hidden] {
-  display: none !important;
-}
-
-/* ManyChat grid */
-.mc-grid {
-  display: grid;
 }
 
 /* Root variables */
@@ -519,4 +94,42 @@ hr {
   --line-width: 1px;
   --top-bar-height: 6rem;
   --top-banner-height: 0rem;
+}
+
+/* Selection color */
+::selection {
+  background-color: var(--text-selection-transparent);
+}
+
+::-moz-selection {
+  background-color: var(--text-selection-transparent);
+}
+
+/* Basic element styles */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+/* Utility for hidden elements */
+[hidden] {
+  display: none !important;
+}
+
+/* Prevent scroll utility classes */
+body.no-scroll,
+body.prevent-scroll {
+  overflow: hidden !important;
+}
+
+@media (max-width: 1023px) {
+  body.no-scroll,
+  body.prevent-scroll {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100% !important;
+  }
 }

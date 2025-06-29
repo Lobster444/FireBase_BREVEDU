@@ -4,6 +4,9 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    fontFamily: {
+      sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+    },
     container: {
       screens: {
         '0px': '0',
@@ -20,11 +23,6 @@ export default {
       },
     },
     extend: {
-      fontFamily: {
-        sans: ['Rooftop', ...defaultTheme.fontFamily.sans],
-        gravity: ['ManyChatGravity', 'sans-serif'],
-        cofo: ['CoFo Sans Mono', 'sans-serif'],
-      },
       colors: {
         // ManyChat color palette
         dusk: 'var(--dusk)',
