@@ -5,8 +5,8 @@
 @layer base {
   @font-face {
     font-family: Rooftop;
-    src: url("/fonts/Rooftop-Regular.woff2") format("woff2"), 
-         url("/fonts/Rooftop-Regular.woff") format("woff");
+    src: url("https://firebasestorage.googleapis.com/v0/b/brevedy-tracking.firebasestorage.app/o/fonts%2FRooftop-Regular.woff2?alt=media&token=e9c3c621-7cd5-457b-bbda-14c89df56e32") format("woff2"), 
+         url("https://firebasestorage.googleapis.com/v0/b/brevedy-tracking.firebasestorage.app/o/fonts%2FRooftop-Regular.woff?alt=media&token=83ad3caf-85bb-4ef8-9b4d-fbfc9be92c3b") format("woff");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -14,8 +14,8 @@
   
   @font-face {
     font-family: Rooftop;
-    src: url("/fonts/Rooftop-Bold.woff2") format("woff2"), 
-         url("/fonts/Rooftop-Bold.woff") format("woff");
+    src: url("https://firebasestorage.googleapis.com/v0/b/brevedy-tracking.firebasestorage.app/o/fonts%2FRooftop-Bold.woff2?alt=media&token=85819d06-eb34-460e-82d6-689d862b6c53") format("woff2"), 
+         url("https://firebasestorage.googleapis.com/v0/b/brevedy-tracking.firebasestorage.app/o/fonts%2FRooftop-Bold.woff?alt=media&token=35c42c00-2a94-4ba8-8954-7c5f13d0aa9d") format("woff");
     font-weight: 600;
     font-style: normal;
     font-display: swap;
