@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { User, LogOut, Menu, X, MessageCircle } from 'lucide-react';
+import { User, SignOut, List, X, ChatCircle } from '@phosphor-icons/react';
 import { useAuth } from '../contexts/AuthContext';
 import AuthModal from './AuthModal';
 import { Button, IconButton, LinkButton } from './Button';
@@ -122,7 +122,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
               onClick={handleLogoClick}
             >
               <div className="w-10 h-10 bg-cobalt rounded-full flex items-center justify-center">
-                <MessageCircle className="h-6 w-6 text-white" />
+                <ChatCircle className="h-6 w-6 text-white" />
               </div>
               <h1 className="text-2xl font-bold text-black group-hover:text-cobalt transition-colors duration-300 ease-out">
                 BreVedu
@@ -191,7 +191,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                         fullWidth
                         onClick={handleLogout}
                         className="text-left mx-2 mt-2 justify-start"
-                        icon={LogOut}
+                        icon={SignOut}
                       >
                         <span>Sign Out</span>
                       </Button>
@@ -257,7 +257,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                   <span className="max-w-[70px] truncate text-sm font-medium">{currentUser.name}</span>
                 </Button>
                 <IconButton
-                  icon={showMobileMenu ? X : Menu}
+                  icon={showMobileMenu ? X : List}
                   onClick={() => setShowMobileMenu(!showMobileMenu)}
                   variant="gray"
                   size="md"
@@ -285,7 +285,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                   Sign Up
                 </Button>
                 <IconButton
-                  icon={showMobileMenu ? X : Menu}
+                  icon={showMobileMenu ? X : List}
                   onClick={() => setShowMobileMenu(!showMobileMenu)}
                   variant="gray"
                   size="md"
@@ -321,7 +321,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                 setShowUserMenu(false);
               }}
               className="text-left mx-2 mt-1 justify-start"
-              icon={LogOut}
+              icon={SignOut}
             >
               <span>Sign Out</span>
             </Button>
