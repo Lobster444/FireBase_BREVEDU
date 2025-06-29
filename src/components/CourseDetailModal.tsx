@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Clock, MessageCircle, CheckCircle } from 'lucide-react';
+import { X, Clock, ChatCircle, CheckCircle } from '@phosphor-icons/react';
 import { Course, hasTavusCompletion, getTavusCompletion } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import ProgressBar from './ProgressBar';
@@ -412,7 +412,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                 )}
                 {(course.tavusConversationUrl || course.conversationalContext || course.id) && (
                   <span className="text-sm text-cobalt bg-cobalt/10 px-3 py-1 rounded-[0.8rem] font-semibold flex items-center space-x-1">
-                    <MessageCircle className="h-3 w-3" />
+                    <ChatCircle className="h-3 w-3" />
                     <span>AI Practice</span>
                   </span>
                 )}

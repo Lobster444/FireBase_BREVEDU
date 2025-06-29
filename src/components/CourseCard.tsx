@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, MessageCircle, CheckCircle } from 'lucide-react';
+import { Clock, ChatCircle, CheckCircle } from '@phosphor-icons/react';
 import { Course, hasTavusCompletion } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 

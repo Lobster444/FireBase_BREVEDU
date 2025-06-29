@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Upload, X, Image as ImageIcon, AlertCircle, CheckCircle } from 'lucide-react';
+import { UploadSimple, X, Image, WarningCircle, CheckCircle } from '@phosphor-icons/react';
 import { uploadImage, validateImageFile, formatFileSize, UploadProgress } from '../../lib/uploadService';
 
 interface ImageUploadFieldProps {
@@ -153,7 +153,7 @@ const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
             {isUploading ? (
               <div className="space-y-3">
                 <div className="w-12 h-12 bg-[#FF7A59]/10 rounded-full flex items-center justify-center mx-auto">
-                  <Upload className="h-6 w-6 text-[#FF7A59] animate-pulse" />
+                  <UploadSimple className="h-6 w-6 text-[#FF7A59] animate-pulse" />
                 </div>
                 <div className="space-y-2">
                   <p className="text-sm font-medium text-gray-900">Uploading...</p>
@@ -169,7 +169,7 @@ const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
             ) : (
               <div className="space-y-3">
                 <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
-                  <Upload className="h-6 w-6 text-gray-400" />
+                  <UploadSimple className="h-6 w-6 text-gray-400" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-900">
@@ -186,7 +186,7 @@ const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
           {/* Upload Progress/Error */}
           {uploadProgress.error && (
             <div className="flex items-center space-x-2 text-red-600 text-sm">
-              <AlertCircle className="h-4 w-4" />
+              <WarningCircle className="h-4 w-4" />
               <span>{uploadProgress.error}</span>
             </div>
           )}
@@ -246,7 +246,7 @@ const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
             />
             <div className="hidden absolute inset-0 flex items-center justify-center bg-gray-100">
               <div className="text-center">
-                <ImageIcon className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                <Image className="h-8 w-8 text-gray-400 mx-auto mb-2" />
                 <p className="text-sm text-gray-600">Failed to load image</p>
               </div>
             </div>
@@ -257,7 +257,7 @@ const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
       {/* Error Message */}
       {error && (
         <div className="flex items-center space-x-2 text-red-600 text-sm">
-          <AlertCircle className="h-4 w-4" />
+          <WarningCircle className="h-4 w-4" />
           <span>{error}</span>
         </div>
       )}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Star, MessageCircle } from 'lucide-react';
+import { ArrowRight, Star, ChatCircle } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import { User } from '../types';
 
@@ -52,7 +52,7 @@ const ActionButtonsSection: React.FC<ActionButtonsSectionProps> = ({
       {/* Sign In Prompt for Anonymous Users */}
       {!currentUser && (
         <div className="bg-cobalt border border-cobalt/30 rounded-[1.2rem] p-6 text-center">
-          <MessageCircle className="h-8 w-8 text-white mx-auto mb-3" />
+          <ChatCircle className="h-8 w-8 text-white mx-auto mb-3" />
           <h4 className="text-lg font-semibold text-white mb-2">Ready to Practice?</h4>
           <p className="text-base text-white/90 mb-4">
             Sign in to start practicing with AI and track your progress.

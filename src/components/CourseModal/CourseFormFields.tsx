@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertCircle, User, Mail, Lock, MessageCircle, Shield } from 'lucide-react';
+import { WarningCircle, User, Envelope, Lock, ChatCircle, Shield } from '@phosphor-icons/react';
 import { Course, AccessLevel } from '../../types';
 import ImageUploadField from './ImageUploadField';
 
@@ -69,7 +69,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
         />
         {errors.title && (
           <p id="title-error" className="mt-1 text-base text-red-600 flex items-center space-x-1">
-            <AlertCircle className="h-4 w-4" />
+            <WarningCircle className="h-4 w-4" />
             <span>{errors.title}</span>
           </p>
         )}
@@ -97,7 +97,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
         />
         {errors.description && (
           <p id="description-error" className="mt-1 text-base text-red-600 flex items-center space-x-1">
-            <AlertCircle className="h-4 w-4" />
+            <WarningCircle className="h-4 w-4" />
             <span>{errors.description}</span>
           </p>
         )}
@@ -125,7 +125,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
         />
         {errors.videoUrl ? (
           <p id="videoUrl-error" className="mt-1 text-base text-red-600 flex items-center space-x-1">
-            <AlertCircle className="h-4 w-4" />
+            <WarningCircle className="h-4 w-4" />
             <span>{errors.videoUrl}</span>
           </p>
         ) : (
@@ -138,7 +138,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
       {/* NEW: AI Conversational Context */}
       <div>
         <label htmlFor="conversationalContext" className="block text-base font-semibold text-gray-900 mb-2 flex items-center space-x-2">
-          <MessageCircle className="h-5 w-5 text-[#002fa7]" />
+          <ChatCircle className="h-5 w-5 text-cobalt" />
           <span>AI Conversation Context ({formData.conversationalContext.length}/1000)</span>
         </label>
         <textarea
@@ -157,7 +157,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
         />
         {errors.conversationalContext ? (
           <p id="conversationalContext-error" className="mt-1 text-base text-red-600 flex items-center space-x-1">
-            <AlertCircle className="h-4 w-4" />
+            <WarningCircle className="h-4 w-4" />
             <span>{errors.conversationalContext}</span>
           </p>
         ) : (
@@ -170,7 +170,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
       {/* Tavus AI Conversation URL - Updated placeholder and help text */}
       <div>
         <label htmlFor="tavusConversationUrl" className="block text-base font-semibold text-gray-900 mb-2 flex items-center space-x-2">
-          <MessageCircle className="h-5 w-5 text-[#002fa7]" />
+          <ChatCircle className="h-5 w-5 text-cobalt" />
           <span>Legacy Tavus URL (Optional)</span>
         </label>
         <input
@@ -188,7 +188,7 @@ const CourseFormFields: React.FC<CourseFormFieldsProps> = ({
         />
         {errors.tavusConversationUrl ? (
           <p id="tavusUrl-error" className="mt-1 text-base text-red-600 flex items-center space-x-1">
-            <AlertCircle className="h-4 w-4" />
+            <WarningCircle className="h-4 w-4" />
             <span>{errors.tavusConversationUrl}</span>
           </p>
         ) : (

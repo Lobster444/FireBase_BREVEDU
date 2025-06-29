@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageCircle, CheckCircle, RotateCcw, AlertTriangle } from 'lucide-react';
+import { ChatCircle, CheckCircle, ArrowsClockwise, Warning } from '@phosphor-icons/react';
 import { Course, User } from '../types';
 
 interface AIPracticeStatus {
@@ -42,7 +42,7 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
             : 'bg-grey text-gray-500 cursor-not-allowed opacity-60'
         }`}
       >
-        <MessageCircle className="h-6 w-6" />
+        <ChatCircle className="h-6 w-6" />
         <span>Practice with AI</span>
       </button>
       
@@ -59,7 +59,7 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
           <p className="text-base text-red font-medium">
             ❌ {aiPracticeStatus.reason}
           </p>
-        ) : (
+          <Warning className="h-5 w-5 flex-shrink-0" />
           <p className="text-base text-gray-700">
             {aiPracticeStatus.reason}
           </p>

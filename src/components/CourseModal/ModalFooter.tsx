@@ -1,5 +1,5 @@
 import React from 'react';
-import { Save, Loader2 } from 'lucide-react';
+import { FloppyDisk, Spinner } from '@phosphor-icons/react';
 
 interface ModalFooterProps {
   mode: 'add' | 'edit';
@@ -32,12 +32,12 @@ const ModalFooter: React.FC<ModalFooterProps> = ({
       >
         {isSubmitting ? (
           <>
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <Spinner className="h-4 w-4 animate-spin" />
             <span>{mode === 'add' ? 'Creating...' : 'Updating...'}</span>
           </>
         ) : (
           <>
-            <Save className="h-4 w-4" />
+            <FloppyDisk className="h-4 w-4" />
             <span>{mode === 'add' ? 'Create Course' : 'Update Course'}</span>
           </>
         )}

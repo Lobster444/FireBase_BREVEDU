@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Video, Play, Mic, Volume2, MessageCircle } from 'lucide-react';
+import { VideoCamera, Play, Microphone, SpeakerHigh, ChatCircle } from '@phosphor-icons/react';
 import { AccentButton } from './UIButtons';
 import { User } from '../types';
 
@@ -53,7 +53,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
         {/* Header */}
         <div className="text-center mb-16 sm:mb-20 lg:mb-24">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-cobalt rounded-[1.2rem] mb-8">
-            <MessageCircle className="h-8 w-8 text-white" />
+            <ChatCircle className="h-8 w-8 text-white" />
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-6 sm:mb-8">
             AI Practice Sessions
@@ -104,7 +104,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                       className="p-3 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-cobalt"
                       aria-label="Toggle microphone"
                     >
-                      <Mic className="h-5 w-5 text-gray-700" />
+                      <Microphone className="h-5 w-5 text-gray-700" />
                     </button>
                     <button 
                       className="p-4 bg-cobalt rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-cobalt"
@@ -116,7 +116,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
                       className="p-3 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-cobalt"
                       aria-label="Adjust volume"
                     >
-                      <Volume2 className="h-5 w-5 text-gray-700" />
+                      <SpeakerHigh className="h-5 w-5 text-gray-700" />
                     </button>
                   </div>
                   
@@ -131,7 +131,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
               
               {/* Floating Elements */}
               <div className="absolute -top-4 sm:-top-5 -right-4 sm:-right-5 bg-hyper-yellow rounded-full p-4 sm:p-5 shadow-xl">
-                <Video className="h-6 w-6 sm:h-7 sm:w-7 text-black" />
+                <VideoCamera className="h-6 w-6 sm:h-7 sm:w-7 text-black" />
               </div>
               <div className="absolute -bottom-4 sm:-bottom-5 -left-4 sm:-left-5 bg-cobalt rounded-full p-4 sm:p-5 shadow-xl">
                 <Play className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
@@ -172,7 +172,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
               <div className="bg-grey rounded-[1.2rem] p-7 border border-black/5 mb-10">
                 <div className="flex items-center space-x-5 mb-5">
                   <div className="w-12 h-12 bg-cobalt rounded-xl flex items-center justify-center">
-                    <Video className="h-6 w-6 text-white" />
+                    <VideoCamera className="h-6 w-6 text-white" />
                   </div>
                   <h4 className="text-xl font-bold text-black">Powered by Tavus AI</h4>
                 </div>
