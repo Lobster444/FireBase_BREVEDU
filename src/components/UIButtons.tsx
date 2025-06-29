@@ -1,18 +1,11 @@
-// Re-export the new standardized Button components for backward compatibility
-export { 
-  Button as PrimaryButton,
-  Button as AccentButton, 
-  Button as SecondaryButton,
-  Button as DangerButton,
-  LinkButton,
-  PillToggleButton,
-  IconButton
-} from './Button';
-
 // Wrapper components for backward compatibility with specific variants
 import React from 'react';
-import { Button } from './Button';
+import { Button, LinkButton, PillToggleButton, IconButton } from './Button';
 
+// Re-export components that don't have duplicates
+export { LinkButton, PillToggleButton, IconButton } from './Button';
+
+// Wrapper components with specific variants for backward compatibility
 export const PrimaryButton: React.FC<React.ComponentProps<typeof Button>> = (props) => (
   <Button variant="primary" {...props} />
 );
