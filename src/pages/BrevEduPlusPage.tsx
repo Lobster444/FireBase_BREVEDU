@@ -60,7 +60,12 @@ const BrevEduPlusPage: React.FC = () => {
           <div className="absolute inset-0 bg-grid-pattern opacity-30"></div>
           
           <div className="max-w-4xl mx-auto px-4">
-            <p className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-cobalt mb-6 sm:mb-8">
+            <div className="flex items-center justify-center mb-4 sm:mb-6">
+              <Sparkle className="h-12 w-12 sm:h-14 sm:w-14 text-cobalt mr-4" />
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black">BrevEdu+</h1>
+            </div>
+            
+            <p className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-cobalt mb-6 sm:mb-8 text-center">
               Supercharge Your Learning
             </p>
             <p className="text-xl sm:text-2xl lg:text-3xl text-gray-700 mb-10 sm:mb-14 max-w-3xl mx-auto leading-relaxed">
