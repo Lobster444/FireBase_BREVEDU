@@ -18,7 +18,6 @@
 .benefit-item {
   display: flex;
   align-items: center;
-  justify-content: center;
   color: var(--kelp, #007232);
   white-space: nowrap;
 }
@@ -47,11 +46,13 @@
 @media (min-width: 1024px) {
   .benefits-grid {
     flex-wrap: nowrap;
-    justify-content: space-around;
+    justify-content: space-between;
+    max-width: 100%;
+    padding: 0 1rem;
   }
   
   .benefit-item {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
   }
   
   .benefit-text {
