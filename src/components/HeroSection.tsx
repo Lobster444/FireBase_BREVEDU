@@ -36,7 +36,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         opacity={0.15}
         gridSize={160}
         strokeColor="rgba(59, 66, 196, 0.4)"
-        strokeWidth={2}
+        strokeWidth={1}
         dotColor="rgba(59, 66, 196, 0.5)"
         dotRadius={2}
       />
