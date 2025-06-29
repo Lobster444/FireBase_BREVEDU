@@ -309,22 +309,22 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                 currentUser.role === 'premium' ? 'text-currant' : 'text-kelp'
               }`}>{currentUser.role} Plan</p>
             </div>
-            <Button
-              variant="ghost"
-              size="xs"
-              onClick={() => {
-                console.log('Mobile Sign Out clicked'); // Debug log
-                console.log('🎯 Mobile Sign Out button clicked');
-                console.log('📱 Current user state:', currentUser?.email);
-                handleLogout();
-                console.log('🔄 handleLogout called');
-                setShowUserMenu(false);
-              }}
-             className="text-left px-0 mt-1 justify-start text-xs min-h-[32px] -ml-2"
-              icon={SignOut} 
-            >
-              <span>Sign Out</span>
-            </Button>
+            <div className="px-4 pt-2">
+              <button
+                onClick={() => {
+                  console.log('Mobile Sign Out clicked'); // Debug log
+                  console.log('🎯 Mobile Sign Out button clicked');
+                  console.log('📱 Current user state:', currentUser?.email);
+                  handleLogout();
+                  console.log('🔄 handleLogout called');
+                  setShowUserMenu(false);
+                }}
+                className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition-colors text-sm py-2 w-full text-left"
+              >
+                <SignOut className="h-4 w-4" />
+                <span>Sign Out</span>
+              </button>
+            </div>
           </div>
         )}
 
