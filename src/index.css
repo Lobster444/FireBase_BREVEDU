@@ -441,6 +441,7 @@
   .bg-grid-pattern {
     background-size: 12.5vw 12.5vw;
   }
+}
   
 ::-moz-selection {
   background-color: var(--text-selection-transparent);
