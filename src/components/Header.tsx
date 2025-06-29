@@ -223,44 +223,44 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
 
       {/* Mobile Header */}
       <div className="sm:hidden bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm">
-        <div className="flex items-center justify-between px-4 py-3">
+        <div className="flex items-center justify-between px-3 py-2.5 min-h-[60px]">
           {/* Mobile Logo */}
           <Link 
             to="/" 
-            className="flex items-center space-x-2 group focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF7A59] focus-visible:ring-opacity-40 focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded-[10px] p-1 -m-1 transition-all"
+            className="flex items-center space-x-1.5 group focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF7A59] focus-visible:ring-opacity-40 focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded-[10px] p-1 -m-1 transition-all flex-shrink-0"
             aria-label="Go to homepage"
             onClick={handleLogoClick}
           >
-            <div className="w-6 h-6 bg-[#002fa7] rounded-full flex items-center justify-center">
-              <div className="w-4 h-4 bg-white rounded-full"></div>
+            <div className="w-5 h-5 bg-[#002fa7] rounded-full flex items-center justify-center">
+              <ChatCircle className="h-3 w-3 text-white" />
             </div>
-            <h1 className="text-xl font-bold text-gray-900 group-hover:text-[#002fa7] transition-colors duration-300 ease-out">
+            <h1 className="text-lg font-bold text-gray-900 group-hover:text-[#002fa7] transition-colors duration-300 ease-out">
               BreVedu
             </h1>
           </Link>
 
           {/* Mobile Actions */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1.5 flex-shrink-0">
             {currentUser ? (
               /* Authenticated User - Show User Button + Menu */
               <>
                 <Button
                   variant="primary"
-                  size="sm"
+                  size="sm" 
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center space-x-2"
+                  className="flex items-center space-x-1 px-2 py-1.5 text-xs"
                   aria-expanded={showUserMenu}
                   aria-haspopup="true"
                   aria-label={`User menu for ${currentUser.name}`}
                   icon={User}
                 >
-                  <span className="max-w-[70px] truncate text-sm font-medium">{currentUser.name}</span>
+                  <span className="max-w-[50px] truncate text-xs font-medium">{currentUser.name}</span>
                 </Button>
                 <IconButton
                   icon={showMobileMenu ? X : List}
                   onClick={() => setShowMobileMenu(!showMobileMenu)}
                   variant="gray"
-                  size="md"
+                  size="sm"
                   aria-expanded={showMobileMenu}
                   aria-controls="mobile-menu"
                   aria-label="Toggle navigation menu"
@@ -272,6 +272,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                 <Button
                   variant="ghost"
                   size="sm"
+                  className="px-2 py-1.5 text-xs"
                   onClick={() => openAuthModal('login')}
                 >
                   Sign In
@@ -279,6 +280,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                 <Button
                   variant="primary"
                   size="sm"
+                  className="px-2 py-1.5 text-xs"
                   onClick={() => openAuthModal('register')}
                   aria-label="Create a new account"
                 >
@@ -288,7 +290,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                   icon={showMobileMenu ? X : List}
                   onClick={() => setShowMobileMenu(!showMobileMenu)}
                   variant="gray"
-                  size="md"
+                  size="sm"
                   aria-expanded={showMobileMenu}
                   aria-controls="mobile-menu"
                   aria-label="Toggle navigation menu"
@@ -300,7 +302,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
 
         {/* Mobile User Menu Dropdown - Only for authenticated users */}
         {currentUser && showUserMenu && (
-          <div ref={userMenuRefMobile} className="absolute right-4 top-16 bg-white border border-gray-200 rounded-[16px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] py-3 min-w-[220px] z-50 animate-slide-up">
+          <div ref={userMenuRefMobile} className="absolute right-3 top-[60px] bg-white border border-gray-200 rounded-[16px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] py-3 min-w-[200px] z-50 animate-slide-up">
             <div className="px-4 py-3 border-b border-gray-100">
               <p className="text-sm font-semibold text-gray-900">{currentUser.name}</p>
               <p className="text-xs text-gray-600">{currentUser.email}</p>
