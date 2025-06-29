@@ -42,14 +42,12 @@ const AnimatedGrid = ({
               stroke={strokeColor}
               strokeWidth={strokeWidth}
               fill="none"
-              initial={{ pathLength: 0, opacity: 0 }}
+              initial={{ pathLength: 0, opacity: 0.3 }}
               animate={{ pathLength: 1, opacity: 1 }}
               transition={{
                 duration: 2,
                 ease: "easeInOut",
-                repeat: Infinity,
-                repeatType: "reverse",
-                repeatDelay: 1
+                repeat: 0
               }}
             />
             <motion.circle
@@ -60,8 +58,8 @@ const AnimatedGrid = ({
               initial={{ scale: 0 }}
               animate={{ scale: [0, 1, 0] }}
               transition={{
-                duration: 3,
-                repeat: Infinity,
+                duration: 2.5,
+                repeat: 0,
                 delay: 0.5
               }}
             />
@@ -73,8 +71,8 @@ const AnimatedGrid = ({
               initial={{ scale: 0 }}
               animate={{ scale: [0, 1, 0] }}
               transition={{
-                duration: 3,
-                repeat: Infinity,
+                duration: 2.5,
+                repeat: 0,
                 delay: 1
               }}
             />
@@ -86,8 +84,8 @@ const AnimatedGrid = ({
               initial={{ scale: 0 }}
               animate={{ scale: [0, 1, 0] }}
               transition={{
-                duration: 3,
-                repeat: Infinity,
+                duration: 2.5,
+                repeat: 0,
                 delay: 1.5
               }}
             />
@@ -99,8 +97,8 @@ const AnimatedGrid = ({
               initial={{ scale: 0 }}
               animate={{ scale: [0, 1, 0] }}
               transition={{
-                duration: 3,
-                repeat: Infinity,
+                duration: 2.5,
+                repeat: 0,
                 delay: 2
               }}
             />
