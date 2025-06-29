@@ -194,6 +194,15 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                       >
                         <span>Sign Out</span>
                       </Button>
+                      <Button
+                        variant="ghost"
+                        size="xs"
+                        onClick={handleLogout}
+                        className="w-full text-left px-4 mt-1 justify-start text-xs min-h-[32px]"
+                        icon={SignOut}
+                      >
+                        <span>Sign Out</span>
+                      </Button>
                     </div>
                   )}
                 </div>
@@ -320,7 +329,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                 console.log('🔄 handleLogout called');
                 setShowUserMenu(false);
               }}
-             className="text-left px-0 mt-1 justify-start text-xs min-h-[32px] -ml-2"
+             className="w-full text-left px-4 mt-1 justify-start text-xs min-h-[32px]"
               icon={SignOut} 
             >
               <span>Sign Out</span>
