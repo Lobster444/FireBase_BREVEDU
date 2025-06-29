@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, MessageCircle } from 'lucide-react';
+import { ArrowRight, ChatCircle } from '@phosphor-icons/react';
 import CourseCard from './CourseCard';
 import { AccentButton, SecondaryButton, PillToggleButton } from './UIButtons';
 import { categories } from '../data/mockCourses';
@@ -60,7 +60,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
       <div className="max-w-screen-2xl mx-auto">
         <div className="flex flex-col items-center text-center mb-10 sm:mb-14 lg:mb-16">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-cobalt rounded-[1.2rem] mb-8">
-            <MessageCircle className="h-10 w-10 text-white" />
+            <ChatCircle className="h-10 w-10 text-white" />
           </div>
           <div className="mb-6 sm:mb-8">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-6 sm:mb-8">
