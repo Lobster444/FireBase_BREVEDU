@@ -63,6 +63,9 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
             <MessageCircle className="h-8 w-8 text-white" />
           </div>
           <div className="mb-4 sm:mb-6">
+            <MessageCircle className="h-8 w-8 text-white" />
+          </div>
+          <div className="mb-4 sm:mb-6">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
               Featured Boost Courses
             </h2>
@@ -95,7 +98,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
 
         {/* Loading State */}
         {loading && (
-          <div className="text-center py-8 sm:py-12">
+          <div className="text-center py-8 sm:py-12 bg-light-red rounded-[1.2rem] p-6">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-cobalt"></div>
             <p className="text-lg sm:text-xl text-gray-600 mt-4">Loading courses...</p>
           </div>
