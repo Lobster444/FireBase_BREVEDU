@@ -177,6 +177,7 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
                       onChange={(e) => setEmail(e.target.value)}
                       className="w-full pl-10 pr-4 py-4 bg-white border border-gray-300 rounded-[1.2rem] text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:border-cobalt focus:ring-2 focus:ring-cobalt/20 transition-all"
                       placeholder="Enter your email address"
+                }
               <div className="bg-blue-50 border border-blue-200 rounded-[1.2rem] p-3 text-blue-900">
                       disabled={isSubmitting}
                     />
@@ -211,10 +212,12 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
                 </p>
               </div>
             </div>
+          )
           )}
         </div>
       </div>
     </div>
+  )
   );
 };
 
