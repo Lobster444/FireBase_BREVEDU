@@ -312,7 +312,6 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             <Button
               variant="ghost"
               size="xs"
-              fullWidth
               onClick={() => {
                 console.log('Mobile Sign Out clicked'); // Debug log
                 console.log('🎯 Mobile Sign Out button clicked');
