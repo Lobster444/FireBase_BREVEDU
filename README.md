@@ -20,16 +20,6 @@ A modern learning platform built with React, TypeScript, and Firebase that deliv
 - **Icons**: Phosphor Icons
 - **Video Player**: Plyr React
 
-## Fonts
-
-The application uses the following custom fonts:
-
-- **Rooftop**: Primary font for body text and headings
-- **ManyChatGravity**: Used for special headings
-- **CoFo Sans Mono**: Used for monospace text
-
-All fonts are self-hosted in the `/public/fonts` directory.
-
 ## Getting Started
 
 ### Prerequisites
