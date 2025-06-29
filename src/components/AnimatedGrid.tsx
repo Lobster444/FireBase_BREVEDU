@@ -13,7 +13,7 @@ interface AnimatedGridProps {
 
 const AnimatedGrid = ({
   className = "absolute inset-0",
-  opacity = 0.15,
+  opacity = 0.2,
   gridSize = 60,
   strokeColor = "rgba(0,0,0,0.15)",
   strokeWidth = 1,
@@ -42,12 +42,14 @@ const AnimatedGrid = ({
               stroke={strokeColor}
               strokeWidth={strokeWidth}
               fill="none"
-              initial={{ pathLength: 0, opacity: 0.3 }}
+              initial={{ pathLength: 0, opacity: 0 }}
               animate={{ pathLength: 1, opacity: 1 }}
               transition={{
                 duration: 2,
                 ease: "easeInOut",
-                repeat: 0
+                repeat: Infinity,
+                repeatType: "reverse",
+                repeatDelay: 1
               }}
             />
             <motion.circle
@@ -58,8 +60,8 @@ const AnimatedGrid = ({
               initial={{ scale: 0 }}
               animate={{ scale: [0, 1, 0] }}
               transition={{
-                duration: 2.5,
-                repeat: 0,
+                duration: 3,
+                repeat: Infinity,
                 delay: 0.5
               }}
             />
@@ -71,8 +73,8 @@ const AnimatedGrid = ({
               initial={{ scale: 0 }}
               animate={{ scale: [0, 1, 0] }}
               transition={{
-                duration: 2.5,
-                repeat: 0,
+                duration: 3,
+                repeat: Infinity,
                 delay: 1
               }}
             />
@@ -84,8 +86,8 @@ const AnimatedGrid = ({
               initial={{ scale: 0 }}
               animate={{ scale: [0, 1, 0] }}
               transition={{
-                duration: 2.5,
-                repeat: 0,
+                duration: 3,
+                repeat: Infinity,
                 delay: 1.5
               }}
             />
@@ -97,8 +99,8 @@ const AnimatedGrid = ({
               initial={{ scale: 0 }}
               animate={{ scale: [0, 1, 0] }}
               transition={{
-                duration: 2.5,
-                repeat: 0,
+                duration: 3,
+                repeat: Infinity,
                 delay: 2
               }}
             />
