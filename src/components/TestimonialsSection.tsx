@@ -1,6 +1,7 @@
 import React from 'react';
 import { Quotes, Star } from '@phosphor-icons/react';
 import { User } from '../types';
+import './testimonials.css';
 
 interface TestimonialsSectionProps {
   currentUser: User | null;
@@ -64,7 +65,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
                 <Quotes className="h-6 w-6 text-cobalt mr-3" />
                 <div className="flex">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-hyper-yellow fill-current" />
+                    <Star key={i} className="h-5 w-5 star-icon" weight="fill" />
                   ))}
                 </div>
               </div>

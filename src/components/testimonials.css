@@ -1,0 +1,5 @@
+/* Custom styles for testimonial stars */
+.star-icon {
+  color: #fff100; /* hyper-yellow */
+  filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.5));
+}
