@@ -17,7 +17,6 @@ const Footer: React.FC = () => {
             <a href="#" className="text-white/80 hover:text-white transition-colors text-lg">About</a>
             <a href="#" className="text-white/80 hover:text-white transition-colors text-lg">Courses</a>
             <a href="#" className="text-white/80 hover:text-white transition-colors text-lg">Pricing</a>
-            <a href="#" className="text-white/80 hover:text-white transition-colors text-lg">Contact</a>
           </div>
           
           <p className="text-white/60 text-base">
