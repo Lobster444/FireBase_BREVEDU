@@ -109,7 +109,7 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
@@ -117,16 +117,16 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
     >
       <div 
         ref={modalRef}
-        className="bg-white rounded-headspace-2xl w-full max-w-md shadow-[0_8px_32px_rgba(0,0,0,0.15)] overflow-hidden"
+        className="bg-white rounded-[1.6rem] w-full max-w-md shadow-xl overflow-hidden"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <h2 id="coming-soon-title" className="text-xl font-bold text-gray-900">
+        <div className="flex items-center justify-between p-6 border-b border-black/5">
+          <h2 id="coming-soon-title" className="text-xl font-bold text-black">
             Coming Soon
           </h2>
           <button
             onClick={onClose}
-            className="icon-button icon-button-gray p-2 rounded-headspace-md"
+            className="icon-button icon-button-gray p-2 rounded-[0.8rem]"
             aria-label="Close modal"
           >
             <X className="h-5 w-5" />
@@ -138,13 +138,13 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
           {isSuccess ? (
             // Success State
             <div className="text-center">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="h-8 w-8 text-emerald-600" />
+              <div className="w-16 h-16 bg-hazel/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="h-8 w-8 text-kelp" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-black mb-2">
                 Thanks, we'll let you know!
               </h3>
-              <p className="text-base text-gray-600">
+              <p className="text-base text-gray-700">
                 You'll be among the first to know when BrevEdu+ launches.
               </p>
             </div>
@@ -152,8 +152,8 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
             // Form State
             <>
               <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Mail className="h-8 w-8 text-primary" />
+                <div className="w-16 h-16 bg-cobalt/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Mail className="h-8 w-8 text-cobalt" />
                 </div>
                 <p className="text-base text-gray-700 leading-relaxed">
                   This feature is currently in development. Leave your email and we'll notify you when it's available.
@@ -163,7 +163,7 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Email Input */}
                 <div>
-                  <label htmlFor="waitlist-email" className="block text-sm font-medium text-gray-900 mb-2">
+                  <label htmlFor="waitlist-email" className="block text-sm font-medium text-black mb-2">
                     Email Address
                   </label>
                   <div className="relative">
@@ -174,7 +174,7 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
                       id="waitlist-email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-headspace-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                      className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-[1.2rem] text-gray-900 placeholder-gray-500 focus:outline-none focus:border-cobalt focus:ring-2 focus:ring-cobalt/20 transition-all"
                       placeholder="Enter your email address"
                       required
                       disabled={isSubmitting}
@@ -184,7 +184,7 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
 
                 {/* Error Message */}
                 {error && (
-                  <div className="flex items-center space-x-2 text-red-600 text-sm">
+                  <div className="flex items-center space-x-2 text-red text-sm">
                     <AlertCircle className="h-4 w-4 flex-shrink-0" />
                     <span>{error}</span>
                   </div>
@@ -194,7 +194,7 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
                 <button
                   type="submit"
                   disabled={isSubmitting || !email.trim()}
-                  className="w-full bg-primary text-white px-6 py-3 rounded-headspace-lg text-base font-medium hover:bg-primary-hover transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                  className="w-full bg-cobalt text-white px-6 py-3 rounded-[1.2rem] text-base font-medium hover:bg-[#4a4fd9] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                 >
                   {isSubmitting ? (
                     <>
@@ -209,7 +209,7 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
 
               {/* Additional Info */}
               <div className="mt-4 text-center">
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-600">
                   We'll only use your email to notify you about BrevEdu+ availability.
                 </p>
               </div>

@@ -17,7 +17,7 @@ const AnalyticsWrapper: React.FC<{ children: React.ReactNode }> = ({ children })
 };
 function App() {
   return (
-    <div className="font-inter antialiased font-feature-default">
+    <div className="font-sans antialiased">
       <AuthProvider>
         <Router>
           <ScrollToTop />
@@ -34,16 +34,16 @@ function App() {
           <ToastContainer
             position="top-center"
             autoClose={4000}
-            hideProgressBar={false}
+            hideProgressBar={true}
             newestOnTop={false}
             closeOnClick
             rtl={false}
             pauseOnFocusLoss
             draggable
             pauseOnHover
-            theme="dark"
-            toastClassName="bg-primary border border-neutral-gray/30 text-text-light font-inter"
-            progressClassName="bg-accent-yellow"
+            theme="light"
+            toastClassName="bg-white border border-black/5 text-black font-sans rounded-[0.8rem] shadow-lg"
+            progressClassName="bg-hyper-yellow"
           />
         </Router>
       </AuthProvider>

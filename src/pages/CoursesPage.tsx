@@ -130,14 +130,14 @@ const CoursesPage: React.FC = () => {
   }
 
   return (
-    <PageTransition type="slide">
+    <PageTransition type="fade">
       <Layout currentPage="courses">
         {/* Header */}
-        <section className="px-padding-medium py-8 border-b border-gray-200 bg-white">
+        <section className="px-padding-medium py-8 border-b border-black/5 bg-white">
           <div className="max-w-screen-2xl mx-auto">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4">
               <div>
-                <h1 className="text-4xl font-bold text-gray-900 mb-2">All Courses</h1>
+                <h1 className="text-4xl font-bold text-black mb-2">All Courses</h1>
                 <p className="text-lg text-gray-700">
                   Explore our complete library of bite-sized video lessons
                 </p>
@@ -146,7 +146,7 @@ const CoursesPage: React.FC = () => {
               {/* User Access Level Info - Hide upgrade prompts for premium users */}
               {currentUser?.role !== 'premium' && (
                 <div className="mt-3 lg:mt-0">
-                  <div className="bg-gray-50 rounded-[12px] p-4 text-center lg:text-right border border-gray-200">
+                  <div className="bg-grey rounded-[1.2rem] p-4 text-center lg:text-right border border-black/5">
                     <div className={`text-lg font-semibold ${userAccessInfo.color}`}>
                       {userAccessInfo.level}
                     </div>
@@ -156,7 +156,7 @@ const CoursesPage: React.FC = () => {
                     {currentUser?.role === 'free' && (
                       <a
                         href="/brevedu-plus"
-                        className="inline-flex items-center space-x-1 text-[#002fa7] hover:text-[#0040d1] transition-colors text-base mt-2 font-medium"
+                        className="inline-flex items-center space-x-1 text-cobalt hover:text-[#4a4fd9] transition-colors text-base mt-2 font-medium"
                       >
                         <Crown className="h-4 w-4" />
                         <span>Upgrade Now</span>
@@ -168,7 +168,7 @@ const CoursesPage: React.FC = () => {
             </div>
 
             {/* Filters */}
-            <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-col items-center gap-4 mt-6">
               {/* Category Filter */}
               <div className="flex flex-wrap justify-center gap-2">
                 {categories.map((category) => (
@@ -185,20 +185,20 @@ const CoursesPage: React.FC = () => {
         </section>
 
         {/* Course Grid */}
-        <section className="px-padding-medium py-8 bg-white">
+        <section className="px-padding-medium py-8 bg-white border-t border-black/5">
           <div className="max-w-screen-2xl mx-auto">
             {/* Loading State */}
             {loading && (
-              <div className="text-center py-12">
-                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#002fa7]"></div>
+              <div className="text-center py-12 bg-grey rounded-[1.2rem] p-6">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-cobalt"></div>
                 <p className="text-lg text-gray-700 mt-4">Loading courses...</p>
               </div>
             )}
 
             {/* Error State */}
             {error && (
-              <div className="text-center py-12">
-                <p className="text-lg text-red-600 mb-4">{error}</p>
+              <div className="text-center py-12 bg-light-red rounded-[1.2rem] p-6">
+                <p className="text-lg text-red mb-4">{error}</p>
                 <AccentButton onClick={() => window.location.reload()}>
                   Try again
                 </AccentButton>
@@ -270,7 +270,7 @@ const CoursesPage: React.FC = () => {
                       {currentUser?.role !== 'premium' && (
                         <a
                           href="/brevedu-plus"
-                          className="text-[#002fa7] hover:text-[#0040d1] transition-colors text-base flex items-center space-x-1 font-medium"
+                          className="text-cobalt hover:text-[#4a4fd9] transition-colors text-base flex items-center space-x-1 font-medium"
                         >
                           <Crown className="h-4 w-4" />
                           <span>Unlock All Courses</span>
@@ -278,7 +278,7 @@ const CoursesPage: React.FC = () => {
                       )}
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                       {courses.map((course) => (
                         <CourseCard key={course.id} course={course} onClick={handleCourseClick} />
                       ))}
@@ -299,11 +299,11 @@ const CoursesPage: React.FC = () => {
 
         {/* Access Restricted Modal */}
         {showAccessModal && restrictedCourse && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-white border border-gray-200 rounded-[16px] w-full max-w-md p-6">
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white border border-black/5 rounded-[1.6rem] w-full max-w-md p-6 shadow-xl">
               <div className="text-center">
-                <Lock className="h-12 w-12 text-[#002fa7] mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Access Restricted</h3>
+                <Lock className="h-12 w-12 text-cobalt mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-black mb-2">Access Restricted</h3>
                 <p className="text-lg text-gray-700 mb-4">
                   This course requires: {getAccessLevelRequirement(restrictedCourse.accessLevel)}
                 </p>
@@ -311,7 +311,7 @@ const CoursesPage: React.FC = () => {
                 <div className="space-y-3">
                   {currentUser.role === 'free' && restrictedCourse.accessLevel === 'premium' ? (
                     <a href="/brevedu-plus" className="block">
-                      <PrimaryButton className="w-full">
+                      <PrimaryButton className="w-full shadow-lg">
                         Upgrade to BrevEdu+
                       </PrimaryButton>
                     </a>
@@ -319,7 +319,7 @@ const CoursesPage: React.FC = () => {
                   
                   <button
                     onClick={handleCloseAccessModal}
-                    className="w-full border border-gray-300 text-gray-700 px-6 py-3 rounded-[10px] text-lg font-medium hover:bg-gray-50 transition-all"
+                    className="w-full border border-black/10 text-gray-700 px-6 py-3 rounded-[1.2rem] text-lg font-medium hover:bg-grey transition-all"
                   >
                     Close
                   </button>

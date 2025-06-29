@@ -127,8 +127,8 @@ const HomePage: React.FC = () => {
   const userMessage = getUserMessage();
 
   return (
-    <PageTransition type="fade">
-      <div className="min-h-screen bg-gray-50">
+    <PageTransition type="slide">
+      <div className="min-h-screen bg-white">
         {/* Header - Full Width */}
         <Header currentPage="home" />
         
@@ -172,9 +172,6 @@ const HomePage: React.FC = () => {
         {/* Customer Testimonials Section */}
         <TestimonialsSection
           currentUser={currentUser}
-          onStartLearning={handleStartLearningFree}
-          onUpgrade={handleUpgradeClick}
-          onExploreCourses={handleExploreCourses}
         />
 
         {/* Course Detail Modal */}

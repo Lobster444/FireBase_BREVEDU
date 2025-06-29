@@ -135,18 +135,18 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
 
   return (
     <div className="relative">
-      <div className="w-full aspect-video bg-gray-100 rounded-[12px] overflow-hidden border border-gray-200 max-w-[640px] mx-auto lg:mx-0">
+      <div className="w-full aspect-video bg-grey rounded-[1.2rem] overflow-hidden border border-black/5 max-w-[640px] mx-auto lg:mx-0 shadow-lg">
         {videoError ? (
           <div className="w-full h-full flex items-center justify-center text-center p-6">
             <div>
-              <AlertCircle className="h-12 w-12 text-red-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Video failed to load</h3>
-              <p className="text-base text-gray-600 mb-4">
+              <AlertCircle className="h-12 w-12 text-red mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-black mb-2">Video failed to load</h3>
+              <p className="text-base text-gray-700 mb-4">
                 There was a problem loading the video. Please check your connection and try again.
               </p>
               <button
                 onClick={handleVideoRetry}
-                className="bg-[#FF7A59] text-white px-4 py-2 rounded-headspace-md text-base font-medium hover:bg-[#FF8A6B] transition-all flex items-center space-x-2 mx-auto"
+                className="bg-cobalt text-white px-4 py-2 rounded-[0.8rem] text-base font-medium hover:bg-[#4a4fd9] transition-all flex items-center space-x-2 mx-auto"
               >
                 <RefreshCw className="h-4 w-4" />
                 <span>Retry</span>
@@ -155,7 +155,7 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
           </div>
         ) : videoId && plyrSource ? (
           <div className="plyr__video-embed w-full h-full">
-            <Plyr
+            <Plyr 
               source={plyrSource}
               options={plyrOptions}
               onReady={() => {
@@ -190,10 +190,10 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
               aria-label="Course video preview"
             />
             {isVideoLoading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-headspace-xl">
+              <div className="absolute inset-0 flex items-center justify-center bg-grey rounded-[1.2rem]">
                 <div className="text-center">
-                  <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A59] mb-4"></div>
-                  <p className="text-base text-gray-600">Loading video...</p>
+                  <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-cobalt mb-4"></div>
+                  <p className="text-base text-gray-700">Loading video...</p>
                 </div>
               </div>
             )}
@@ -201,12 +201,12 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
         ) : (
           <div className="w-full h-full flex items-center justify-center text-center p-6">
             <div>
-              <AlertCircle className="h-12 w-12 text-red-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Invalid video URL</h3>
-              <p className="text-base text-gray-600">
+              <AlertCircle className="h-12 w-12 text-red mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-black mb-2">Invalid video URL</h3>
+              <p className="text-base text-gray-700">
                 The video URL is not valid or supported. Video ID: {videoId || 'Not found'}
               </p>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-gray-600 mt-2">
                 URL: {videoUrl}
               </p>
             </div>

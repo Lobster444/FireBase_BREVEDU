@@ -376,7 +376,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
   return (
     <>
       <div 
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
         onClick={handleBackdropClick}
         role="dialog"
         aria-modal="true"
@@ -385,19 +385,19 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
       >
         <div 
           ref={modalRef}
-          className="bg-white rounded-[16px] w-full max-w-4xl max-h-[90vh] overflow-y-auto md:max-h-[85vh] shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
+          className="bg-white rounded-[1.6rem] w-full max-w-4xl max-h-[90vh] overflow-y-auto md:max-h-[85vh] shadow-xl"
         >
           {/* Header */}
-          <div className="flex items-start justify-between p-padding-medium border-b border-gray-100">
+          <div className="flex items-start justify-between p-6 border-b border-black/5">
             <div className="flex-1 pr-4">
               <div className="flex items-center flex-wrap gap-2 mb-3">
-                <span className="text-sm text-[#002fa7] bg-[#002fa7]/10 px-3 py-1 rounded-headspace-md font-semibold">
+                <span className="text-sm text-cobalt bg-cobalt/10 px-3 py-1 rounded-[0.8rem] font-semibold">
                   {course.category}
                 </span>
                 <span className={`text-sm px-3 py-1 rounded-full font-medium ${
                   (course.accessLevel || 'free') === 'premium' 
-                    ? 'bg-[#C967D3] text-white' 
-                    : 'bg-[#6D9A52] text-white'
+                    ? 'bg-currant text-white' 
+                    : 'bg-kelp text-white'
                 }`}>
                   {(course.accessLevel || 'free') === 'premium' ? 'Premium' : 'Free'}
                 </span>
@@ -406,34 +406,34 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
                   <span>{course.duration}</span>
                 </div>
                 {!course.published && (
-                  <span className="text-sm text-purple-800 bg-purple-100 px-3 py-1 rounded-headspace-md font-semibold">
+                  <span className="text-sm text-amethyst bg-thistle/50 px-3 py-1 rounded-[0.8rem] font-semibold">
                     Draft
                   </span>
                 )}
                 {(course.tavusConversationUrl || course.conversationalContext || course.id) && (
-                  <span className="text-sm text-primary bg-primary/10 px-3 py-1 rounded-headspace-md font-semibold flex items-center space-x-1">
+                  <span className="text-sm text-cobalt bg-cobalt/10 px-3 py-1 rounded-[0.8rem] font-semibold flex items-center space-x-1">
                     <MessageCircle className="h-3 w-3" />
                     <span>AI Practice</span>
                   </span>
                 )}
               </div>
-              <h1 id="course-modal-title" className="text-2xl font-bold text-gray-900 mb-2 leading-tight">
+              <h1 id="course-modal-title" className="text-2xl font-bold text-black mb-2 leading-tight">
                 {course.title}
               </h1>
             </div>
             <button
               onClick={onClose}
-              className="icon-button icon-button-gray p-2 rounded-headspace-md flex-shrink-0"
+              className="icon-button icon-button-gray p-2 rounded-[0.8rem] flex-shrink-0"
               aria-label="Close course details"
             >
               <X className="h-6 w-6" />
             </button>
           </div>
 
-          <div className="p-padding-medium">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
+          <div className="p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 relative">
               {/* Left Column - Video and Description */}
-              <div className="lg:col-span-2 flex flex-col space-y-6">
+              <div className="lg:col-span-2 flex flex-col space-y-8">
                 {/* Video Player */}
                 <VideoPlayerSection
                   videoUrl={course.videoUrl}

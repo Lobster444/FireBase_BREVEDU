@@ -38,8 +38,8 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
         disabled={!aiPracticeStatus.available}
         className={`w-full px-6 py-4 rounded-headspace-lg text-lg font-medium transition-all shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex items-center justify-center space-x-3 text-white ${
           aiPracticeStatus.available
-            ? 'bg-primary text-white hover:bg-primary-hover'
-            : 'bg-gray-200 text-gray-500 cursor-not-allowed opacity-60'
+            ? 'bg-cobalt text-white hover:bg-[#4a4fd9]'
+            : 'bg-grey text-gray-500 cursor-not-allowed opacity-60'
         }`}
       >
         <MessageCircle className="h-5 w-5" />
@@ -49,18 +49,18 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
       {/* Status Messages */}
       <div className="mt-2 text-center">
         {aiPracticeStatus.isDisabledByAdmin ? (
-          <div className="flex items-center justify-center space-x-2 text-orange-600">
-            <AlertTriangle className="h-4 w-4" />
+          <div className="flex items-center justify-center space-x-2 text-gold">
+            <AlertTriangle className="h-4 w-4 flex-shrink-0" />
             <p className="text-sm font-medium">
               {aiPracticeStatus.reason}
             </p>
           </div>
         ) : aiPracticeStatus.isLimitReached ? (
-          <p className="text-sm text-red-600 font-medium">
+          <p className="text-sm text-red font-medium">
             ❌ {aiPracticeStatus.reason}
           </p>
         ) : (
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-700">
             {aiPracticeStatus.reason}
           </p>
         )}
