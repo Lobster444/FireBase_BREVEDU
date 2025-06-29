@@ -14,6 +14,7 @@ import { useAuth } from '../contexts/AuthContext';
 
 const CoursesPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [showCourseModal, setShowCourseModal] = useState(false);
   const [showAccessModal, setShowAccessModal] = useState(false);
@@ -39,6 +40,19 @@ const CoursesPage: React.FC = () => {
     currentUser?.role || null,
     true // Include restricted courses so free users can see premium courses
   );
+
+  // Handle smooth category transitions
+  const handleCategoryChange = (category: string) => {
+    if (category === selectedCategory) return;
+    
+    setIsTransitioning(true);
+    setSelectedCategory(category);
+    
+    // Reset transition state after a brief delay
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, 150);
+  };
 
   const handleCourseClick = (course: Course) => {
     // Check if free user is trying to access premium course
@@ -73,7 +87,7 @@ const CoursesPage: React.FC = () => {
   };
 
   const clearAllFilters = () => {
-    setSelectedCategory('All');
+    handleCategoryChange('All');
     // Use navigation state to prevent scroll to top when changing filters
     navigate(location.pathname, { 
       state: { disableScroll: true },
@@ -177,7 +191,7 @@ const CoursesPage: React.FC = () => {
                     key={category}
                     label={category}
                     active={selectedCategory === category}
-                    onClick={() => setSelectedCategory(category)}
+                    onClick={() => handleCategoryChange(category)}
                     className="flex-shrink-0"
                   />
                 ))}
@@ -190,16 +204,18 @@ const CoursesPage: React.FC = () => {
         {/* Course Grid */}
         <section className="px-padding-medium py-2 sm:py-3 bg-white">
           <div className="max-w-screen-2xl mx-auto">
-            {/* Loading State */}
-            {loading && (
+            {/* Loading State - Show during initial load or transitions */}
+            {(loading || isTransitioning) && (
               <div className="text-center py-8 sm:py-12 bg-grey rounded-[1.2rem] p-4 sm:p-6">
                 <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-cobalt"></div>
-                <p className="text-base sm:text-lg text-gray-700 mt-3 sm:mt-4">Loading courses...</p>
+                <p className="text-base sm:text-lg text-gray-700 mt-3 sm:mt-4">
+                  {isTransitioning ? 'Switching topics...' : 'Loading courses...'}
+                </p>
               </div>
             )}
 
             {/* Error State */}
-            {error && (
+            {error && !isTransitioning && (
               <div className="text-center py-8 sm:py-12 bg-light-red rounded-[1.2rem] p-4 sm:p-6">
                 <p className="text-base sm:text-lg text-red mb-3 sm:mb-4">{error}</p>
                 <AccentButton onClick={() => window.location.reload()}>
@@ -209,7 +225,7 @@ const CoursesPage: React.FC = () => {
             )}
 
             {/* Results */}
-            {!loading && !error && (
+            {!loading && !error && !isTransitioning && (
               <>
                 {courses.length === 0 ? (
                   <div className="text-center py-8 sm:py-12">
@@ -244,7 +260,7 @@ const CoursesPage: React.FC = () => {
                             <PillToggleButton
                               label="View all courses"
                               active={false}
-                              onClick={() => setSelectedCategory('All')}
+                              onClick={() => handleCategoryChange('All')}
                             />
                           </>
                         )}
@@ -281,7 +297,7 @@ const CoursesPage: React.FC = () => {
                       )}
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 transition-opacity duration-200 ease-in-out">
                       {courses.map((course) => (
                         <CourseCard key={course.id} course={course} onClick={handleCourseClick} />
                       ))}

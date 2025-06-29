@@ -12,11 +12,17 @@ export const useCourses = (
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [previousCategory, setPreviousCategory] = useState<string | undefined>(category);
 
   useEffect(() => {
+    // Only show loading for initial load or category changes
+    if (category !== previousCategory) {
+      setLoading(true);
+      setPreviousCategory(category);
+    }
+    
     const fetchCourses = async () => {
       try {
-        setLoading(true);
         setError(null);
 
         let coursesQuery;
@@ -89,7 +95,7 @@ export const useCourses = (
     };
 
     fetchCourses();
-  }, [category, isPremiumOnly, userRole, includeRestricted]);
+  }, [category, isPremiumOnly, userRole, includeRestricted, previousCategory]);
 
   return { courses, loading, error };
 };
