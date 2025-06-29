@@ -114,20 +114,10 @@ export default {
           '0%': { transform: 'scale(0.96) translateZ(0)', opacity: '0' },
           '100%': { transform: 'scale(1) translateZ(0)', opacity: '1' },
         },
-        'grid-pan': {
-          '0%': { backgroundPosition: '0% 0%' },
-          '50%': { backgroundPosition: '100% 50%' },
-          '100%': { backgroundPosition: '0% 100%' }
-        },
       },
       transitionTimingFunction: {
         'ease-mc': 'cubic-bezier(0.43, 0.195, 0.02, 1)',
       },
-      animation: {
-        'grid-pan': 'grid-pan 30s ease-in-out infinite',
-        'grid-pan-slow': 'grid-pan 50s ease-in-out infinite',
-        'grid-pan-fast': 'grid-pan 20s ease-in-out infinite',
-      }
     },
   },
   plugins: [],

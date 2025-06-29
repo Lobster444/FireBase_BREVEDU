@@ -46,8 +46,8 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
       {/* Section Divider */}
       <div className="absolute top-0 left-0 right-0 h-px bg-black/10"></div>
       
-      {/* Animated background grid pattern */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-40 animate-grid-pan"></div>
+      {/* Background grid pattern */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-50"></div>
       
       <div className="max-w-screen-2xl mx-auto">
         {/* Header */}
@@ -140,13 +140,8 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
           </div>
 
           {/* Right Side - Benefits & CTA */}
-          <div className="order-1 lg:order-2 relative z-10 perspective-1000">
-            <div className="bg-white rounded-[1.6rem] p-8 sm:p-10 shadow-xl border border-black/5 hover:shadow-2xl hover:border-cobalt/20 transition-all duration-500 group relative hover:translate-y-[-5px]">
-              {/* Subtle animated grid background for card */}
-              <div className="absolute inset-0 rounded-[1.6rem] overflow-hidden">
-                <div className="absolute inset-0 bg-grid-pattern opacity-[0.03] animate-grid-pan-slow"></div>
-              </div>
-              
+          <div className="order-1 lg:order-2 relative z-10">
+            <div className="bg-white rounded-[1.6rem] p-8 sm:p-10 shadow-xl border border-black/5 hover:shadow-2xl hover:border-cobalt/20 transition-all duration-500 group relative">
               {/* Benefits List */}
               <div>
                 <h3 className="text-3xl font-bold text-black mb-8 group-hover:text-cobalt transition-colors duration-300">

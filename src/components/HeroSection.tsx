@@ -29,19 +29,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       {/* Section Divider */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
       
-      {/* Animated grid background */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-10 animate-grid-pan-slow"></div>
-      
-      {/* Decorative elements */}
-      <div className="absolute top-10 left-10 w-20 h-20 bg-blue-100 rounded-full opacity-40 blur-xl animate-pulse"></div>
-      <div className="absolute bottom-10 right-10 w-32 h-32 bg-purple-100 rounded-full opacity-30 blur-xl animate-pulse"></div>
-      <div className="absolute top-1/4 right-1/4 w-16 h-16 bg-cobalt/10 rounded-full opacity-30 blur-lg"></div>
-      <div className="absolute bottom-1/3 left-1/4 w-24 h-24 bg-hyper-yellow/10 rounded-full opacity-20 blur-lg"></div>
+      {/* Background decorative elements */}
+      <div className="absolute top-10 left-10 w-20 h-20 bg-blue-100 rounded-full opacity-50 blur-xl"></div>
+      <div className="absolute bottom-10 right-10 w-32 h-32 bg-purple-100 rounded-full opacity-40 blur-xl"></div>
       
       <div className="max-w-screen-2xl mx-auto px-6 sm:px-12 lg:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16 lg:gap-20 xl:gap-24 items-center">
           {/* Text Content */}
-          <div className="text-center lg:text-left space-y-8 sm:space-y-10 relative z-10">
+          <div className="text-center lg:text-left space-y-8 sm:space-y-10">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
               {userMessage.title.includes('Just 5 Minutes') ? (
                 <>
@@ -91,15 +86,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
 
           {/* Hero Image */}
-          <div className="flex justify-center lg:justify-end relative z-10">
-            <div className="relative max-w-sm sm:max-w-lg w-full transform hover:scale-105 transition-transform duration-700 mt-8 lg:mt-0 hover:shadow-2xl">
+          <div className="flex justify-center lg:justify-end">
+            <div className="relative max-w-sm sm:max-w-lg w-full transform hover:scale-105 transition-transform duration-500 mt-8 lg:mt-0">
               <img 
                 src="/41b02b86-3dc4-46c7-b506-8c61fd37e4b1 copy.png"
                 alt="Interactive learning interface showing mobile app with AI tutor and course content"
-                className="w-full h-auto rounded-[1.2rem] sm:rounded-[1.6rem] shadow-xl relative z-10"
+                className="w-full h-auto rounded-[1.2rem] sm:rounded-[1.6rem] shadow-xl"
                 loading="eager"
               />
-              <div className="absolute -inset-4 bg-gradient-to-r from-cobalt/20 via-transparent to-hyper-yellow/20 rounded-[2rem] blur-xl opacity-70 -z-10 animate-pulse"></div>
             </div>
           </div>
         </div>
