@@ -187,7 +187,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                       </div>
                       <Button
                         variant="ghost"
-                       size="sm"
+                        size="sm"
                         fullWidth
                         onClick={handleLogout}
                         className="text-left px-2 mt-1 justify-start text-sm"
@@ -197,7 +197,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                       </Button>
                     </div>
                   )}
-                       className="text-left px-2 mt-1 justify-start text-sm py-2"
+                </div>
               ) : (
                 <div className="flex items-center space-x-4">
                   <Button
