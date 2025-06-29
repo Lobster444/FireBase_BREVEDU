@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, ArrowRight, Star, Quote } from 'lucide-react';
+import { Sparkle, ArrowRight, Star, Quotes } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import PageTransition from '../components/PageTransition';
 import Layout from '../components/Layout';
