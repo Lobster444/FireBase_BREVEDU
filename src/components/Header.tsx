@@ -223,7 +223,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
 
       {/* Mobile Header */}
       <div className="sm:hidden bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm">
-        <div className="flex items-center justify-between p-padding-small">
+        <div className="flex items-center justify-between px-4 py-3">
           {/* Mobile Logo */}
           <Link 
             to="/" 
@@ -340,7 +340,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             id="mobile-menu"
             className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-[0_8px_32px_rgba(0,0,0,0.12)] z-50 transform transition-transform duration-300 ease-out"
           >
-            <div className="p-padding-medium">
+            <div className="p-6">
               {/* Mobile Menu Header */}
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-xl font-bold text-gray-900">Menu</h2>

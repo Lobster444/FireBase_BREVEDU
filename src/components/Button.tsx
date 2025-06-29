@@ -50,7 +50,7 @@ export const Button: React.FC<BaseButtonProps> = ({
   // Size variants
   const sizeStyles = {
     sm: 'px-4 py-2 text-sm',
-    md: 'px-6 py-3 text-base',
+    md: 'px-5 py-3 text-base',
     lg: 'px-8 py-4 text-lg'
   };
 
