@@ -353,7 +353,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                   variant="gray"
                   size="md"
                   aria-label="Close menu"
-                  className="text-left px-2 mt-2 justify-start"
+                />
               </div>
             </div>
 
