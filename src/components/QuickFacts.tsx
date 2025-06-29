@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle } from '@phosphor-icons/react';
 import { Course } from '../types';
 
 interface QuickFactsProps {

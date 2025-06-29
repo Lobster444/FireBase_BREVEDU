@@ -1,5 +1,5 @@
 import React from 'react';
-import { DivideIcon as LucideIcon } from 'lucide-react';
+import { Divide as PhosphorIcon } from '@phosphor-icons/react';
 
 interface BaseButtonProps {
   children: React.ReactNode;
@@ -8,7 +8,7 @@ interface BaseButtonProps {
   type?: 'button' | 'submit' | 'reset';
   className?: string;
   'aria-label'?: string;
-  icon?: LucideIcon;
+  icon?: PhosphorIcon;
   iconPosition?: 'left' | 'right';
   size?: 'sm' | 'md' | 'lg';
   variant?: 'primary' | 'secondary' | 'accent' | 'danger' | 'ghost';
@@ -125,7 +125,7 @@ export const Button: React.FC<BaseButtonProps> = ({
  * For buttons that only contain an icon
  */
 interface IconButtonProps {
-  icon: LucideIcon;
+  icon: PhosphorIcon;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   'aria-label': string;

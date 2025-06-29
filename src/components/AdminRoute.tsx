@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Shield, AlertTriangle } from 'lucide-react';
+import { Shield, Warning } from '@phosphor-icons/react';
 
 interface AdminRouteProps {
   children: React.ReactNode;
@@ -26,7 +26,7 @@ const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center p-6">
         <div className="bg-grey rounded-[1.6rem] p-8 max-w-md w-full text-center shadow-lg border border-black/5">
-          <AlertTriangle className="h-12 w-12 text-hyper-yellow mx-auto mb-4" />
+          <Warning className="h-12 w-12 text-hyper-yellow mx-auto mb-4" />
           <h2 className="text-3xl font-bold text-black mb-4">Authentication Required</h2>
           <p className="text-lg text-gray-700 mb-6">
             You must be signed in to access the admin panel.

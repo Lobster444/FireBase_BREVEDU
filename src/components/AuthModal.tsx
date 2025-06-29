@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, User, Mail, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import { X, User, Envelope, Lock, Eye, EyeSlash, WarningCircle } from '@phosphor-icons/react';
 import { useAuth } from '../contexts/AuthContext';
 import { notifySuccess, notifyError } from '../lib/toast';
 import { Button, IconButton } from './Button';
@@ -213,7 +213,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
                 </div>
                 {errors.name && (
                   <p className="mt-1 text-sm text-red-600 flex items-center space-x-1">
-                    <AlertCircle className="h-4 w-4" />
+                    <WarningCircle className="h-4 w-4" />
                     <span>{errors.name}</span>
                   </p>
                 )}
@@ -226,7 +226,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Envelope className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
                   ref={mode === 'login' ? firstInputRef : undefined}
                   type="email"
@@ -245,7 +245,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
               </div>
               {errors.email && (
                 <p className="mt-1 text-sm text-red-600 flex items-center space-x-1">
-                  <AlertCircle className="h-4 w-4" />
+                  <WarningCircle className="h-4 w-4" />
                   <span>{errors.email}</span>
                 </p>
               )}
@@ -280,7 +280,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
                   disabled={isLoading}
                 >
                   {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
+                    <EyeSlash className="h-5 w-5" />
                   ) : (
                     <Eye className="h-5 w-5" />
                   )}
@@ -288,7 +288,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
               </div>
               {errors.password && (
                 <p className="mt-1 text-sm text-red-600 flex items-center space-x-1">
-                  <AlertCircle className="h-4 w-4" />
+                  <WarningCircle className="h-4 w-4" />
                   <span>{errors.password}</span>
                 </p>
               )}

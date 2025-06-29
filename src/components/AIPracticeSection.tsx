@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChatCircle, CheckCircle, ArrowsClockwise, Warning } from '@phosphor-icons/react';
+import { ChatCircle, CheckCircle, ArrowsClockwise, Warning, WarningCircle } from '@phosphor-icons/react';
 import { Course, User } from '../types';
 
 interface AIPracticeStatus {
@@ -56,13 +56,15 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
             </p>
           </div>
         ) : aiPracticeStatus.isLimitReached ? (
-          <p className="text-base text-red font-medium">
-            ❌ {aiPracticeStatus.reason}
-          </p>
-          <Warning className="h-5 w-5 flex-shrink-0" />
-          <p className="text-base text-gray-700">
-            {aiPracticeStatus.reason}
-          </p>
+            <WarningCircle className="h-5 w-5 flex-shrink-0" />
+            <p className="text-base text-red font-medium">
+              ❌ {aiPracticeStatus.reason}
+            </p>
+            <Warning className="h-5 w-5 flex-shrink-0" />
+            <p className="text-base text-gray-700">
+              {aiPracticeStatus.reason}
+            </p>
+          </>
         )}
       </div>
     </div>

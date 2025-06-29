@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, MessageCircle } from 'lucide-react';
+import { Shield, ChatCircle } from '@phosphor-icons/react';
 import { Course, AccessLevel } from '../../types';
 
 interface FormData {
@@ -71,7 +71,7 @@ const CourseCardPreview: React.FC<CourseCardPreviewProps> = ({
               </span>
               {formData.tavusConversationUrl && (
                 <span className="text-sm text-[#002fa7] bg-[#002fa7]/10 px-2 py-1 rounded-[6px] flex items-center space-x-1">
-                  <MessageCircle className="h-3 w-3" />
+                  <ChatCircle className="h-3 w-3" />
                   <span>AI Practice</span>
                 </span>
               )}
