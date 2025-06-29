@@ -2,11 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Self-hosted fonts */
 @layer base {
   @font-face {
     font-family: Rooftop;
-    src: url("https://mccdn.me/martcdn/fonts/Rooftop-Regular.woff2") format("woff2"), 
-         url("https://mccdn.me/martcdn/fonts/Rooftop-Regular.woff") format("woff");
+    src: url("/fonts/Rooftop-Regular.woff2") format("woff2"), 
+         url("/fonts/Rooftop-Regular.woff") format("woff");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -14,8 +15,8 @@
   
   @font-face {
     font-family: Rooftop;
-    src: url("https://mccdn.me/martcdn/fonts/Rooftop-Bold.woff2") format("woff2"), 
-         url("https://mccdn.me/martcdn/fonts/Rooftop-Bold.woff") format("woff");
+    src: url("/fonts/Rooftop-Bold.woff2") format("woff2"), 
+         url("/fonts/Rooftop-Bold.woff") format("woff");
     font-weight: 600;
     font-style: normal;
     font-display: swap;
@@ -23,8 +24,8 @@
   
   @font-face {
     font-family: ManyChatGravity;
-    src: url("https://mccdn.me/martcdn/fonts/ManyChatGravity-Normal.woff2") format("woff2"), 
-         url("https://mccdn.me/martcdn/fonts/ManyChatGravity-Normal.woff") format("woff");
+    src: url("/fonts/ManyChatGravity-Normal.woff2") format("woff2"), 
+         url("/fonts/ManyChatGravity-Normal.woff") format("woff");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -32,8 +33,8 @@
   
   @font-face {
     font-family: 'CoFo Sans Mono';
-    src: url("https://mccdn.me/martcdn/fonts/CoFoSansMono-Regular.woff2") format("woff2"), 
-         url("https://mccdn.me/martcdn/fonts/CoFoSansMono-Regular.woff") format("woff");
+    src: url("/fonts/CoFoSansMono-Regular.woff2") format("woff2"), 
+         url("/fonts/CoFoSansMono-Regular.woff") format("woff");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -47,8 +48,8 @@
   body {
     height: 100%;
     position: relative;
-    background: var(--white);
-    color: var(--black);
+    background: white;
+    color: black;
     font-size: 1.5rem;
     font-family: Rooftop, sans-serif;
     font-feature-settings: "ss02" 1;
