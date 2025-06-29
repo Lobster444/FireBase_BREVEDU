@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, MessageCircle } from 'lucide-react';
+import { Sparkle, ChatCircle } from '@phosphor-icons/react';
 import { PrimaryButton, AccentButton, SecondaryButton, PillToggleButton } from './UIButtons';
 import { User } from '../types';
 

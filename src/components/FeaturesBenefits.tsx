@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Target, Zap } from 'lucide-react';
+import { Clock, Target, Lightning } from '@phosphor-icons/react';
 
 const FeaturesBenefits: React.FC = () => {
   const features = [
@@ -14,7 +14,7 @@ const FeaturesBenefits: React.FC = () => {
       benefit: 'Focused content designed for busy professionals'
     },
     {
-      icon: Zap,
+      icon: Lightning,
       title: 'Instant Application',
       benefit: 'Apply what you learn right after each Skill Boost'
     }

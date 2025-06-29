@@ -1,5 +1,5 @@
 import React from 'react';
-import { WifiOff, AlertTriangle } from 'lucide-react';
+import { WifiSlash, Warning } from '@phosphor-icons/react';
 
 interface OfflineBannerProps {
   isVisible: boolean;
@@ -19,8 +19,8 @@ const OfflineBanner: React.FC<OfflineBannerProps> = ({
       <div className="bg-black/90 backdrop-blur-sm border-b border-white/10 px-6 py-3">
         <div className="max-w-7xl mx-auto flex items-center justify-center space-x-3">
           <div className="flex items-center space-x-2 text-hyper-yellow">
-            <WifiOff className="h-5 w-5 animate-pulse" />
-            <AlertTriangle className="h-4 w-4" />
+            <WifiSlash className="h-5 w-5 animate-pulse" />
+            <Warning className="h-4 w-4" />
           </div>
           <span className="text-base text-white font-medium">
             {message}

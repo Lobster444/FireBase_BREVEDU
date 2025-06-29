@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles } from 'lucide-react';
+import { Sparkle } from '@phosphor-icons/react';
 import { PrimaryButton } from './UIButtons';
 
 interface UpgradePromoSectionProps {
@@ -15,7 +15,7 @@ const UpgradePromoSection: React.FC<UpgradePromoSectionProps> = ({
         <div className="bg-white rounded-[1.2rem] sm:rounded-[1.6rem] p-8 sm:p-10 lg:p-12 text-center border border-black/5 shadow-lg">
           <div className="max-w-3xl mx-auto">
             <div className="flex items-center justify-center mb-4 sm:mb-6 lg:mb-8">
-              <Sparkles className="h-8 w-8 sm:h-10 sm:w-10 text-cobalt mr-3 sm:mr-4" />
+              <Sparkle className="h-8 w-8 sm:h-10 sm:w-10 text-cobalt mr-3 sm:mr-4" />
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black">Upgrade to BrevEdu+</h2>
             </div>
             
@@ -44,7 +44,7 @@ const UpgradePromoSection: React.FC<UpgradePromoSectionProps> = ({
               className="px-8 sm:px-10 lg:px-12 py-4 sm:py-5 lg:py-6 flex items-center justify-center space-x-3 mx-auto text-xl sm:text-2xl shadow-lg"
               aria-label="Start BrevEdu+ premium subscription"
             >
-              <Sparkles className="h-6 w-6" />
+              <Sparkle className="h-6 w-6" />
               <span>Start BrevEdu+ Today</span>
             </PrimaryButton>
             

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AlertCircle, RefreshCw } from 'lucide-react';
+import { WarningCircle, ArrowsClockwise } from '@phosphor-icons/react';
 import Plyr from 'plyr-react';
 import 'plyr-react/plyr.css';
 
@@ -139,7 +139,7 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
         {videoError ? (
           <div className="w-full h-full flex items-center justify-center text-center p-6">
             <div>
-              <AlertCircle className="h-12 w-12 text-red mx-auto mb-4" />
+              <WarningCircle className="h-12 w-12 text-red mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-black mb-2">Video failed to load</h3>
               <p className="text-base text-gray-700 mb-4">
                 There was a problem loading the video. Please check your connection and try again.
@@ -148,7 +148,7 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
                 onClick={handleVideoRetry}
                 className="bg-cobalt text-white px-4 py-2 rounded-[0.8rem] text-base font-medium hover:bg-[#4a4fd9] transition-all flex items-center space-x-2 mx-auto"
               >
-                <RefreshCw className="h-4 w-4" />
+                <ArrowsClockwise className="h-4 w-4" />
                 <span>Retry</span>
               </button>
             </div>
@@ -201,7 +201,7 @@ const VideoPlayerSection: React.FC<VideoPlayerSectionProps> = ({
         ) : (
           <div className="w-full h-full flex items-center justify-center text-center p-6">
             <div>
-              <AlertCircle className="h-12 w-12 text-red mx-auto mb-4" />
+              <WarningCircle className="h-12 w-12 text-red mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-black mb-2">Invalid video URL</h3>
               <p className="text-base text-gray-700">
                 The video URL is not valid or supported. Video ID: {videoId || 'Not found'}

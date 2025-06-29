@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Eye, AlertCircle, RefreshCw, MessageCircle } from 'lucide-react';
+import { Eye, WarningCircle, ArrowsClockwise, ChatCircle } from '@phosphor-icons/react';
 import Plyr from 'plyr-react';
 import { Course, AccessLevel } from '../../types';
 
@@ -133,14 +133,14 @@ const PreviewPane: React.FC<PreviewPaneProps> = ({
           {imageError && (
             <div className="mt-2 flex items-center justify-between">
               <p className="text-base text-red-600 flex items-center space-x-1">
-                <AlertCircle className="h-4 w-4" />
+                <WarningCircle className="h-4 w-4" />
                 <span>Failed to load thumbnail image</span>
               </p>
               <button
                 onClick={handleImageRetry}
                 className="text-[#FF7A59] hover:text-[#FF8A6B] transition-colors text-base underline flex items-center space-x-1"
               >
-                <RefreshCw className="h-4 w-4" />
+                <ArrowsClockwise className="h-4 w-4" />
                 <span>Retry</span>
               </button>
             </div>
@@ -181,13 +181,13 @@ const PreviewPane: React.FC<PreviewPaneProps> = ({
         {formData.tavusConversationUrl && (
           <div className="mb-6">
             <h4 className="text-lg font-semibold text-gray-900 mb-2 flex items-center space-x-2">
-              <MessageCircle className="h-5 w-5 text-[#FF7A59]" />
+              <ChatCircle className="h-5 w-5 text-[#FF7A59]" />
               <span>AI Practice Session</span>
             </h4>
             <div className="bg-[#FF7A59]/10 border border-[#FF7A59]/20 rounded-[12px] p-4">
               <div className="flex items-center space-x-3 mb-3">
                 <div className="w-10 h-10 bg-[#FF7A59] rounded-full flex items-center justify-center">
-                  <MessageCircle className="h-5 w-5 text-white" />
+                  <ChatCircle className="h-5 w-5 text-white" />
                 </div>
                 <div>
                   <p className="text-base font-semibold text-gray-900">Tavus AI Practice</p>
