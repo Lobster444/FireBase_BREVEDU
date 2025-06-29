@@ -75,7 +75,7 @@ const BrevEduPlusPage: React.FC = () => {
 
             {/* Pricing - Hide for premium users */}
             {currentUser?.role !== 'premium' && (
-              <div className="bg-grey rounded-[1.6rem] p-8 sm:p-10 mb-10 sm:mb-14 max-w-md mx-auto border border-black/5 shadow-lg">
+              <div className="bg-grey rounded-[1.6rem] p-8 sm:p-10 mb-6 sm:mb-8 max-w-md mx-auto border border-black/5 shadow-lg">
                 <div className="text-center mb-6">
                   <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-cobalt mb-3">$5.99</div>
                   <div className="text-xl sm:text-2xl text-gray-700">/month</div>
@@ -97,7 +97,7 @@ const BrevEduPlusPage: React.FC = () => {
 
             {/* Thank you message for premium users */}
             {currentUser?.role === 'premium' && (
-              <div className="bg-currant/10 rounded-[1.6rem] p-8 sm:p-10 mb-10 sm:mb-14 max-w-md mx-auto border border-currant/20 text-currant shadow-lg">
+              <div className="bg-currant/10 rounded-[1.6rem] p-8 sm:p-10 mb-6 sm:mb-8 max-w-md mx-auto border border-currant/20 text-currant shadow-lg">
                 <div className="text-center">
                   <Crown className="h-12 w-12 sm:h-14 sm:w-14 text-currant mx-auto mb-5" />
                   <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-currant mb-3">
@@ -121,12 +121,12 @@ const BrevEduPlusPage: React.FC = () => {
         </section>
 
         {/* Features Section */}
-        <section className="w-full py-12 sm:py-16 lg:py-20 bg-grey relative overflow-hidden">
+        <section className="w-full py-8 sm:py-12 lg:py-16 bg-grey relative overflow-hidden">
           {/* Full-width background that extends to screen edges */}
           <div className="absolute inset-0 bg-grey -mx-[50vw] left-1/2 right-1/2 w-screen"></div>
           
           <div className="max-w-screen-2xl mx-auto px-6 sm:px-10 lg:px-16 relative z-10">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black text-center mb-8 sm:mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black text-center mb-6 sm:mb-8 lg:mb-10">
               Premium Features
             </h2>
             
