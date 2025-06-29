@@ -322,7 +322,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                 console.log('🔄 handleLogout called');
                 setShowUserMenu(false);
               }}
-              className="text-left mx-2 mt-1 justify-start"
+              className="text-left px-2 mt-1 justify-start"
               icon={SignOut} 
             >
               <span>Sign Out</span>
@@ -353,7 +353,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                   variant="gray"
                   size="md"
                   aria-label="Close menu"
-                />
+                  className="text-left px-2 mt-2 justify-start"
               </div>
             </div>
 
