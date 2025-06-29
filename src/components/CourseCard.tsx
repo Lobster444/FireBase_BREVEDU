@@ -60,7 +60,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
   const tavusCompleted = currentUser && course.id ? hasTavusCompletion(currentUser, course.id) : false;
   return (
     <div 
-      className="bg-white rounded-[1.2rem] shadow-md p-4 cursor-pointer group focus:outline-none focus:ring-4 focus:ring-cobalt focus:ring-opacity-40 focus:ring-offset-2 focus:ring-offset-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-mc"
+      className="bg-white rounded-[1.2rem] shadow-md p-6 cursor-pointer group focus:outline-none focus:ring-4 focus:ring-cobalt focus:ring-opacity-40 focus:ring-offset-2 focus:ring-offset-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-mc"
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       tabIndex={0}
@@ -68,7 +68,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
       aria-label={`View details for ${course.title}`}
     >
       {/* Thumbnail */}
-      <div className="relative w-full aspect-square bg-grey rounded-[0.8rem] overflow-hidden mb-4">
+      <div className="relative w-full aspect-square bg-grey rounded-[0.8rem] overflow-hidden mb-5">
         <img 
           src={course.thumbnailUrl} 
           alt={course.title}
@@ -81,7 +81,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
       {/* Content */}
       <div className="space-y-4">
         {/* Title */}
-        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-cobalt transition-colors duration-300 ease-mc leading-tight">
+        <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-cobalt transition-colors duration-300 ease-mc leading-tight">
           {course.title}
         </h3>
         
@@ -98,7 +98,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
         </div>
         
         {/* Description */}
-        <p className="text-base font-normal text-gray-700 mb-4 line-clamp-3 leading-relaxed">
+        <p className="text-base font-normal text-gray-700 mb-5 line-clamp-3 leading-relaxed">
           {course.description}
         </p>
         

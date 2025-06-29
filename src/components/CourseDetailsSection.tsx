@@ -14,9 +14,9 @@ const CourseDetailsSection: React.FC<CourseDetailsSectionProps> = ({
   return (
     <>
       {/* Course Description */}
-      <div className="bg-white rounded-[1.2rem] p-6 border border-black/5 shadow-md">
-        <h2 className="text-xl font-bold text-black mb-3">About This Course</h2>
-        <p className="text-base text-gray-700 leading-relaxed whitespace-pre-line">
+      <div className="bg-white rounded-[1.2rem] p-8 border border-black/5 shadow-md">
+        <h2 className="text-2xl font-bold text-black mb-4">About This Course</h2>
+        <p className="text-lg text-gray-700 leading-relaxed whitespace-pre-line">
           {course.description}
         </p>
       </div>

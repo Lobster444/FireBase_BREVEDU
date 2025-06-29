@@ -42,45 +42,45 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
   ];
 
   return (
-    <section className="px-4 sm:px-padding-medium py-6 sm:py-12 bg-white">
+    <section className="px-4 sm:px-8 md:px-12 py-12 sm:py-16 lg:py-24 bg-white">
       <div className="max-w-screen-2xl mx-auto">
-        <div className="text-center mb-6 sm:mb-8 lg:mb-12">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">What Our Learners Say</h2>
-          <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+        <div className="text-center mb-10 sm:mb-14 lg:mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-6 sm:mb-8">What Our Learners Say</h2>
+          <p className="text-xl sm:text-2xl lg:text-3xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
             Join thousands of learners who are transforming their skills with BrevEdu's 
             bite-sized learning approach and AI-powered practice sessions.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
           {testimonials.map((testimonial) => (
             <div 
               key={testimonial.id} 
-              className="bg-grey rounded-[1.2rem] p-4 sm:p-5 lg:p-6 shadow-md border border-black/5 hover:border-cobalt/20 hover:shadow-lg transition-all duration-300"
+              className="bg-grey rounded-[1.2rem] p-6 sm:p-7 lg:p-8 shadow-md border border-black/5 hover:border-cobalt/20 hover:shadow-lg transition-all duration-300"
               role="article"
               aria-labelledby={`testimonial-${testimonial.id}-name`}
             >
-              <div className="flex items-center mb-3 sm:mb-4 lg:mb-5">
-                <Quote className="h-5 w-5 text-cobalt mr-2" />
+              <div className="flex items-center mb-4 sm:mb-5 lg:mb-6">
+                <Quote className="h-6 w-6 text-cobalt mr-3" />
                 <div className="flex">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 text-hyper-yellow fill-current" />
+                    <Star key={i} className="h-5 w-5 text-hyper-yellow fill-current" />
                   ))}
                 </div>
               </div>
               
-              <blockquote className="mb-4 sm:mb-5 lg:mb-6">
-                <p className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed">
+              <blockquote className="mb-5 sm:mb-6 lg:mb-8">
+                <p className="text-base sm:text-lg lg:text-xl text-gray-700 leading-relaxed">
                   "{testimonial.quote}"
                 </p>
               </blockquote>
               
               <div className="mt-auto">
                 <cite className="not-italic">
-                  <p id={`testimonial-${testimonial.id}-name`} className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 mb-1">
+                  <p id={`testimonial-${testimonial.id}-name`} className="text-base sm:text-lg lg:text-xl font-semibold text-black mb-2">
                     {testimonial.name}
                   </p>
-                  <p className="text-sm sm:text-base text-cobalt font-medium">
+                  <p className="text-sm sm:text-lg text-cobalt font-medium">
                     {testimonial.role}
                   </p>
                 </cite>

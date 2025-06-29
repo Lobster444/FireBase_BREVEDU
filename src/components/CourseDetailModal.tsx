@@ -431,7 +431,7 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
           </div>
 
           <div className="p-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 relative">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 relative">
               {/* Left Column - Video and Description */}
               <div className="lg:col-span-2 flex flex-col space-y-8">
                 {/* Video Player */}
@@ -455,16 +455,18 @@ const CourseDetailModal: React.FC<CourseDetailModalProps> = ({
               </div>
 
               {/* Quick Facts - Mobile only, appears at bottom */}
-              <QuickFacts 
-                course={course} 
-                tavusCompleted={tavusCompleted} 
-                className="order-last lg:hidden" 
-              />
+              <div className="order-last lg:hidden mt-6">
+                <QuickFacts 
+                  course={course} 
+                  tavusCompleted={tavusCompleted} 
+                  className="w-full" 
+                />
+              </div>
 
               {/* Right Column - Thumbnail and Actions */}
-              <div className="space-y-6">
+              <div className="space-y-8">
                 {/* Action Buttons */}
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {/* AI Practice Button */}
                   <AIPracticeSection
                     course={course}

@@ -55,41 +55,41 @@ const BrevEduPlusPage: React.FC = () => {
     <PageTransition type="slide">
       <Layout currentPage="brevedu-plus">
         {/* Hero Section */}
-        <section className="px-padding-medium py-12 sm:py-16 lg:py-20 text-center bg-white relative overflow-hidden">
+        <section className="px-6 sm:px-10 py-16 sm:py-20 lg:py-28 text-center bg-white relative overflow-hidden">
           {/* Background grid pattern */}
           <div className="absolute inset-0 bg-grid-pattern opacity-30"></div>
           
-          <div className="max-w-4xl mx-auto">
-            <div className="flex items-center justify-center mb-6 sm:mb-8">
-              <Sparkles className="h-10 w-10 sm:h-12 sm:w-12 text-cobalt mr-3" />
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black">BrevEdu+</h1>
+          <div className="max-w-4xl mx-auto px-4">
+            <div className="flex items-center justify-center mb-8 sm:mb-10">
+              <Sparkles className="h-12 w-12 sm:h-14 sm:w-14 text-cobalt mr-4" />
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black">BrevEdu+</h1>
             </div>
             
-            <p className="text-xl sm:text-2xl lg:text-3xl font-semibold text-cobalt mb-4 sm:mb-6">
+            <p className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-cobalt mb-6 sm:mb-8">
               Supercharge Your Learning
             </p>
-            <p className="text-lg sm:text-xl lg:text-2xl text-gray-700 mb-8 sm:mb-12 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl sm:text-2xl lg:text-3xl text-gray-700 mb-10 sm:mb-14 max-w-3xl mx-auto leading-relaxed">
               Unlock premium features, AI-powered practice sessions, and exclusive content 
               to accelerate your skill development journey.
             </p>
 
             {/* Pricing - Hide for premium users */}
             {currentUser?.role !== 'premium' && (
-              <div className="bg-grey rounded-[1.6rem] p-6 sm:p-8 mb-8 sm:mb-12 max-w-md mx-auto border border-black/5 shadow-lg">
+              <div className="bg-grey rounded-[1.6rem] p-8 sm:p-10 mb-10 sm:mb-14 max-w-md mx-auto border border-black/5 shadow-lg">
                 <div className="text-center mb-6">
-                  <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-cobalt mb-2">$5.99</div>
-                  <div className="text-lg sm:text-xl text-gray-700">/month</div>
-                  <div className="text-base sm:text-lg text-gray-600 mt-2">Cancel anytime</div>
+                  <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-cobalt mb-3">$5.99</div>
+                  <div className="text-xl sm:text-2xl text-gray-700">/month</div>
+                  <div className="text-lg sm:text-xl text-gray-600 mt-3">Cancel anytime</div>
                 </div>
                 
                 <PrimaryButton 
-                  className="w-full px-6 sm:px-8 py-4 sm:py-5 mb-4 text-lg sm:text-xl font-semibold shadow-lg"
+                  className="w-full px-8 sm:px-10 py-5 sm:py-6 mb-5 text-xl sm:text-2xl font-semibold shadow-lg"
                   onClick={handleUpgradeClick}
                 >
                   Start Free Trial
                 </PrimaryButton>
                 
-                <p className="text-sm sm:text-base text-gray-600 text-center">
+                <p className="text-base sm:text-lg text-gray-600 text-center">
                   7-day free trial, then $5.99/month. Cancel anytime.
                 </p>
               </div>
@@ -97,18 +97,18 @@ const BrevEduPlusPage: React.FC = () => {
 
             {/* Thank you message for premium users */}
             {currentUser?.role === 'premium' && (
-              <div className="bg-currant/10 rounded-[1.6rem] p-6 sm:p-8 mb-8 sm:mb-12 max-w-md mx-auto border border-currant/20 text-currant shadow-lg">
+              <div className="bg-currant/10 rounded-[1.6rem] p-8 sm:p-10 mb-10 sm:mb-14 max-w-md mx-auto border border-currant/20 text-currant shadow-lg">
                 <div className="text-center">
-                  <Crown className="h-10 w-10 sm:h-12 sm:w-12 text-currant mx-auto mb-4" />
-                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-currant mb-2">
+                  <Crown className="h-12 w-12 sm:h-14 sm:w-14 text-currant mx-auto mb-5" />
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-currant mb-3">
                     You're already a BrevEdu+ member!
                   </h3>
-                  <p className="text-lg sm:text-xl text-gray-700 mb-4 sm:mb-6">
+                  <p className="text-xl sm:text-2xl text-gray-700 mb-6 sm:mb-8">
                     Thank you for being a premium subscriber. Enjoy unlimited access to all features.
                   </p>
                   <a href="/courses">
                     <AccentButton 
-                      className="px-6 sm:px-8 py-3 sm:py-4 text-lg sm:text-xl font-semibold"
+                      className="px-8 sm:px-10 py-4 sm:py-5 text-xl sm:text-2xl font-semibold"
                       onClick={() => trackInteraction('explore_premium_courses', 'click', 'brevedu_plus_page')}
                     >
                       Explore Premium Courses

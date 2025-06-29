@@ -110,32 +110,32 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
   return (
     <>
       {/* Desktop Header */}
-      <header className="hidden sm:block sticky top-0 bg-white z-50 shadow-sm border-b border-gray-100">
-        <div className="max-w-screen-2xl mx-auto px-padding-small sm:px-padding-medium lg:px-padding-large py-padding-small">
+      <header className="hidden sm:block sticky top-0 bg-white z-50 shadow-sm border-b border-black/5">
+        <div className="max-w-screen-2xl mx-auto px-6 sm:px-10 lg:px-16 py-4 sm:py-5">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link 
               to="/" 
-              className="flex items-center space-x-3 group focus:outline-none focus-visible:ring-4 focus-visible:ring-cobalt focus-visible:ring-opacity-40 focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded-[12px] p-2 -m-2 transition-all"
+              className="flex items-center space-x-4 group focus:outline-none focus-visible:ring-4 focus-visible:ring-cobalt focus-visible:ring-opacity-40 focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded-[12px] p-2 -m-2 transition-all"
               aria-label="Go to homepage"
               onClick={handleLogoClick}
             >
-              <div className="w-8 h-8 bg-cobalt rounded-full flex items-center justify-center">
-                <MessageCircle className="h-5 w-5 text-white" />
+              <div className="w-10 h-10 bg-cobalt rounded-full flex items-center justify-center">
+                <MessageCircle className="h-6 w-6 text-white" />
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 group-hover:text-cobalt transition-colors duration-300 ease-out">
+              <h1 className="text-2xl font-bold text-black group-hover:text-cobalt transition-colors duration-300 ease-out">
                 BreVedu
               </h1>
             </Link>
 
             {/* Navigation Links */}
-            <nav className="flex items-center space-x-2" aria-label="Main navigation">
+            <nav className="flex items-center space-x-4" aria-label="Main navigation">
               {navLinks.map((link) => (
                 <Link 
                   key={link.id}
                   to={link.path} 
                   className={`
-                    text-gray-700 font-medium px-4 py-2 rounded-[10px] transition-all duration-200 ease-out
+                    text-gray-700 font-medium px-5 py-3 rounded-[10px] transition-all duration-200 ease-out
                     hover:bg-cobalt/10 hover:text-cobalt
                     focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2
                     ${isActive(link.path) 
@@ -160,12 +160,12 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             </nav>
 
             {/* User Actions */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-4">
               {currentUser ? (
                 <div className="relative" ref={userMenuRefDesktop}>
                   <button
                     onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="flex items-center space-x-3 bg-cobalt text-white px-5 py-3 rounded-[10px] font-medium hover:bg-[#4a4fd9] transition-all duration-200 ease-mc shadow-[0_2px_8px_rgba(59,66,196,0.3)] hover:shadow-[0_4px_12px_rgba(59,66,196,0.4)] focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2"
+                    className="flex items-center space-x-3 bg-cobalt text-white px-6 py-3 rounded-[10px] font-medium hover:bg-[#4a4fd9] transition-all duration-200 ease-mc shadow-[0_2px_8px_rgba(59,66,196,0.3)] hover:shadow-[0_4px_12px_rgba(59,66,196,0.4)] focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2"
                     aria-expanded={showUserMenu}
                     aria-haspopup="true"
                     style={{
@@ -178,17 +178,17 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                   </button>
                   
                   {showUserMenu && (
-                    <div className="absolute right-0 top-full mt-2 bg-white border border-gray-200 rounded-[12px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] py-3 min-w-[220px] z-50">
-                      <div className="px-4 py-3 border-b border-gray-100">
-                        <p className="text-base font-semibold text-gray-900">{currentUser.name}</p>
-                        <p className="text-sm text-gray-600">{currentUser.email}</p>
+                    <div className="absolute right-0 top-full mt-3 bg-white border border-black/5 rounded-[12px] shadow-xl py-4 min-w-[240px] z-50">
+                      <div className="px-5 py-4 border-b border-black/5">
+                        <p className="text-lg font-semibold text-black">{currentUser.name}</p>
+                        <p className="text-base text-gray-600">{currentUser.email}</p>
                         <p className={`text-sm capitalize mt-1 font-medium ${
                           currentUser.role === 'premium' ? 'text-subscription-premium' : 'text-subscription-free'
                         }`}>{currentUser.role} Plan</p>
                       </div>
                       <button
                         onClick={handleLogout}
-                        className="w-full text-left px-4 py-3 text-base text-gray-700 hover:bg-gray-50 hover:text-cobalt transition-colors duration-200 ease-mc flex items-center space-x-3 focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2 rounded-[8px] mx-2 mt-1"
+                        className="w-full text-left px-5 py-3 text-base text-gray-700 hover:bg-grey hover:text-cobalt transition-colors duration-200 ease-mc flex items-center space-x-3 focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2 rounded-[8px] mx-2 mt-2"
                         style={{ minHeight: '44px' }}
                       >
                         <LogOut className="h-5 w-5" />
@@ -198,10 +198,10 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                   )}
                 </div>
               ) : (
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-4">
                   <button 
                     onClick={() => openAuthModal('login')}
-                    className="text-gray-700 hover:text-cobalt transition-colors duration-200 ease-mc font-medium underline underline-offset-4 px-3 py-2 rounded-[8px] focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2"
+                    className="text-gray-700 hover:text-cobalt transition-colors duration-200 ease-mc font-medium underline underline-offset-4 px-4 py-3 rounded-[8px] focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2"
                     style={{
                       minHeight: '44px',
                       display: 'flex',
@@ -212,7 +212,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                   </button>
                   <button 
                     onClick={() => openAuthModal('register')}
-                    className="bg-cobalt text-white px-5 py-3 rounded-[10px] font-medium hover:bg-[#4a4fd9] transition-all duration-200 ease-mc shadow-[0_2px_8px_rgba(59,66,196,0.3)] hover:shadow-[0_4px_12px_rgba(59,66,196,0.4)] focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2"
+                    className="bg-cobalt text-white px-6 py-3 rounded-[10px] font-medium hover:bg-[#4a4fd9] transition-all duration-200 ease-mc shadow-[0_2px_8px_rgba(59,66,196,0.3)] hover:shadow-[0_4px_12px_rgba(59,66,196,0.4)] focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2"
                     style={{
                       minHeight: '44px',
                     }}

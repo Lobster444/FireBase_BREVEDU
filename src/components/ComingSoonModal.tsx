@@ -109,7 +109,7 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-6"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
@@ -117,11 +117,11 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
     >
       <div 
         ref={modalRef}
-        className="bg-white rounded-[1.6rem] w-full max-w-md shadow-xl overflow-hidden"
+        className="bg-white rounded-[1.6rem] w-full max-w-md shadow-xl overflow-hidden border border-black/5"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-black/5">
-          <h2 id="coming-soon-title" className="text-xl font-bold text-black">
+        <div className="flex items-center justify-between p-8 border-b border-black/5">
+          <h2 id="coming-soon-title" className="text-2xl font-bold text-black">
             Coming Soon
           </h2>
           <button
@@ -134,14 +134,14 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-8">
           {isSuccess ? (
             // Success State
             <div className="text-center">
-              <div className="w-16 h-16 bg-hazel/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="h-8 w-8 text-kelp" />
+              <div className="w-20 h-20 bg-hazel/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                <CheckCircle className="h-10 w-10 text-kelp" />
               </div>
-              <h3 className="text-lg font-semibold text-black mb-2">
+              <h3 className="text-xl font-semibold text-black mb-3">
                 Thanks, we'll let you know!
               </h3>
               <p className="text-base text-gray-700">
@@ -150,10 +150,10 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
             </div>
           ) : (
             // Form State
-            <>
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-cobalt/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Mail className="h-8 w-8 text-cobalt" />
+            <div className="space-y-6">
+              <div className="text-center mb-8">
+                <div className="w-20 h-20 bg-cobalt/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Mail className="h-10 w-10 text-cobalt" />
                 </div>
                 <p className="text-base text-gray-700 leading-relaxed">
                   This feature is currently in development. Leave your email and we'll notify you when it's available.
@@ -163,7 +163,7 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Email Input */}
                 <div>
-                  <label htmlFor="waitlist-email" className="block text-sm font-medium text-black mb-2">
+                  <label htmlFor="waitlist-email" className="block text-base font-medium text-black mb-3">
                     Email Address
                   </label>
                   <div className="relative">
@@ -174,7 +174,7 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
                       id="waitlist-email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-[1.2rem] text-gray-900 placeholder-gray-500 focus:outline-none focus:border-cobalt focus:ring-2 focus:ring-cobalt/20 transition-all"
+                      className="w-full pl-10 pr-4 py-4 bg-white border border-gray-300 rounded-[1.2rem] text-gray-900 placeholder-gray-500 focus:outline-none focus:border-cobalt focus:ring-2 focus:ring-cobalt/20 transition-all"
                       placeholder="Enter your email address"
                       required
                       disabled={isSubmitting}
@@ -194,7 +194,7 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
                 <button
                   type="submit"
                   disabled={isSubmitting || !email.trim()}
-                  className="w-full bg-cobalt text-white px-6 py-3 rounded-[1.2rem] text-base font-medium hover:bg-[#4a4fd9] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                  className="w-full bg-cobalt text-white px-6 py-4 rounded-[1.2rem] text-lg font-medium hover:bg-[#4a4fd9] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                 >
                   {isSubmitting ? (
                     <>
@@ -208,12 +208,12 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
               </form>
 
               {/* Additional Info */}
-              <div className="mt-4 text-center">
-                <p className="text-sm text-gray-600">
+              <div className="mt-6 text-center">
+                <p className="text-base text-gray-600">
                   We'll only use your email to notify you about BrevEdu+ availability.
                 </p>
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>
