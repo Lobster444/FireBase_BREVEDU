@@ -111,7 +111,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
       }
       onClose();
     } catch (error: any) {
-      console.error('Auth error:', error);
+      console.error(error);
       
       let errorMessage = `Failed to ${mode}. Please try again.`;
       
