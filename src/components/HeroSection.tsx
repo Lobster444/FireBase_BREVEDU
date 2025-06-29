@@ -37,14 +37,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16 lg:gap-20 xl:gap-24 items-center">
           {/* Text Content */}
           <div className="text-center lg:text-left space-y-8 sm:space-y-10">
-            <h1 className="font-sans font-normal leading-[0.82] tracking-[-0.02em]" style={{ 
-              fontFeatureSettings: '"ss02" 0',
-              fontSize: 'clamp(2.5rem, 8vw, 4.4rem)'
-            }}>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
               {userMessage.title.includes('Just 5 Minutes') ? (
                 <>
                   Learn something new
-                  <span className="block text-cobalt mt-2 sm:mt-3 lg:mt-4 drop-shadow-sm">just in 5 minutes</span>
+                  <span className="block text-cobalt mt-3 sm:mt-4 lg:mt-5 drop-shadow-sm">just in 5 minutes</span>
                 </>
               ) : (
                 userMessage.title
