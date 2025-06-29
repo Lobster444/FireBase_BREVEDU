@@ -340,9 +340,9 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
           <div 
             ref={mobileMenuRef}
             id="mobile-menu"
-            className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-[0_8px_32px_rgba(0,0,0,0.25)] z-50 transform transition-transform duration-300 ease-out"
+            className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white border-l border-gray-200 shadow-[0_8px_32px_rgba(0,0,0,0.25)] z-50 transform transition-transform duration-300 ease-out"
           >
-            <div className="p-6 bg-white">
+            <div className="p-6 bg-white border-b border-gray-100">
               {/* Mobile Menu Header */}
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-xl font-bold text-gray-900">Menu</h2>
@@ -354,7 +354,9 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                   aria-label="Close menu"
                 />
               </div>
+            </div>
 
+            <div className="p-6">
               {/* Mobile Navigation Links */}
               <nav className="space-y-4 mb-8" aria-label="Mobile navigation">
                 {navLinks.map((link) => (
@@ -384,7 +386,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
               </nav>
 
               {/* Mobile User Actions */}
-              <div className="border-t border-gray-100 pt-6">
+              <div className="border-t border-gray-200 pt-6">
                 {currentUser ? (
                   <div className="text-center">
                     <p className="text-gray-600 text-sm mb-4">
