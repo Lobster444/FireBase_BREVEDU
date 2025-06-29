@@ -33,8 +33,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       {/* Animated Grid Background */}
       <AnimatedGrid 
         className="absolute inset-0 z-0" 
-        opacity={0.20}
-        gridSize={120}
+        opacity={0.15}
+        gridSize={180}
         strokeColor="rgba(59, 66, 196, 0.2)"
         strokeWidth={2.5}
         dotColor="rgba(59, 66, 196, 0.3)"
