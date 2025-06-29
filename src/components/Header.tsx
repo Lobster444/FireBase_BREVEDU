@@ -231,7 +231,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             onClick={handleLogoClick}
           >
             <div className="w-7 h-7 bg-[#002fa7] rounded-full flex items-center justify-center">
-              <ChatCircle className="h-4 w-4 text-white" />
+              <div className="w-3 h-3 bg-white rounded-full"></div>
             </div>
             <h1 className="text-xl font-bold text-gray-900 group-hover:text-[#002fa7] transition-colors duration-300 ease-out">
               BreVedu
