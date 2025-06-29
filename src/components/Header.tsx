@@ -190,14 +190,14 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                         size="sm"
                         fullWidth
                         onClick={handleLogout}
-                        className="text-left px-2 mt-1 justify-start text-sm"
+                        className="text-left mx-3 mt-1 justify-start"
                         icon={SignOut}
                       >
                         <span>Sign Out</span>
                       </Button>
                     </div>
                   )}
-                </div>
+                        className="text-left mx-3 mt-1 justify-start"
               ) : (
                 <div className="flex items-center space-x-4">
                   <Button
