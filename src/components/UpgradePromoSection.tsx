@@ -25,17 +25,17 @@ const UpgradePromoSection: React.FC<UpgradePromoSectionProps> = ({
               Accelerate your learning with premium features designed for serious learners.
             </p>
             
-            <div className="benefits-container bg-grey p-6 rounded-[1.2rem] mb-8 sm:mb-10 lg:mb-12 overflow-x-auto">
+            <div className="benefits-container bg-grey p-6 rounded-[1.2rem] mb-8 sm:mb-10 lg:mb-12">
               <div className="benefits-grid">
-                <div className="benefit-item px-2">
+                <div className="benefit-item">
                   <span className="benefit-check">✓</span>
                   <span className="benefit-text">Unlimited course access</span>
                 </div>
-                <div className="benefit-item px-2">
+                <div className="benefit-item">
                   <span className="benefit-check">✓</span>
                   <span className="benefit-text">3 daily AI practice sessions</span>
                 </div>
-                <div className="benefit-item px-2">
+                <div className="benefit-item">
                   <span className="benefit-check">✓</span>
                   <span className="benefit-text">Premium-only content</span>
                 </div>
