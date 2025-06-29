@@ -48,6 +48,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 userMessage.title
               )}
             </h1>
+            </h1>
             <p className="text-xl sm:text-2xl lg:text-3xl max-w-3xl mx-auto lg:mx-0 leading-relaxed font-normal text-gray-700">
               {userMessage.subtitle}
             </p>
