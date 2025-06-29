@@ -64,7 +64,7 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-20 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-20 items-center relative">
           {/* Left Side - Tavus Video Interface */}
           <div className="order-2 lg:order-1">
             <div className="relative bg-white rounded-[1.6rem] p-8 sm:p-10 lg:p-12 shadow-xl border border-black/5">
@@ -140,8 +140,8 @@ const AIVideoTutor: React.FC<AIVideoTutorProps> = ({
           </div>
 
           {/* Right Side - Benefits & CTA */}
-          <div className="order-1 lg:order-2">
-            <div className="bg-white rounded-[1.6rem] p-8 sm:p-10 shadow-xl border border-black/5 hover:shadow-2xl hover:border-cobalt/20 transition-all duration-500 group">
+          <div className="order-1 lg:order-2 relative z-10">
+            <div className="bg-white rounded-[1.6rem] p-8 sm:p-10 shadow-xl border border-black/5 hover:shadow-2xl hover:border-cobalt/20 transition-all duration-500 group relative">
               {/* Benefits List */}
               <div>
                 <h3 className="text-3xl font-bold text-black mb-8 group-hover:text-cobalt transition-colors duration-300">
