@@ -177,7 +177,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                   </Button>
                   
                   {showUserMenu && (
-                    <div className="absolute right-0 top-full mt-3 bg-white border border-black/5 rounded-[12px] shadow-xl py-4 min-w-[240px] z-50">
+                    <div className="absolute right-0 top-full mt-3 bg-white border border-black/5 rounded-[12px] shadow-[0_8px_32px_rgba(0,0,0,0.15)] py-4 min-w-[240px] z-50">
                       <div className="px-5 py-4 border-b border-black/5">
                         <p className="text-lg font-semibold text-black">{currentUser.name}</p>
                         <p className="text-base text-gray-600">{currentUser.email}</p>
@@ -301,7 +301,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
 
         {/* Mobile User Menu Dropdown - Only for authenticated users */}
         {currentUser && showUserMenu && (
-          <div ref={userMenuRefMobile} className="absolute right-3 top-[60px] bg-white border border-gray-200 rounded-[16px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] py-3 w-[220px] max-w-[calc(100vw-24px)] z-50 animate-slide-up">
+          <div ref={userMenuRefMobile} className="absolute right-3 top-[60px] bg-white border border-gray-200 rounded-[16px] shadow-[0_12px_40px_rgba(0,0,0,0.18)] py-3 w-[220px] max-w-[calc(100vw-24px)] z-50 animate-slide-up">
             <div className="px-4 py-3 border-b border-gray-100">
               <p className="text-sm font-semibold text-gray-900">{currentUser.name}</p>
               <p className="text-xs text-gray-600">{currentUser.email}</p>
@@ -338,7 +338,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
           <div 
             ref={mobileMenuRef}
             id="mobile-menu"
-            className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white border-l border-gray-200 shadow-[0_8px_32px_rgba(0,0,0,0.25)] z-50 transform transition-all duration-500 ease-out animate-slide-in-right"
+            className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white border-l border-gray-200 shadow-[0_-4px_40px_rgba(0,0,0,0.25)] z-50 transform transition-all duration-500 ease-out animate-slide-in-right"
             style={{ backgroundColor: '#ffffff' }}
           >
             <div className="p-6 bg-white border-b border-gray-100" style={{ backgroundColor: '#ffffff' }}>
