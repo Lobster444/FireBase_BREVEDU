@@ -302,7 +302,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
 
         {/* Mobile User Menu Dropdown - Only for authenticated users */}
         {currentUser && showUserMenu && (
-          <div ref={userMenuRefMobile} className="absolute right-3 top-[60px] bg-white border border-gray-200 rounded-[16px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] py-3 min-w-[200px] z-50 animate-slide-up">
+          <div ref={userMenuRefMobile} className="absolute right-3 top-[60px] bg-white border border-gray-200 rounded-[16px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] py-3 w-[220px] max-w-[calc(100vw-24px)] z-50 animate-slide-up">
             <div className="px-4 py-3 border-b border-gray-100">
               <p className="text-sm font-semibold text-gray-900">{currentUser.name}</p>
               <p className="text-xs text-gray-600">{currentUser.email}</p>
@@ -323,7 +323,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                 setShowUserMenu(false);
               }}
               className="text-left mx-2 mt-1 justify-start"
-              icon={SignOut}
+              icon={SignOut} 
             >
               <span>Sign Out</span>
             </Button>
