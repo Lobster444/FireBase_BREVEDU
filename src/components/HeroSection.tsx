@@ -38,7 +38,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         strokeColor="rgba(59, 66, 196, 0.2)"
         strokeWidth={2.5}
         dotColor="rgba(59, 66, 196, 0.3)"
-        dotRadius={3}
+        dotRadius={2}
       />
       
       {/* Background decorative elements */}
