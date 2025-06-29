@@ -111,7 +111,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
   return (
     <>
       {/* Desktop Header */}
-      <header className="hidden sm:block sticky top-0 bg-white/80 backdrop-blur-sm z-50 shadow-sm border-b border-black/5">
+      <header className="hidden sm:block sticky top-0 bg-white z-50 shadow-sm border-b border-black/5">
         <div className="max-w-screen-2xl mx-auto px-6 sm:px-10 lg:px-16 py-4 sm:py-5">
           <div className="flex items-center justify-between">
             {/* Logo */}
@@ -222,7 +222,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
       </header>
 
       {/* Mobile Header */}
-      <div className="sm:hidden bg-white/80 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-50 shadow-sm">
+      <div className="sm:hidden bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
         <div className="flex items-center justify-between p-padding-small">
           {/* Mobile Logo */}
           <Link 
