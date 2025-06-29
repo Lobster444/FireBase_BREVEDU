@@ -338,7 +338,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
           <div 
             ref={mobileMenuRef}
             id="mobile-menu"
-            className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white border-l border-gray-200 shadow-[0_8px_32px_rgba(0,0,0,0.25)] z-50 transform transition-transform duration-300 ease-out opacity-100"
+            className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white border-l border-gray-200 shadow-[0_8px_32px_rgba(0,0,0,0.25)] z-50 transform transition-all duration-500 ease-out animate-slide-in-right"
             style={{ backgroundColor: '#ffffff' }}
           >
             <div className="p-6 bg-white border-b border-gray-100" style={{ backgroundColor: '#ffffff' }}>
