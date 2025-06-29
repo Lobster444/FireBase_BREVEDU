@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Check, Zap, MessageCircle, Star, Crown } from 'lucide-react';
+import { Sparkle, Check, Lightning, ChatCircle, Star, Crown } from '@phosphor-icons/react';
 import PageTransition from '../components/PageTransition';
 import Layout from '../components/Layout';
 import { PrimaryButton, AccentButton, OutlineButton } from '../components/UIButtons';
@@ -13,7 +13,7 @@ const BrevEduPlusPage: React.FC = () => {
 
   const features = [
     {
-      icon: MessageCircle,
+      icon: ChatCircle,
       title: 'AI Chat Practice',
       description: '3 daily AI-powered conversation sessions to practice what you learn'
     },
@@ -23,7 +23,7 @@ const BrevEduPlusPage: React.FC = () => {
       description: 'Access to exclusive advanced courses and expert-level content'
     },
     {
-      icon: Zap,
+      icon: Lightning,
       title: 'Priority Support',
       description: 'Get help faster with priority customer support and feedback'
     },
@@ -61,7 +61,7 @@ const BrevEduPlusPage: React.FC = () => {
           
           <div className="max-w-4xl mx-auto px-4">
             <div className="flex items-center justify-center mb-8 sm:mb-10">
-              <Sparkles className="h-12 w-12 sm:h-14 sm:w-14 text-cobalt mr-4" />
+              <Sparkle className="h-12 w-12 sm:h-14 sm:w-14 text-cobalt mr-4" />
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black">BrevEdu+</h1>
             </div>
             
@@ -184,7 +184,7 @@ const BrevEduPlusPage: React.FC = () => {
                   className="px-6 sm:px-8 lg:px-10 py-4 sm:py-5 flex items-center justify-center space-x-2 text-lg sm:text-xl font-semibold shadow-lg"
                   onClick={handleUpgradeClick}
                 >
-                  <Sparkles className="h-5 w-5 sm:h-6 sm:w-6" />
+                  <Sparkle className="h-5 w-5 sm:h-6 sm:w-6" />
                   <span>Start Free Trial</span>
                 </PrimaryButton>
                 <OutlineButton

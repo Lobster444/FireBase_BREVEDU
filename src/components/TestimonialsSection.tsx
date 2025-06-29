@@ -1,5 +1,5 @@
 import React from 'react';
-import { Quote, Star } from 'lucide-react';
+import { Quotes, Star } from '@phosphor-icons/react';
 import { User } from '../types';
 
 interface TestimonialsSectionProps {
@@ -61,7 +61,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
               aria-labelledby={`testimonial-${testimonial.id}-name`}
             >
               <div className="flex items-center mb-4 sm:mb-5 lg:mb-6">
-                <Quote className="h-6 w-6 text-cobalt mr-3" />
+                <Quotes className="h-6 w-6 text-cobalt mr-3" />
                 <div className="flex">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star key={i} className="h-5 w-5 text-hyper-yellow fill-current" />

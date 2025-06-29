@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageCircle } from 'lucide-react';
+import { ChatCircle } from '@phosphor-icons/react';
 
 const Footer: React.FC = () => {
   return (
@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center">
             <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
-              <MessageCircle className="h-6 w-6 text-black" />
+              <ChatCircle className="h-6 w-6 text-black" />
             </div>
             <span className="text-2xl font-bold">BreVedu</span>
           </div>

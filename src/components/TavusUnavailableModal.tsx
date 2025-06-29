@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, MessageCircle, AlertTriangle } from 'lucide-react';
+import { X, ChatCircle, Warning } from '@phosphor-icons/react';
 import { Button, IconButton } from './Button';
 
 interface TavusUnavailableModalProps {
@@ -20,7 +20,7 @@ const TavusUnavailableModal: React.FC<TavusUnavailableModalProps> = ({
         <div className="flex items-center justify-between p-8 border-b border-black/5">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-gold/20 rounded-full flex items-center justify-center">
-              <AlertTriangle className="h-6 w-6 text-gold" />
+              <Warning className="h-6 w-6 text-gold" />
             </div>
             <div>
               <h2 className="text-2xl font-bold text-black">
@@ -41,7 +41,7 @@ const TavusUnavailableModal: React.FC<TavusUnavailableModalProps> = ({
         <div className="p-8">
           <div className="text-center">
             <div className="w-20 h-20 bg-gold/20 rounded-full flex items-center justify-center mx-auto mb-6">
-              <MessageCircle className="h-10 w-10 text-gold" />
+              <ChatCircle className="h-10 w-10 text-gold" />
             </div>
             <h3 className="text-xl font-semibold text-black mb-3">
               AI Conversations Currently Disabled
