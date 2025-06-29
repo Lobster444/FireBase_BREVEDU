@@ -14,7 +14,7 @@ const TavusUnavailableModal: React.FC<TavusUnavailableModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[1000] p-6">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[1010] p-6">
       <div className="bg-white rounded-[1.6rem] w-full max-w-md shadow-xl overflow-hidden border border-black/5">
         {/* Header */}
         <div className="flex items-center justify-between p-8 border-b border-black/5">

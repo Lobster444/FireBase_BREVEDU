@@ -307,6 +307,7 @@ const TavusModal: React.FC<TavusModalProps> = ({
     <div 
       className={containerClasses}
       onClick={isMobile ? undefined : handleBackdropClick}
+      className={containerClasses.replace('z-50', 'z-[1010]')}
       role="dialog"
       aria-modal="true"
       aria-labelledby="tavus-modal-title"

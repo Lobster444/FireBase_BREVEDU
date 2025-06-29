@@ -150,7 +150,7 @@ const TavusConfirmationModal: React.FC<TavusConfirmationModalProps> = ({
     <>
       <div 
         ref={modalRef}
-        className={containerClasses.replace('z-50', 'z-[1000]')}
+        className={containerClasses.replace('z-50', 'z-[1010]')}
         onClick={isMobile ? undefined : handleBackdropClick}
         role="dialog"
         aria-modal="true"
