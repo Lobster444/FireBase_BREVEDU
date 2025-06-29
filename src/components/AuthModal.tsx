@@ -159,7 +159,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
@@ -167,16 +167,16 @@ const AuthModal: React.FC<AuthModalProps> = ({
     >
       <div 
         ref={modalRef}
-        className="bg-white rounded-headspace-2xl w-full max-w-md shadow-[0_8px_32px_rgba(0,0,0,0.15)] overflow-hidden"
+        className="bg-white rounded-[1.6rem] w-full max-w-md shadow-xl overflow-hidden"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-padding-medium border-b border-gray-100">
+        <div className="flex items-center justify-between p-6 border-b border-black/5">
           <h2 id="auth-modal-title" className="text-xl font-bold text-gray-900">
             {mode === 'login' ? 'Sign In' : 'Create Account'}
           </h2>
           <button
             onClick={onClose}
-            className="icon-button icon-button-gray p-2 rounded-headspace-md"
+            className="icon-button icon-button-gray p-2 rounded-[0.8rem]"
             aria-label="Close modal"
           >
             <X className="h-5 w-5" />
@@ -184,7 +184,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-padding-medium">
+        <form onSubmit={handleSubmit} className="p-6">
           <div className="space-y-4">
             {/* Name field - only for register */}
             {mode === 'register' && (
@@ -203,7 +203,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
                     className={`w-full pl-10 pr-4 py-3 bg-white border rounded-headspace-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition-colors ${
                       errors.name 
                         ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
-                        : 'border-gray-300 focus:border-[#002fa7] focus:ring-[#002fa7]/20'
+                        : 'border-gray-300 focus:border-cobalt focus:ring-cobalt/20'
                     }`}
                     placeholder="Enter your full name"
                     required
@@ -235,7 +235,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
                   className={`w-full pl-10 pr-4 py-3 bg-white border rounded-headspace-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition-colors ${
                     errors.email 
                       ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
-                      : 'border-gray-300 focus:border-[#002fa7] focus:ring-[#002fa7]/20'
+                      : 'border-gray-300 focus:border-cobalt focus:ring-cobalt/20'
                   }`}
                   placeholder="Enter your email address"
                   required
@@ -265,7 +265,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
                   className={`w-full pl-10 pr-12 py-3 bg-white border rounded-headspace-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 transition-colors ${
                     errors.password 
                       ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' 
-                      : 'border-gray-300 focus:border-[#002fa7] focus:ring-[#002fa7]/20'
+                      : 'border-gray-300 focus:border-cobalt focus:ring-cobalt/20'
                   }`}
                   placeholder="Enter your password"
                   required
@@ -298,7 +298,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-[#002fa7] text-white px-6 py-4 rounded-full text-lg font-semibold hover:bg-[#0040d1] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 mt-6 min-h-[56px]"
+            className="w-full bg-cobalt text-white px-6 py-4 rounded-full text-lg font-semibold hover:bg-[#4a4fd9] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 mt-6 min-h-[56px]"
           >
             {isLoading ? (
               <>
@@ -318,7 +318,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
               <button
                 type="button"
                 onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
-                className="text-[#002fa7] hover:text-[#0040d1] transition-colors font-medium"
+                className="text-cobalt hover:text-[#4a4fd9] transition-colors font-medium"
                 disabled={isLoading}
               >
                 {mode === 'login' ? 'Sign up' : 'Sign in'}

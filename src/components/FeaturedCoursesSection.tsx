@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, MessageCircle } from 'lucide-react';
 import CourseCard from './CourseCard';
 import { AccentButton, SecondaryButton, PillToggleButton } from './UIButtons';
 import { categories } from '../data/mockCourses';
@@ -56,10 +56,13 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
   };
 
   return (
-    <section className="px-4 sm:px-padding-medium py-6 sm:py-12 lg:py-16 bg-white">
+    <section className="px-4 sm:px-padding-medium py-6 sm:py-12 lg:py-16 bg-white border-t border-black/5">
       <div className="max-w-screen-2xl mx-auto">
         <div className="flex flex-col items-center text-center mb-6 sm:mb-8 lg:mb-12">
-          <div className="mb-4 sm:mb-6 lg:mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-cobalt rounded-[1.2rem] mb-6">
+            <MessageCircle className="h-8 w-8 text-white" />
+          </div>
+          <div className="mb-4 sm:mb-6">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
               Featured Boost Courses
             </h2>
@@ -93,14 +96,14 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
         {/* Loading State */}
         {loading && (
           <div className="text-center py-8 sm:py-12">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF7A59]"></div>
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-cobalt"></div>
             <p className="text-lg sm:text-xl text-gray-600 mt-4">Loading courses...</p>
           </div>
         )}
 
         {/* Error State */}
         {error && (
-          <div className="text-center py-8 sm:py-12">
+          <div className="text-center py-8 sm:py-12 bg-light-red rounded-[1.2rem] p-6">
             <p className="text-lg sm:text-xl text-red-600 mb-4">{error}</p>
             <AccentButton onClick={() => window.location.reload()}>
               Try again
@@ -141,7 +144,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
                 )}
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-6 sm:mb-8 lg:mb-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 mb-6 sm:mb-8 lg:mb-12">
                 {featuredCourses.map((course) => (
                   <CourseCard 
                     key={course.id} 
@@ -156,7 +159,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
             {featuredCourses.length > 0 && (
               <div className="text-center">
                 <SecondaryButton 
-                  className="inline-flex items-center space-x-2 bg-gray-100 text-gray-800 hover:bg-gray-200 px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 text-lg sm:text-xl font-medium shadow-sm hover:shadow-md transition-all duration-200"
+                  className="inline-flex items-center space-x-2 bg-grey text-gray-800 hover:bg-[#e0e5e0] px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 text-lg sm:text-xl font-medium shadow-sm hover:shadow-md transition-all duration-200"
                   onClick={handleMoreCoursesClick}
                   aria-label="View all courses"
                 >

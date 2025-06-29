@@ -29,26 +29,26 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
     switch (accessLevel) {
       case 'anonymous':
         return {
-          label: 'Free',
-          bgColor: 'bg-[#6D9A52]',
+          label: 'Public',
+          bgColor: 'bg-kelp',
           textColor: 'text-white'
         };
       case 'free':
         return {
           label: 'Free',
-          bgColor: 'bg-[#6D9A52]',
+          bgColor: 'bg-kelp',
           textColor: 'text-white'
         };
       case 'premium':
         return {
           label: 'Premium',
-          bgColor: 'bg-[#C967D3]',
+          bgColor: 'bg-currant',
           textColor: 'text-white'
         };
       default:
         return {
           label: 'Free',
-          bgColor: 'bg-[#6D9A52]',
+          bgColor: 'bg-kelp',
           textColor: 'text-white'
         };
     }
@@ -60,7 +60,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
   const tavusCompleted = currentUser && course.id ? hasTavusCompletion(currentUser, course.id) : false;
   return (
     <div 
-      className="bg-white rounded-headspace-xl shadow-[0_2px_8px_rgba(0,0,0,0.1)] p-padding-small cursor-pointer group focus:outline-none focus:ring-4 focus:ring-[#002fa7] focus:ring-opacity-40 focus:ring-offset-2 focus:ring-offset-white hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:-translate-y-1 hover:animate-[card-breathe_3s_infinite] transition-all duration-300 ease-headspace"
+      className="bg-white rounded-[1.2rem] shadow-md p-4 cursor-pointer group focus:outline-none focus:ring-4 focus:ring-cobalt focus:ring-opacity-40 focus:ring-offset-2 focus:ring-offset-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-mc"
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       tabIndex={0}
@@ -68,12 +68,12 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
       aria-label={`View details for ${course.title}`}
     >
       {/* Thumbnail */}
-      <div className="relative w-full aspect-square bg-neutral-gray/20 rounded-headspace-md overflow-hidden mb-4">
+      <div className="relative w-full aspect-square bg-grey rounded-[0.8rem] overflow-hidden mb-4">
         <img 
           src={course.thumbnailUrl} 
           alt={course.title}
           loading="lazy"
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-headspace"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-mc"
         />
         
       </div>
@@ -81,13 +81,13 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
       {/* Content */}
       <div className="space-y-4">
         {/* Title */}
-        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-[#002fa7] transition-colors duration-300 ease-headspace leading-tight">
+        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-cobalt transition-colors duration-300 ease-mc leading-tight">
           {course.title}
         </h3>
         
         {/* Course Info: Topic, Type, Duration */}
         <div className="flex items-center space-x-2 text-sm text-gray-600 mb-3">
-          <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded-headspace-sm font-medium">
+          <span className="bg-grey text-gray-800 px-2 py-1 rounded-[0.4rem] font-medium">
             {course.category}
           </span>
           <span className="text-gray-500">•</span>
@@ -106,7 +106,6 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
         <div className="mt-auto flex items-center justify-between">
           {/* Left side - Access Level badge */}
           <div className="flex items-center">
-            {/* Access level badge */}
             <span className={`${accessBadge.bgColor} ${accessBadge.textColor} px-3 py-1.5 rounded-full text-sm font-medium`}>
               {accessBadge.label}
             </span>
@@ -115,7 +114,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick }) => {
           {/* Right side - Draft status */}
           <div className="flex items-center space-x-2">
             {!course.published && (
-              <span className="text-sm text-purple-800 bg-purple-100 px-3 py-1.5 rounded-headspace-md font-semibold">
+              <span className="text-sm text-amethyst bg-thistle px-3 py-1.5 rounded-[0.8rem] font-semibold">
                 Draft
               </span>
             )}

@@ -21,7 +21,7 @@ const FeaturesBenefits: React.FC = () => {
   ];
 
   return (
-    <section className="px-4 sm:px-padding-medium py-6 sm:py-12 lg:py-16 relative overflow-hidden bg-white border-b border-gray-100">
+    <section className="px-4 sm:px-padding-medium py-6 sm:py-12 lg:py-16 relative overflow-hidden bg-white border-b border-black/10">
       <div className="max-w-screen-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8 lg:mb-12">
@@ -36,22 +36,22 @@ const FeaturesBenefits: React.FC = () => {
         {/* Features Grid with Hover Image */}
         <div className="relative">
           {/* Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 relative z-10">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
                 <div 
                   key={index}
-                  className="text-center group cursor-pointer hover-trigger"
+                  className="text-center group cursor-pointer p-6 rounded-[1.2rem] hover:bg-grey transition-all duration-300"
                   data-feature={index}
                 >
                   {/* Icon */}
-                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-all duration-300 shadow-lg">
-                    <Icon className="h-8 w-8 text-white group-hover:scale-110 transition-transform duration-300" />
+                  <div className="w-16 h-16 bg-cobalt rounded-[1.2rem] flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-all duration-300 shadow-md">
+                    <Icon className="h-8 w-8 text-white transition-transform duration-300" />
                   </div>
                   
                   {/* Content */}
-                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 group-hover:text-cobalt transition-colors duration-300">
                     {feature.title}
                   </h3>
                   <p className="text-lg text-gray-600 leading-relaxed group-hover:text-gray-900 transition-colors duration-300">

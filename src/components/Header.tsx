@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { User, LogOut, Menu, X } from 'lucide-react';
+import { User, LogOut, Menu, X, MessageCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import AuthModal from './AuthModal';
 import { trackInteraction } from '../lib/analytics';
@@ -116,14 +116,14 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             {/* Logo */}
             <Link 
               to="/" 
-              className="flex items-center space-x-3 group focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FF7A59] focus-visible:ring-opacity-40 focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded-[12px] p-2 -m-2 transition-all hover:animate-[breathe_2s_infinite]"
+              className="flex items-center space-x-3 group focus:outline-none focus-visible:ring-4 focus-visible:ring-cobalt focus-visible:ring-opacity-40 focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded-[12px] p-2 -m-2 transition-all"
               aria-label="Go to homepage"
               onClick={handleLogoClick}
             >
-              <div className="w-8 h-8 bg-[#002fa7] rounded-full flex items-center justify-center">
-                <div className="w-5 h-5 bg-white rounded-full"></div>
+              <div className="w-8 h-8 bg-cobalt rounded-full flex items-center justify-center">
+                <MessageCircle className="h-5 w-5 text-white" />
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 group-hover:text-[#002fa7] transition-colors duration-300 ease-out">
+              <h1 className="text-2xl font-bold text-gray-900 group-hover:text-cobalt transition-colors duration-300 ease-out">
                 BreVedu
               </h1>
             </Link>
@@ -136,10 +136,10 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                   to={link.path} 
                   className={`
                     text-gray-700 font-medium px-4 py-2 rounded-[10px] transition-all duration-200 ease-out
-                    hover:bg-[#002fa7]/10 hover:text-[#002fa7] hover:animate-[breathe_2s_infinite]
-                    focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2
+                    hover:bg-cobalt/10 hover:text-cobalt
+                    focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2
                     ${isActive(link.path) 
-                      ? 'bg-[#002fa7]/15 text-[#002fa7] font-semibold' 
+                      ? 'bg-cobalt/15 text-cobalt font-semibold' 
                       : ''
                     }
                   `}
@@ -165,7 +165,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                 <div className="relative" ref={userMenuRefDesktop}>
                   <button
                     onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="flex items-center space-x-3 bg-[#002fa7] text-white px-5 py-3 rounded-[10px] font-medium hover:bg-[#0040d1] transition-all duration-200 ease-out shadow-[0_2px_8px_rgba(0,47,167,0.3)] hover:shadow-[0_4px_12px_rgba(0,47,167,0.4)] hover:animate-[breathe_2s_infinite] focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2"
+                    className="flex items-center space-x-3 bg-cobalt text-white px-5 py-3 rounded-[10px] font-medium hover:bg-[#4a4fd9] transition-all duration-200 ease-mc shadow-[0_2px_8px_rgba(59,66,196,0.3)] hover:shadow-[0_4px_12px_rgba(59,66,196,0.4)] focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2"
                     aria-expanded={showUserMenu}
                     aria-haspopup="true"
                     style={{
@@ -188,7 +188,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                       </div>
                       <button
                         onClick={handleLogout}
-                        className="w-full text-left px-4 py-3 text-base text-gray-700 hover:bg-gray-50 hover:text-[#002fa7] transition-colors duration-200 ease-out flex items-center space-x-3 focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2 rounded-[8px] mx-2 mt-1"
+                        className="w-full text-left px-4 py-3 text-base text-gray-700 hover:bg-gray-50 hover:text-cobalt transition-colors duration-200 ease-mc flex items-center space-x-3 focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2 rounded-[8px] mx-2 mt-1"
                         style={{ minHeight: '44px' }}
                       >
                         <LogOut className="h-5 w-5" />
@@ -201,22 +201,20 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                 <div className="flex items-center space-x-3">
                   <button 
                     onClick={() => openAuthModal('login')}
-                    className="text-gray-700 hover:text-[#002fa7] transition-colors duration-200 ease-out font-medium underline underline-offset-4 px-3 py-2 rounded-[8px] focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2 hover:animate-[breathe_2s_infinite]"
+                    className="text-gray-700 hover:text-cobalt transition-colors duration-200 ease-mc font-medium underline underline-offset-4 px-3 py-2 rounded-[8px] focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2"
                     style={{
                       minHeight: '44px',
                       display: 'flex',
                       alignItems: 'center',
-                      animationTimingFunction: 'ease-in-out'
                     }}
                   >
                     Sign In
                   </button>
                   <button 
                     onClick={() => openAuthModal('register')}
-                    className="bg-[#002fa7] text-white px-5 py-3 rounded-[10px] font-medium hover:bg-[#0040d1] transition-all duration-200 ease-out shadow-[0_2px_8px_rgba(0,47,167,0.3)] hover:shadow-[0_4px_12px_rgba(0,47,167,0.4)] hover:animate-[breathe_2s_infinite] focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2"
+                    className="bg-cobalt text-white px-5 py-3 rounded-[10px] font-medium hover:bg-[#4a4fd9] transition-all duration-200 ease-mc shadow-[0_2px_8px_rgba(59,66,196,0.3)] hover:shadow-[0_4px_12px_rgba(59,66,196,0.4)] focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2"
                     style={{
                       minHeight: '44px',
-                      animationTimingFunction: 'ease-in-out'
                     }}
                   >
                     Sign Up
@@ -253,7 +251,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
               <>
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center space-x-2 bg-[#002fa7] text-white px-3 py-2.5 rounded-[10px] font-medium hover:bg-[#0040d1] transition-all duration-200 ease-out shadow-[0_2px_8px_rgba(0,47,167,0.3)] focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2"
+                  className="flex items-center space-x-2 bg-cobalt text-white px-3 py-2.5 rounded-[10px] font-medium hover:bg-[#4a4fd9] transition-all duration-200 ease-mc shadow-[0_2px_8px_rgba(59,66,196,0.3)] focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2"
                   aria-expanded={showUserMenu}
                   aria-haspopup="true"
                   aria-label={`User menu for ${currentUser.name}`}
@@ -264,7 +262,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                 </button>
                 <button
                   onClick={() => setShowMobileMenu(!showMobileMenu)}
-                  className="icon-button icon-button-gray p-2.5 rounded-[10px] transition-colors duration-200 ease-out"
+                  className="icon-button icon-button-gray p-2.5 rounded-[10px] transition-colors duration-200 ease-mc"
                   aria-expanded={showMobileMenu}
                   aria-controls="mobile-menu"
                   aria-label="Toggle navigation menu"
@@ -282,7 +280,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
               <>
                 <button 
                   onClick={() => openAuthModal('login')}
-                  className="text-[#002fa7] hover:text-[#0040d1] transition-colors duration-200 ease-out font-medium px-3 py-2.5 rounded-[10px] focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2 text-sm border border-[#002fa7]/20 hover:border-[#002fa7]/40 hover:bg-[#002fa7]/5"
+                  className="text-cobalt hover:text-[#4a4fd9] transition-colors duration-200 ease-mc font-medium px-3 py-2.5 rounded-[10px] focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2 text-sm border border-cobalt/20 hover:border-cobalt/40 hover:bg-cobalt/5"
                   aria-label="Sign in to your account"
                   style={{ minHeight: '44px', display: 'flex', alignItems: 'center' }}
                 >
@@ -290,7 +288,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                 </button>
                 <button 
                   onClick={() => openAuthModal('register')}
-                  className="bg-[#002fa7] text-white px-3 py-2.5 rounded-[10px] font-medium hover:bg-[#0040d1] transition-all duration-200 ease-out shadow-[0_2px_8px_rgba(0,47,167,0.3)] hover:shadow-[0_4px_12px_rgba(0,47,167,0.4)] focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2 text-sm"
+                  className="bg-cobalt text-white px-3 py-2.5 rounded-[10px] font-medium hover:bg-[#4a4fd9] transition-all duration-200 ease-mc shadow-[0_2px_8px_rgba(59,66,196,0.3)] hover:shadow-[0_4px_12px_rgba(59,66,196,0.4)] focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2 text-sm"
                   aria-label="Create a new account"
                   style={{ minHeight: '44px' }}
                 >
@@ -298,7 +296,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                 </button>
                 <button
                   onClick={() => setShowMobileMenu(!showMobileMenu)}
-                  className="icon-button icon-button-gray p-2.5 rounded-[10px] transition-colors duration-200 ease-out"
+                  className="icon-button icon-button-gray p-2.5 rounded-[10px] transition-colors duration-200 ease-mc"
                   aria-expanded={showMobileMenu}
                   aria-controls="mobile-menu"
                   aria-label="Toggle navigation menu"
@@ -322,7 +320,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
               <p className="text-sm font-semibold text-gray-900">{currentUser.name}</p>
               <p className="text-xs text-gray-600">{currentUser.email}</p>
               <p className={`text-xs capitalize mt-1 font-medium ${
-                currentUser.role === 'premium' ? 'text-subscription-premium' : 'text-subscription-free'
+                currentUser.role === 'premium' ? 'text-currant' : 'text-kelp'
               }`}>{currentUser.role} Plan</p>
             </div>
             <button
@@ -334,7 +332,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                 console.log('🔄 handleLogout called');
                 setShowUserMenu(false);
               }}
-              className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#002fa7] transition-colors duration-200 ease-out flex items-center space-x-3 focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2 rounded-[10px] mx-2 mt-1"
+              className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-cobalt transition-colors duration-200 ease-mc flex items-center space-x-3 focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2 rounded-[10px] mx-2 mt-1"
               style={{ minHeight: '44px' }}
             >
               <LogOut className="h-4 w-4" />
@@ -375,11 +373,11 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                     key={link.id}
                     to={link.path}
                     className={`
-                      block text-gray-700 font-medium py-3 px-4 rounded-[10px] transition-all duration-200 ease-out
-                      hover:bg-[#002fa7]/10 hover:text-[#002fa7]
-                      focus:outline-none focus-visible:outline-2 focus-visible:outline-[#002fa7] focus-visible:outline-offset-2
+                      block text-gray-700 font-medium py-3 px-4 rounded-[10px] transition-all duration-200 ease-mc
+                      hover:bg-cobalt/10 hover:text-cobalt
+                      focus:outline-none focus-visible:outline-2 focus-visible:outline-cobalt focus-visible:outline-offset-2
                       ${isActive(link.path) 
-                        ? 'bg-[#002fa7]/15 text-[#002fa7] font-semibold' 
+                        ? 'bg-cobalt/15 text-cobalt font-semibold' 
                         : ''
                       }
                     `}

@@ -1,20 +1,13 @@
 import React from 'react';
-import { Quote, Star, Sparkles } from 'lucide-react';
-import { PrimaryButton, AccentButton } from './UIButtons';
+import { Quote, Star } from 'lucide-react';
 import { User } from '../types';
 
 interface TestimonialsSectionProps {
   currentUser: User | null;
-  onStartLearning: () => void;
-  onUpgrade: () => void;
-  onExploreCourses: () => void;
 }
 
 const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
-  currentUser,
-  onStartLearning,
-  onUpgrade,
-  onExploreCourses
+  currentUser
 }) => {
   // Hard-coded testimonials data
   const testimonials = [
@@ -49,7 +42,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
   ];
 
   return (
-    <section className="px-4 sm:px-padding-medium py-6 sm:py-12">
+    <section className="px-4 sm:px-padding-medium py-6 sm:py-12 bg-white">
       <div className="max-w-screen-2xl mx-auto">
         <div className="text-center mb-6 sm:mb-8 lg:mb-12">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">What Our Learners Say</h2>
@@ -59,24 +52,24 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {testimonials.map((testimonial) => (
             <div 
               key={testimonial.id} 
-              className="bg-white rounded-[12px] p-3 sm:p-4 lg:p-padding-medium shadow-[0_2px_8px_rgba(0,0,0,0.1)] border border-gray-100 hover:border-[#002fa7]/30 transition-all duration-200"
+              className="bg-grey rounded-[1.2rem] p-4 sm:p-5 lg:p-6 shadow-md border border-black/5 hover:border-cobalt/20 hover:shadow-lg transition-all duration-300"
               role="article"
               aria-labelledby={`testimonial-${testimonial.id}-name`}
             >
-              <div className="flex items-center mb-2 sm:mb-3 lg:mb-4">
-                <Quote className="h-5 w-5 text-[#002fa7] mr-2" />
+              <div className="flex items-center mb-3 sm:mb-4 lg:mb-5">
+                <Quote className="h-5 w-5 text-cobalt mr-2" />
                 <div className="flex">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
+                    <Star key={i} className="h-4 w-4 text-hyper-yellow fill-current" />
                   ))}
                 </div>
               </div>
               
-              <blockquote className="mb-3 sm:mb-4 lg:mb-6">
+              <blockquote className="mb-4 sm:mb-5 lg:mb-6">
                 <p className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed">
                   "{testimonial.quote}"
                 </p>
@@ -87,7 +80,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
                   <p id={`testimonial-${testimonial.id}-name`} className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 mb-1">
                     {testimonial.name}
                   </p>
-                  <p className="text-sm sm:text-base text-[#002fa7] font-medium">
+                  <p className="text-sm sm:text-base text-cobalt font-medium">
                     {testimonial.role}
                   </p>
                 </cite>
