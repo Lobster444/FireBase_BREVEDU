@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Mail, CheckCircle, AlertCircle } from 'lucide-react';
+import { X, Envelope, CheckCircle, WarningCircle } from '@phosphor-icons/react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { Button, IconButton } from './Button';
@@ -154,7 +154,7 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
             <div className="space-y-6">
               <div className="text-center mb-8">
                 <div className="w-20 h-20 bg-cobalt/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Mail className="h-10 w-10 text-cobalt" />
+                  <Envelope className="h-10 w-10 text-cobalt" />
                 </div>
                 <p className="text-base text-gray-700 leading-relaxed">
                   This feature is currently in development. Leave your email and we'll notify you when it's available.
@@ -168,7 +168,7 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
                     Email Address
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <Envelope className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                     <input
                       ref={emailInputRef}
                       type="email"
@@ -186,7 +186,7 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
                 {/* Error Message */}
                 {error && (
                   <div className="flex items-center space-x-2 text-red text-sm">
-                    <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                    <WarningCircle className="h-4 w-4 flex-shrink-0" />
                     <span>{error}</span>
                   </div>
                 )}

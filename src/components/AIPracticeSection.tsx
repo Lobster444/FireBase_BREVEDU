@@ -50,21 +50,25 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
       <div className="mt-3 text-center">
         {aiPracticeStatus.isDisabledByAdmin ? (
           <div className="flex items-center justify-center space-x-2 text-gold">
-            <AlertTriangle className="h-5 w-5 flex-shrink-0" />
+            <Warning className="h-5 w-5 flex-shrink-0" />
             <p className="text-base font-medium">
               {aiPracticeStatus.reason}
             </p>
           </div>
         ) : aiPracticeStatus.isLimitReached ? (
+          <div className="flex items-center justify-center space-x-2">
             <WarningCircle className="h-5 w-5 flex-shrink-0" />
             <p className="text-base text-red font-medium">
               ❌ {aiPracticeStatus.reason}
             </p>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center space-x-2">
             <Warning className="h-5 w-5 flex-shrink-0" />
             <p className="text-base text-gray-700">
               {aiPracticeStatus.reason}
             </p>
-          </>
+          </div>
         )}
       </div>
     </div>
