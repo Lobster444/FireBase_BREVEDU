@@ -133,30 +133,30 @@ const CoursesPage: React.FC = () => {
     <PageTransition type="fade">
       <Layout currentPage="courses">
         {/* Header */}
-        <section className="px-padding-medium py-8 border-b border-black/5 bg-white">
+        <section className="px-padding-medium py-4 sm:py-6 border-b border-black/5 bg-white">
           <div className="max-w-screen-2xl mx-auto">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-3">
               <div>
-                <h1 className="text-4xl font-bold text-black mb-2">All Courses</h1>
-                <p className="text-lg text-gray-700">
+                <h1 className="text-3xl sm:text-4xl font-bold text-black mb-1 sm:mb-2">All Courses</h1>
+                <p className="text-base sm:text-lg text-gray-700">
                   Explore our complete library of bite-sized video lessons
                 </p>
               </div>
               
               {/* User Access Level Info - Hide upgrade prompts for premium users */}
               {currentUser?.role !== 'premium' && (
-                <div className="mt-3 lg:mt-0">
-                  <div className="bg-grey rounded-[1.2rem] p-4 text-center lg:text-right border border-black/5">
-                    <div className={`text-lg font-semibold ${userAccessInfo.color}`}>
+                <div className="mt-2 lg:mt-0">
+                  <div className="bg-grey rounded-[1.2rem] p-3 text-center lg:text-right border border-black/5">
+                    <div className={`text-base sm:text-lg font-semibold ${userAccessInfo.color}`}>
                       {userAccessInfo.level}
                     </div>
-                    <div className="text-base text-gray-600">
+                    <div className="text-sm sm:text-base text-gray-600">
                       {userAccessInfo.description}
                     </div>
                     {currentUser?.role === 'free' && (
                       <a
                         href="/brevedu-plus"
-                        className="inline-flex items-center space-x-1 text-cobalt hover:text-[#4a4fd9] transition-colors text-base mt-2 font-medium"
+                        className="inline-flex items-center space-x-1 text-cobalt hover:text-[#4a4fd9] transition-colors text-sm sm:text-base mt-1 font-medium"
                       >
                         <Crown className="h-4 w-4" />
                         <span>Upgrade Now</span>
@@ -168,10 +168,10 @@ const CoursesPage: React.FC = () => {
             </div>
 
             {/* Filters */}
-            <div className="flex flex-col items-center gap-4 mt-6">
+            <div className="flex flex-col items-center gap-3 mt-4">
               {/* Category Filter */}
               <div className="w-full overflow-x-auto scrollbar-hide">
-                <div className="flex gap-2 pb-2 min-w-max px-4 sm:px-0">
+                <div className="flex gap-2 pb-1 min-w-max px-4 sm:px-0">
                 {categories.map((category) => (
                   <PillToggleButton
                     key={category}
@@ -188,20 +188,20 @@ const CoursesPage: React.FC = () => {
         </section>
 
         {/* Course Grid */}
-        <section className="px-padding-medium py-8 bg-white border-t border-black/5">
+        <section className="px-padding-medium py-4 sm:py-6 bg-white border-t border-black/5">
           <div className="max-w-screen-2xl mx-auto">
             {/* Loading State */}
             {loading && (
-              <div className="text-center py-12 bg-grey rounded-[1.2rem] p-6">
+              <div className="text-center py-8 sm:py-12 bg-grey rounded-[1.2rem] p-4 sm:p-6">
                 <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-cobalt"></div>
-                <p className="text-lg text-gray-700 mt-4">Loading courses...</p>
+                <p className="text-base sm:text-lg text-gray-700 mt-3 sm:mt-4">Loading courses...</p>
               </div>
             )}
 
             {/* Error State */}
             {error && (
-              <div className="text-center py-12 bg-light-red rounded-[1.2rem] p-6">
-                <p className="text-lg text-red mb-4">{error}</p>
+              <div className="text-center py-8 sm:py-12 bg-light-red rounded-[1.2rem] p-4 sm:p-6">
+                <p className="text-base sm:text-lg text-red mb-3 sm:mb-4">{error}</p>
                 <AccentButton onClick={() => window.location.reload()}>
                   Try again
                 </AccentButton>
@@ -212,13 +212,13 @@ const CoursesPage: React.FC = () => {
             {!loading && !error && (
               <>
                 {courses.length === 0 ? (
-                  <div className="text-center py-12">
+                  <div className="text-center py-8 sm:py-12">
                     {courses.length === 0 ? (
                       <div>
                         {currentUser.role === 'free' ? (
                           <>
                             <Crown className="h-12 w-12 text-[#002fa7] mx-auto mb-4" />
-                            <p className="text-lg text-gray-700 mb-4">
+                            <p className="text-base sm:text-lg text-gray-700 mb-3 sm:mb-4">
                               No courses available for your current access level in this category.
                             </p>
                             <div className="space-y-3">
@@ -238,7 +238,7 @@ const CoursesPage: React.FC = () => {
                           </>
                         ) : (
                           <>
-                            <p className="text-lg text-gray-700 mb-4">
+                            <p className="text-base sm:text-lg text-gray-700 mb-3 sm:mb-4">
                               No courses found for this category.
                             </p>
                             <PillToggleButton
@@ -251,7 +251,7 @@ const CoursesPage: React.FC = () => {
                       </div>
                     ) : (
                       <div>
-                        <p className="text-lg text-gray-700 mb-4">
+                        <p className="text-base sm:text-lg text-gray-700 mb-3 sm:mb-4">
                           No courses found matching your filter criteria.
                         </p>
                         <PillToggleButton
@@ -264,8 +264,8 @@ const CoursesPage: React.FC = () => {
                   </div>
                 ) : (
                   <>
-                    <div className="flex items-center justify-between mb-6">
-                      <p className="text-lg text-gray-700">
+                    <div className="flex items-center justify-between mb-4 sm:mb-6">
+                      <p className="text-base sm:text-lg text-gray-700">
                         Showing {courses.length} courses
                         {currentUser?.role === 'premium' ? ' (full access)' : ' available to you'}
                       </p>
@@ -273,7 +273,7 @@ const CoursesPage: React.FC = () => {
                       {currentUser?.role !== 'premium' && (
                         <a
                           href="/brevedu-plus"
-                          className="text-cobalt hover:text-[#4a4fd9] transition-colors text-base flex items-center space-x-1 font-medium"
+                          className="text-cobalt hover:text-[#4a4fd9] transition-colors text-sm sm:text-base flex items-center space-x-1 font-medium"
                         >
                           <Crown className="h-4 w-4" />
                           <span>Unlock All Courses</span>
@@ -281,7 +281,7 @@ const CoursesPage: React.FC = () => {
                       )}
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                       {courses.map((course) => (
                         <CourseCard key={course.id} course={course} onClick={handleCourseClick} />
                       ))}
