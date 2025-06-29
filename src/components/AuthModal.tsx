@@ -316,15 +316,14 @@ const AuthModal: React.FC<AuthModalProps> = ({
             <p className="text-sm text-gray-600">
               {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}
               {' '}
-              <Button
-                variant="ghost"
+              <button
                 type="button"
                 onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
-                className="p-0 h-auto min-h-0 text-cobalt hover:text-[#4a4fd9] underline"
+                className="text-cobalt hover:text-[#4a4fd9] underline font-normal bg-transparent border-none cursor-pointer p-0 text-sm"
                 disabled={isLoading}
               >
                 {mode === 'login' ? 'Sign up' : 'Sign in'}
-              </Button>
+              </button>
             </p>
           </div>
         </form>
