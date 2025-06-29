@@ -17,7 +17,7 @@ A modern learning platform built with React, TypeScript, and Firebase that deliv
 - **Backend**: Firebase (Auth, Firestore, Storage)
 - **AI Integration**: Tavus API for conversational practice
 - **Build Tool**: Vite
-- **Icons**: Lucide React
+- **Icons**: Phosphor Icons
 - **Video Player**: Plyr React
 
 ## Getting Started
