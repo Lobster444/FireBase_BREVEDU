@@ -1,166 +1,85 @@
 /* Headspace Design System - CSS Custom Properties */
 :root {
-  /* === NEW COLOR TOKENS === */
-  --color-primary: #002fa7;           /* Main blue */
-  --color-primary-hover: #0040d1;     /* Lighter blue for hover */
-  --color-primary-active: #002080;    /* Darker blue for active */
-  --color-primary-light: #e6f0ff;     /* Very light blue background */
-  
-  --color-accent-yellow: #F8DE7E;     /* New yellow */
-  --color-accent-yellow-hover: #F5D65A; /* Darker yellow for hover */
-  
-  --color-accent-blue: #45B1E8;       /* Light blue accent */
-  --color-accent-green: #7ED321;      /* Keep existing green */
-  --color-accent-purple: #9013FE;     /* Keep existing purple */
-  
-  /* Updated signature colors */
-  --color-headspace-orange: #002fa7;  /* Now using main blue */
-  --color-headspace-peach: #45B1E8;   /* Light blue instead of peach */
-  --color-headspace-cream: #f6f5f8;   /* New light background */
-  --color-headspace-warm-bg: #f6f5f8; /* Hero background color */
-  --color-headspace-warm-text: #002fa7; /* Main blue for text */
-  --color-headspace-warm-secondary: #c5c4c9; /* Gray for secondary text */
-  
-  /* Negative/Danger color tokens */
-  --color-negative: #EF4444;
-  --color-negative-hover: #DC2626;
-  --color-negative-active: #B91C1C;
-  --color-negative-light: #FEF2F2;
-  --color-sentiment-negative: #EF4444; /* Alias for semantic naming */
-  
-  /* Updated neutral grays using your gray */
-  --color-neutral-50: #f6f5f8;        /* Lightest - your light gray */
-  --color-neutral-100: #f0eff2;       /* Very light */
-  --color-neutral-200: #e8e7ea;       /* Light */
-  --color-neutral-300: #d5d4d9;       /* Medium light */
-  --color-neutral-400: #c5c4c9;       /* Your medium gray */
-  --color-neutral-500: #a8a7ac;       /* Medium */
-  --color-neutral-600: #8b8a8f;       /* Medium dark */
-  --color-neutral-700: #6e6d72;       /* Dark */
-  --color-neutral-800: #515055;       /* Very dark */
-  --color-neutral-900: #343338;       /* Darkest */
-  
-  --color-white: #FFFFFF;
-  --color-black: #000000;
-  
-  /* === SUBSCRIPTION STATUS COLORS === */
-  --color-subscription-free: #6D9A52;     /* Green for free courses */
-  --color-subscription-premium: #C967D3;  /* Purple for premium courses */
-  --color-subscription-free-light: #E8F5E0;   /* Light sage green background */
-  --color-subscription-premium-light: #F5E6F8; /* Light purple background */
+  /* === COLOR TOKENS === */
+  --dusk: #e5bdbe;
+  --ecru: #e1e090;
+  --hazel: #98e891;
+  --powder: #96dae2;
+  --thistle: #d2b6de;
+  --amethyst: #7b34ce;
+  --cobalt: #3b42c4;
+  --currant: #bc1e5d;
+  --gold: #c18900;
+  --kelp: #007232;
+  --black: #000;
+  --white: #fff;
+  --grey: #edf2ed;
+  --black-10: rgba(0, 0, 0, 0.1);
+  --black-30: rgba(0, 0, 0, 0.3);
+  --vivid-orange: #ff4b00;
+  --hyper-yellow: #fff100;
+  --neon-pink: #fa0cf7;
+  --electric-cyan: #00f6ff;
+  --sharp-green: #00f613;
+  --violet: #785eea;
+  --pitch-black: #131414;
+  --dark-violet: #5437d7;
+  --old-grey: #999;
+  --light-blue: #0084ff;
+  --blue-grey: #d1e9f8;
+  --dark-grey: #696973;
+  --border-grey: rgba(0, 0, 0, 0.07);
+  --red: red;
+  --light-red: #fbf0f0;
+  --light-green: #ddfbf1;
+  --grey-green: #e8efec;
+  --pink: #f7e0db;
+  --text-selection: #e1e090;
+  --text-selection-transparent: rgba(225, 224, 144, 0.8);
   
   /* === SPACING TOKENS === */
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 32px;
-  --space-2xl: 48px;
-  --space-3xl: 64px;
-  --space-4xl: 96px;
-  
-  /* === PADDING TOKENS === */
-  --padding-x-small: 8px;
-  --padding-small: 16px;
-  --padding-medium: 24px;
-  --padding-large: 32px;
+  --y-xxxs: 0.25rem;
+  --y-xxs: 0.4rem;
+  --y-xs: 0.8rem;
+  --y-s: 1.6rem;
+  --y-m: 2.4rem;
+  --y-l: 3.2rem;
+  --y-xl: 4.8rem;
+  --y-xxl: 6.4rem;
+  --x-xxs: 0.4rem;
+  --x-xs: 0.8rem;
+  --x-s: 1.6rem;
+  --x-m: 2.4rem;
+  --x-l: 3.2rem;
+  --x-xl: 4.8rem;
+  --x-xxl: 6.4rem;
   
   /* === BORDER RADIUS TOKENS === */
-  /* Mobile-first radius values - bolder and more expressive */
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
-  --radius-2xl: 48px;
-  --radius-3xl: 48px;
-  --radius-full: 9999px;
+  --rd-m: 0.8rem;
+  --rd-l: 1.6rem;
+  --rd-xl: 3.2rem;
   
-  /* === RESPONSIVE RADIUS OVERRIDES === */
+  /* === TRANSITION TOKENS === */
+  --ease: cubic-bezier(0.43, 0.195, 0.02, 1);
+  --bounce: cubic-bezier(0.17, 0.67, 0.3, 1.33);
+  --line-width: 1px;
+  
+  /* === LAYOUT TOKENS === */
+  --top-bar-height: 6rem;
+  --top-banner-height: 0rem;
 }
 
-/* Desktop radius values - even more expressive for larger screens */
 @media (min-width: 768px) {
   :root {
-    --radius-sm: 16px;
-    --radius-md: 20px;
-    --radius-lg: 30px;
-    --radius-xl: 40px;
-    --radius-2xl: 60px;
-    --radius-3xl: 60px;
+    --y-xxl: 9.6rem;
+    --x-xxl: 9.6rem;
   }
 }
 
-/* === CONTINUED TOKENS === */
-:root {
-  /* === SHADOW TOKENS === */
-  --shadow-xs: 0 1px 3px rgba(0, 47, 167, 0.08);
-  --shadow-sm: 0 2px 8px rgba(0, 47, 167, 0.1);
-  --shadow-md: 0 4px 12px rgba(0, 47, 167, 0.15);
-  --shadow-lg: 0 8px 32px rgba(0, 47, 167, 0.12);
-  --shadow-xl: 0 12px 48px rgba(0, 47, 167, 0.18);
-  --shadow-focus: 0 0 0 2px transparent, 0 0 0 4px rgba(0, 47, 167, 0.4);
-  --shadow-focus-ring: 0 0 0 2px rgba(0, 47, 167, 0.3);
-  
-  /* Focus border tokens */
-  --focus-border-width: 2px;
-  --focus-border-offset: 2px;
-  --focus-border-color: var(--color-primary);
-  --focus-border-negative: var(--color-negative); /* Red for negative/danger actions */
-  
-  /* Input focus border tokens - 3px for inputs */
-  --input-focus-border-width: 3px;
-  --input-focus-border-offset: 0px; /* No offset for input borders */
-  --input-focus-border-color: var(--color-primary);
-  
-  /* Icon button focus tokens */
-  --icon-button-focus-ring-width: 2px;
-  --icon-button-focus-ring-offset: 2px;
-  --icon-button-focus-ring-color: var(--color-primary);
-  --icon-button-border-radius: 4px;
-  
-  /* === TYPOGRAPHY TOKENS === */
-  --font-size-h1: 32px;
-  --line-height-h1: 1.25;
-  --font-weight-h1: 700;
-  --letter-spacing-h1: -0.02em;
-  
-  --font-size-h2: 24px;
-  --line-height-h2: 1.3;
-  --font-weight-h2: 700;
-  --letter-spacing-h2: -0.01em;
-  
-  --font-size-h3: 20px;
-  --line-height-h3: 1.4;
-  --font-weight-h3: 600;
-  
-  --font-size-body: 16px;
-  --line-height-body: 1.6;
-  --font-weight-body: 400;
-  
-  --font-size-small: 14px;
-  --line-height-small: 1.5;
-  --font-weight-small: 400;
-  
-  --font-size-xs: 12px;
-  --line-height-xs: 1.4;
-  --font-weight-xs: 500;
-  
-  /* === TRANSITION TOKENS === */
-  --transition-fast: 150ms ease-out;
-  --transition-normal: 200ms ease-out;
-  --transition-slow: 300ms ease-out;
-  --transition-headspace: 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --transition-bounce: 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  
-  /* === Z-INDEX TOKENS === */
-  --z-dropdown: 1000;
-  --z-sticky: 1020;
-  --z-fixed: 1030;
-  --z-modal-backdrop: 1040;
-  --z-modal: 1050;
-  --z-popover: 1060;
-  --z-tooltip: 1070;
-  --z-toast: 1080;
+@media (min-width: 1200px) {
+  :root {
+    --top-bar-height: 12rem;
+  }
 }
 
 /* === ACCESSIBILITY: RESPECT USER PREFERENCES === */
