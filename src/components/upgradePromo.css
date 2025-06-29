@@ -11,7 +11,7 @@
 .benefits-grid {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
   gap: 1.5rem;
   width: 100%;
   min-width: 100%;
@@ -20,10 +20,10 @@
 .benefit-item {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   color: var(--kelp, #007232);
   white-space: nowrap;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
 }
 
 .benefit-check {
@@ -49,21 +49,22 @@
 
 @media (min-width: 1024px) {
   .benefits-container {
-    padding: 1.5rem 3rem;
+    padding: 1.5rem 2rem;
   }
   
   .benefits-grid {
     flex-wrap: nowrap;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 100%;
   }
   
   .benefit-item {
-    flex: 1;
+    flex: 0 1 auto;
     min-width: 0;
+    margin: 0 1rem;
   }
   
   .benefit-text {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
   }
 }
