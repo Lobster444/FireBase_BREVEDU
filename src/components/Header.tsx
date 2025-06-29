@@ -200,11 +200,13 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                 </div>
               ) : (
                 <div className="flex items-center space-x-4">
-                  <LinkButton
+                  <Button
+                    variant="ghost"
+                    size="md"
                     onClick={() => openAuthModal('login')}
                   >
                     Sign In
-                  </LinkButton>
+                  </Button>
                   <Button
                     variant="primary"
                     size="md"
@@ -269,9 +271,9 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
               <>
                 <Button
                   variant="ghost"
-                  size="sm"
+                <Button
+                  variant="ghost"
                   onClick={() => openAuthModal('login')}
-                  aria-label="Sign in to your account"
                 >
                   Sign In
                 </Button>
