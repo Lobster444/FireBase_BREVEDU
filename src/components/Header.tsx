@@ -185,15 +185,15 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                           currentUser.role === 'premium' ? 'text-subscription-premium' : 'text-subscription-free'
                         }`}>{currentUser.role} Plan</p>
                       </div>
-                      <Button
-                        variant="ghost"
-                       size="xs"
-                        onClick={handleLogout}
-                       className="text-left px-0 mt-1 justify-start text-xs min-h-[32px] -ml-2"
-                        icon={SignOut}
-                      >
-                        <span>Sign Out</span>
-                      </Button>
+                      <div className="px-5 pt-3">
+                        <button
+                          onClick={handleLogout}
+                          className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition-colors text-sm py-2 w-full text-left"
+                        >
+                          <SignOut className="h-4 w-4" />
+                          <span>Sign Out</span>
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>
