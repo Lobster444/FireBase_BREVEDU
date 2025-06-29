@@ -121,8 +121,11 @@ const BrevEduPlusPage: React.FC = () => {
         </section>
 
         {/* Features Section */}
-        <section className="px-padding-medium py-12 sm:py-16 lg:py-20 bg-grey">
-          <div className="max-w-screen-2xl mx-auto">
+        <section className="w-full py-12 sm:py-16 lg:py-20 bg-grey relative overflow-hidden">
+          {/* Full-width background that extends to screen edges */}
+          <div className="absolute inset-0 bg-grey -mx-[50vw] left-1/2 right-1/2 w-screen"></div>
+          
+          <div className="max-w-screen-2xl mx-auto px-6 sm:px-10 lg:px-16 relative z-10">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black text-center mb-8 sm:mb-12 lg:mb-16">
               Premium Features
             </h2>
