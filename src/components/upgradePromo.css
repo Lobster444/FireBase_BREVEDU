@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: center;
   width: 100%; 
+  padding: 1.5rem;
 }
 
 .benefits-grid {
@@ -13,6 +14,7 @@
   justify-content: center;
   gap: 1.5rem;
   width: 100%;
+  min-width: 100%;
 }
 
 .benefit-item {
@@ -21,6 +23,7 @@
   justify-content: center;
   color: var(--kelp, #007232);
   white-space: nowrap;
+  padding: 0.5rem 1rem;
 }
 
 .benefit-check {
@@ -45,13 +48,19 @@
 }
 
 @media (min-width: 1024px) {
+  .benefits-container {
+    padding: 1.5rem 3rem;
+  }
+  
   .benefits-grid {
     flex-wrap: nowrap;
     justify-content: space-around;
+    width: 100%;
   }
   
   .benefit-item {
-    flex: 0 1 auto;
+    flex: 1;
+    min-width: 0;
   }
   
   .benefit-text {
