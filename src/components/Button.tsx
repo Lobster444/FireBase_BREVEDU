@@ -51,7 +51,8 @@ export const Button: React.FC<BaseButtonProps> = ({
   const sizeStyles = {
     sm: 'px-4 py-2 text-sm',
     md: 'px-5 py-3 text-base',
-    lg: 'px-8 py-4 text-lg'
+    lg: 'px-8 py-4 text-lg',
+    xs: 'px-3 py-1.5 text-xs'
   };
 
   // Color variants
@@ -155,13 +156,15 @@ export const IconButton: React.FC<IconButtonProps> = ({
   const sizeStyles = {
     sm: 'p-1.5 min-w-[36px] min-h-[36px]',
     md: 'p-2 min-w-[44px] min-h-[44px]',
-    lg: 'p-3 min-w-[52px] min-h-[52px]'
+    lg: 'p-3 min-w-[52px] min-h-[52px]',
+    xs: 'p-1 min-w-[32px] min-h-[32px]'
   };
 
   const iconSizes = {
     sm: 'h-4 w-4',
     md: 'h-5 w-5',
-    lg: 'h-6 w-6'
+    lg: 'h-6 w-6',
+    xs: 'h-3 w-3'
   };
 
   const variantStyles = {

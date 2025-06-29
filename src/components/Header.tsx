@@ -187,10 +187,10 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                       </div>
                       <Button
                         variant="ghost"
-                        size="sm"
+                       size="xs"
                         fullWidth
                         onClick={handleLogout}
-                        className="text-left px-2 mt-1 justify-start text-sm"
+                       className="text-left px-2 mt-1 justify-start text-xs min-h-[32px]"
                         icon={SignOut}
                       >
                         <span>Sign Out</span>
@@ -312,7 +312,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
             </div>
             <Button
               variant="ghost"
-              size="sm"
+              size="xs"
               fullWidth
               onClick={() => {
                 console.log('Mobile Sign Out clicked'); // Debug log
@@ -322,7 +322,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                 console.log('🔄 handleLogout called');
                 setShowUserMenu(false);
               }}
-              className="text-left px-2 mt-1 justify-start"
+              className="text-left px-2 mt-1 justify-start text-xs min-h-[32px]"
               icon={SignOut} 
             >
               <span>Sign Out</span>
