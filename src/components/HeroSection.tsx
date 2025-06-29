@@ -1,7 +1,6 @@
 import React from 'react';
 import { Sparkle, ChatCircle } from '@phosphor-icons/react';
 import { PrimaryButton, AccentButton, SecondaryButton, PillToggleButton } from './UIButtons';
-import AnimatedGrid from './AnimatedGrid';
 import { User } from '../types';
 
 interface UserMessage {
@@ -29,17 +28,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     <section className="w-full py-12 sm:py-20 lg:py-28 text-center relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 z-0">
       {/* Section Divider */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
-      
-      {/* Animated Grid Background */}
-      <AnimatedGrid 
-        className="absolute inset-0 z-0" 
-        opacity={0.15}
-        gridSize={80}
-        strokeColor="rgba(59, 66, 196, 0.2)"
-        strokeWidth={1.5}
-        dotColor="rgba(59, 66, 196, 0.3)"
-        dotRadius={3}
-      />
       
       {/* Background decorative elements */}
       <div className="absolute top-10 left-10 w-20 h-20 bg-blue-100 rounded-full opacity-50 blur-xl"></div>
