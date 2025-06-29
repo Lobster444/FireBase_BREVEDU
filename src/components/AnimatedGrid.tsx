@@ -13,7 +13,7 @@ interface AnimatedGridProps {
 
 const AnimatedGrid = ({
   className = "absolute inset-0",
-  opacity = 0.2,
+  opacity = 0.3,
   gridSize = 60,
   strokeColor = "rgba(0,0,0,0.15)",
   strokeWidth = 1,
@@ -21,7 +21,7 @@ const AnimatedGrid = ({
   dotRadius = 2
 }: AnimatedGridProps) => {
   return (
-    <div className={className} style={{ opacity }}>
+    <div className={className} style={{ opacity, zIndex: 5 }}>
       <svg
         className="w-full h-full"
         viewBox="0 0 1200 800"
