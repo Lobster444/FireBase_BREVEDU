@@ -47,7 +47,6 @@ const UpgradePromoSection: React.FC<UpgradePromoSectionProps> = ({
               className="px-8 sm:px-10 lg:px-12 py-4 sm:py-5 lg:py-6 flex items-center justify-center space-x-3 mx-auto text-xl sm:text-2xl shadow-lg"
               aria-label="Start BrevEdu+ premium subscription"
             >
-              <Sparkle className="h-6 w-6" />
               <span>Start BrevEdu+ Today</span>
             </PrimaryButton>
             
