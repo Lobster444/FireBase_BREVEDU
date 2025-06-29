@@ -197,7 +197,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                       </Button>
                     </div>
                   )}
-                        className="text-left mx-3 mt-1 justify-start"
+                </div>
               ) : (
                 <div className="flex items-center space-x-4">
                   <Button
