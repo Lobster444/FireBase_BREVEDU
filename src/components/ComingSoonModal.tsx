@@ -110,15 +110,16 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-6"
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] p-6"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
       aria-labelledby="coming-soon-title"
+      style={{ zIndex: 9999 }}
     >
       <div 
         ref={modalRef}
-        className="bg-white rounded-[1.6rem] w-full max-w-md shadow-xl overflow-hidden border border-black/5"
+        className="bg-white rounded-[1.6rem] w-full max-w-md shadow-xl overflow-hidden border border-black/5 relative z-[10000]"
       >
         {/* Header */}
         <div className="flex items-center justify-between p-8 border-b border-black/5">
