@@ -189,7 +189,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
                         variant="ghost"
                        size="xs"
                         onClick={handleLogout}
-                       className="text-left px-2 mt-1 justify-start text-xs min-h-[32px] -ml-2"
+                       className="text-left px-0 mt-1 justify-start text-xs min-h-[32px] -ml-3"
                         icon={SignOut}
                       >
                         <span>Sign Out</span>
