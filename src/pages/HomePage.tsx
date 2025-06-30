@@ -141,7 +141,7 @@ const HomePage: React.FC = () => {
             <img 
               src="https://storage.bolt.army/black_circle_360x360.png" 
               alt="Built with Bolt.new badge" 
-              className={`w-12 h-12 md:w-16 md:h-16 rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:rotate-[22deg] ${
+              className={`w-20 h-20 md:w-28 md:h-28 rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:rotate-[22deg] ${
                 !badgeAnimated ? 'animate-[badgeIntro_0.8s_ease-out_1s_both]' : ''
               }`}
               onAnimationEnd={() => setBadgeAnimated(true)}
