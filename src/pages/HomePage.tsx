@@ -133,7 +133,7 @@ const HomePage: React.FC = () => {
         {/* Bolt.new Badge */}
         <div className="fixed bottom-4 right-4 z-[9999]">
           <a 
-            href="https://bolt.new/?rid=os72mi" 
+            href="https://bolt.new/" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="block transition-all duration-300 hover:shadow-2xl"
