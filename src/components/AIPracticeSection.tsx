@@ -37,9 +37,9 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
         onClick={onAIPractice}
         disabled={!aiPracticeStatus.available} 
         className={`w-full px-6 py-5 rounded-[1.2rem] text-lg font-medium transition-all shadow-lg flex items-center justify-center space-x-3 text-white ${
-          aiPracticeStatus.available 
-            ? 'bg-cobalt hover:bg-[#4a4fd9]'
-            : 'bg-grey text-gray-700 cursor-not-allowed opacity-70'
+          aiPracticeStatus.available
+            ? 'bg-cobalt text-white hover:bg-[#4a4fd9]'
+            : 'bg-grey text-gray-500 cursor-not-allowed opacity-60'
         }`}
       >
         <ChatCircle className="h-6 w-6" />
@@ -49,23 +49,23 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
       {/* Status Messages */}
       <div className="mt-3 text-center">
         {aiPracticeStatus.isDisabledByAdmin ? (
-          <div className="flex items-center justify-center space-x-2 text-gold font-medium">
+          <div className="flex items-center justify-center space-x-2 text-gold">
             <Warning className="h-5 w-5 flex-shrink-0" />
-            <p className="text-base">
+            <p className="text-base font-medium">
               {aiPracticeStatus.reason}
             </p>
           </div>
         ) : aiPracticeStatus.isLimitReached ? (
           <div className="flex items-center justify-center space-x-2">
-            <WarningCircle className="h-5 w-5 flex-shrink-0 text-red" />
-            <p className="text-base text-red font-medium flex items-center">
-              <span className="mr-1">❌</span> {aiPracticeStatus.reason}
+            <WarningCircle className="h-5 w-5 flex-shrink-0" />
+            <p className="text-base text-red font-medium">
+              ❌ {aiPracticeStatus.reason}
             </p>
           </div>
         ) : (
-          <div className="flex items-center justify-center space-x-2 text-gray-700">
-            <Warning className="h-5 w-5 flex-shrink-0 text-gray-600" />
-            <p className="text-base font-medium">
+          <div className="flex items-center justify-center space-x-2">
+            <Warning className="h-5 w-5 flex-shrink-0" />
+            <p className="text-base text-gray-700">
               {aiPracticeStatus.reason}
             </p>
           </div>
