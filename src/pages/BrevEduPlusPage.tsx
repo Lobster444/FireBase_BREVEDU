@@ -1,5 +1,6 @@
 import React from 'react';
 import { Sparkle, Check, Lightning, ChatCircle, Star, Crown } from '@phosphor-icons/react';
+import { useNavigate } from 'react-router-dom';
 import PageTransition from '../components/PageTransition';
 import Layout from '../components/Layout';
 import { PrimaryButton, AccentButton, OutlineButton } from '../components/UIButtons';
@@ -9,6 +10,7 @@ import ComingSoonModal from '../components/ComingSoonModal';
 
 const BrevEduPlusPage: React.FC = () => {
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
   const [showComingSoonModal, setShowComingSoonModal] = React.useState(false);
 
   const features = [
@@ -195,7 +197,7 @@ const BrevEduPlusPage: React.FC = () => {
                   className="px-6 sm:px-8 lg:px-10 py-4 sm:py-5 text-lg sm:text-xl font-medium shadow-md"
                   onClick={() => {
                     trackInteraction('view_free_courses', 'click', 'brevedu_plus_page');
-                    window.location.href = '/courses';
+                    navigate('/courses');
                   }}
                 >
                   View Free Courses
