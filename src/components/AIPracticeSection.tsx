@@ -39,7 +39,7 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
         className={`w-full px-6 py-5 rounded-[1.2rem] text-lg font-medium transition-all shadow-lg flex items-center justify-center space-x-3 text-white ${
           aiPracticeStatus.available
             ? 'bg-cobalt text-white hover:bg-[#4a4fd9]'
-            : 'bg-grey text-gray-500 cursor-not-allowed opacity-60'
+            : 'bg-grey text-gray-700 cursor-not-allowed opacity-80'
         }`}
       >
         <ChatCircle className="h-6 w-6" />
@@ -58,8 +58,8 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
         ) : aiPracticeStatus.isLimitReached ? (
           <div className="flex items-center justify-center space-x-2">
             <WarningCircle className="h-5 w-5 flex-shrink-0" />
-            <p className="text-base text-red font-medium">
-              ❌ {aiPracticeStatus.reason}
+            <p className="text-base text-red-600 font-medium">
+              {aiPracticeStatus.reason}
             </p>
           </div>
         ) : (
