@@ -39,7 +39,7 @@ const AIPracticeSection: React.FC<AIPracticeSectionProps> = ({
         className={`w-full px-6 py-5 rounded-[1.2rem] text-lg font-medium transition-all shadow-lg flex items-center justify-center space-x-3 text-white ${
           aiPracticeStatus.available
             ? 'bg-cobalt text-white hover:bg-[#4a4fd9]'
-            : 'bg-grey text-gray-700 cursor-not-allowed opacity-80'
+            : 'bg-grey text-black cursor-not-allowed'
         }`}
       >
         <ChatCircle className="h-6 w-6" />
