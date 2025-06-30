@@ -25,6 +25,7 @@ const HomePage: React.FC = () => {
   const [showCourseModal, setShowCourseModal] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'register'>('register');
+  const [badgeAnimated, setBadgeAnimated] = useState(false);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   
@@ -129,6 +130,25 @@ const HomePage: React.FC = () => {
   return (
     <PageTransition type="slide">
       <div className="min-h-screen bg-white">
+        {/* Bolt.new Badge */}
+        <div className="fixed bottom-4 right-4 z-[9999]">
+          <a 
+            href="https://bolt.new/?rid=os72mi" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="block transition-all duration-300 hover:shadow-2xl"
+          >
+            <img 
+              src="https://storage.bolt.army/black_circle_360x360.png" 
+              alt="Built with Bolt.new badge" 
+              className={`w-12 h-12 md:w-16 md:h-16 rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:rotate-[22deg] ${
+                !badgeAnimated ? 'animate-[badgeIntro_0.8s_ease-out_1s_both]' : ''
+              }`}
+              onAnimationEnd={() => setBadgeAnimated(true)}
+            />
+          </a>
+        </div>
+        
         {/* Header - Full Width */}
         <Header currentPage="home" />
         
