@@ -38,7 +38,7 @@ const getTodayString = (): string => {
  */
 const getOrCreateUsageRecord = async (userId: string, date: string): Promise<UsageRecord> => {
   try {
-    const usageRef = doc(db, 'usage', userId, date);
+    const usageRef = doc(db, 'usage', `${userId}_${date}`);
     const usageSnap = await getDoc(usageRef);
     
     if (usageSnap.exists()) {
@@ -67,7 +67,7 @@ const getOrCreateUsageRecord = async (userId: string, date: string): Promise<Usa
  */
 const incrementUsageCount = async (userId: string, date: string): Promise<void> => {
   try {
-    const usageRef = doc(db, 'usage', userId, date);
+    const usageRef = doc(db, 'usage', `${userId}_${date}`);
     const usageSnap = await getDoc(usageRef);
     
     if (usageSnap.exists()) {
@@ -204,7 +204,7 @@ export const resetUserUsage = async (userId: string, date?: string): Promise<voi
   const targetDate = date || getTodayString();
   
   try {
-    const usageRef = doc(db, 'usage', userId, targetDate);
+    const usageRef = doc(db, 'usage', `${userId}_${targetDate}`);
     await setDoc(usageRef, {
       userId,
       date: targetDate,
