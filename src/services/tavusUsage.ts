@@ -38,7 +38,7 @@ const getTodayString = (): string => {
  */
 const getOrCreateUsageRecord = async (userId: string, date: string): Promise<UsageRecord> => {
   try {
-    const usageRef = doc(db, 'usage', `${userId}_${date}`);
+    const usageRef = doc(db, 'usage', userId, date);
     const usageSnap = await getDoc(usageRef);
     
     if (usageSnap.exists()) {
