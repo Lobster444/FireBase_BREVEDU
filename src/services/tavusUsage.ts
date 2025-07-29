@@ -204,7 +204,7 @@ export const resetUserUsage = async (userId: string, date?: string): Promise<voi
   const targetDate = date || getTodayString();
   
   try {
-    const usageRef = doc(db, 'usage', `${userId}_${targetDate}`);
+    const usageRef = doc(db, 'usage', userId, targetDate);
     await setDoc(usageRef, {
       userId,
       date: targetDate,
