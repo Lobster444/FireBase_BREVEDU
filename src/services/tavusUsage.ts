@@ -67,7 +67,7 @@ const getOrCreateUsageRecord = async (userId: string, date: string): Promise<Usa
  */
 const incrementUsageCount = async (userId: string, date: string): Promise<void> => {
   try {
-    const usageRef = doc(db, 'usage', `${userId}_${date}`);
+    const usageRef = doc(db, 'usage', userId, date);
     const usageSnap = await getDoc(usageRef);
     
     if (usageSnap.exists()) {
